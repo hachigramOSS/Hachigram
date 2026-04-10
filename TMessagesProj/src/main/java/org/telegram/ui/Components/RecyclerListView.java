@@ -176,6 +176,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
 
     private GestureDetectorFixDoubleTap gestureDetector;
     private View currentChildView;
+
     private int currentChildPosition;
     private boolean interceptedByChild;
     private boolean wasPressed;
@@ -1117,7 +1118,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
 
                 @Override
                 public boolean onDoubleTap(MotionEvent e) {
-                    if (doubleTapView != null && onItemClickListenerExtended != null && onItemClickListenerExtended.hasDoubleTap(doubleTapView, currentChildPosition)) {
+                    if (doubleTapView != null && doubleTapView == currentChildView && onItemClickListenerExtended != null && onItemClickListenerExtended.hasDoubleTap(doubleTapView, currentChildPosition)) {
                         onItemClickListenerExtended.onDoubleTap(doubleTapView, currentChildPosition, e.getX(), e.getY());
                         doubleTapView = null;
                         return true;
@@ -1213,7 +1214,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
 
                 @Override
                 public boolean hasDoubleTap(MotionEvent e) {
-                    return onItemLongClickListenerExtended != null;
+                    return currentChildView != null && onItemClickListenerExtended != null && onItemClickListenerExtended.hasDoubleTap(currentChildView, currentChildPosition);
                 }
             });
             gestureDetector.setIsLongpressEnabled(false);
