@@ -25,6 +25,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
@@ -81,6 +82,7 @@ public class MessageSeenView extends FrameLayout implements Theme.Colorable {
         titleView.setTextSize(16);
         titleView.setEllipsizeByGradient(true);
         titleView.setRightPadding(AndroidUtilities.dp(62));
+        NotificationCenter.listenEmojiLoading(titleView);
 
         addView(titleView, LayoutHelper.createFrame(0, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.CENTER_VERTICAL, 40, 0, 0, 0));
 
@@ -272,7 +274,7 @@ public class MessageSeenView extends FrameLayout implements Theme.Colorable {
 
         avatarsImageView.commitTransition(false);
         if (peerIds.size() == 1 && users.get(0) != null) {
-            titleView.setText(ContactsController.formatName(users.get(0)));
+            titleView.setText(Emoji.replaceEmoji(ContactsController.formatName(users.get(0)), titleView.getPaint().getFontMetricsInt(), false));
         } else {
             if (peerIds.size() == 0) {
                 titleView.setText(LocaleController.getString(R.string.NobodyViewed));
@@ -396,6 +398,7 @@ public class MessageSeenView extends FrameLayout implements Theme.Colorable {
             nameView.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
             ThemeBind.textColor(nameView, Theme.key_actionBarDefaultSubmenuItem);
             nameView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
+            NotificationCenter.listenEmojiLoading(nameView);
 
             statusBadgeComponent = new StatusBadgeComponent(this);
             nameView.setDrawablePadding(AndroidUtilities.dp(3));
@@ -436,7 +439,7 @@ public class MessageSeenView extends FrameLayout implements Theme.Colorable {
                 avatarDrawable.setInfo(currentAccount, object);
                 ImageLocation imageLocation = ImageLocation.getForUserOrChat(currentAccount, object, ImageLocation.TYPE_SMALL);
                 avatarImageView.setImage(imageLocation, "50_50", avatarDrawable, object);
-                nameView.setText(ContactsController.formatName(object));
+                nameView.setText(Emoji.replaceEmoji(ContactsController.formatName(object), nameView.getPaint().getFontMetricsInt(), false));
             }
 
             if (date <= 0) {

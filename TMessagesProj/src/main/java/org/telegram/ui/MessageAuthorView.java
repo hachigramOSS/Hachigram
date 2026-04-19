@@ -31,6 +31,7 @@ import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
@@ -77,6 +78,7 @@ public class MessageAuthorView extends FrameLayout implements Theme.Colorable {
         addView(flickerLoadingView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT));
 
         titleView = new LinkSpanDrawable.LinksTextView(context);
+        NotificationCenter.listenEmojiLoading(titleView);
         titleView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         titleView.setGravity(Gravity.LEFT | Gravity.CENTER_VERTICAL);
         ThemeBind.textColor(titleView, Theme.key_actionBarDefaultSubmenuItem);
@@ -142,7 +144,7 @@ public class MessageAuthorView extends FrameLayout implements Theme.Colorable {
         setEnabled(user != null);
         if (user != null) {
             final long userId = user.id;
-            titleView.setText(AndroidUtilities.premiumText(LocaleController.formatString(R.string.MessageAuthorSentBy, UserObject.getUserName(user)), () -> openUser(userId)));
+            titleView.setText(Emoji.replaceEmoji(AndroidUtilities.premiumText(LocaleController.formatString(R.string.MessageAuthorSentBy, UserObject.getUserName(user)), () -> openUser(userId)), titleView.getPaint().getFontMetricsInt(), false));
         }
         titleView.animate().alpha(1f).setDuration(220).start();
         flickerLoadingView.animate().alpha(0f).setDuration(220).setListener(new HideViewAfterAnimation(flickerLoadingView)).start();

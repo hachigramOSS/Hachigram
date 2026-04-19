@@ -817,9 +817,10 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         final TextView textView = new TextView(getContext());
         textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         ThemeBind.textColor(textView, Theme.key_dialogTextBlack, getResourceProvider());
-        textView.setText(UserObject.getUserName(user));
+        textView.setText(Emoji.replaceEmoji(UserObject.getUserName(user), textView.getPaint().getFontMetricsInt(), false));
         textView.setMaxLines(2);
         textView.setEllipsize(TextUtils.TruncateAt.END);
+        NotificationCenter.listenEmojiLoading(textView);
         btn.addView(textView, LayoutHelper.createLinear(0, LayoutHelper.WRAP_CONTENT, 1f, Gravity.CENTER_VERTICAL, 13, 0, 14, 0));
 
         return btn;

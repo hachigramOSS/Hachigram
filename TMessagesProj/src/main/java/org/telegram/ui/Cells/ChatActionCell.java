@@ -1844,6 +1844,8 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
 
             text = Emoji.replaceEmoji(text, paint.getFontMetricsInt(), false, null,
                 DynamicDrawableSpan.ALIGN_BOTTOM, 0.85f, 0);
+        } else {
+            text = Emoji.replaceEmoji(text, paint.getFontMetricsInt(), false, null);
         }
 
         textLayout = new StaticLayout(text, paint, maxWidth,

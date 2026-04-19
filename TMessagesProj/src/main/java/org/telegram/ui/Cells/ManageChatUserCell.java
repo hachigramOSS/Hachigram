@@ -118,6 +118,7 @@ public class ManageChatUserCell extends FrameLayout implements Theme.Colorable {
         statusTextView.setTextSize(14);
         statusTextView.setGravity((LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP);
         addView(statusTextView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 20, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 28 : (68 + namePadding), 34.5f, LocaleController.isRTL ? (68 + namePadding) : 28, 0));
+        NotificationCenter.listenEmojiLoading(statusTextView);
 
         if (needOption) {
             optionsButton = new ImageView(context);
@@ -174,7 +175,7 @@ public class ManageChatUserCell extends FrameLayout implements Theme.Colorable {
             avatarImageView.setImageDrawable(null);
             return;
         }
-        currentStatus = status;
+        currentStatus = status != null ? Emoji.replaceEmoji(status, statusTextView.getPaint().getFontMetricsInt(), false) : null;
         currentName = name;
         currentObject = object;
         if (optionsButton != null) {

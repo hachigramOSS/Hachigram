@@ -11,8 +11,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC;
@@ -54,6 +56,7 @@ public class GroupCallInvitedCell extends FrameLayout implements Theme.Colorable
         addView(avatarImageView, LayoutHelper.createFrame(46, 46, (LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT) | Gravity.TOP, LocaleController.isRTL ? 0 : 11, 6, LocaleController.isRTL ? 11 : 0, 0));
 
         nameTextView = new SimpleTextView(context);
+        NotificationCenter.listenEmojiLoading(nameTextView);
         ThemeBind.textColor(nameTextView, Theme.key_voipgroup_nameText);
         nameTextView.setTypeface(AndroidUtilities.bold());
         nameTextView.setTextSize(16);
@@ -92,7 +95,7 @@ public class GroupCallInvitedCell extends FrameLayout implements Theme.Colorable
             avatarDrawable.setInfo(currentUser);
         }
 
-        nameTextView.setText(UserObject.getUserName(currentUser));
+        nameTextView.setText(Emoji.replaceEmoji(UserObject.getUserName(currentUser), nameTextView.getPaint().getFontMetricsInt(), false));
         avatarImageView.getImageReceiver().setCurrentAccount(account);
         avatarImageView.setForUserOrChat(currentUser, avatarDrawable);
 

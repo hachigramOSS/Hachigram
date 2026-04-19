@@ -47,6 +47,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatMessageSharedResources;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.MessagePreviewParams;
 import org.telegram.messenger.LocaleController;
@@ -2307,6 +2308,7 @@ public class MessagePreviewView extends FrameLayout {
             subtitle.setEllipsizeByGradient(!LocaleController.isRTL);
             subtitle.setCallback(this);
             subtitle.setOverrideFullWidth(AndroidUtilities.displaySize.x);
+            NotificationCenter.listenEmojiLoading(this);
         }
 
         public void setAnimationForward(boolean forward) {
@@ -2319,7 +2321,7 @@ public class MessagePreviewView extends FrameLayout {
         }
 
         public void setSubtitle(CharSequence text, boolean animated) {
-            subtitle.setText(text, animated && !LocaleController.isRTL);
+            subtitle.setText(Emoji.replaceEmoji(text, subtitle.getPaint().getFontMetricsInt(), false), animated && !LocaleController.isRTL);
         }
 
         @Override

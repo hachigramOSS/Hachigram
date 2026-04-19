@@ -31,10 +31,12 @@ import org.telegram.messenger.AccountInstance;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.LiteMode;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.messenger.Utilities;
@@ -292,6 +294,7 @@ public class GroupCallUserCell extends FrameLayout implements Theme.Colorable {
         AndroidUtilities.updateViewVisibilityAnimated(avatarProgressView, false, 1f, false);
 
         nameTextView = new SimpleTextView(context);
+        NotificationCenter.listenEmojiLoading(nameTextView);
         ThemeBind.textColor(nameTextView, Theme.key_voipgroup_nameText);
         nameTextView.setTypeface(AndroidUtilities.bold());
         nameTextView.setTextSize(16);
@@ -479,7 +482,7 @@ public class GroupCallUserCell extends FrameLayout implements Theme.Colorable {
             currentChat = null;
             avatarDrawable.setInfo(accountInstance.getCurrentAccount(), currentUser);
 
-            nameTextView.setText(UserObject.getUserName(currentUser));
+            nameTextView.setText(Emoji.replaceEmoji(UserObject.getUserName(currentUser), nameTextView.getPaint().getFontMetricsInt(), false));
             botVerificationIcon = DialogObject.getBotVerificationIcon(currentUser);
             if (currentUser != null && currentUser.verified) {
                 rightDrawable.set(verifiedDrawable = (verifiedDrawable == null ? new VerifiedDrawable(getContext()) : verifiedDrawable), animated);

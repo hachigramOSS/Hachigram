@@ -341,7 +341,7 @@ public class SharingLiveLocationCell extends FrameLayout implements Theme.Colora
             combinedDrawable.setIconSize(dp(24), dp(24));
             avatarImageView.setImageDrawable(combinedDrawable);
         }
-        nameTextView.setText(name);
+        nameTextView.setText(Emoji.replaceEmoji(name, nameTextView.getTextPaint().getFontMetricsInt(), true));
 
         location.setLatitude(messageObject.messageOwner.media.geo.lat);
         location.setLongitude(messageObject.messageOwner.media.geo._long);

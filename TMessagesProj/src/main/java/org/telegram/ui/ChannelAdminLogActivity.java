@@ -83,6 +83,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLocation;
@@ -766,7 +767,7 @@ public class ChannelAdminLogActivity extends BaseFragment implements Notificatio
             ssb.append(" S");
             ssb.setSpan(new ColoredImageSpan(drawable), ssb.length() - 1, ssb.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         }
-        messageObject.messageText = ssb;
+        messageObject.messageText = Emoji.replaceEmoji(ssb, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
         MessageObject lastMessage = messages.size() <= 0 ? null : messages.get(messages.size() - 1);
         if (lastMessage != null) {
             if (!stableIdByEventExpand.containsKey(lastMessage.eventId))

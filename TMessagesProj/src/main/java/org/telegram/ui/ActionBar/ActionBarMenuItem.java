@@ -28,6 +28,7 @@ import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.text.method.LinkMovementMethod;
+import android.text.style.ImageSpan;
 import android.transition.ChangeBounds;
 import android.transition.Transition;
 import android.transition.TransitionManager;
@@ -66,6 +67,7 @@ import androidx.core.view.WindowInsetsCompat;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.AnimationNotificationsLocker;
 import org.telegram.messenger.ChatObject;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
@@ -1742,6 +1744,8 @@ public class ActionBarMenuItem extends FrameLayout {
                 return false;
             });
             searchField.addTextChangedListener(new TextWatcher() {
+                private boolean processChange;
+
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
@@ -1763,11 +1767,21 @@ public class ActionBarMenuItem extends FrameLayout {
                             onFiltersChanged();
                         }
                     }
+                    if ((count - before) > 1) {
+                        processChange = true;
+                    }
                 }
 
                 @Override
                 public void afterTextChanged(Editable s) {
-
+                    if (processChange) {
+                        ImageSpan[] spans = s.getSpans(0, s.length(), ImageSpan.class);
+                        for (int i = 0; i < spans.length; i++) {
+                            s.removeSpan(spans[i]);
+                        }
+                        Emoji.replaceEmoji(s, searchField.getPaint().getFontMetricsInt(), false, null);
+                        processChange = false;
+                    }
                 }
             });
 

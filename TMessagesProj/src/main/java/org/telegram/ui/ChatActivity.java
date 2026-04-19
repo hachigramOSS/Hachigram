@@ -12080,7 +12080,7 @@ public class ChatActivity extends BaseFragment implements
         String from = LocaleController.getString(R.string.SearchFrom);
         Spannable spannable = new SpannableString(from + " " + name);
         spannable.setSpan(new ForegroundColorSpanThemable(Theme.key_actionBarDefaultSubtitle, getResourceProvider()), from.length() + 1, spannable.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-        searchItem.setSearchFieldCaption(spannable);
+        searchItem.setSearchFieldCaption(Emoji.replaceEmoji(spannable, searchItem.getSearchField().getPaint().getFontMetricsInt(), false));
         mentionContainer.getAdapter().searchUsernameOrHashtag(null, 0, null, false, true);
         searchItem.setSearchFieldHint(null);
         searchItem.clearSearchText();
@@ -16303,11 +16303,11 @@ public class ChatActivity extends BaseFragment implements
                             }
                         }
                         if (userNamesCount == 1) {
-                            mess = TextUtils.concat(userNames, ": ", mess);
+                            mess = TextUtils.concat(Emoji.replaceEmoji(userNames, replyObjectTextView.getPaint().getFontMetricsInt(), false), ": ", mess);
                         }
                         replyObjectTextView.setText(mess);
                     } else {
-                        replyObjectTextView.setText(LocaleController.formatString("ForwardingFromNames", R.string.ForwardingFromNames, userNames));
+                        replyObjectTextView.setText(Emoji.replaceEmoji(LocaleController.formatString("ForwardingFromNames", R.string.ForwardingFromNames, userNames), replyObjectTextView.getPaint().getFontMetricsInt(), false));
                     }
                 }
                 replyObjectHintTextView.setText(LocaleController.getString(R.string.TapForForwardingOptions));
@@ -16339,20 +16339,20 @@ public class ChatActivity extends BaseFragment implements
                     replyObjectTextView.setText(pendingLinkSearchString);
                 } else {
                     if (webPage.site_name != null) {
-                        replyNameTextView.setText(webPage.site_name);
+                        replyNameTextView.setText(Emoji.replaceEmoji(webPage.site_name, replyObjectTextView.getPaint().getFontMetricsInt(), false));
                     } else if (webPage.title != null) {
-                        replyNameTextView.setText(webPage.title);
+                        replyNameTextView.setText(Emoji.replaceEmoji(webPage.title, replyObjectTextView.getPaint().getFontMetricsInt(), false));
                     } else {
                         replyNameTextView.setText(LocaleController.getString(R.string.LinkPreview));
                     }
                     if (webPage.title != null) {
-                        replyObjectTextView.setText(webPage.title);
+                        replyObjectTextView.setText(Emoji.replaceEmoji(webPage.title, replyObjectTextView.getPaint().getFontMetricsInt(), false));
                     } else if (webPage.description != null) {
-                        replyObjectTextView.setText(webPage.description);
+                        replyObjectTextView.setText(Emoji.replaceEmoji(webPage.description, replyObjectTextView.getPaint().getFontMetricsInt(), false));
                     } else if (webPage.author != null) {
-                        replyObjectTextView.setText(webPage.author);
+                        replyObjectTextView.setText(Emoji.replaceEmoji(webPage.author, replyObjectTextView.getPaint().getFontMetricsInt(), false));
                     } else {
-                        replyObjectTextView.setText(webPage.display_url);
+                        replyObjectTextView.setText(Emoji.replaceEmoji(webPage.display_url, replyObjectTextView.getPaint().getFontMetricsInt(), false));
                     }
                     chatActivityEnterView.setWebPage(webPage, true);
                 }
@@ -23061,6 +23061,10 @@ public class ChatActivity extends BaseFragment implements
         } else if (id == NotificationCenter.emojiLoaded) {
             if (chatListView != null) {
                 chatListView.invalidateViews();
+            }
+            if (replyLayout != null) {
+                replyLayout.current().name.invalidate();
+                replyLayout.current().obj.invalidate();
             }
             if (alertTextView != null) {
                 alertTextView.invalidate();
@@ -29981,6 +29985,7 @@ public class ChatActivity extends BaseFragment implements
                 pinnedMessageObject.updateTranslation(false);
                 if (pinnedMessageObject.type == MessageObject.TYPE_MUSIC) {
                     pinnedText = String.format("%s - %s", pinnedMessageObject.getMusicAuthor(), pinnedMessageObject.getMusicTitle());
+                    pinnedText = Emoji.replaceEmoji(pinnedText, messageTextView.getPaint().getFontMetricsInt(), false);
                 } else if (pinnedMessageObject.type == MessageObject.TYPE_POLL) {
                     if (pinnedMessageObject.messageOwner.media instanceof TLRPC.TL_messageMediaPoll) {
                         TLRPC.TL_messageMediaPoll poll = (TLRPC.TL_messageMediaPoll) pinnedMessageObject.messageOwner.media;
@@ -42079,15 +42084,16 @@ public class ChatActivity extends BaseFragment implements
                 userButton.addView(imageView, LayoutHelper.createFrame(34, 34, Gravity.LEFT | Gravity.CENTER_VERTICAL, 13, 0, 0, 0));
 
                 final TextView titleText = new TextView(getContext());
+                NotificationCenter.listenEmojiLoading(titleText);
                 ThemeBind.textColor(titleText, Theme.key_dialogTextBlack, ChatActivity.this.getResourceProvider());
                 titleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
                 titleText.setEllipsize(TextUtils.TruncateAt.END);
                 titleText.setSingleLine(true);
                 if (obj instanceof TLRPC.User) {
-                    titleText.setText(UserObject.getUserName((TLRPC.User) obj));
+                    titleText.setText(Emoji.replaceEmoji(UserObject.getUserName((TLRPC.User) obj), titleText.getPaint().getFontMetricsInt(), false));
                 } else if (obj instanceof TLRPC.Chat) {
                     TLRPC.Chat chat = (TLRPC.Chat) obj;
-                    titleText.setText(chat.title);
+                    titleText.setText(Emoji.replaceEmoji(chat.title, titleText.getPaint().getFontMetricsInt(), false));
                 }
                 userButton.addView(titleText, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.FILL_HORIZONTAL | Gravity.TOP, 59, 6, 16, 0));
 

@@ -75,7 +75,7 @@ public class EditTextEmoji extends FrameLayout implements NotificationCenter.Not
     private boolean showKeyboardOnResume;
     private int lastSizeChangeValue1;
     private boolean lastSizeChangeValue2;
-    private int innerTextChange;
+    public int innerTextChange;
     private boolean allowAnimatedEmoji;
     public boolean includeNavigationBar;
     AdjustPanLayoutHelper adjustPanLayoutHelper;

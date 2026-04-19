@@ -30,12 +30,14 @@ import android.widget.ImageView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.DownloadController;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.ImageLoader;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.SharedConfig;
 import org.telegram.messenger.UserConfig;
@@ -106,6 +108,7 @@ public class AudioPlayerCell extends FrameLayout implements DownloadController.F
         this.setWillNotDraw(false);
         this.resourcesProvider = resourcesProvider;
         this.viewType = viewType;
+        NotificationCenter.listenEmojiLoading(this);
 
         optionsButton = new ImageView(context);
         optionsButton.setScaleType(ImageView.ScaleType.CENTER);
@@ -157,7 +160,7 @@ public class AudioPlayerCell extends FrameLayout implements DownloadController.F
             CharSequence authorFinal = TextUtils.ellipsize(author, Theme.chat_contextResult_descriptionTextPaint, maxWidth, TextUtils.TruncateAt.END);
             CharSequence authorFinalH = AndroidUtilities.highlightText(authorFinal, currentMessageObject.highlightedWords, resourcesProvider);
             if (authorFinalH == null) authorFinalH = authorFinal;
-            descriptionLayout = new StaticLayout(authorFinalH, Theme.chat_contextResult_descriptionTextPaint, maxWidth + dp(4), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
+            descriptionLayout = new StaticLayout(Emoji.replaceEmoji(authorFinalH, Theme.chat_contextResult_descriptionTextPaint.getFontMetricsInt(), false), Theme.chat_contextResult_descriptionTextPaint, maxWidth + dp(4), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
             descriptionLayoutEmojis = AnimatedEmojiSpan.update(AnimatedEmojiDrawable.CACHE_TYPE_MESSAGES, this, descriptionLayoutEmojis, descriptionLayout);
         } catch (Exception e) {
             FileLog.e(e);

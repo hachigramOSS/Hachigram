@@ -15450,6 +15450,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             navigationBar.setBackgroundColor(fancyShadows ? (sendPhotoType == SELECT_TYPE_STICKER ? 0x66000000 : 0) : (sendPhotoType == SELECT_TYPE_STICKER ? 0xFF000000 : 0x7f000000));
         }
         if (title != null) {
+            title = Emoji.replaceEmoji(title, actionBarContainer.titleTextView[0].getPaint().getFontMetricsInt(), false);
             if (animated) {
                 if (wasIndex == index) {
                     actionBarContainer.setTitleAnimated(title, true, true);

@@ -12,7 +12,7 @@ import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.text.Spannable;
-import android.text.SpannableString;
+import android.text.SpannableStringBuilder;
 import android.text.TextUtils;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -37,8 +37,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ChatObject;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MessagesController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserConfig;
 import org.telegram.messenger.UserObject;
@@ -185,7 +187,8 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
                     TLRPC.Chat chat = messagesController.getChat(-peerId);
                     if (chat != null) {
                         if (peerObj.premium_required) {
-                            SpannableString str = new SpannableString(TextUtils.ellipsize(chat.title, senderView.title.getPaint(), maxWidth - AndroidUtilities.dp(100), TextUtils.TruncateAt.END) + " d");
+                            SpannableStringBuilder str = new SpannableStringBuilder(Emoji.replaceEmoji(TextUtils.ellipsize(chat.title, senderView.title.getPaint(), maxWidth - AndroidUtilities.dp(100), TextUtils.TruncateAt.END), senderView.title.getPaint().getFontMetricsInt(), false));
+                            str.append(" d");
                             ColoredImageSpan span = new ColoredImageSpan(R.drawable.msg_mini_premiumlock);
                             span.setTopOffset(1);
                             span.setSize(AndroidUtilities.dp(14));
@@ -196,7 +199,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
                             senderView.title.setText(str);
                         } else {
                             senderView.title.setEllipsize(TextUtils.TruncateAt.END);
-                            senderView.title.setText(chat.title);
+                            senderView.title.setText(Emoji.replaceEmoji(chat.title, senderView.title.getPaint().getFontMetricsInt(), false));
                         }
                         senderView.subtitle.setText(LocaleController.formatPluralString(ChatObject.isChannel(chat) && !chat.megagroup ? "Subscribers" : "Members", chat.participants_count));
                         senderView.avatar.setAvatar(chat);
@@ -205,7 +208,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
                 } else {
                     TLRPC.User user = messagesController.getUser(peerId);
                     if (user != null) {
-                        senderView.title.setText(UserObject.getUserName(user));
+                        senderView.title.setText(Emoji.replaceEmoji(UserObject.getUserName(user), senderView.title.getPaint().getFontMetricsInt(), false));
                         senderView.subtitle.setText(LocaleController.getString(R.string.VoipGroupPersonalAccount));
                         senderView.avatar.setAvatar(user);
                     }
@@ -531,6 +534,7 @@ public class SenderSelectPopup extends ActionBarPopupWindow {
             addView(textRow, LayoutHelper.createLinear(0, LayoutHelper.MATCH_PARENT, 1f, 12, 0, 0, 0));
 
             title = new TextView(context);
+            NotificationCenter.listenEmojiLoading(title);
             ThemeBind.textColor(title, Theme.key_actionBarDefaultSubmenuItem, resourcesProvider);
             title.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
             title.setTag(this.title);

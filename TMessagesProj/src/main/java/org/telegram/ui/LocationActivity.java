@@ -74,6 +74,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.IMapsProvider;
 import org.telegram.messenger.ImageReceiver;
@@ -706,6 +707,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
         }
 
         hintView = new HintView2(context, HintView2.DIRECTION_TOP);
+        NotificationCenter.listenEmojiLoading(hintView);
         hintView.setLayerType(View.LAYER_TYPE_HARDWARE, null);
         hintView.setDuration(4000);
         // the arrow at the centre of the proximity button, the hint under its glass
@@ -2247,7 +2249,7 @@ public class LocationActivity extends BaseFragment implements NotificationCenter
             preferences.edit().putInt("proximityhint", ++val).apply();
             if (DialogObject.isUserDialog(dialogId)) {
                 TLRPC.User user = getMessagesController().getUser(dialogId);
-                hintView.setText(LocaleController.formatString("ProximityTooltioUser", R.string.ProximityTooltioUser, UserObject.getFirstName(user)));
+                hintView.setText(Emoji.replaceEmoji(LocaleController.formatString("ProximityTooltioUser", R.string.ProximityTooltioUser, UserObject.getFirstName(user)), hintView.getTextPaint().getFontMetricsInt(), false));
             } else {
                 hintView.setText(getString(R.string.ProximityTooltioGroup));
             }

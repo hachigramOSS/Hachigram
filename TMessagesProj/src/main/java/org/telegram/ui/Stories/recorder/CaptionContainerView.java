@@ -33,6 +33,7 @@ import android.text.Editable;
 import android.text.SpannableStringBuilder;
 import android.text.TextPaint;
 import android.text.TextWatcher;
+import android.text.style.ImageSpan;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.RoundedCorner;
@@ -347,6 +348,9 @@ public class CaptionContainerView extends FrameLayout {
                 if (editText.getEditText().suppressOnTextChanged) {
                     return;
                 }
+                if (editText.innerTextChange != 2 && (count - before) > 1) {
+                    processChange = true;
+                }
                 if (mentionContainer == null) {
                     createMentionsContainer();
                 }
@@ -358,9 +362,18 @@ public class CaptionContainerView extends FrameLayout {
 
             private int lastLength;
             private boolean lastOverLimit;
+            private boolean processChange;
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (processChange) {
+                    ImageSpan[] spans = s.getSpans(0, s.length(), ImageSpan.class);
+                    for (int i = 0; i < spans.length; i++) {
+                        s.removeSpan(spans[i]);
+                    }
+                    Emoji.replaceEmoji(s, editText.getEditText().getPaint().getFontMetricsInt(), false, null);
+                    processChange = false;
+                }
                 codePointCount = Character.codePointCount(s, 0, s.length());
                 String limitText = null;
                 final int limit = getCaptionLimit();

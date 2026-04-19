@@ -64,6 +64,7 @@ public class RichEditText extends EditTextCaption implements Theme.Colorable {
     private boolean centerEmptyHint;
     private boolean applyingEmptyHint;
     private boolean autoBold;
+    private final org.telegram.messenger.NotificationCenter.NotificationCenterDelegate inu_emojiLoadedObserver = (id, account, args) -> invalidateForce();
 
     private LinkPath markPath;
     private Paint markPaint;
@@ -332,10 +333,12 @@ public class RichEditText extends EditTextCaption implements Theme.Colorable {
     protected void onAttachedToWindow() {
         super.onAttachedToWindow();
         bindInlineButtons();
+        org.telegram.messenger.NotificationCenter.getGlobalInstance().addObserver(inu_emojiLoadedObserver, org.telegram.messenger.NotificationCenter.emojiLoaded);
     }
 
     @Override
     protected void onDetachedFromWindow() {
+        org.telegram.messenger.NotificationCenter.getGlobalInstance().removeObserver(inu_emojiLoadedObserver, org.telegram.messenger.NotificationCenter.emojiLoaded);
         AndroidUtilities.cancelRunOnUIThread(inlineButtonLongPressRunnable);
         pressedInlineButton = null;
         inlineButtonLongPressed = false;
@@ -691,7 +694,7 @@ public class RichEditText extends EditTextCaption implements Theme.Colorable {
     }
 
     @Override
-    protected void notifySpansChanged() {
+    public void notifySpansChanged() {
         super.notifySpansChanged();
         markPathDirty = true;
         invalidate();

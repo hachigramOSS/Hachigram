@@ -42,6 +42,7 @@ import org.telegram.messenger.ImageReceiver;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
 import org.telegram.messenger.MessageObject;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.RichMessageLayout;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_iv;
@@ -215,6 +216,7 @@ public class SharedLinkCell extends FrameLayout implements Theme.Colorable {
         this.resourcesProvider = resourcesProvider;
         this.viewType = viewType;
         setFocusable(true);
+        NotificationCenter.listenEmojiLoading(this);
 
         titleTextPaint = new TextPaint(Paint.ANTI_ALIAS_FLAG);
         titleTextPaint.setTypeface(AndroidUtilities.bold());
@@ -470,7 +472,7 @@ public class SharedLinkCell extends FrameLayout implements Theme.Colorable {
 
         if (title != null) {
             try {
-                CharSequence titleFinal = title;
+                CharSequence titleFinal = Emoji.replaceEmoji(title, titleTextPaint.getFontMetricsInt(), false);
                 CharSequence titleH = AndroidUtilities.highlightText(titleFinal, message.highlightedWords, null);
                 if (titleH != null) {
                     titleFinal = titleH;
@@ -495,6 +497,7 @@ public class SharedLinkCell extends FrameLayout implements Theme.Colorable {
 
         if (description != null) {
             try {
+                description = Emoji.replaceEmoji(description, descriptionTextPaint.getFontMetricsInt(), false);
                 descriptionLayout = ChatMessageCell.generateStaticLayout(description, descriptionTextPaint, maxWidth, maxWidth, 0, desctiptionLines);
                 if (descriptionLayout.getLineCount() > 0) {
                     description2Y = descriptionY + descriptionLayout.getLineBottom(descriptionLayout.getLineCount() - 1) + dp(5);
@@ -510,6 +513,7 @@ public class SharedLinkCell extends FrameLayout implements Theme.Colorable {
 
         if (description2 != null) {
             try {
+                description2 = Emoji.replaceEmoji(description2, descriptionTextPaint.getFontMetricsInt(), false);
                 descriptionLayout2 = ChatMessageCell.generateStaticLayout(description2, descriptionTextPaint, maxWidth, maxWidth, 0, desctiptionLines);
                 if (descriptionLayout != null) {
                     description2Y += dp(10);

@@ -12,7 +12,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 
 import org.telegram.messenger.AndroidUtilities;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.LocaleController;
+import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.messenger.UserObject;
 import org.telegram.tgnet.TLRPC;
@@ -38,6 +40,9 @@ public class MemberRequestCell extends FrameLayout {
 
         avatarImageView.setRoundRadius(AndroidUtilities.dp(23));
         addView(avatarImageView, LayoutHelper.createFrame(46, 46, LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT, 12, 8, 12, 0));
+
+        NotificationCenter.listenEmojiLoading(nameTextView);
+        NotificationCenter.listenEmojiLoading(statusTextView);
 
         nameTextView.setGravity(LocaleController.isRTL ? Gravity.RIGHT : Gravity.LEFT);
         nameTextView.setMaxLines(1);
@@ -99,7 +104,7 @@ public class MemberRequestCell extends FrameLayout {
         TLRPC.User user = users.get(importer.user_id);
         avatarDrawable.setInfo(user);
         avatarImageView.setForUserOrChat(user, avatarDrawable);
-        nameTextView.setText(UserObject.getUserName(user));
+        nameTextView.setText(Emoji.replaceEmoji(UserObject.getUserName(user), nameTextView.getPaint().getFontMetricsInt(), false));
         String dateText = LocaleController.formatDateAudio(importer.date, false);
         if (importer.via_chatlist) {
             statusTextView.setText(LocaleController.getString(R.string.JoinedViaFolder));
@@ -108,7 +113,7 @@ public class MemberRequestCell extends FrameLayout {
         } else {
             TLRPC.User approvedByUser = users.get(importer.approved_by);
             if (approvedByUser != null) {
-                statusTextView.setText(LocaleController.formatString("AddedBy", R.string.AddedBy, UserObject.getFirstName(approvedByUser), dateText));
+                statusTextView.setText(Emoji.replaceEmoji(LocaleController.formatString("AddedBy", R.string.AddedBy, UserObject.getFirstName(approvedByUser), dateText), statusTextView.getPaint().getFontMetricsInt(), false));
             } else {
                 statusTextView.setText("");
             }

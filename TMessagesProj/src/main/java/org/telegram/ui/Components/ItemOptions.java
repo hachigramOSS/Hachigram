@@ -683,13 +683,14 @@ public class ItemOptions {
 
         ActionBarMenuSubItem subItem = new ActionBarMenuSubItem(context, false, false, resourcesProvider);
         subItem.setPadding(dp(18), 0, dp(18), 0);
+        NotificationCenter.listenEmojiLoading(subItem.textView);
         if (obj instanceof TLRPC.Chat) {
             TLRPC.Chat chat = (TLRPC.Chat) obj;
-            subItem.setText(chat == null ? "" : chat.title);
+            subItem.setText(chat == null ? "" : Emoji.replaceEmoji(chat.title, subItem.textView.getPaint().getFontMetricsInt(), false));
             subItem.setSubtext(ChatObject.isChannelAndNotMegaGroup(chat) ? getString(R.string.DiscussChannel) : getString(R.string.AccDescrGroup).toLowerCase());
         } else if (obj instanceof TLRPC.User) {
             TLRPC.User user = (TLRPC.User) obj;
-            subItem.setText(UserObject.getUserName(user));
+            subItem.setText(Emoji.replaceEmoji(UserObject.getUserName(user), subItem.textView.getPaint().getFontMetricsInt(), false));
             if (user.id == UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId()) {
                 subItem.setSubtext(getString(R.string.VoipGroupPersonalAccount));
             } else if (UserObject.isBot(user)) {
@@ -760,7 +761,8 @@ public class ItemOptions {
 
         ActionBarMenuSubItem subItem = new ActionBarMenuSubItem(context, false, false, resourcesProvider);
         subItem.setPadding(dp(18), 0, dp(18), 0);
-        subItem.setText(UserObject.getUserName(user));
+        NotificationCenter.listenEmojiLoading(subItem.textView);
+        subItem.setText(Emoji.replaceEmoji(UserObject.getUserName(user), subItem.textView.getPaint().getFontMetricsInt(), false));
 
         subItem.setClipToPadding(false);
         subItem.textView.setPadding(subItem.checkViewLeft ? (subItem.checkView != null ? dp(43) : 0) : dp(43), 0, subItem.checkViewLeft ? dp(43) : (subItem.checkView != null ? dp(43) : 0), 0);
@@ -1012,16 +1014,17 @@ public class ItemOptions {
         userButton.addView(imageView, LayoutHelper.createFrame(34, 34, Gravity.LEFT | Gravity.CENTER_VERTICAL, 13, 0, 0, 0));
 
         final TextView titleText = new TextView(context);
+        NotificationCenter.listenEmojiLoading(titleText);
         ThemeBind.textColor(titleText, Theme.key_dialogTextBlack, resourcesProvider);
         titleText.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
         titleText.setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
         titleText.setEllipsize(TextUtils.TruncateAt.END);
         titleText.setSingleLine(true);
         if (obj instanceof TLRPC.User) {
-            titleText.setText(UserObject.getUserName((TLRPC.User) obj));
+            titleText.setText(Emoji.replaceEmoji(UserObject.getUserName((TLRPC.User) obj), titleText.getPaint().getFontMetricsInt(), false));
         } else if (obj instanceof TLRPC.Chat) {
             TLRPC.Chat chat = (TLRPC.Chat) obj;
-            titleText.setText(chat.title);
+            titleText.setText(Emoji.replaceEmoji(chat.title, titleText.getPaint().getFontMetricsInt(), false));
         }
         userButton.addView(titleText, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.FILL_HORIZONTAL | Gravity.TOP, 59, 6, 16, 0));
 

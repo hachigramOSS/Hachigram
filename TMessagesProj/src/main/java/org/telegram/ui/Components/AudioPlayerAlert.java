@@ -80,6 +80,7 @@ import org.telegram.messenger.BuildVars;
 import org.telegram.messenger.ContactsController;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.DownloadController;
+import org.telegram.messenger.Emoji;
 import org.telegram.messenger.FileLoader;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.FileRefController;
@@ -3447,6 +3448,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     textViews[i].setAlpha(0f);
                     textViews[i].setVisibility(GONE);
                 }
+                NotificationCenter.listenEmojiLoading(textViews[i]);
                 addView(textViews[i], LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT));
             }
             gradientMatrix = new Matrix();
@@ -3550,6 +3552,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
 
         public void setText(CharSequence text, boolean animated) {
+            text = Emoji.replaceEmoji(text, textViews[activeIndex].getPaint().getFontMetricsInt(), false);
             final CharSequence currentText = textViews[activeIndex].getText();
 
             if (TextUtils.isEmpty(currentText) || !animated) {
