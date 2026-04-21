@@ -524,7 +524,65 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
     }
 
     public void makeSelectedRegular() {
-        applyTextStyleToSelection(null);
+        int start, end;
+        if (selectionStart >= 0 && selectionEnd >= 0) {
+            start = selectionStart;
+            end = selectionEnd;
+            selectionStart = selectionEnd = -1;
+        } else {
+            start = getSelectionStart();
+            end = getSelectionEnd();
+        }
+        if (start < 0 || end < 0 || start == end) return;
+        if (start > end) { int t = start; start = end; end = t; }
+        Editable editable = getText();
+        if (editable == null) return;
+
+        for (CharacterStyle sp : editable.getSpans(start, end, CharacterStyle.class)) {
+            TextStyleSpan.TextStyleRun run;
+            if (sp instanceof TextStyleSpan) {
+                run = ((TextStyleSpan) sp).getTextStyleRun();
+            } else if (sp instanceof URLSpanReplacement) {
+                run = ((URLSpanReplacement) sp).getTextStyleRun();
+            } else {
+                continue;
+            }
+            int ss = editable.getSpanStart(sp);
+            int se = editable.getSpanEnd(sp);
+            editable.removeSpan(sp);
+            if (ss < start) {
+                CharacterStyle left = sp instanceof TextStyleSpan
+                        ? new TextStyleSpan(new TextStyleSpan.TextStyleRun(run))
+                        : new URLSpanReplacement(((URLSpanReplacement) sp).getURL(), run != null ? new TextStyleSpan.TextStyleRun(run) : null);
+                editable.setSpan(left, ss, start, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            if (se > end) {
+                CharacterStyle right = sp instanceof TextStyleSpan
+                        ? new TextStyleSpan(new TextStyleSpan.TextStyleRun(run))
+                        : new URLSpanReplacement(((URLSpanReplacement) sp).getURL(), run != null ? new TextStyleSpan.TextStyleRun(run) : null);
+                editable.setSpan(right, end, se, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+
+        for (CodeHighlighting.Span c : editable.getSpans(start, end, CodeHighlighting.Span.class)) {
+            editable.removeSpan(c);
+        }
+
+        QuoteSpan[] quotes = editable.getSpans(start, end, QuoteSpan.class);
+        for (QuoteSpan q : quotes) {
+            editable.removeSpan(q);
+            editable.removeSpan(q.styleSpan);
+            if (q.collapsedSpan != null) {
+                editable.removeSpan(q.collapsedSpan);
+            }
+        }
+        if (quotes.length > 0) {
+            invalidateQuotes(true);
+        }
+
+        if (delegate != null) {
+            delegate.onSpansChanged();
+        }
     }
 
     public void setSelectionOverride(int start, int end) {
