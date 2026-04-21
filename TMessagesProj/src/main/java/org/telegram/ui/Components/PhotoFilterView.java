@@ -1218,6 +1218,31 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         }
     }
 
+    public void inu_enableSoftenSkin() {
+        if (softenSkinTool != -1) {
+            return;
+        }
+        softenSkinTool = 0;
+        enhanceTool++;
+        exposureTool++;
+        contrastTool++;
+        saturationTool++;
+        warmthTool++;
+        fadeTool++;
+        highlightsTool++;
+        shadowsTool++;
+        vignetteTool++;
+        if (grainTool != -1) grainTool++;
+        sharpenTool++;
+        tintShadowsTool++;
+        tintHighlightsTool++;
+        rowsCount++;
+        if (recyclerListView != null && recyclerListView.getAdapter() != null) {
+            recyclerListView.getAdapter().notifyItemInserted(0);
+            recyclerListView.scrollToPosition(0);
+        }
+    }
+
     public class ToolsAdapter extends RecyclerListView.SelectionAdapter {
 
         private Context mContext;
