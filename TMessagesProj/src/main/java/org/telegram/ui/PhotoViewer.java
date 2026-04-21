@@ -6418,7 +6418,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
             @Override
             public void invalidate() {
-                if (SharedConfig.photoViewerBlur && (animationInProgress == 1 || animationInProgress == 2 || animationInProgress == 3)) {
+                if (SharedConfig.photoViewerBlurEnabled() && (animationInProgress == 1 || animationInProgress == 2 || animationInProgress == 3)) {
                     return;
                 }
                 super.invalidate();
@@ -6969,7 +6969,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
             @Override
             public void invalidate() {
-                if (SharedConfig.photoViewerBlur && (animationInProgress == 1 || animationInProgress == 2 || animationInProgress == 3)) {
+                if (SharedConfig.photoViewerBlurEnabled() && (animationInProgress == 1 || animationInProgress == 2 || animationInProgress == 3)) {
                     return;
                 }
                 super.invalidate();
@@ -7079,7 +7079,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
             @Override
             public void invalidate() {
-                if (SharedConfig.photoViewerBlur && (animationInProgress == 1 || animationInProgress == 2 || animationInProgress == 3)) {
+                if (SharedConfig.photoViewerBlurEnabled() && (animationInProgress == 1 || animationInProgress == 2 || animationInProgress == 3)) {
                     return;
                 }
                 super.invalidate();
@@ -20483,7 +20483,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         if (!fancyShadows) {
             return;
         }
-        float maxAlpha = !SharedConfig.photoViewerBlur ? 1f : blurAlpha.set(animationInProgress == 0 || animationInProgress == 2 || animationInProgress == 3);
+        float maxAlpha = !SharedConfig.photoViewerBlurEnabled() ? 1f : blurAlpha.set(animationInProgress == 0 || animationInProgress == 2 || animationInProgress == 3);
         if (maxAlpha <= 0) {
             return;
         }
@@ -22159,7 +22159,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
             && SharedConfig.useNewBlur
             && SharedConfig.getDevicePerformanceClass() >= SharedConfig.PERFORMANCE_CLASS_HIGH
-            && !AndroidUtilities.makingGlobalBlurBitmap;
+            && !AndroidUtilities.makingGlobalBlurBitmap
+            && LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR);
     }
 
 
@@ -22234,6 +22235,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     public void drawCaptionBlur(Canvas canvas, BlurringShader.StoryBlurDrawer drawer, int bgColor, int overlayColor, boolean clip, boolean allowTransparent, boolean allowCrossfade, boolean glass) {
+        if (!SharedConfig.photoViewerBlurEnabled()) {
+            bgColor = Theme.multAlpha(bgColor, 0.75f);
+        }
         if (BLUR_RENDERNODE()) {
             final RenderNode renderNode = getRenderNodeColorMatrix(drawer.colorMatrix, glass);
             final int mBgColor = AndroidUtilities.applyColorMatrix(bgColor, drawer.colorMatrix);
@@ -22252,7 +22256,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             return;
         }
-        float maxAlpha = !SharedConfig.photoViewerBlur ? 1f : blurAlpha.set(animationInProgress == 0 || animationInProgress == 2 || animationInProgress == 3);
+        float maxAlpha = !SharedConfig.photoViewerBlurEnabled() ? 1f : blurAlpha.set(animationInProgress == 0 || animationInProgress == 2 || animationInProgress == 3);
 
         drawer.paint.setShader(null);
         if (bgColor != 0) {
@@ -22261,7 +22265,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             canvas.drawPaint(drawer.paint);
         }
 
-        if (!SharedConfig.photoViewerBlur || animationInProgress != 0) {
+        if (!SharedConfig.photoViewerBlurEnabled() || animationInProgress != 0) {
             blurAlpha.set(0, true);
             if (overlayColor != 0) {
                 drawer.paint.setColor(overlayColor);
@@ -22814,6 +22818,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
     private void invalidateBlur() {
         if (stickerMakerView != null && stickerMakerView.isThanosInProgress) {
+            return;
+        }
+        if (!BLUR_RENDERNODE() && !SharedConfig.photoViewerBlurEnabled()) {
             return;
         }
 //        if (animationInProgress != 0) {

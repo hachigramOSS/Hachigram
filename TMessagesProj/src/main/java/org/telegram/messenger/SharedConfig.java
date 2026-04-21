@@ -1754,6 +1754,10 @@ public class SharedConfig {
         return canBlurChat() && LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR);
     }
 
+    public static boolean photoViewerBlurEnabled() {
+        return photoViewerBlur && LiteMode.isEnabled(LiteMode.FLAG_CHAT_BLUR);
+    }
+
     public static class BackgroundActivityPrefs {
         private static SharedPreferences prefs;
 
