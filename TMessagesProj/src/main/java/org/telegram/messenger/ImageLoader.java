@@ -136,8 +136,6 @@ public class ImageLoader {
     private HashMap<String, Integer> forceLoadingImages = new HashMap<>();
     private static ThreadLocal<byte[]> bytesLocal = new ThreadLocal<>();
     private static ThreadLocal<byte[]> bytesThumbLocal = new ThreadLocal<>();
-    private static byte[] header = new byte[12];
-    private static byte[] headerThumb = new byte[12];
     private int currentHttpTasksCount = 0;
     private int currentArtworkTasksCount = 0;
     private boolean canForce8888;
@@ -172,11 +170,24 @@ public class ImageLoader {
         return false;
     }
 
+    private static final android.util.LruCache<Integer, BitmapDrawable> inu_strippedCache = new android.util.LruCache<>(64);
+
     public static Drawable createStripedBitmap(ArrayList<TLRPC.PhotoSize> thumbs) {
         for (int i = 0; i < thumbs.size(); i++) {
             if (thumbs.get(i) instanceof TLRPC.TL_photoStrippedSize) {
                 TLRPC.TL_photoStrippedSize size = (TLRPC.TL_photoStrippedSize) thumbs.get(i);
-                return new BitmapDrawable(ApplicationLoader.applicationContext.getResources(), getStrippedPhotoBitmap(size.bytes, "b"));
+                int key = Arrays.hashCode(size.bytes);
+                BitmapDrawable cached = inu_strippedCache.get(key);
+                if (cached != null) {
+                    return cached;
+                }
+                Bitmap bitmap = getStrippedPhotoBitmap(size.bytes, "b");
+                if (bitmap == null) {
+                    return null;
+                }
+                BitmapDrawable drawable = new BitmapDrawable(ApplicationLoader.applicationContext.getResources(), bitmap);
+                inu_strippedCache.put(key, drawable);
+                return drawable;
             }
         }
         return null;
@@ -853,6 +864,8 @@ public class ImageLoader {
     private class CacheOutTask implements Runnable {
         private Thread runningThread;
         private final Object sync = new Object();
+        private byte[] header = new byte[12];
+        private byte[] headerThumb = new byte[12];
 
         private CacheImage cacheImage;
         private boolean isCancelled;
@@ -2050,14 +2063,14 @@ public class ImageLoader {
         int memoryClass = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
         int maxSize;
         if (canForce8888 = memoryClass >= 192) {
-            maxSize = 30;
+            maxSize = 80;
         } else {
-            maxSize = 15;
+            maxSize = 30;
         }
-        int cacheSize = DEBUG_MODE ? 1 : Math.min(maxSize, memoryClass / 7) * 1024 * 1024;
+        int cacheSize = DEBUG_MODE ? 1 : Math.min(maxSize, memoryClass / 6) * 1024 * 1024;
 
-        int commonCacheSize =  DEBUG_MODE ? 1 : (int) (cacheSize * 0.8f);
-        int smallImagesCacheSize =   DEBUG_MODE ? 1 : (int) (cacheSize * 0.2f);
+        int commonCacheSize =  DEBUG_MODE ? 1 : (int) (cacheSize * 0.7f);
+        int smallImagesCacheSize =   DEBUG_MODE ? 1 : (int) (cacheSize * 0.3f);
 
         memCache = new LruCache<BitmapDrawable>(commonCacheSize) {
             @Override
