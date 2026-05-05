@@ -1288,6 +1288,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 color1Animated.set(color1, true);
                 color2Animated.set(color2, true);
             }
+            backgroundGradientY = (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0)
+                    + ActionBar.getCurrentActionBarHeight()
+                    - 21 * AndroidUtilities.density
+                    + actionBar.getTranslationY();
             invalidate();
         }
 
@@ -3250,12 +3254,21 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         layout = true;
                     } else if (invalidateScroll || currentPaddingTop != paddingTop) {
                         if (savedScrollPosition >= 0) {
-                            layoutManager.scrollToPositionWithOffset(savedScrollPosition, savedScrollOffset - paddingTop);
+                            int headerExtraDelta = (savedScrollPosition == 0 && !allowPullingDown) ? (getHeaderExtraHeight() - savedScrollHeaderExtra) : 0;
+                            int savedOffset = savedScrollOffset + headerExtraDelta - paddingTop;
+                            if (savedScrollPosition == 0 && allowPullingDown && currentExpandAnimatorValue >= 1f) {
+                                savedOffset = -actionBarHeight;
+                            }
+                            layoutManager.scrollToPositionWithOffset(savedScrollPosition, savedOffset);
                         } else if ((!changed || !allowPullingDown) && view != null) {
-                            if (pos == 0 && !allowPullingDown && top > getHeaderExtraHeight()) {
+                            if (pos == 0 && !allowPullingDown && top > 0 && top != getHeaderExtraHeight()) {
                                 top = getHeaderExtraHeight();
                             }
-                            layoutManager.scrollToPositionWithOffset(pos, top - paddingTop);
+                            int scrollOffset = top - paddingTop;
+                            if (pos == 0 && allowPullingDown && currentExpandAnimatorValue >= 1f) {
+                                scrollOffset = -actionBarHeight;
+                            }
+                            layoutManager.scrollToPositionWithOffset(pos, scrollOffset);
                             layout = true;
                         } else {
                             layoutManager.scrollToPositionWithOffset(0, getHeaderExtraHeight() - paddingTop);
@@ -4328,7 +4341,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             public int scrollVerticallyBy(int dy, RecyclerView.Recycler recycler, RecyclerView.State state) {
                 final View view = layoutManager.findViewByPosition(0);
                 if (view != null && !openingAvatar) {
-                    final int canScroll = view.getTop() - getHeaderExtraHeight();
+                    final int canScroll = layoutManager.getDecoratedTop(view) - getHeaderExtraHeight();
                     if (!allowPullingDown && canScroll > dy) {
                         dy = canScroll;
                         if (avatarsViewPager.hasImages() && avatarImage.getImageReceiver().hasNotThumb() && !AndroidUtilities.isAccessibilityScreenReaderEnabled() && (!isInLandscapeMode && !AndroidUtilities.isTablet() || hasMainTabs)) {
@@ -8131,7 +8144,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             }
         }
         RecyclerListView.Holder holder = child == null ? null : (RecyclerListView.Holder) listView.findContainingViewHolder(child);
-        int top = child == null ? 0 : child.getTop();
+        int top = child == null ? 0 : layoutManager.getDecoratedTop(child);
         int adapterPosition = holder != null ? holder.getAdapterPosition() : RecyclerView.NO_POSITION;
         if (top >= 0 && adapterPosition == 0) {
             newOffset = top;
@@ -11198,6 +11211,22 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 musicView.setMusicDocument(userInfo.saved_music);
             }
             musicView.setVisibility(hasMusic ? View.VISIBLE : View.GONE);
+        }
+        if (avatarsBlurView != null) {
+            avatarsBlurView.setSize(getActionsExtraHeight());
+        }
+        if (avatarsViewPager != null) {
+            avatarsViewPager.setPadding(0, 0, 0, getActionsExtraHeight());
+        }
+        if (isPulledDown && listView != null) {
+            final int abh = ActionBar.getCurrentActionBarHeight() + (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0);
+            final int target = listView.getMeasuredWidth() + getActionsExtraHeight() - abh;
+            if (target > 0 && extraHeight != target) {
+                extraHeight = target;
+                initialAnimationExtraHeight = target;
+                if (topView != null) topView.invalidate();
+                needLayout(false);
+            }
         }
     }
 
@@ -15737,37 +15766,58 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             listAdapter.notifyDataSetChanged();
         }
         if (savedScrollPosition >= 0) {
-            layoutManager.scrollToPositionWithOffset(savedScrollPosition, savedScrollOffset - listView.getPaddingTop());
+            int headerExtraDelta = (savedScrollPosition == 0 && !allowPullingDown) ? (getHeaderExtraHeight() - savedScrollHeaderExtra) : 0;
+            if (headerExtraDelta != 0 && transitionAnimationInProress && extraHeight < getHeaderExtraHeight()) {
+                extraHeight = getHeaderExtraHeight();
+                if (listView.getPaddingTop() < getHeaderExtraHeight()) {
+                    listView.setPadding(0, getHeaderExtraHeight(), 0, listView.getPaddingBottom());
+                }
+                needLayout(true);
+                topView.invalidate();
+            }
+            layoutManager.scrollToPositionWithOffset(savedScrollPosition, savedScrollOffset + headerExtraDelta - listView.getPaddingTop());
         }
         AndroidUtilities.updateVisibleRows(listView);
     }
 
     int savedScrollPosition = -1;
     int savedScrollOffset;
+    int savedScrollHeaderExtra;
     boolean savedScrollToSharedMedia;
 
     private void saveScrollPosition() {
         if (listView != null && layoutManager != null && listView.getChildCount() > 0 && !savedScrollToSharedMedia) {
+            if (savedScrollPosition >= 0) {
+                return;
+            }
             View view = null;
             int position = -1;
             int top = Integer.MAX_VALUE;
+            int topmostTop = Integer.MAX_VALUE;
+            int topmostPos = RecyclerListView.NO_POSITION;
             for (int i = 0; i < listView.getChildCount(); i++) {
                 int childPosition = listView.getChildAdapterPosition(listView.getChildAt(i));
                 View child = listView.getChildAt(i);
+                if (child.getTop() < topmostTop) {
+                    topmostTop = child.getTop();
+                    topmostPos = childPosition;
+                }
                 if (childPosition != RecyclerListView.NO_POSITION && child.getTop() < top) {
                     view = child;
                     position = childPosition;
                     top = child.getTop();
                 }
             }
+            if (topmostPos == RecyclerListView.NO_POSITION) return;
             if (view != null) {
                 savedScrollPosition = position;
-                savedScrollOffset = view.getTop();
-                if (savedScrollPosition == 0 && !allowPullingDown && savedScrollOffset > getHeaderExtraHeight()) {
-                    savedScrollOffset = getHeaderExtraHeight();
+                savedScrollOffset = layoutManager.getDecoratedTop(view);
+                savedScrollHeaderExtra = getHeaderExtraHeight();
+                if (savedScrollPosition == 0 && !allowPullingDown && savedScrollOffset > listView.getPaddingTop()) {
+                    savedScrollOffset = listView.getPaddingTop();
                 }
 
-                layoutManager.scrollToPositionWithOffset(position, view.getTop() - listView.getPaddingTop());
+                layoutManager.scrollToPositionWithOffset(position, savedScrollOffset - listView.getPaddingTop());
             }
         }
     }

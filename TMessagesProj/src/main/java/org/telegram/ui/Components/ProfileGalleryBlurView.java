@@ -191,6 +191,7 @@ public class ProfileGalleryBlurView extends View {
     public void setSize(int size) {
         if (this.actionSize != size) {
             invalidate();
+            requestLayout();
         }
         this.actionSize = size;
         this.size = (int) (dp(64) * 1.5f);
