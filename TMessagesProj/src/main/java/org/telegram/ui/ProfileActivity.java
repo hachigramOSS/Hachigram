@@ -1274,6 +1274,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         private final Paint backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         public void setBackgroundColorId(MessagesController.PeerColor peerColor, boolean animated) {
+            final boolean wasHasColorById = hasColorById;
             if (peerColor != null && HachigramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
                 hasColorById = true;
                 color1 = peerColor.getBgColor1(Theme.isCurrentThemeDark());
@@ -1300,9 +1301,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     btnColor = Theme.multAlpha(PeerColorActivity.adaptProfileEmojiColor(getThemedColor(Theme.key_actionBarDefault)), .15f);
                 }
             }
-            if (!animated) {
+            if (!animated || hasColorById != wasHasColorById) {
                 color1Animated.set(color1, true);
                 color2Animated.set(color2, true);
+                hasColorAnimated.set(hasColorById ? 1f : 0f, true);
             }
             backgroundGradientY = (actionBar.getOccupyStatusBar() ? AndroidUtilities.statusBarHeight : 0)
                     + ActionBar.getCurrentActionBarHeight()
