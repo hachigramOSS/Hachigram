@@ -3830,6 +3830,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (messageObject == null || parentFragment == null) {
             return;
         }
+        messageObject.reactionsLastCheckTime = System.currentTimeMillis();
         TLRPC.TL_messages_sendReaction req = new TLRPC.TL_messages_sendReaction();
         if (messageObject.messageOwner.isThreadMessage && messageObject.messageOwner.fwd_from != null) {
             req.peer = getMessagesController().getInputPeer(messageObject.getFromChatId());
