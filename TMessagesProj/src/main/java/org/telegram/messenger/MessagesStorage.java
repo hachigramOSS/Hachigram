@@ -6161,6 +6161,7 @@ public class MessagesStorage extends BaseController {
                 if (idx1 == 1) {
                     archivedDialogs.put(user.id, true);
                 }
+                if (!read || dialogsWithUnread.indexOfKey(user.id) < 0 && dialogsWithMentions.indexOfKey(user.id) < 0) {
                 if (isUserCollapsedInCommunity(chatsDict, user)) {
                     communities[idx1][idx2]++;
                 } else if (user.bot) {
@@ -6169,6 +6170,7 @@ public class MessagesStorage extends BaseController {
                     contacts[idx1][idx2]++;
                 } else {
                     nonContacts[idx1][idx2]++;
+                }
                 }
                 usersDict.put(user.id, user);
             }
@@ -14274,13 +14276,31 @@ public class MessagesStorage extends BaseController {
 
     private void markMessagesAsReadInternal(LongSparseIntArray inbox, LongSparseIntArray outbox, SparseIntArray encryptedMessages) {
         SQLitePreparedStatement state = null;
+        SQLiteCursor cursor = null;
         try {
             if (!isEmpty(inbox)) {
                 state = database.executeFast("DELETE FROM unread_push_messages WHERE uid = ? AND mid <= ?");
+                LongSparseIntArray mentionsUpdate = null;
                 for (int b = 0; b < inbox.size(); b++) {
                     long key = inbox.keyAt(b);
                     int messageId = inbox.get(key);
                     database.executeFast(String.format(Locale.US, "UPDATE messages_v2 SET read_state = read_state | 1 WHERE uid = %d AND mid > 0 AND mid <= %d AND read_state IN(0,2) AND out = 0", key, messageId)).stepThis().dispose();
+                    database.executeFast(String.format(Locale.US, "UPDATE messages_v2 SET read_state = read_state | 2 WHERE uid = %d AND mid > 0 AND mid <= %d AND mention = 1 AND read_state IN(0,1) AND out = 0", key, messageId)).stepThis().dispose();
+                    int newMentions = 0;
+                    cursor = database.queryFinalized(String.format(Locale.US, "SELECT count(mid) FROM messages_v2 WHERE uid = %d AND mention = 1 AND read_state IN(0,1) AND out = 0", key));
+                    if (cursor.next()) newMentions = cursor.intValue(0);
+                    cursor.dispose();
+                    cursor = null;
+                    int oldMentions = 0;
+                    cursor = database.queryFinalized("SELECT unread_count_i FROM dialogs WHERE did = " + key);
+                    if (cursor.next()) oldMentions = cursor.intValue(0);
+                    cursor.dispose();
+                    cursor = null;
+                    if (oldMentions > newMentions && !isForum(key, FORUM_TYPE_CHAT | FORUM_TYPE_BOT | FORUM_TYPE_DIRECT)) {
+                        database.executeFast(String.format(Locale.US, "UPDATE dialogs SET unread_count_i = %d WHERE did = %d", newMentions, key)).stepThis().dispose();
+                        if (mentionsUpdate == null) mentionsUpdate = new LongSparseIntArray();
+                        mentionsUpdate.put(key, newMentions);
+                    }
 
                     state.requery();
                     state.bindLong(1, key);
@@ -14289,6 +14309,10 @@ public class MessagesStorage extends BaseController {
                 }
                 state.dispose();
                 state = null;
+                if (mentionsUpdate != null) {
+                    getMessagesController().processDialogsUpdateRead(null, mentionsUpdate);
+                    updateFiltersReadCounter(null, mentionsUpdate, true);
+                }
             }
             if (!isEmpty(outbox)) {
                 for (int b = 0; b < outbox.size(); b++) {
@@ -14315,6 +14339,9 @@ public class MessagesStorage extends BaseController {
         } finally {
             if (state != null) {
                 state.dispose();
+            }
+            if (cursor != null) {
+                cursor.dispose();
             }
         }
     }
