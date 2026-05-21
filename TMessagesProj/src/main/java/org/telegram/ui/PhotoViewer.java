@@ -7788,6 +7788,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 return;
             }
             Runnable onEnd = () -> {
+                photoCropView.cropView.inu_dismissing = true;
                 cropTransform.setViewTransform(previousHasTransform, previousCropPx, previousCropPy, previousCropRotation, previousCropOrientation, previousCropScale, scale1(), scale1(), previousCropPw, previousCropPh, 0, 0, previousCropMirrored);
 //                if (previousHasTransform) {
 //                    editState.cropState = new MediaController.CropState();
@@ -9344,7 +9345,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     private boolean cropRotate(float diff) {
-        return cropRotate(diff, false, null);
+        return inu_cropRotate(diff, false, null, true);
     }
 
     private float scale1() {
@@ -9382,13 +9383,19 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     private boolean cropRotate(final float diff, boolean restoreMirror, Runnable onEnd) {
+        return inu_cropRotate(diff, restoreMirror, onEnd, false);
+    }
+
+    private boolean inu_cropRotate(final float diff, boolean restoreMirror, Runnable onEnd, boolean keepCrop) {
         if (imageMoveAnimation != null) {
             return false;
         }
         if (photoCropView == null) {
             return false;
         }
-        photoCropView.cropView.maximize(true);
+        if (!keepCrop) {
+            photoCropView.cropView.maximize(true);
+        }
         rotate = 0;
         animateToRotate = rotate + diff;
         if (restoreMirror) {
@@ -9406,9 +9413,14 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 bitmapWidth = bitmapHeight;
                 bitmapHeight = temp;
             }
-            if (editState.cropState != null) {
-                bitmapWidth *= editState.cropState.cropPw;
-                bitmapHeight *= editState.cropState.cropPh;
+            MediaController.CropState scaleCrop = editState.cropState;
+            if (keepCrop && photoCropView.cropView.state != null) {
+                scaleCrop = new MediaController.CropState();
+                photoCropView.cropView.applyToCropState(scaleCrop);
+            }
+            if (scaleCrop != null) {
+                bitmapWidth *= scaleCrop.cropPw;
+                bitmapHeight *= scaleCrop.cropPh;
             }
             float oldScale = Math.min(getContainerViewWidth(EDIT_MODE_CROP) / (float) bitmapWidth, getContainerViewHeight(EDIT_MODE_CROP) / (float) bitmapHeight);
             float newScale = oldScale;
@@ -9444,13 +9456,16 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 photoCropView.cropView.areaView.setRotationScaleTranslation(0, scale1(false), 0, 0);
                 photoCropView.wheelView.setRotated(false);
                 if (Math.abs(diff) > 0) {
-                    if (photoCropView.rotate(diff)) {
+                    if (keepCrop ? photoCropView.inu_rotateKeepingCrop(diff) : photoCropView.rotate(diff)) {
                         rotateItem.setColorFilter(new PorterDuffColorFilter(getThemedColor(Theme.key_chat_editMediaButton), PorterDuff.Mode.MULTIPLY));
                     } else {
                         rotateItem.setColorFilter(null);
                     }
                 }
-                if (editState.cropState != null) {
+                // keepCrop: don't touch editState.cropState here — it aliases the persistent
+                // entry.cropState, so writing the rotated crop would prematurely commit it and
+                // survive a cancel/system-back. "done" reads the live crop view via makeCrop anyway.
+                if (!keepCrop && editState.cropState != null) {
                     editState.cropState.cropPx = editState.cropState.cropPy = 0;
                     editState.cropState.cropPw = editState.cropState.cropPh = 1;
                 }
@@ -18219,6 +18234,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 return;
             }
             if (currentEditMode == EDIT_MODE_CROP) {
+                if (photoCropView != null) {
+                    photoCropView.cropView.inu_dismissing = true;
+                }
                 cropTransform.setViewTransform(previousHasTransform, previousCropPx, previousCropPy, previousCropRotation, previousCropOrientation, previousCropScale, 1.0f, 1.0f, previousCropPw, previousCropPh, 0, 0, previousCropMirrored);
             }
             if (currentEditMode == EDIT_MODE_STICKER_MASK) {
