@@ -34264,6 +34264,7 @@ public class ChatActivity extends BaseFragment implements
                         }
                     }
                     replyingMessageObject = messageObject;
+                    replyingQuote = null;
                     Bundle args = new Bundle();
                     args.putBoolean("onlySelect", true);
                     args.putInt("dialogsType", DialogsActivity.DIALOGS_TYPE_FORWARD);
