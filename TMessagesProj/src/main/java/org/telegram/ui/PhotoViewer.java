@@ -9708,7 +9708,18 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     private void createVideoControlsInterface() {
+        // setParentActivity rebuilds the view tree when the host activity changes, but
+        // videoPlayerControlVisible (object-scoped) carries over. If it's already false,
+        // setVideoPlayerControlVisible(false) short-circuits and the new frame — born VISIBLE
+        // by View default — is never hidden, leaking a stale-looking seekbar onto photos.
+        if (videoPlayerControlAnimator != null) {
+            videoPlayerControlAnimator.cancel();
+            videoPlayerControlAnimator = null;
+        }
+        videoPlayerControlVisible = false;
         videoPlayerControlFrameLayout = new VideoPlayerControlFrameLayout(containerView.getContext());
+        videoPlayerControlFrameLayout.setVisibility(View.GONE);
+        videoPlayerControlFrameLayout.setAlpha(0f);
         containerView.addView(videoPlayerControlFrameLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.BOTTOM | Gravity.LEFT));
 
         final VideoPlayerSeekBar.SeekBarDelegate seekBarDelegate = new VideoPlayerSeekBar.SeekBarDelegate() {
@@ -11183,6 +11194,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 anim.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
+                        // matches actionBarAnimator's guard — without it, a cancelled hide's
+                        // onAnimationEnd still GONEs a frame that a later show just made VISIBLE.
+                        if (videoPlayerControlAnimator != animation) {
+                            return;
+                        }
+                        videoPlayerControlAnimator = null;
                         if (!visible) {
                             videoPlayerControlFrameLayout.setVisibility(View.GONE);
                         }
