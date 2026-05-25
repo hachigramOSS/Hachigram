@@ -25666,6 +25666,7 @@ public class ChatActivity extends BaseFragment implements
                 if (update == null) {
                     object.replyMessageObject = emptyMessage;
                 } else {
+                    if (object.replyMessageObject != null && object.replyMessageObject.isSpoilersRevealed) update.isSpoilersRevealed = true;
                     object.replyMessageObject = update;
                 }
                 if (chatAdapter != null) {
