@@ -209,6 +209,20 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
             protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
                 final int AT_MOST = MeasureSpec.makeMeasureSpec(99999999, MeasureSpec.AT_MOST);
                 int width = getPaddingLeft() + getPaddingRight() - (int) (recentIsShown || recentTab == null ? 0 : recentTab.getAlpha() * AndroidUtilities.dp(30 + 3)) - (int) (giftsIsShown || giftsTab == null ? 0 : giftsTab.getAlpha() * AndroidUtilities.dp(30 + 3));
+                if (includeAnimated && emojiTabs != null) {
+                    int n = getChildCount();
+                    int usedByOthers = getPaddingLeft() + getPaddingRight()
+                        - (int) (recentIsShown || recentTab == null ? 0 : recentTab.getAlpha() * AndroidUtilities.dp(30 + 3))
+                        - (int) (giftsIsShown || giftsTab == null ? 0 : giftsTab.getAlpha() * AndroidUtilities.dp(30 + 3));
+                    for (int i = 0; i < n; ++i) {
+                        View child = getChildAt(i);
+                        if (child == null || child == emojiTabs) continue;
+                        child.measure(AT_MOST, heightMeasureSpec);
+                        usedByOthers += child.getMeasuredWidth();
+                    }
+                    usedByOthers += Math.max(0, n - 1) * AndroidUtilities.dp(3);
+                    emojiTabs.inu_targetWidth = MeasureSpec.getSize(widthMeasureSpec) - usedByOthers;
+                }
                 for (int i = 0; i < getChildCount(); ++i) {
                     View child = getChildAt(i);
                     if (child != null) {
@@ -1402,6 +1416,7 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
 
     private class EmojiTabsView extends ScrollableHorizontalScrollView {
         public long id;
+        public int inu_targetWidth = 0;
 
         public EmojiTabsView(Context context) {
             super(context);
@@ -1458,6 +1473,13 @@ public class EmojiTabsStrip extends ScrollableHorizontalScrollView {
         }
 
         public int maxWidth() {
+            if (inu_targetWidth > 0) {
+                int stockMax = AndroidUtilities.dp((30 + 2) * Math.min(5.7f, contentView.getChildCount()));
+                if (inu_targetWidth > stockMax) {
+                    int natural = AndroidUtilities.dp((30 + 2) * contentView.getChildCount());
+                    return Math.min(natural, inu_targetWidth);
+                }
+            }
 //            return AndroidUtilities.dp((30 + 2) * (clip() ? Math.min(5.7f, contentView.getChildCount()) : contentView.getChildCount()));
             return AndroidUtilities.dp((30 + 2) * Math.min(5.7f, contentView.getChildCount()));
         }
