@@ -19025,8 +19025,18 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         float w = centerImage.getImageWidth();
         float h = centerImage.getImageHeight();
         if (editState.cropState != null) {
-            w *= editState.cropState.cropPw;
-            h *= editState.cropState.cropPh;
+            if ((currentEditMode == EDIT_MODE_PAINT || currentEditMode == EDIT_MODE_FILTER) && cropTransform.hasViewTransform()) {
+                float bw = centerImage.getBitmapWidth() * editState.cropState.cropPw;
+                float bh = centerImage.getBitmapHeight() * editState.cropState.cropPh;
+                if (bw > 0 && bh > 0) {
+                    float fit = Math.min(getContainerViewWidth() / bw, getContainerViewHeight() / bh);
+                    w = bw * fit;
+                    h = bh * fit;
+                }
+            } else {
+                w *= editState.cropState.cropPw;
+                h *= editState.cropState.cropPh;
+            }
         }
         int maxW = sendPhotoType == SELECT_TYPE_STICKER ? (int) (scale * w) : (int) (w * scale - getContainerViewWidth()) / 2;
         int maxH = sendPhotoType == SELECT_TYPE_STICKER ? (int) (scale * h) : (int) (h * scale - getContainerViewHeight()) / 2;
@@ -20097,8 +20107,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 int trueH = getContainerViewHeight(true, 0);
                 trueH -= photoPaintView.getEmojiPadding(Math.abs(AndroidUtilities.displaySize.y + AndroidUtilities.statusBarHeight - trueH) < dp(20));
                 int h = getContainerViewHeight(false, 0);
-                canvas.translate(0, (trueH - h) / 2f * (1f - photoPaintView.adjustPanLayoutHelperProgress()));
-                centerImageTransform.preTranslate(0, (trueH - h) / 2f * (1f - photoPaintView.adjustPanLayoutHelperProgress()));
+                float extraY = (trueH - h) / 2f * (1f - photoPaintView.adjustPanLayoutHelperProgress());
+                canvas.translate(0, extraY);
+                centerImageTransform.preTranslate(0, extraY);
             }
 
             if (!pipAnimationInProgress && (!drawTextureView || !textureUploaded && !videoSizeSet || !videoCrossfadeStarted || videoCrossfadeAlpha != 1.0f)) {
