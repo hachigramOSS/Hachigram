@@ -811,6 +811,9 @@ public class MessageObject {
         }
         isSpoilersRevealed = old.isSpoilersRevealed;
         isMediaSpoilersRevealed = old.isMediaSpoilersRevealed;
+        expandedQuotes = old.expandedQuotes;
+        expandedExplanation = old.expandedExplanation;
+        factCheckExpanded = old.factCheckExpanded;
         messageOwner.replyStory = old.messageOwner.replyStory;
         if (messageOwner.media != null && old.messageOwner.media != null) {
             messageOwner.media.storyItem = old.messageOwner.media.storyItem;
