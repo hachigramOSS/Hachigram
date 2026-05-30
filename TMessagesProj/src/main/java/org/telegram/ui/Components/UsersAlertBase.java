@@ -522,7 +522,6 @@ public class UsersAlertBase extends BottomSheet {
             if (Build.VERSION.SDK_INT >= 21) {
                 top += AndroidUtilities.statusBarHeight;
                 y += AndroidUtilities.statusBarHeight;
-                height -= AndroidUtilities.statusBarHeight;
 
                 if (top + backgroundPaddingTop + getTranslationY() < AndroidUtilities.statusBarHeight * 2) {
                     int diff = (int) Math.min(AndroidUtilities.statusBarHeight, AndroidUtilities.statusBarHeight * 2 - top - backgroundPaddingTop - getTranslationY());

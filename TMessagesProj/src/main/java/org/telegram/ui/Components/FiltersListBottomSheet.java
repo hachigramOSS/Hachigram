@@ -142,7 +142,6 @@ public class FiltersListBottomSheet extends BottomSheet implements NotificationC
                 int statusBarHeight = 0;
                 float radProgress = 1.0f;
                 top += AndroidUtilities.statusBarHeight;
-                height -= AndroidUtilities.statusBarHeight;
 
                 if (fullHeight) {
                     if (top + backgroundPaddingTop < AndroidUtilities.statusBarHeight * 2) {
