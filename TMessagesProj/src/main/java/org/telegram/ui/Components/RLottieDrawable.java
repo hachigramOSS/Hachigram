@@ -840,6 +840,10 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     }
 
     public final void setLayerColor(String layerName, int color) {
+        if (isSingleChannel) {
+            setColorFilter(new PorterDuffColorFilter(color, PorterDuff.Mode.SRC_IN));
+            return;
+        }
         newColorUpdates.put(layerName, color);
         requestRedrawColors();
     }

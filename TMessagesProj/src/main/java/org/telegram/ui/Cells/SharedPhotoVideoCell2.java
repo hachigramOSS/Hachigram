@@ -181,7 +181,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
 
         viewsText.setCallback(this);
         viewsText.setTextSize(dp(12));
-        viewsText.setTextColor(Color.WHITE);
+        viewsText.setTextColor(sharedResources.inu_mediaTimeTextColor);
         viewsText.setTypeface(AndroidUtilities.bold());
         viewsText.setOverrideFullWidth(AndroidUtilities.displaySize.x);
 
@@ -1234,14 +1234,18 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         Paint highlightPaint = new Paint();
         SparseArray<String> imageFilters = new SparseArray<>();
         private final HashMap<Integer, Bitmap> privacyBitmaps = new HashMap<>();
+        public int inu_mediaTimeTextColor;
 
         public SharedResources(Context context, Theme.ResourcesProvider resourcesProvider) {
+            inu_mediaTimeTextColor = Theme.getColor(Theme.key_chat_mediaTimeText, resourcesProvider);
             textPaint.setTextSize(dp(12));
-            textPaint.setColor(Color.WHITE);
+            textPaint.setColor(inu_mediaTimeTextColor);
             textPaint.setTypeface(AndroidUtilities.bold());
             playDrawable = ContextCompat.getDrawable(context, R.drawable.play_mini_video).mutate();
+            playDrawable.setColorFilter(new PorterDuffColorFilter(inu_mediaTimeTextColor, PorterDuff.Mode.SRC_IN));
             playDrawable.setBounds(0, 0, playDrawable.getIntrinsicWidth(), playDrawable.getIntrinsicHeight());
             viewDrawable = ContextCompat.getDrawable(context, R.drawable.filled_views).mutate();
+            viewDrawable.setColorFilter(new PorterDuffColorFilter(inu_mediaTimeTextColor, PorterDuff.Mode.SRC_IN));
             viewDrawable.setBounds(0, 0, (int) (viewDrawable.getIntrinsicWidth() * .7f), (int) (viewDrawable.getIntrinsicHeight() * .7f));
             backgroundPaint.setColor(Theme.getColor(Theme.key_sharedMedia_photoPlaceholder, resourcesProvider));
         }
