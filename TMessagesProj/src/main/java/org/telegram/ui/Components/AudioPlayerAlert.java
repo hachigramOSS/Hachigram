@@ -1365,6 +1365,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             actionBar.setAlpha(1.0f);
             actionBarBackground.setAlpha(0.0f);
             actionBarSlideProperty.set(actionBar, 0.0f);
+        } else {
+            // menuOccupyBack=true makes the search container lay out at x=0; without
+            // this seed the search field overlaps the back button when search opens.
+            actionBarSlideProperty.set(actionBar, 1.0f);
         }
 
         listAdapter.setup();
