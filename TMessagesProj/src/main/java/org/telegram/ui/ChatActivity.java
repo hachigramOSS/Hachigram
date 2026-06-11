@@ -34638,9 +34638,7 @@ public class ChatActivity extends BaseFragment implements
                 if (selectedObject.isEditing() || selectedObject.isSending() && selectedObjectGroup == null) {
                     getSendMessagesHelper().cancelSendingMessage(selectedObject);
                 } else if (selectedObject.isSending() && selectedObjectGroup != null) {
-                    for (int a = 0; a < selectedObjectGroup.messages.size(); a++) {
-                        getSendMessagesHelper().cancelSendingMessage(new ArrayList<>(selectedObjectGroup.messages));
-                    }
+                    getSendMessagesHelper().cancelSendingMessage(new ArrayList<>(selectedObjectGroup.messages));
                 }
                 break;
             }
