@@ -15835,7 +15835,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
         int prevIndex = currentIndex;
         currentIndex = index;
-        setIsAboutToSwitchToIndex(currentIndex, init, animateCaption);
+        setIsAboutToSwitchToIndex(currentIndex, init, animateCaption, force);
 
         boolean isVideo = false;
         boolean isLivePhoto = false;
@@ -15856,7 +15856,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
             }
             MessageObject newMessageObject = imagesArr.get(currentIndex);
             final boolean noforwards = newMessageObject != null && (MessagesController.getInstance(currentAccount).isPeerNoForwards(newMessageObject.getDialogId()) || (newMessageObject.messageOwner != null && newMessageObject.messageOwner.noforwards) || newMessageObject.hasRevealedExtendedMedia());
-            sameImage = init && currentMessageObject != null && currentMessageObject.getId() == newMessageObject.getId();
+            sameImage = (init || force) && currentMessageObject != null && currentMessageObject.getId() == newMessageObject.getId();
             if (sameImage) {
                 newMessageObject.putInDownloadsStore = currentMessageObject.putInDownloadsStore;
             }
