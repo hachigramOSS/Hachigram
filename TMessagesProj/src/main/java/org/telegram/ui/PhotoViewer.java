@@ -1676,8 +1676,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         }
                     } else {
                         currentBitmap = Bitmaps.createBitmap(videoSurfaceView.getWidth(), videoSurfaceView.getHeight(), Bitmap.Config.ARGB_8888);
-                        AndroidUtilities.getBitmapFromSurface(videoSurfaceView, currentBitmap, () -> {
-                            if (currentBitmap != null) {
+                        AndroidUtilities.getBitmapFromSurface(videoSurfaceView, currentBitmap, success -> {
+                            if (success && currentBitmap != null) {
                                 if (textureImageView != null) {
                                     textureImageView.setVisibility(View.VISIBLE);
                                     textureImageView.setImageBitmap(currentBitmap);
@@ -6665,8 +6665,12 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
                 if (usedSurfaceView) {
                     Bitmap toBitmap = Bitmap.createBitmap(videoSurfaceView.getWidth(), videoSurfaceView.getHeight(), Bitmap.Config.ARGB_8888);
-                    AndroidUtilities.getBitmapFromSurface(videoSurfaceView, toBitmap, () -> {
-                        onFrame.run(toBitmap);
+                    AndroidUtilities.getBitmapFromSurface(videoSurfaceView, toBitmap, success -> {
+                        if (success) {
+                            onFrame.run(toBitmap);
+                        } else {
+                            onFrame.run(SendMessagesHelper.createVideoThumbnailAtTime(entry.path, time, null, true));
+                        }
                     });
                 } else {
                     Bitmap src = videoTextureView.getBitmap(videoTextureView.getWidth(), videoTextureView.getHeight());
@@ -9121,8 +9125,8 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     try {
                         if (usedSurfaceView) {
                             Bitmap toBitmap = Bitmap.createBitmap(bitmap);
-                            AndroidUtilities.getBitmapFromSurface(videoSurfaceView, toBitmap, () -> {
-                                if (animation == null) return;
+                            AndroidUtilities.getBitmapFromSurface(videoSurfaceView, toBitmap, success -> {
+                                if (!success || animation == null) return;
                                 animation.replaceAnimatedBitmap(toBitmap);
                                 animation.invalidateInternal();
                             });
@@ -9212,27 +9216,23 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     Bitmap bitmap = Bitmaps.createBitmap(videoSurfaceView.getWidth(), videoSurfaceView.getHeight(), Bitmap.Config.ARGB_8888);
                     awaitBeforeAnimation = true;
                     final boolean[] started = new boolean[1];
-                    AndroidUtilities.getBitmapFromSurface(videoSurfaceView, bitmap, () -> {
-                        if (textureImageView != null) {
+                    AndroidUtilities.getBitmapFromSurface(videoSurfaceView, bitmap, success -> {
+                        if (started[0]) {
+                            return;
+                        }
+                        // on failed capture keep the live surface and let it animate instead of flashing an empty (red) snapshot
+                        if (success && textureImageView != null) {
                             textureImageView.setImageBitmap(bitmap);
                             textureImageView.setVisibility(View.VISIBLE);
                             if (videoSurfaceView != null) {
                                 videoSurfaceView.setVisibility(View.INVISIBLE);
                             }
-                            if (!started[0]) {
-                                started[0] = true;
-                                start.run();
-                            }
                         }
+                        started[0] = true;
+                        start.run();
                     });
                     AndroidUtilities.runOnUIThread(() -> {
                         if (!started[0]) {
-                            if (textureImageView != null) {
-                                textureImageView.setVisibility(View.VISIBLE);
-                            }
-                            if (videoSurfaceView != null) {
-                                videoSurfaceView.setVisibility(View.INVISIBLE);
-                            }
                             started[0] = true;
                             start.run();
                         }

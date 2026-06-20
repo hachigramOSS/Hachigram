@@ -1076,12 +1076,13 @@ public class AndroidUtilities {
     }
 
     @RequiresApi(api = Build.VERSION_CODES.N)
-    public static void getBitmapFromSurface(SurfaceView surfaceView, Bitmap surfaceBitmap, Runnable done) {
+    public static void getBitmapFromSurface(SurfaceView surfaceView, Bitmap surfaceBitmap, Utilities.Callback<Boolean> done) {
         if (surfaceView == null || ApplicationLoader.applicationHandler == null || !surfaceView.getHolder().getSurface().isValid()) {
+            done.run(false);
             return;
         }
         PixelCopy.request(surfaceView, surfaceBitmap, copyResult -> {
-            done.run();
+            done.run(copyResult == PixelCopy.SUCCESS);
         }, ApplicationLoader.applicationHandler);
     }
 
