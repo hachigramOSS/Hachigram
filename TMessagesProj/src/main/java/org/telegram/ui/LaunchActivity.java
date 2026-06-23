@@ -610,6 +610,23 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         Bundle args = savedInstanceState.getBundle("args");
                         switch (fragmentName) {
                             case "chat":
+                                long inuThreadChat = savedInstanceState.getLong("inu_thread_chat", 0);
+                                if (inuThreadChat != 0) {
+                                    TLRPC.Chat inuChat = MessagesController.getInstance(currentAccount).getChat(inuThreadChat);
+                                    if (inuChat != null) {
+                                        int inuThreadMsg = savedInstanceState.getInt("inu_thread_msg");
+                                        AlertDialog inuLoading = new AlertDialog(this, AlertDialog.ALERT_TYPE_SPINNER);
+                                        inuLoading.setCanCancel(false);
+                                        inuLoading.show();
+                                        runCommentRequest(currentAccount, () -> {
+                                            try {
+                                                inuLoading.dismiss();
+                                            } catch (Exception ignore) {
+                                            }
+                                        }, inuThreadMsg, null, (long) inuThreadMsg, null, inuChat);
+                                        break;
+                                    }
+                                }
                                 if (args != null) {
                                     ChatActivity chat = new ChatActivity(args);
                                     if (actionBarLayout.addFragmentToStack(chat)) {
@@ -8383,6 +8400,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 if (lastFragment instanceof ChatActivity && args != null) {
                     outState.putBundle("args", args);
                     outState.putString("fragment", "chat");
+                    ChatActivity ca = (ChatActivity) lastFragment;
+                    if (ca.isReplyChatComment()) {
+                        outState.putLong("inu_thread_chat", ca.replyOriginalChat.id);
+                        outState.putInt("inu_thread_msg", ca.replyOriginalMessageId);
+                    } else if (ca.isTopic) {
+                        outState.putLong("inu_thread_chat", -ca.getDialogId());
+                        outState.putInt("inu_thread_msg", (int) ca.getTopicId());
+                    }
                 } else if (lastFragment instanceof GroupCreateFinalActivity && args != null) {
                     outState.putBundle("args", args);
                     outState.putString("fragment", "group");
