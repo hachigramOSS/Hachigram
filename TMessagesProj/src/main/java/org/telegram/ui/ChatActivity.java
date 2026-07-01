@@ -3458,6 +3458,7 @@ public class ChatActivity extends BaseFragment implements
     @Override
     public void onFragmentDestroy() {
         super.onFragmentDestroy();
+        ReactionsEffectOverlay.dismissByFragment(this);
         if (messageMetricsView != null) {
             messageMetricsView.finish();
         }
