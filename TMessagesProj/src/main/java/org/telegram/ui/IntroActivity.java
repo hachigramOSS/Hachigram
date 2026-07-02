@@ -128,6 +128,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
     private LocaleController.LocaleInfo localeInfo;
 
     private boolean destroyed;
+    private NotificationCenter.NotificationCenterDelegate switchLanguageDelegate;
 
     private boolean isOnLogout;
 
@@ -408,20 +409,22 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             loaderDialog.setCanCancel(false);
             loaderDialog.showDelayed(1000);
 
-            NotificationCenter.getGlobalInstance().addObserver(new NotificationCenter.NotificationCenterDelegate() {
+            switchLanguageDelegate = new NotificationCenter.NotificationCenterDelegate() {
                 @Override
                 public void didReceivedNotification(int id, int account, Object... args) {
                     if (id == NotificationCenter.reloadInterface) {
                         loaderDialog.dismiss();
 
                         NotificationCenter.getGlobalInstance().removeObserver(this, id);
+                        switchLanguageDelegate = null;
                         AndroidUtilities.runOnUIThread(()->{
                             presentFragment(new LoginActivity().setIntroView(frameContainerView, startMessagingButton), true);
                             destroyed = true;
                         }, 100);
                     }
                 }
-            }, NotificationCenter.reloadInterface);
+            };
+            NotificationCenter.getGlobalInstance().addObserver(switchLanguageDelegate, NotificationCenter.reloadInterface);
             LocaleController.getInstance().applyLanguage(localeInfo, true, false, currentAccount);
         });
 
@@ -476,6 +479,10 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
         AndroidUtilities.cancelRunOnUIThread(reloadGlTexturesRunnable);
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.suggestedLangpack);
         NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.configLoaded);
+        if (switchLanguageDelegate != null) {
+            NotificationCenter.getGlobalInstance().removeObserver(switchLanguageDelegate, NotificationCenter.reloadInterface);
+            switchLanguageDelegate = null;
+        }
         MessagesController.getGlobalMainSettings().edit().putLong("intro_crashed_time", 0).apply();
     }
 
