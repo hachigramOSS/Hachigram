@@ -13386,7 +13386,7 @@ public class ChatActivity extends BaseFragment implements
         }
     }
 
-    private void createChatAttachView() {
+    public void createChatAttachView() {
         if (getParentActivity() == null || getContext() == null) {
             return;
         }

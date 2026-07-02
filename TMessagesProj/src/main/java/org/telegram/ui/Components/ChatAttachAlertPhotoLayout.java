@@ -198,8 +198,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private TextView tooltipTextView;
     private ImageView switchCameraButton;
     private boolean takingPhoto;
-    private static boolean mediaFromExternalCamera;
-    private static ArrayList<Object> cameraPhotos = new ArrayList<>();
+    public static boolean mediaFromExternalCamera;
+    public static ArrayList<Object> cameraPhotos = new ArrayList<>();
+    public static int inu_openIndex = -1;
     public static HashMap<Object, Object> selectedPhotos = new HashMap<>();
     public static ArrayList<Object> selectedPhotosOrder = new ArrayList<>();
     public static int lastImageId = -1;
@@ -2280,7 +2281,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         AndroidUtilities.unlockOrientation(AndroidUtilities.findActivity(getContext()));
     }
 
-    protected void openPhotoViewer(MediaController.PhotoEntry entry, final boolean sameTakePictureOrientation, boolean external) {
+    public void openPhotoViewer(MediaController.PhotoEntry entry, final boolean sameTakePictureOrientation, boolean external) {
+        final int inuOpenIndex = inu_openIndex;
+        inu_openIndex = -1;
         if (entry != null) {
             cameraPhotos.add(entry);
             selectedPhotos.put(entry.imageId, entry);
@@ -2346,6 +2349,9 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         } else {
             arrayList = getAllPhotosArray();
             index = cameraPhotos.size() - 1;
+        }
+        if (inuOpenIndex >= 0) {
+            index = inuOpenIndex;
         }
         if (parentAlert.getAvatarFor() != null && entry != null) {
             parentAlert.getAvatarFor().isVideo = entry.isVideo;
