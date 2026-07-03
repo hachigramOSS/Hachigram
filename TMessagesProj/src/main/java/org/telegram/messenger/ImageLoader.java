@@ -1301,9 +1301,9 @@ public class ImageLoader {
                             opts.inJustDecodeBounds = false;
                             if (scaleFactor > 1.0f && (photoW > w_filter || photoH > h_filter)) {
                                 int sample = 1;
-                                do {
+                                while (sample * 2 <= scaleFactor) {
                                     sample *= 2;
-                                } while (sample * 2 < scaleFactor);
+                                }
                                 opts.inSampleSize = sample;
                             } else {
                                 opts.inSampleSize = (int) scaleFactor;
