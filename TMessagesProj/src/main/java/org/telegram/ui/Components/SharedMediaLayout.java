@@ -1556,6 +1556,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     private boolean maybeStartTracking;
     private int startedTrackingX;
     private int startedTrackingY;
+    private float inu_additionalOffset;
     private VelocityTracker velocityTracker;
 
     protected boolean isActionModeShowed;
@@ -5648,7 +5649,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         maybeStartTracking = false;
         startedTracking = true;
         onTabScroll(true);
-        startedTrackingX = (int) ev.getX();
+        startedTrackingX = (int) (ev.getX() + inu_additionalOffset);
         actionBar.setEnabled(false);
         scrollSlidingTextTabStrip.setEnabled(false);
         mediaPages[1].selectedType = id;
@@ -5782,10 +5783,56 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
     private boolean disableScrolling;
 
-    @Override
+    private void inu_swapMediaPages() {
+        MediaPage tempPage = mediaPages[0];
+        mediaPages[0] = mediaPages[1];
+        mediaPages[1] = tempPage;
+        selectTabWithId(mediaPages[0].selectedType, 1.0f);
+    }
+
     public boolean onTouchEvent(MotionEvent ev) {
         if (disableScrolling) {
             return false;
+        }
+        if (ev != null && ev.getAction() == MotionEvent.ACTION_DOWN && tabsAnimationInProgress
+                && !isInPinchToZoomTouchMode
+                && (profileActivity.getParentLayout() == null || !profileActivity.getParentLayout().checkTransitionAnimation())
+                && ev.getY() >= dp(48 + 42)) {
+            if (velocityTracker == null) {
+                velocityTracker = VelocityTracker.obtain();
+            } else {
+                velocityTracker.clear();
+            }
+            velocityTracker.addMovement(ev);
+            startedTracking = true;
+            startedTrackingPointerId = ev.getPointerId(0);
+            startedTrackingX = (int) ev.getX();
+            startedTrackingY = (int) ev.getY();
+            if (animatingForward) {
+                if (startedTrackingX < mediaPages[0].getMeasuredWidth() + mediaPages[0].getTranslationX()) {
+                    inu_additionalOffset = mediaPages[0].getTranslationX();
+                } else {
+                    inu_swapMediaPages();
+                    animatingForward = false;
+                    inu_additionalOffset = mediaPages[0].getTranslationX();
+                }
+            } else {
+                if (startedTrackingX < mediaPages[1].getMeasuredWidth() + mediaPages[1].getTranslationX()) {
+                    inu_swapMediaPages();
+                    animatingForward = true;
+                    inu_additionalOffset = mediaPages[0].getTranslationX();
+                } else {
+                    inu_additionalOffset = mediaPages[0].getTranslationX();
+                }
+            }
+            if (tabsAnimation != null) {
+                tabsAnimation.removeAllListeners();
+                tabsAnimation.cancel();
+                tabsAnimation = null;
+            }
+            tabsAnimationInProgress = false;
+            getParent().requestDisallowInterceptTouchEvent(true);
+            return true;
         }
         if (profileActivity.getParentLayout() != null && !profileActivity.getParentLayout().checkTransitionAnimation() && !checkTabsAnimationInProgress() && !isInPinchToZoomTouchMode) {
             if (ev != null) {
@@ -5799,13 +5846,14 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 }
             }
             if (ev != null && ev.getAction() == MotionEvent.ACTION_DOWN && !startedTracking && !maybeStartTracking && ev.getY() >= dp(48 + 42)) {
+                inu_additionalOffset = 0;
                 startedTrackingPointerId = ev.getPointerId(0);
                 maybeStartTracking = true;
                 startedTrackingX = (int) ev.getX();
                 startedTrackingY = (int) ev.getY();
                 velocityTracker.clear();
             } else if (ev != null && ev.getAction() == MotionEvent.ACTION_MOVE && ev.getPointerId(0) == startedTrackingPointerId) {
-                int dx = (int) (ev.getX() - startedTrackingX);
+                int dx = (int) (ev.getX() - startedTrackingX + inu_additionalOffset);
                 int dy = Math.abs((int) ev.getY() - startedTrackingY);
                 if (startedTracking && (animatingForward && dx > 0 || !animatingForward && dx < 0)) {
                     if (!prepareForMoving(ev, dx < 0)) {
@@ -5816,6 +5864,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         mediaPages[1].setTranslationX(animatingForward ? mediaPages[0].getMeasuredWidth() : -mediaPages[0].getMeasuredWidth());
                         selectTabWithId(mediaPages[1].selectedType, 0);
                         onTabProgress(getTabProgress());
+                        if (inu_additionalOffset != 0) {
+                            inu_additionalOffset = 0;
+                            getParent().requestDisallowInterceptTouchEvent(false);
+                        }
                     }
                 }
                 if (maybeStartTracking && !startedTracking) {
@@ -5881,7 +5933,17 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (startedTracking) {
             float x = mediaPages[0].getX();
             tabsAnimation = new AnimatorSet();
-            backAnimation = Math.abs(x) < mediaPages[0].getMeasuredWidth() / 3.0f && (Math.abs(velX) < 3500 || Math.abs(velX) < Math.abs(velY));
+            if (inu_additionalOffset != 0) {
+                if (Math.abs(velX) > 1500) {
+                    backAnimation = animatingForward ? velX > 0 : velX < 0;
+                } else if (animatingForward) {
+                    backAnimation = mediaPages[1].getX() > (mediaPages[0].getMeasuredWidth() >> 1);
+                } else {
+                    backAnimation = mediaPages[0].getX() < (mediaPages[0].getMeasuredWidth() >> 1);
+                }
+            } else {
+                backAnimation = Math.abs(x) < mediaPages[0].getMeasuredWidth() / 3.0f && (Math.abs(velX) < 3500 || Math.abs(velX) < Math.abs(velY));
+            }
             float dx;
             ValueAnimator invalidate = ValueAnimator.ofFloat(0, 1);
             invalidate.addUpdateListener(anm -> onTabProgress(getTabProgress()));
