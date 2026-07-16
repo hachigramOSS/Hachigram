@@ -1381,6 +1381,7 @@ public class StoriesController {
             int maxStoryReadId = Math.max(dialogIdToMaxReadId.get(dialogId, 0), maxStoryId);
             dialogIdToMaxReadId.put(dialogId, maxStoryReadId);
             storiesStorage.updateMaxReadId(dialogId, maxStoryReadId);
+            NotificationsController.getInstance(currentAccount).processReadStories(dialogId, maxStoryReadId);
             TL_stories.PeerStories userStories = getStories(dialogId);
             if (userStories == null) {
                 return;

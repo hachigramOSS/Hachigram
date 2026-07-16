@@ -404,6 +404,7 @@ public class PushListenerController {
                                 update.max_id = max_id;
                                 updates.add(update);
                             }
+                            MessagesStorage.getInstance(accountFinal).inu_deletePushMessagesUpTo(dialogId, max_id);
                             MessagesController.getInstance(accountFinal).processUpdateArray(updates, null, null, false, 0);
                         } else if ("READ_STORIES".equals(loc_key)) {
                             int maxId = custom.getInt("max_id");
