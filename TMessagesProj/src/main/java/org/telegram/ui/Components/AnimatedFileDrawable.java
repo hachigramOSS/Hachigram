@@ -1245,7 +1245,6 @@ public final class AnimatedFileDrawable extends BitmapDrawable implements Animat
         if (cacheGenerateDecoder == null) {
             return -1;
         }
-        Canvas canvas = new Canvas(bitmap);
         if (generatingCacheBitmap == null) {
             generatingCacheBitmap = Bitmap.createBitmap(metaData[0], metaData[1], Bitmap.Config.ARGB_8888);
         }
@@ -1260,12 +1259,7 @@ public final class AnimatedFileDrawable extends BitmapDrawable implements Animat
             }
         }
         lastMetadata = metaData[3];
-        bitmap.eraseColor(Color.TRANSPARENT);
-        canvas.save();
-        float s = (float) renderingWidth / generatingCacheBitmap.getWidth();
-        canvas.scale(s, s);
-        canvas.drawBitmap(generatingCacheBitmap, 0, 0, null);
-        canvas.restore();
+        inu_drawGeneratedFrame(bitmap);
         cacheGenerateTimestamp = metaData[3];
         return 1;
     }
@@ -1275,8 +1269,6 @@ public final class AnimatedFileDrawable extends BitmapDrawable implements Animat
         if (bitmap == null) {
             bitmap = Bitmap.createBitmap(renderingWidth, renderingHeight, Bitmap.Config.ARGB_8888);
         }
-        Canvas canvas = new Canvas(bitmap);
-
         AnimatedFileNative tempDecoder = AnimatedFileNative.createDecoderFrom(path.getAbsolutePath(), metaData, currentAccount, streamFileSize, stream, false);
         if (tempDecoder == null) {
             return bitmap;
@@ -1286,14 +1278,25 @@ public final class AnimatedFileDrawable extends BitmapDrawable implements Animat
         }
         tempDecoder.getVideoFrame(generatingCacheBitmap, false, startTime, endTime, true);
         tempDecoder.recycle();
+        inu_drawGeneratedFrame(bitmap);
+
+        return bitmap;
+    }
+
+    private void inu_drawGeneratedFrame(Bitmap bitmap) {
+        int srcW = generatingCacheBitmap.getWidth();
+        int srcH = generatingCacheBitmap.getHeight();
+        if (srcW <= 0 || srcH <= 0) {
+            return;
+        }
         bitmap.eraseColor(Color.TRANSPARENT);
+        Canvas canvas = new Canvas(bitmap);
         canvas.save();
-        float s = (float) renderingWidth / generatingCacheBitmap.getWidth();
+        float s = Math.min((float) bitmap.getWidth() / srcW, (float) bitmap.getHeight() / srcH);
+        canvas.translate((bitmap.getWidth() - srcW * s) / 2f, (bitmap.getHeight() - srcH * s) / 2f);
         canvas.scale(s, s);
         canvas.drawBitmap(generatingCacheBitmap, 0, 0, null);
         canvas.restore();
-
-        return bitmap;
     }
 
     private boolean canLoadFrames() {
