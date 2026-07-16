@@ -387,6 +387,9 @@ public class ImageLocation {
         imageLocation.stickerSet = stickerSet;
         if (location instanceof TLRPC.TL_fileLocationToBeDeprecated) {
             imageLocation.location = (TLRPC.TL_fileLocationToBeDeprecated) location;
+            if (imageLocation.location.dc_id == 0) {
+                imageLocation.location.dc_id = dc_id;
+            }
             if (photo != null) {
                 imageLocation.file_reference = photo.file_reference;
                 imageLocation.access_hash = photo.access_hash;
