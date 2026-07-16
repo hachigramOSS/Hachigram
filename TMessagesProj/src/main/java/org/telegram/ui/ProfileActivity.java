@@ -13798,8 +13798,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         }
                         detailCell.setTextAndValue(text, LocaleController.getString(isFragmentPhoneNumber ? R.string.AnonymousNumber : R.string.PhoneMobile), false);
                     } else if (position == noteRow) {
-                        final TLRPC.UserFull userInfo = getMessagesController().getUserFull(userId);
-                        if (userInfo == null) return;
+                        if (userInfo == null || userInfo.note == null) return;
                         TLRPC.TL_textWithEntities note = userInfo.note;
                         CharSequence text;
                         if (!UserConfig.getInstance(currentAccount).isPremium()) {
@@ -16541,8 +16540,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         final ItemOptions o = ItemOptions.makeOptions(this, view);
         o.setScrimViewBackground(listView.getClipBackground(view));
         o.setLongPressSelectionEnabled(false);
-        o.addIf(userInfo != null, R.drawable.msg_copy, getString(R.string.Copy), () -> {
-            if (userInfo == null) return;
+        o.addIf(userInfo != null && userInfo.note != null, R.drawable.msg_copy, getString(R.string.Copy), () -> {
+            if (userInfo == null || userInfo.note == null) return;
             final CharSequence text = MessageObject.formatTextWithEntities(userInfo.note, false);
             AndroidUtilities.addToClipboard(text);
             BulletinFactory.of(ProfileActivity.this)
@@ -16560,11 +16559,15 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 .setTitle(getString(R.string.ProfileNotesRemoveTitle))
                 .setMessage(getString(R.string.ProfileNotesRemoveText))
                 .setPositiveButton(getString(R.string.Delete), (di, w) -> {
-                    final TLRPC.UserFull userInfo = getMessagesController().getUserFull(userId);
+                    final TLRPC.UserFull cachedUserInfo = getMessagesController().getUserFull(userId);
+                    if (cachedUserInfo != null) {
+                        cachedUserInfo.flags2 &=~ TLObject.FLAG_22;
+                        cachedUserInfo.note = null;
+                        getMessagesStorage().updateUserInfo(cachedUserInfo, true);
+                    }
                     if (userInfo != null) {
                         userInfo.flags2 &=~ TLObject.FLAG_22;
                         userInfo.note = null;
-                        getMessagesStorage().updateUserInfo(userInfo, true);
                     }
 
                     final TLRPC.TL_updateContactNote req = new TLRPC.TL_updateContactNote();
