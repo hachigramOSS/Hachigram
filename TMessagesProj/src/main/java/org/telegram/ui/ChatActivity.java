@@ -23636,6 +23636,7 @@ public class ChatActivity extends BaseFragment implements
                 }
                 boolean mediaUpdated = false;
                 boolean updatedForward = false;
+                boolean inu_fwdBecameHidden = false;
                 if (newMsgObj != null) {
                     try {
                         updatedForward = obj.isForwarded() && (obj.messageOwner.reply_markup == null && newMsgObj.reply_markup != null || !obj.messageOwner.message.equals(newMsgObj.message));
@@ -23656,8 +23657,8 @@ public class ChatActivity extends BaseFragment implements
                     TLRPC.MessageFwdHeader fwdHeader = obj.messageOwner.fwd_from;
                     obj.messageOwner = newMsgObj;
                     if (fwdHeader != null && newMsgObj.fwd_from != null && !TextUtils.isEmpty(newMsgObj.fwd_from.from_name)) {
-                        obj.messageOwner.fwd_from = fwdHeader;
                         obj.isOutOwnerCached = null;
+                        inu_fwdBecameHidden = fwdHeader.from_id != null;
                     }
                     obj.generateThumbs(true);
                     obj.setType();
@@ -23673,7 +23674,7 @@ public class ChatActivity extends BaseFragment implements
                 messagesDict[0].put(newMsgId, obj);
                 obj.messageOwner.id = newMsgId;
                 obj.messageOwner.send_state = MessageObject.MESSAGE_SEND_STATE_SENT;
-                obj.forceUpdate = mediaUpdated;
+                obj.forceUpdate = mediaUpdated || inu_fwdBecameHidden;
                 obj.onWidgetMessageSent(msgId);
                 addReplyMessageOwner(obj, msgId);
                 if (args.length >= 6) {

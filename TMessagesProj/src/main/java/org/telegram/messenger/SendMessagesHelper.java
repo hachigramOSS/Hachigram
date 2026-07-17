@@ -2440,7 +2440,17 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         newMsg.fwd_from = new TLRPC.TL_messageFwdHeader();
                         newMsg.fwd_from.channel_post = msgObj.getId();
                         newMsg.fwd_from.flags |= 4;
-                        if (msgObj.isFromUser()) {
+                        String inu_privateForwardName = null;
+                        if (msgObj.isFromUser() && msgObj.messageOwner.from_id.user_id != 0) {
+                            TLRPC.UserFull inu_userFull = getMessagesController().getUserFull(msgObj.messageOwner.from_id.user_id);
+                            if (inu_userFull != null && !TextUtils.isEmpty(inu_userFull.private_forward_name)) {
+                                inu_privateForwardName = inu_userFull.private_forward_name;
+                            }
+                        }
+                        if (inu_privateForwardName != null) {
+                            newMsg.fwd_from.from_name = inu_privateForwardName;
+                            newMsg.fwd_from.flags |= 32;
+                        } else if (msgObj.isFromUser()) {
                             newMsg.fwd_from.from_id = msgObj.messageOwner.from_id;
                             newMsg.fwd_from.flags |= 1;
                         } else {
