@@ -106,6 +106,12 @@ public class WindowInsetsStateHolder implements WindowInsetsProvider, WindowInse
         final Insets inputInsets = Insets.max(imeInsets, inAppInsets);
         final Insets maxInsets = Insets.max(systemInsets, inputInsets);
 
+        inu_prevInputBottomInset = inu_lastInputBottomInset;
+        inu_lastInputBottomInset = inputInsets.bottom;
+        if (inputInsets.bottom > 0) {
+            inu_ignoreAnimatedIme = false;
+        }
+
         if (animated) {
             final boolean changed = keyboardVisibility.differs(inputInsets.bottom > 0 ? 1f : 0f)
                 || insetsMaxRect.differs(maxInsets.left, maxInsets.top, maxInsets.right, maxInsets.bottom)
@@ -166,7 +172,7 @@ public class WindowInsetsStateHolder implements WindowInsetsProvider, WindowInse
 
     @Override
     public float getAnimatedMaxBottomInset() {
-        if (animatedInsetsProvider != null && activeAnimations > 0) {
+        if (inu_shouldUseAnimatedIme()) {
             return Math.max(animatedImeInset, insetsMaxRect.getBottom());
         }
 
@@ -175,16 +181,22 @@ public class WindowInsetsStateHolder implements WindowInsetsProvider, WindowInse
 
     @Override
     public int getCurrentMaxBottomInset() {
-        if (animatedInsetsProvider != null && activeAnimations > 0) {
-            return Math.max(animatedImeInset, Math.max(getInsets(WindowInsetsCompat.Type.ime() | WindowInsetsCompat.Type.systemBars()).bottom, inAppKeyboardHeight));
+        if (inu_shouldUseAnimatedIme()) {
+            return Math.max(animatedImeInset, inu_getTargetMaxBottomInset());
         }
 
+        return inu_getTargetMaxBottomInset();
+    }
+
+    // Where the bottom inset will settle once any running IME animation finishes, as opposed to
+    // getCurrentMaxBottomInset() which reports the in-flight value while one is running.
+    public int inu_getTargetMaxBottomInset() {
         return Math.max(getInsets(WindowInsetsCompat.Type.ime() | WindowInsetsCompat.Type.systemBars()).bottom, inAppKeyboardHeight);
     }
 
     @Override
     public float getAnimatedImeBottomInset() {
-        if (animatedInsetsProvider != null && activeAnimations > 0) {
+        if (inu_shouldUseAnimatedIme()) {
             return Math.max(animatedImeInset, insetsImeRect.getBottom());
         }
 
@@ -255,6 +267,17 @@ public class WindowInsetsStateHolder implements WindowInsetsProvider, WindowInse
     private @Nullable View animatedInsetsProviderTarget;
     private int animatedImeInset;
 
+    // animatedImeInset comes from the app-wide provider, so it also reports IME animations
+    // belonging to other holders (e.g. a fragment presented while the previous one's keyboard
+    // is still closing). Such a holder must not follow that animation: it never had the IME.
+    private boolean inu_ignoreAnimatedIme;
+    private int inu_lastInputBottomInset;
+    private int inu_prevInputBottomInset;
+
+    private boolean inu_shouldUseAnimatedIme() {
+        return animatedInsetsProvider != null && activeAnimations > 0 && !inu_ignoreAnimatedIme;
+    }
+
     public void setupAnimatedInsetsProvider(WindowAnimatedInsetsProvider provider, View target) {
         animatedInsetsProvider = provider;
         animatedInsetsProviderTarget = target;
@@ -276,6 +299,9 @@ public class WindowInsetsStateHolder implements WindowInsetsProvider, WindowInse
 
     @Override
     public void onAnimatedInsetsStarted() {
+        if (activeAnimations == 0) {
+            inu_ignoreAnimatedIme = inu_lastInputBottomInset == 0 && inu_prevInputBottomInset == 0;
+        }
         activeAnimations++;
     }
 
@@ -285,6 +311,7 @@ public class WindowInsetsStateHolder implements WindowInsetsProvider, WindowInse
             animatedInsetsProviderTarget.postOnAnimation(() -> {
                 activeAnimations--;
                 if (activeAnimations == 0) {
+                    inu_ignoreAnimatedIme = false;
                     setInsets(WindowAnimatedInsetsProvider.calculateWindowInsets(animatedInsetsProviderTarget), false);
                 }
             });

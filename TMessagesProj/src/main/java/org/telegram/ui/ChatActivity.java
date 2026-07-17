@@ -1316,6 +1316,7 @@ public class ChatActivity extends BaseFragment implements
         }
     };
     private int chatEmojiViewPadding;
+    private int inu_inputBottomInset;
     private int fixedKeyboardHeight = -1;
     private Runnable cancelFixedPositionRunnable;
     private boolean invalidateMessagesVisiblePart;
@@ -18651,8 +18652,7 @@ public class ChatActivity extends BaseFragment implements
             if (actionBar.getVisibility() == VISIBLE) {
                 heightSize -= actionBarHeight;
             }
-            int keyboardHeightOld = keyboardHeight + chatEmojiViewPadding;
-            boolean keyboardVisibleOld = keyboardHeight + chatEmojiViewPadding >= AndroidUtilities.dp(20);
+            boolean keyboardVisibleOld = inu_inputBottomInset >= AndroidUtilities.dp(20);
             if (lastHeight != allHeight) {
                 measureKeyboardHeight();
             }
@@ -18668,7 +18668,11 @@ public class ChatActivity extends BaseFragment implements
             }
             setEmojiKeyboardHeight(chatEmojiViewPadding);
 
-            boolean keyboardVisible = keyboardHeight + chatEmojiViewPadding >= AndroidUtilities.dp(20);
+            inu_inputBottomInset = Math.max(
+                windowInsetsStateHolder.getInsets(WindowInsetsCompat.Type.ime()).bottom,
+                windowInsetsStateHolder.getInAppKeyboardHeight()
+            );
+            boolean keyboardVisible = inu_inputBottomInset >= AndroidUtilities.dp(20);
             boolean waitingChatListItemAnimator = false;
             if (MediaController.getInstance().getPlayingMessageObject() != null && MediaController.getInstance().getPlayingMessageObject().isRoundVideo() && keyboardVisibleOld != keyboardVisible) {
                 for (int i = 0; i < chatListView.getChildCount(); i++) {
@@ -18679,7 +18683,16 @@ public class ChatActivity extends BaseFragment implements
                         if (messageObject.isRoundVideo() && MediaController.getInstance().isPlayingMessage(messageObject)) {
                             int p = chatListView.getChildAdapterPosition(child);
                             if (p >= 0) {
-                                chatLayoutManager.scrollToPositionWithOffset(p, (int) ((chatListView.getMeasuredHeight() - chatListViewPaddingTop - blurredViewBottomOffset + (keyboardHeight + chatEmojiViewPadding - keyboardHeightOld) - (keyboardVisible ? AndroidUtilities.roundMessageSize : AndroidUtilities.roundPlayingMessageSize(isSideMenued()))) / 2), false);
+                                // the bottom padding is still mid-animation here and the list content
+                                // follows it 1:1, so aim at where the cell should end up and undo the
+                                // slide that is still to come.
+                                final float inu_targetPaddingBottom = chatListView.getPaddingBottom()
+                                    - windowInsetsStateHolder.getAnimatedMaxBottomInset()
+                                    + windowInsetsStateHolder.inu_getTargetMaxBottomInset();
+                                final int inu_roundSize = keyboardVisible ? AndroidUtilities.roundMessageSize : AndroidUtilities.roundPlayingMessageSize(isSideMenued());
+                                final float inu_targetCellTop = (chatListViewPaddingTop + chatListView.getMeasuredHeight() - inu_targetPaddingBottom) / 2 - inu_roundSize / 2f;
+                                int inu_offset = (int) (inu_targetCellTop + inu_targetPaddingBottom - chatListView.getPaddingBottom() - chatListViewPaddingTop);
+                                chatLayoutManager.scrollToPositionWithOffset(p, inu_offset, false);
                                 chatAdapter.notifyItemChanged(p);
                                 adjustPanLayoutHelper.delayAnimation();
                                 waitingChatListItemAnimator = true;
@@ -21745,6 +21758,26 @@ public class ChatActivity extends BaseFragment implements
                     createUnreadMessageAfterId = 0;
                     if (!universalNotify && !chatAdapter.isFiltered) {
                         chatAdapter.notifyItemRemoved(chatAdapter.loadingDownRow);
+                        int top = 0;
+                        MessageObject scrollToMessageObject = null;
+                        for (int i = 0; i < chatListView.getChildCount(); i++) {
+                            View v = chatListView.getChildAt(i);
+                            if (v instanceof ChatMessageCell) {
+                                scrollToMessageObject = ((ChatMessageCell) v).getMessageObject();
+                                top = getScrollingOffsetForView(v);
+                                break;
+                            } else if (v instanceof ChatActionCell) {
+                                scrollToMessageObject = ((ChatActionCell) v).getMessageObject();
+                                top = getScrollingOffsetForView(v);
+                                break;
+                            }
+                        }
+                        if (scrollToMessageObject != null) {
+                            int scrollToIndex = messages.indexOf(scrollToMessageObject);
+                            if (scrollToIndex >= 0) {
+                                chatLayoutManager.scrollToPositionWithOffset(chatAdapter.messagesStartRow + scrollToIndex, top);
+                            }
+                        }
                     }
                 }
                 startLoadFromMessageId = 0;
@@ -23251,7 +23284,7 @@ public class ChatActivity extends BaseFragment implements
                                 if (MediaController.getInstance().isPlayingMessage(messageObject1)) {
                                     boolean keyboardIsVisible = contentView.getKeyboardHeight() >= AndroidUtilities.dp(20);
                                     float topPadding = chatListViewPaddingTop - (contentPanTranslation);
-                                    int offset = (int) ((chatListView.getMeasuredHeight() - topPadding - blurredViewBottomOffset) / 2 - (cell.reactionsLayoutInBubble == null ? 0 : cell.reactionsLayoutInBubble.totalHeight));
+                                    int offset = (int) ((chatListView.getMeasuredHeight() - topPadding - chatListView.getPaddingBottom()) / 2 - (cell.reactionsLayoutInBubble == null ? 0 : cell.reactionsLayoutInBubble.totalHeight));
                                     if (messageObject1.type != MessageObject.TYPE_ROUND_VIDEO) {
                                         offset -= cell.getPhotoImage().getImageY();
                                     } else {
