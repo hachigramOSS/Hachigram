@@ -10615,6 +10615,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                     }
                 };
                 videoPlayer.setOnQualityChangeListener(this::updateQualityItems);
+                videoPlayer.handleAudioFocus(SharedConfig.pauseMusicOnMedia && currentMessageObject != null && currentMessageObject.isVideo());
                 if (PipUtils.checkPermissions(parentActivity) == PipPermissions.PIP_GRANTED_PIP) {
                     pipSource = new PipSource.Builder(parentActivity, this)
                         .setTagPrefix("photo-viewer-" + videoPlayer.playerId)

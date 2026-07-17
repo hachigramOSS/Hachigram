@@ -271,6 +271,12 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
             }
             player = builder.build();
 
+            if (handleAudioFocus) {
+                if (player instanceof com.google.android.exoplayer2.ExoPlayerImpl) {
+                    ((com.google.android.exoplayer2.ExoPlayerImpl) player).inu_setTransientAudioFocus(true);
+                }
+                player.setAudioAttributes(player.getAudioAttributes(), true);
+            }
             player.addAnalyticsListener(this);
             player.addListener(this);
             player.addVideoListener(this);
@@ -1627,6 +1633,9 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     public void handleAudioFocus(boolean handleAudioFocus) {
         this.handleAudioFocus = handleAudioFocus;
         if (player != null) {
+            if (handleAudioFocus && player instanceof com.google.android.exoplayer2.ExoPlayerImpl) {
+                ((com.google.android.exoplayer2.ExoPlayerImpl) player).inu_setTransientAudioFocus(true);
+            }
             player.setAudioAttributes(player.getAudioAttributes(), handleAudioFocus);
         }
     }
