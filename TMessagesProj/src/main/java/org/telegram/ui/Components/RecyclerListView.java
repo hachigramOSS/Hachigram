@@ -1243,6 +1243,9 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                     final int count = viewGroup.getChildCount();
                     for (int i = count - 1; i >= 0; i--) {
                         final View child = viewGroup.getChildAt(i);
+                        if (child.getVisibility() != VISIBLE) {
+                            continue;
+                        }
                         if (x >= child.getLeft() && x <= child.getRight() && y >= child.getTop() && y <= child.getBottom()) {
                             if (child.isClickable()) {
                                 // todo: recursion search ???
