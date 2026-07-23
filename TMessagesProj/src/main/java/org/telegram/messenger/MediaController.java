@@ -5496,7 +5496,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                     Uri uri;
                     boolean result = true;
                     if (Build.VERSION.SDK_INT >= 29) {
-                        uri = saveFileInternal(type, sourceFile, null);
+                        uri = saveFileInternal(type, sourceFile, name);
                         result = uri != null;
                     } else {
                         File destFile;
