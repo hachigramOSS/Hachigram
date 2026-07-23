@@ -309,7 +309,7 @@ public class WindowInsetsStateHolder implements WindowInsetsProvider, WindowInse
     public void onAnimatedInsetsFinished() {
         if (animatedInsetsProviderTarget != null) {
             animatedInsetsProviderTarget.postOnAnimation(() -> {
-                activeAnimations--;
+                activeAnimations = Math.max(0, activeAnimations - 1);
                 if (activeAnimations == 0) {
                     inu_ignoreAnimatedIme = false;
                     setInsets(WindowAnimatedInsetsProvider.calculateWindowInsets(animatedInsetsProviderTarget), false);
