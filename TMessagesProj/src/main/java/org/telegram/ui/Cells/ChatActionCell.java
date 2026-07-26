@@ -3485,16 +3485,11 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
 
         int oldAlpha = -1;
         int oldAlpha2 = -1;
-        if (fromParent && (getAlpha() != 1f || isFloating())) {
+        if (fromParent && getAlpha() != 1f) {
             oldAlpha = backgroundPaint.getAlpha();
             oldAlpha2 = darkenBackgroundPaint.getAlpha();
-            backgroundPaint.setAlpha((int) (oldAlpha * getAlpha() * (isFloating() ? .75f : 1f)));
-            darkenBackgroundPaint.setAlpha((int) (oldAlpha2 * getAlpha() * (isFloating() ? .75f : 1f)));
-        } else if (isFloating()) {
-            oldAlpha = backgroundPaint.getAlpha();
-            oldAlpha2 = darkenBackgroundPaint.getAlpha();
-            backgroundPaint.setAlpha((int) (oldAlpha * (isFloating() ? .75f : 1f)));
-            darkenBackgroundPaint.setAlpha((int) (oldAlpha2 * (isFloating() ? .75f : 1f)));
+            backgroundPaint.setAlpha((int) (oldAlpha * getAlpha()));
+            darkenBackgroundPaint.setAlpha((int) (oldAlpha2 * getAlpha()));
         }
         if (currentMessageObject == null || !currentMessageObject.isRepostPreview) {
             canvas.drawPath(backgroundPath, backgroundPaint);

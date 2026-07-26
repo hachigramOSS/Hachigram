@@ -7331,7 +7331,6 @@ public class ChatActivity extends BaseFragment implements
             protected void onDraw(Canvas canvas) {
                 if (scrimBlurBitmap != null) return;
                 float clipTop = chatListView.getY() + chatListViewPaddingTop - getY();
-                clipTop -= AndroidUtilities.dp(4);
                 if (clipTop > 0) {
                     if (clipTop < getMeasuredHeight()) {
                         canvas.save();
@@ -12296,7 +12295,7 @@ public class ChatActivity extends BaseFragment implements
         }
 
         if (floatingDateView != null) {
-            floatingDateView.setTranslationY(chatListView.getTranslationY() - searchExpandOffset + chatListViewPaddingTop + floatingDateViewOffset - dp(4));
+            floatingDateView.setTranslationY(chatListView.getTranslationY() - searchExpandOffset + chatListViewPaddingTop + floatingDateViewOffset);
         }
         updateFloatingTopicView();
 
@@ -16853,7 +16852,7 @@ public class ChatActivity extends BaseFragment implements
         }
         if (floatingDateView != null) {
             floatingDateView.setTranslationX(getSideMenuWidth() / 2f);
-            floatingDateView.setTranslationY(chatListView.getTranslationY() + chatListViewPaddingTop + floatingDateViewOffset - dp(4));
+            floatingDateView.setTranslationY(chatListView.getTranslationY() + chatListViewPaddingTop + floatingDateViewOffset);
         }
         updateFloatingTopicView();
         invalidateChatListViewTopPadding();
