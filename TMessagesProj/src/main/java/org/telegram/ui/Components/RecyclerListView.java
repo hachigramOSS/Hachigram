@@ -336,6 +336,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
         private int count;
 
         private ArrayList<Integer> hashes = new ArrayList<>();
+        private boolean hashesComputed;
 
         public void cleanupCache() {
             if (sectionCache == null) {
@@ -453,9 +454,10 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
 
         public void update(boolean diff) {
             ArrayList<Integer> oldHashes = new ArrayList<>(hashes);
+            boolean hadHashes = hashesComputed;
             updateHashes();
 
-            if (diff) {
+            if (diff && hadHashes) {
                 DiffUtil.calculateDiff(new DiffUtil.Callback() {
                     @Override
                     public int getOldListSize() {
@@ -485,6 +487,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
         public void updateHashes() {
             cleanupCache();
 
+            hashesComputed = true;
             hashes.clear();
 
             for (int i = 0, N = internalGetSectionCount(); i < N; i++) {
