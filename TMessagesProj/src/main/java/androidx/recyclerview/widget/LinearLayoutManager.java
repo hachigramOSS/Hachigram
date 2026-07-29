@@ -715,9 +715,12 @@ public class LinearLayoutManager extends RecyclerView.LayoutManager implements
             }
         }
         layoutForPredictiveAnimations(recycler, state, startOffset, endOffset);
-        if (!state.isPreLayout()) {
-            mOrientationHelper.onLayoutComplete();
-        } else {
+        // upstream AOSP bug: skipping onLayoutComplete() for pre-layout leaves getTotalSpaceChange()
+        // unconsumed, so an end-anchored padding delta is applied twice (pre-layout shifts the
+        // children, post-layout re-anchors from them and adds the same delta again), leaving the
+        // list permanently scrolled by that delta after the spurious move animation settles
+        mOrientationHelper.onLayoutComplete();
+        if (state.isPreLayout()) {
             mAnchorInfo.reset();
         }
         mLastStackFromEnd = mStackFromEnd;
