@@ -1162,6 +1162,12 @@ public class ImageLoader {
                 } else {
                     fileDrawable.setLimitFps(limitFps);
                     Thread.interrupted();
+                    synchronized (sync) {
+                        if (isCancelled) {
+                            fileDrawable.recycle();
+                            return;
+                        }
+                    }
                     onPostExecute(fileDrawable);
                 }
             } else {

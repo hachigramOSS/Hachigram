@@ -321,6 +321,9 @@ public final class AnimatedFileDrawable extends BitmapDrawable implements Animat
         }
 
         if (!decoderCreated && mDecoder == null) {
+            if (stream != null && stream.isCanceled()) {
+                stream.reset();
+            }
             mDecoder = AnimatedFileNative.createDecoderFrom(path.getAbsolutePath(), metaData, currentAccount, streamFileSize, stream, false);
             ptrFail = mDecoder == null && (!isWebmSticker || decoderTryCount > MAX_TRIES);
             if (mDecoder != null && (metaData[0] > 3840 || metaData[1] > 3840)) {
@@ -331,6 +334,10 @@ public final class AnimatedFileDrawable extends BitmapDrawable implements Animat
             updateScaleFactor();
             decoderCreated = !isWebmSticker || mDecoder != null || (decoderTryCount++) > MAX_TRIES;
             AndroidUtilities.runOnUIThread(AnimatedFileDrawable.this::checkChoreographerInternal);
+        }
+        if (mDecoder == null && !precache) {
+            AndroidUtilities.runOnUIThread(uiRunnableNoFrame);
+            return;
         }
         try {
             if (bitmapsCache != null) {
