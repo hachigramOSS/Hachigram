@@ -2273,7 +2273,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 if (user == null) {
                     return;
                 }
-                String firstName = user.first_name;
+                String firstName = UserObject.getForcedFirstName(user);
                 int index;
                 if ((index = firstName.indexOf(' ')) > 0) {
                     firstName = firstName.substring(0, index);
