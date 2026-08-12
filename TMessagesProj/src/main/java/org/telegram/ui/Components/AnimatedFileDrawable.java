@@ -1322,8 +1322,7 @@ public final class AnimatedFileDrawable extends BitmapDrawable implements Animat
 
     @UiThread
     private void updateCurrentFrameInternal(long now, boolean updateInBackground) {
-        // final boolean canSwapBuffers = Math.abs(now - lastFrameTime) >= invalidateAfter;
-        final boolean canSwapBuffers = swapBuffersAllowedByChoreographer
+        final boolean canSwapBuffers = swapBuffersAllowedByChoreographer && Math.abs(now - lastFrameTime) >= invalidateAfter
             || !isRunning && decodeSingleFrame;
 
         if (isRunning) {
