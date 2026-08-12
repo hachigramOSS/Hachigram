@@ -3,6 +3,7 @@ package org.telegram.ui.Components.voip;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
+import android.app.KeyguardManager;
 import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.graphics.PixelFormat;
@@ -129,6 +130,7 @@ public class VoIPWindowView extends FrameLayout {
             VoIPFragment.clearInstance();
 
             if (lockOnScreen) {
+                inu_hideActivityUnderKeyguard();
                 try {
                     WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
                     wm.removeView(VoIPWindowView.this);
@@ -144,6 +146,7 @@ public class VoIPWindowView extends FrameLayout {
                         notificationsLocker.unlock();
                         AndroidUtilities.unlockOrientation(activity);
                         if (getParent() != null) {
+                            inu_hideActivityUnderKeyguard();
                             WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
                             setVisibility(View.GONE);
                             try {
@@ -207,8 +210,16 @@ public class VoIPWindowView extends FrameLayout {
 
     }
 
+    private void inu_hideActivityUnderKeyguard() {
+        KeyguardManager km = (KeyguardManager) activity.getSystemService(Context.KEYGUARD_SERVICE);
+        if (km != null && km.isKeyguardLocked()) {
+            activity.getWindow().getDecorView().setVisibility(View.INVISIBLE);
+        }
+    }
+
     public void finishImmediate() {
         if (getParent() != null) {
+            inu_hideActivityUnderKeyguard();
             AndroidUtilities.unlockOrientation(activity);
             WindowManager wm = (WindowManager) activity.getSystemService(Context.WINDOW_SERVICE);
             setVisibility(View.GONE);

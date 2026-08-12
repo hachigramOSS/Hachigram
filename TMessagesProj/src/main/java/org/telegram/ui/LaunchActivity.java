@@ -7323,6 +7323,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     @Override
     protected void onResume() {
         super.onResume();
+        getWindow().getDecorView().setVisibility(View.VISIBLE);
         if(!(Thread.getDefaultUncaughtExceptionHandler() instanceof Crashlytics)) {
             Thread.setDefaultUncaughtExceptionHandler(new Crashlytics());
         }
