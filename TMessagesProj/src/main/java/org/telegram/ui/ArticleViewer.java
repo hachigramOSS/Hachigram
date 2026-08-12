@@ -4323,6 +4323,9 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
         }
         bulletinContainer = new FrameLayout(activity);
         containerView.addView(bulletinContainer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.FILL, 0, !BOTTOM_ACTION_BAR && sheet != null && !sheet.halfSize() ? 56 : 0, 0, BOTTOM_ACTION_BAR && sheet != null && !sheet.halfSize() ? 24 : 0));
+        if (sheet != null) {
+            ((FrameLayout.LayoutParams) bulletinContainer.getLayoutParams()).bottomMargin += AndroidUtilities.navigationBarHeight;
+        }
 
         headerPaint.setColor(0xff000000);
         statusBarPaint.setColor(0xff000000);
@@ -4956,8 +4959,14 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
         searchPanel.setClickable(true);
         searchPanel.setPadding(0, dp(3), 0, 0);
         containerView.addView(searchPanel, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 51, Gravity.BOTTOM));
+        if (sheet != null) {
+            ((FrameLayout.LayoutParams) searchPanel.getLayoutParams()).bottomMargin = AndroidUtilities.navigationBarHeight;
+        }
 
         new KeyboardNotifier(windowView, (keyboardHeight) -> {
+            if (sheet != null && keyboardHeight > 0) {
+                keyboardHeight = Math.max(0, keyboardHeight - AndroidUtilities.navigationBarHeight);
+            }
             searchPanel.setTranslationY((searchPanelTranslation = -keyboardHeight) + dp(51) * (1f - searchPanelAlpha));
         });
 
@@ -14797,7 +14806,7 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
             if (BOTTOM_ACTION_BAR) {
                 listView.setPadding(0, (int) (AndroidUtilities.statusBarHeight * 1.25f), 0, dp(24));
             } else {
-                listView.setPadding(0, dp(56), 0, 0);
+                listView.setPadding(0, dp(56), 0, sheet != null ? AndroidUtilities.navigationBarHeight : 0);
                 listView.setTopGlowOffset(dp(56));
             }
             ((DefaultItemAnimator) listView.getItemAnimator()).setDelayAnimations(false);
@@ -14835,7 +14844,7 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
                     ignoreLayout = true;
                     setOffsetY(MeasureSpec.getSize(heightMeasureSpec) * .4f);
                     ignoreLayout = false;
-                    super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(heightMeasureSpec) - dp(sheet != null && !sheet.halfSize() ? 0 : 56) - AndroidUtilities.statusBarHeight, MeasureSpec.EXACTLY));
+                    super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(heightMeasureSpec) - dp(sheet != null && !sheet.halfSize() ? 0 : 56) - AndroidUtilities.statusBarHeight - (sheet != null ? AndroidUtilities.navigationBarHeight : 0), MeasureSpec.EXACTLY));
                 }
                 @Override
                 public void requestLayout() {
@@ -16072,6 +16081,11 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
 
             public WindowView(Context context) {
                 super(context);
+            }
+
+            @Override
+            public boolean inu_occupyNavigationBar() {
+                return true;
             }
 
             private final Paint scrimPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
