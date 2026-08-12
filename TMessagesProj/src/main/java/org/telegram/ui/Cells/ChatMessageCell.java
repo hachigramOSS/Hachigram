@@ -24194,7 +24194,12 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (currentMessageObject == null || currentMessageObject.isLivePhoto() || controlsAlpha <= 0 || !photoImage.getVisible()) return;
         if (HachigramDebugConfig.INSTANCE.getHideVideoTimestamp()) return;
         float progress;
-        if (!currentMessageObject.openedInViewer && currentMessageObject.getVideoStartsTimestamp() != -1) {
+        AnimatedFileDrawable inu_playingAnimation = documentAttachType == DOCUMENT_ATTACH_TYPE_VIDEO && autoPlayingMedia ? photoImage.getAnimation() : null;
+        if (documentAttachType == DOCUMENT_ATTACH_TYPE_VIDEO && MediaController.getInstance().isPlayingMessage(currentMessageObject)) {
+            progress = currentMessageObject.audioProgress;
+        } else if (inu_playingAnimation != null && inu_playingAnimation.getDurationMs() > 0 && inu_playingAnimation.getCurrentProgressMs() > 0) {
+            progress = inu_playingAnimation.getCurrentProgressMs() / (float) inu_playingAnimation.getDurationMs();
+        } else if (!currentMessageObject.openedInViewer && currentMessageObject.getVideoStartsTimestamp() != -1) {
             progress = currentMessageObject.getVideoStartsTimestamp() / (float) currentMessageObject.getDuration();
         } else {
             progress = currentMessageObject.getVideoSavedProgress();
