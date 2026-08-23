@@ -128,6 +128,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
     private int resultStartPosition;
     private int resultLength;
     private String lastText;
+    private int inu_emojiSearchGeneration;
     private boolean lastForSearch;
     private boolean lastUsernameOnly;
     private int lastPosition;
@@ -971,6 +972,7 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
             AndroidUtilities.cancelRunOnUIThread(searchGlobalRunnable);
             searchGlobalRunnable = null;
         }
+        inu_emojiSearchGeneration++;
         if (checkAgainRunnable != null) {
             AndroidUtilities.cancelRunOnUIThread(checkAgainRunnable);
             checkAgainRunnable = null;
@@ -1609,7 +1611,11 @@ public class MentionsAdapter extends RecyclerListView.SelectionAdapter implement
                 MediaDataController.getInstance(currentAccount).fetchNewEmojiKeywords(newLanguage);
             }
             lastSearchKeyboardLanguage = newLanguage;
+            final int emojiSearchGeneration = inu_emojiSearchGeneration;
             MediaDataController.getInstance(currentAccount).getEmojiSuggestions(lastSearchKeyboardLanguage, result.toString(), false, (param, alias) -> {
+                if (emojiSearchGeneration != inu_emojiSearchGeneration) {
+                    return;
+                }
                 searchResultSuggestions = param;
                 searchResultHashtags = null;
                 stickers = null;
