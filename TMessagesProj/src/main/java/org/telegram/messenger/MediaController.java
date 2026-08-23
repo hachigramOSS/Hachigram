@@ -1828,6 +1828,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
                         try {
                             File cacheFile = FileLoader.getInstance(UserConfig.selectedAccount).getPathToMessage(playingMessageObject.messageOwner);
                             audioInfo = AudioInfo.getAudioInfo(cacheFile);
+                            if (audioInfo != null) {
+                                NotificationCenter.getInstance(playingMessageObject.currentAccount).postNotificationName(NotificationCenter.messagePlayingPlayStateChanged, playingMessageObject.getId());
+                            }
                         } catch (Exception e) {
                             FileLog.e(e);
                         }
