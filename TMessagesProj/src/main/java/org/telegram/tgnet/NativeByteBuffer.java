@@ -16,6 +16,8 @@ public class NativeByteBuffer extends AbstractSerializedData {
     private int len;
     public boolean reused = true;
 
+    private static final int MAX_POOLED_WRAPPERS = 64;
+
     private static final ThreadLocal<LinkedList<NativeByteBuffer>> addressWrappers = new ThreadLocal<LinkedList<NativeByteBuffer>>() {
         @Override
         protected LinkedList<NativeByteBuffer> initialValue() {
@@ -649,7 +651,10 @@ public class NativeByteBuffer extends AbstractSerializedData {
 
     public void reuse() {
         if (address != 0) {
-            addressWrappers.get().add(this);
+            LinkedList<NativeByteBuffer> queue = addressWrappers.get();
+            if (queue.size() < MAX_POOLED_WRAPPERS) {
+                queue.add(this);
+            }
             reused = true;
             native_reuse(address);
         }
