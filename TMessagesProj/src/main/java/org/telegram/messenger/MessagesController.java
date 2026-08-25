@@ -793,6 +793,7 @@ public class MessagesController extends BaseController implements NotificationCe
         final boolean isVotes = !isReactions;
 
         final MessagesStorage messagesStorage = getMessagesStorage();
+        final int expectedCount = inu_getUnreadCount(dialogId, topicId, isReactions);
         messagesStorage.getStorageQueue().postRunnable(() -> {
             boolean needRequest = true;
             try {
@@ -841,10 +842,24 @@ public class MessagesController extends BaseController implements NotificationCe
                     req.add_offset = count - 1;
                     request = req;
                 }
+                final boolean canApplyServerCount = topicId == 0 || isReactions && isMonoForum(dialogId);
                 getConnectionsManager().sendRequestTyped(request, AndroidUtilities::runOnUIThread, (res, error) -> {
                     int messageId = 0;
                     if (error == null && res != null && res.messages != null && !res.messages.isEmpty()) {
                         messageId = res.messages.get(0).id;
+                    }
+                    if (error == null && res != null && res.messages != null && canApplyServerCount) {
+                        if (messageId != 0) {
+                            int serverCount = Math.max(res.count, res.messages.size());
+                            int current = inu_getUnreadCount(dialogId, topicId, isReactions);
+                            if (current > 0 && current == expectedCount && serverCount < current) {
+                                inu_setUnreadCount(dialogId, topicId, serverCount, isReactions, true);
+                            }
+                        } else if (count > 1) {
+                            // add_offset != 0, so we can't trust server count. rerun with count = 1 (i.e. add_offset = 0)
+                            getNextReactionMentionInternal(dialogId, topicId, 1, isReactions, callback);
+                            return;
+                        }
                     }
                     int finalMessageId = messageId;
                     AndroidUtilities.runOnUIThread(() -> callback.accept(finalMessageId));
@@ -21347,6 +21362,60 @@ public class MessagesController extends BaseController implements NotificationCe
         checkUnreadReactionsInternal(dialogId, topicId, unreadPollVotes, false);
     }
 
+    private final LongSparseArray<ArrayList<Integer>> inu_pendingContentReadAcks = new LongSparseArray<>();
+
+    public void inu_onMessageUnreadContentRead(long dialogId, long topicId, int messageId, boolean isReactions) {
+        AndroidUtilities.runOnUIThread(() -> {
+            int current = inu_getUnreadCount(dialogId, topicId, isReactions);
+            if (current == 1) {
+                if (isReactions) {
+                    markReactionsAsRead(dialogId, topicId);
+                } else {
+                    markPollVotesAsRead(dialogId, topicId);
+                }
+            } else if (current > 1) {
+                inu_setUnreadCount(dialogId, topicId, current - 1, isReactions, false);
+            }
+            if (messageId <= 0 || DialogObject.isEncryptedDialog(dialogId)) {
+                return;
+            }
+            ArrayList<Integer> ids = inu_pendingContentReadAcks.get(dialogId);
+            if (ids == null) {
+                ids = new ArrayList<>();
+                inu_pendingContentReadAcks.put(dialogId, ids);
+                AndroidUtilities.runOnUIThread(() -> {
+                    ArrayList<Integer> pending = inu_pendingContentReadAcks.get(dialogId);
+                    inu_pendingContentReadAcks.remove(dialogId);
+                    if (pending == null) {
+                        return;
+                    }
+                    TLRPC.Chat chat = DialogObject.isChatDialog(dialogId) ? getChat(-dialogId) : null;
+                    if (ChatObject.isChannel(chat)) {
+                        TLRPC.TL_channels_readMessageContents req = new TLRPC.TL_channels_readMessageContents();
+                        req.channel = getInputChannel(chat);
+                        if (req.channel == null) {
+                            return;
+                        }
+                        req.id.addAll(pending);
+                        getConnectionsManager().sendRequest(req, null);
+                    } else {
+                        TLRPC.TL_messages_readMessageContents req = new TLRPC.TL_messages_readMessageContents();
+                        req.id.addAll(pending);
+                        getConnectionsManager().sendRequest(req, (response, error) -> {
+                            if (error == null) {
+                                TLRPC.TL_messages_affectedMessages res = (TLRPC.TL_messages_affectedMessages) response;
+                                processNewDifferenceParams(-1, res.pts, -1, res.pts_count);
+                            }
+                        });
+                    }
+                }, 300);
+            }
+            if (!ids.contains(messageId)) {
+                ids.add(messageId);
+            }
+        });
+    }
+
     private void checkUnreadReactionsInternal(long dialogId, long topicId, SparseBooleanArray unreadReactions, boolean isReactions) {
         final String tableMentionsForDialogs = isReactions ? "reaction_mentions" : "poll_votes_mentions";
         final String tableMentionsForTopics = isReactions ? "reaction_mentions_topics" : "poll_votes_mentions_topics";
@@ -21596,6 +21665,46 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                 }
             });
+        }
+    }
+
+    private int inu_getUnreadCount(long dialogId, long topicId, boolean isReactions) {
+        if (topicId == 0) {
+            TLRPC.Dialog dialog = dialogs_dict.get(dialogId);
+            if (dialog == null) {
+                return -1;
+            }
+            return isReactions ? dialog.unread_reactions_count : dialog.unread_poll_votes_count;
+        }
+        TLRPC.TL_forumTopic topic = getTopicsController().findTopic(-dialogId, topicId);
+        if (topic == null) {
+            return -1;
+        }
+        return isReactions ? topic.unread_reactions_count : topic.unread_poll_votes_count;
+    }
+
+    private void inu_setUnreadCount(long dialogId, long topicId, int count, boolean isReactions, boolean notifyChat) {
+        if (topicId == 0) {
+            TLRPC.Dialog dialog = dialogs_dict.get(dialogId);
+            if (isReactions) {
+                dialog.unread_reactions_count = count;
+            } else {
+                dialog.unread_poll_votes_count = count;
+            }
+        } else if (isReactions) {
+            getTopicsController().updateReactionsUnread(dialogId, topicId, count, false);
+        } else {
+            getTopicsController().updatePollVotesUnread(dialogId, topicId, count, false);
+        }
+        if (isReactions) {
+            getMessagesStorage().updateUnreadReactionsCount(dialogId, topicId, count);
+        } else {
+            getMessagesStorage().updateUnreadPollVotesCount(dialogId, topicId, count);
+        }
+        if (notifyChat) {
+            getNotificationCenter().postNotificationName(isReactions ? NotificationCenter.dialogsUnreadReactionsCounterChanged : NotificationCenter.dialogsUnreadPollVotesCounterChanged, dialogId, topicId, count, null);
+        } else {
+            getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, UPDATE_MASK_REACTIONS_READ);
         }
     }
 
