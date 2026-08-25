@@ -2647,6 +2647,9 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     @Override
     public void release() {
         lastUri = null;
+        if (storiesViewPager != null) {
+            storiesViewPager.destroy();
+        }
         setInTouchMode(false);
         allowScreenshots(true);
         if (playerHolder != null) {
