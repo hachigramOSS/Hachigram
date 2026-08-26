@@ -10829,6 +10829,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 }
             }
 
+            videoPlayer.inu_setMediaDurationMs(currentMessageObject != null ? (long) (currentMessageObject.getDuration() * 1000) : 0);
             if (videoUrises != null) {
                 videoPlayer.preparePlayer(videoUrises, VideoPlayer.getSavedQuality(videoUrises, currentMessageObject));
             } else {
