@@ -27960,6 +27960,13 @@ public class ChatActivity extends BaseFragment implements
             }
 
             addToPolls(messageObject, old);
+            if (MediaController.getInstance().isPlayingMessage(messageObject)) {
+                MessageObject player = MediaController.getInstance().getPlayingMessageObject();
+                messageObject.audioProgress = player.audioProgress;
+                messageObject.audioProgressSec = player.audioProgressSec;
+                messageObject.audioPlayerDuration = player.audioPlayerDuration;
+                messageObject.bufferedProgress = player.bufferedProgress;
+            }
             if (old.richCheckboxEcho && messageObject.type == MessageObject.TYPE_ARTICLE && old.richLayout != null && messageObject.messageOwner != null) {
                 messageObject.richLayout = old.richLayout;
                 messageObject.messageOwner.rich_message = old.messageOwner.rich_message;
