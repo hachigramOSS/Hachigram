@@ -1,0 +1,27 @@
+name: Rebuild site
+
+# the306bobby.com renders PRIVACY.md from this repository at build time, so an edit
+# here does not reach the live page until the site rebuilds.
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'PRIVACY.md'
+  workflow_dispatch:
+
+jobs:
+  trigger:
+    runs-on: base
+    steps:
+      - name: Trigger the website deploy
+        env:
+          HOOK: ${{ secrets.CLOUDFLARE_DEPLOY_HOOK }}
+        run: |
+          if [ -z "$HOOK" ]; then
+            echo "CLOUDFLARE_DEPLOY_HOOK is not set; skipping."
+            exit 0
+          fi
+          # The URL is a credential: print only the status.
+          code=$(curl -sS -X POST "$HOOK" -o /dev/null -w '%{http_code}')
+          echo "deploy hook responded HTTP $code"
+          case "$code" in 2*) exit 0 ;; *) exit 1 ;; esac
