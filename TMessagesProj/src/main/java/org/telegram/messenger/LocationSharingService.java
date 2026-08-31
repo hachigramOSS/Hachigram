@@ -16,7 +16,7 @@ import android.os.IBinder;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import uz.unnarsx.cherrygram.core.crashlytics.FirebaseCrashlyticsHelper;
 
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.LaunchActivity;
@@ -151,7 +151,7 @@ public class LocationSharingService extends Service implements NotificationCente
             updateNotification(false);
             startForeground(6, builder.build());
         } catch (Throwable e) {
-            FirebaseCrashlytics.getInstance().recordException(e);
+            FirebaseCrashlyticsHelper.recordException(e);
             FileLog.e(e);
         }
         return Service.START_NOT_STICKY;

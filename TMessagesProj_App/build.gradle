@@ -2,7 +2,9 @@ import java.nio.file.Files
 import java.nio.file.Paths
 
 apply plugin: 'com.android.application'
-apply plugin: 'com.google.firebase.crashlytics'
+if (file('google-services.json').exists()) {
+    apply plugin: 'com.google.firebase.crashlytics'
+}
 apply plugin: 'kotlin-android'
 
 /*repositories {
@@ -300,4 +302,6 @@ tasks.configureEach { task ->
     }
 }
 
-apply plugin: 'com.google.gms.google-services'
+if (file('google-services.json').exists()) {
+    apply plugin: 'com.google.gms.google-services'
+}

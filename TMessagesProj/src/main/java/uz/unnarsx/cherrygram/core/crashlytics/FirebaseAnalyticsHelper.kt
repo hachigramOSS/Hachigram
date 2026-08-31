@@ -12,6 +12,7 @@ package uz.unnarsx.cherrygram.core.crashlytics
 import android.content.Context
 import android.os.Bundle
 import android.widget.Toast
+import com.google.firebase.FirebaseApp
 import com.google.firebase.analytics.FirebaseAnalytics
 import org.telegram.messenger.AndroidUtilities
 import org.telegram.messenger.ApplicationLoader
@@ -28,7 +29,7 @@ object FirebaseAnalyticsHelper {
     private var firebaseAnalytics: FirebaseAnalytics? = null
 
     fun init(context: Context) {
-        if (!ApplicationLoader.checkPlayServices()) return
+        if (!ApplicationLoader.checkPlayServices() || FirebaseApp.getApps(context).isEmpty()) return
 
         firebaseAnalytics = FirebaseAnalytics.getInstance(context).apply {
             val bundle = Bundle().apply {

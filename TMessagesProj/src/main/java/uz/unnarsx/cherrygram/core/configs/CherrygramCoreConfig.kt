@@ -23,7 +23,6 @@ import org.telegram.messenger.MessagesController
 import org.telegram.messenger.R
 import org.telegram.messenger.UserConfig
 import uz.unnarsx.cherrygram.core.helpers.FirebaseRemoteConfigHelper
-import uz.unnarsx.cherrygram.donates.DonatesManager
 import uz.unnarsx.cherrygram.misc.Constants
 import uz.unnarsx.cherrygram.preferences.boolean
 import uz.unnarsx.cherrygram.preferences.float
@@ -159,12 +158,9 @@ object CherrygramCoreConfig: CoroutineScope by CoroutineScope(
 
     fun init() {
         launch {
-            if (ApplicationLoader.checkPlayServices()) {
-                FirebaseApp.initializeApp(ApplicationLoader.applicationContext)
+            if (ApplicationLoader.checkPlayServices() && FirebaseApp.initializeApp(ApplicationLoader.applicationContext) != null) {
                 FirebaseRemoteConfigHelper.initRemoteConfig()
             }
-
-            DonatesManager.startAutoRefresh(ApplicationLoader.applicationContext, force = false, fromIntegrityChecker = false)
 
             migratePreferences()
         }

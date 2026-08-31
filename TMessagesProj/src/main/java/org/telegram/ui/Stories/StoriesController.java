@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.collection.LongSparseArray;
 
 import com.google.android.exoplayer2.util.Consumer;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import uz.unnarsx.cherrygram.core.crashlytics.FirebaseCrashlyticsHelper;
 
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLiteDatabase;
@@ -1981,7 +1981,7 @@ public class StoriesController {
             try {
                 ApplicationLoader.applicationContext.startService(intent);
             } catch (Throwable e) {
-                FirebaseCrashlytics.getInstance().recordException(e);
+                FirebaseCrashlyticsHelper.recordException(e);
                 FileLog.e(e);
             }
         }
