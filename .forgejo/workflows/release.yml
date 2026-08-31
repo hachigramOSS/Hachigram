@@ -1,0 +1,94 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  release:
+    runs-on: android
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - name: Release metadata
+        id: meta
+        run: |
+          TAG="${GITHUB_REF#refs/tags/}"
+          echo "tag=$TAG" >> "$GITHUB_OUTPUT"
+          # Fails if VERSION, the tag and APP_VERSION_NAME_CHERRY disagree.
+          META=$(python3 scripts/release_meta.py "$TAG" --notes-out "$RUNNER_TEMP/notes.md")
+          echo "$META"
+          echo "name=$(echo "$META" | python3 -c 'import json,sys;print(json.load(sys.stdin)["name"])')" >> "$GITHUB_OUTPUT"
+          echo "prerelease=$(echo "$META" | python3 -c 'import json,sys;print(str(json.load(sys.stdin)["prerelease"]).lower())')" >> "$GITHUB_OUTPUT"
+
+      - name: Restore keystore
+        id: keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          if [ -z "$KEYSTORE_BASE64" ]; then
+            echo "KEYSTORE_BASE64 is not set; a release must be signed." >&2
+            exit 1
+          fi
+          printf '%s' "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+          echo "path=$RUNNER_TEMP/release.jks" >> "$GITHUB_OUTPUT"
+
+      - name: Configure
+        env:
+          APP_ID: ${{ secrets.CHERRYGRAM_APP_ID }}
+          APP_HASH: ${{ secrets.CHERRYGRAM_APP_HASH }}
+        run: |
+          {
+            echo "sdk.dir=$ANDROID_SDK_ROOT"
+            [ -n "$APP_ID" ] && echo "CHERRYGRAM_APP_ID=$APP_ID"
+            [ -n "$APP_HASH" ] && echo "CHERRYGRAM_APP_HASH=$APP_HASH"
+          } > local.properties
+
+      # The standalone build type is the sideloaded one: minified, shrunk and
+      # carrying the in-app updater that reads this repository's releases.
+      - name: Assemble
+        env:
+          STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          ./gradlew --no-daemon --console=plain --warning-mode=summary \
+            -PRELEASE_STORE_FILE=${{ steps.keystore.outputs.path }} \
+            -PRELEASE_STORE_PASSWORD="$STORE_PASSWORD" \
+            -PRELEASE_KEY_ALIAS="$KEY_ALIAS" \
+            -PRELEASE_KEY_PASSWORD="$KEY_PASSWORD" \
+            :TMessagesProj_AppStandalone:assembleAfatStandalone
+
+      - name: Verify signature
+        run: |
+          for apk in $(find TMessagesProj_AppStandalone -name '*.apk'); do
+            echo "== $apk"
+            "$ANDROID_SDK_ROOT/build-tools/36.0.0/apksigner" verify --print-certs "$apk" \
+              | grep -E 'certificate DN|certificate SHA-256'
+          done
+
+      - name: Publish release
+        env:
+          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          API="${GITHUB_SERVER_URL}/api/v1/repos/${GITHUB_REPOSITORY}"
+          BODY=$(python3 -c 'import json,sys;print(json.dumps(open(sys.argv[1]).read()))' "$RUNNER_TEMP/notes.md")
+          PAYLOAD=$(printf '{"tag_name":"%s","name":"%s","body":%s,"draft":false,"prerelease":%s}' \
+            "${{ steps.meta.outputs.tag }}" "${{ steps.meta.outputs.name }}" "$BODY" "${{ steps.meta.outputs.prerelease }}")
+          ID=$(curl -sS -X POST "$API/releases" \
+            -H "Authorization: token $TOKEN" -H 'Content-Type: application/json' \
+            -d "$PAYLOAD" | python3 -c 'import json,sys;print(json.load(sys.stdin)["id"])')
+          echo "release id $ID"
+          for apk in $(find TMessagesProj_AppStandalone -name '*.apk'); do
+            echo "uploading $(basename "$apk")"
+            curl -sS -X POST "$API/releases/$ID/assets?name=$(basename "$apk")" \
+              -H "Authorization: token $TOKEN" \
+              -F "attachment=@$apk;type=application/vnd.android.package-archive" -o /dev/null
+          done
+
+      - name: Free build intermediates
+        if: always()
+        run: rm -rf TMessagesProj/.cxx TMessagesProj/build TMessagesProj_AppStandalone/build
