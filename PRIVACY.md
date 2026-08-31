@@ -21,10 +21,11 @@ account details are handled by Telegram's own servers under
 [Telegram's Privacy Policy](https://telegram.org/privacy). Nothing in this app
 changes that, and none of it passes through us.
 
-**Update checks.** When you check for updates, the app requests the latest
-release from `git.306bobbyandroid.download`. That server sees your IP address and
-the request, as any web server would. Update checks are not automatic; they only
-happen when you ask for one.
+**Update checks.** The app asks `git.306bobbyandroid.download` for the latest
+release. That server sees your IP address and the request, as any web server
+would. By default this happens automatically, at most once an hour while you are
+using the app, and you can turn it off in Cherrygram settings. Nothing about your
+account or your messages is sent; it is a plain request for the release list.
 
 **Google Gemini (optional, off by default).** The AI features do nothing unless
 you enter your own Gemini API key. If you do, the text you send to those features

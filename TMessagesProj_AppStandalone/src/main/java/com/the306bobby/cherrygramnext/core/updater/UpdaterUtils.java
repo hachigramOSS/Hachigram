@@ -154,8 +154,16 @@ public class UpdaterUtils {
     public static void checkUpdates(BaseFragment fragment, boolean manual, OnUpdateNotFound onUpdateNotFound, OnUpdateFound onUpdateFound, Browser.Progress progress) {
         if (CherrygramCoreConfig.isStandalonePremiumBuild()) return;
 
-        if (checkingForUpdates || id != 1L || (System.currentTimeMillis() - CherrygramCoreConfig.INSTANCE.getUpdateScheduleTimestamp() < updateCheckInterval && !manual))
-            return;
+        if (checkingForUpdates || id != 1L) return;
+
+        // updateScheduleTimestamp only records a postponement, so on its own it never
+        // throttles the automatic check that onResume fires. Gate that on the time of
+        // the last check as well.
+        if (!manual) {
+            long now = System.currentTimeMillis();
+            if (now - CherrygramCoreConfig.INSTANCE.getUpdateScheduleTimestamp() < updateCheckInterval) return;
+            if (now - CherrygramCoreConfig.INSTANCE.getLastUpdateCheckTime() < updateCheckInterval) return;
+        }
 
         checkingForUpdates = true;
         otaQueue.postRunnable(() -> {

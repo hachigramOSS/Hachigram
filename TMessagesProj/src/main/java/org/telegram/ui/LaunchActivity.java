@@ -7160,9 +7160,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             showUpdateActivity(UserConfig.selectedAccount, SharedConfig.pendingAppUpdate, true);
         }
         checkAppUpdate(false, null);*/
-//        if (CherrygramCoreConfig.INSTANCE.getAutoOTA()) { // triggers GitHub a lot
-//            checkCgUpdates(getSafeLastFragment(), null, false);
-//        }
+        if (CherrygramCoreConfig.INSTANCE.getAutoOTA()) {
+            checkCgUpdates(getSafeLastFragment(), null, false);
+        }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             ApplicationLoader.canDrawOverlays = Settings.canDrawOverlays(this);
