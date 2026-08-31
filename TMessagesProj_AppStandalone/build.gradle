@@ -56,18 +56,16 @@ android {
     }
 
     signingConfigs {
-        debug {
-            storeFile file('../Your_Key.jks')
-            storePassword 'Your_Password'
-            keyAlias 'Your_Alias'
-            keyPassword 'Your_Password'
-        }
-
+        // Debug keeps AGP's own auto-generated keystore. Release signs only when a
+        // keystore is supplied, so a clean clone still produces an unsigned APK.
         release {
-            storeFile file('../Your_Key.jks')
-            storePassword 'Your_Password'
-            keyAlias 'Your_Alias'
-            keyPassword 'Your_Password'
+            def storePath = project.findProperty('RELEASE_STORE_FILE')
+            if (storePath) {
+                storeFile file(storePath)
+                storePassword project.findProperty('RELEASE_STORE_PASSWORD')
+                keyAlias project.findProperty('RELEASE_KEY_ALIAS')
+                keyPassword project.findProperty('RELEASE_KEY_PASSWORD')
+            }
         }
     }
 
@@ -75,7 +73,6 @@ android {
         debug {
             debuggable true
             jniDebuggable true
-            signingConfig signingConfigs.release
 //            applicationIdSuffix ".web"
             minifyEnabled false
             shrinkResources false
@@ -87,7 +84,7 @@ android {
             matchingFallbacks = ['release']
             debuggable false
             jniDebuggable false
-            signingConfig signingConfigs.release
+            signingConfig project.findProperty('RELEASE_STORE_FILE') ? signingConfigs.release : null
 //            applicationIdSuffix ".web"
             minifyEnabled true
             shrinkResources true
