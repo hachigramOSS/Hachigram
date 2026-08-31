@@ -65,7 +65,7 @@ public class LauncherIconController {
 
         public ComponentName getComponentName(Context ctx) {
             if (componentName == null) {
-                componentName = new ComponentName(ctx.getPackageName(), "uz.unnarsx.cherrygram." + key);
+                componentName = new ComponentName(ctx.getPackageName(), "com.the306bobby.cherrygramnext." + key);
             }
             return componentName;
         }

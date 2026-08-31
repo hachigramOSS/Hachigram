@@ -179,7 +179,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import uz.unnarsx.cherrygram.core.PermissionsUtils;
+import com.the306bobby.cherrygramnext.core.PermissionsUtils;
 
 public class StoryRecorder implements NotificationCenter.NotificationCenterDelegate {
 

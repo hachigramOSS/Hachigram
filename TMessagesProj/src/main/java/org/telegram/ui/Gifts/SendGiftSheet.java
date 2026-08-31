@@ -98,7 +98,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramDebugConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramDebugConfig;
 
 public class SendGiftSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate, GiftAuctionController.OnAuctionUpdateListener {
 

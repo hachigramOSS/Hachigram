@@ -30,7 +30,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Stories.recorder.HintView2;
 import org.telegram.ui.TopicsFragment;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramPrivacyConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramPrivacyConfig;
 
 public class PullForegroundDrawable {
 

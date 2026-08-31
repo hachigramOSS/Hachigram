@@ -20,7 +20,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.TextSettingsCell;
 import org.telegram.ui.Components.voip.CellFlickerDrawable;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramAppearanceConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
 
 public class StorageUsageView extends FrameLayout {
 

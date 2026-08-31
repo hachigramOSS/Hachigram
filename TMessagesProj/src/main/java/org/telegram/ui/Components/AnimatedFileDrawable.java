@@ -54,7 +54,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import uz.unnarsx.cherrygram.helpers.network.StickersManager;
+import com.the306bobby.cherrygramnext.helpers.network.StickersManager;
 
 public final class AnimatedFileDrawable extends BitmapDrawable implements Animatable, BitmapsCache.Cacheable {
 

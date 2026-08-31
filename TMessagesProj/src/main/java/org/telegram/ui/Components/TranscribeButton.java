@@ -55,10 +55,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-import uz.unnarsx.cherrygram.chats.gemini.GeminiButtonsLayout;
-import uz.unnarsx.cherrygram.chats.gemini.GeminiResultsBottomSheet;
-import uz.unnarsx.cherrygram.chats.gemini.GeminiSDKImplementation;
-import uz.unnarsx.cherrygram.core.configs.CherrygramMessagesConfig;
+import com.the306bobby.cherrygramnext.chats.gemini.GeminiButtonsLayout;
+import com.the306bobby.cherrygramnext.chats.gemini.GeminiResultsBottomSheet;
+import com.the306bobby.cherrygramnext.chats.gemini.GeminiSDKImplementation;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
 
 public class TranscribeButton {
 

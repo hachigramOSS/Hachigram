@@ -13,7 +13,7 @@ import androidx.annotation.Nullable;
 import androidx.collection.LongSparseArray;
 
 import com.google.android.exoplayer2.util.Consumer;
-import uz.unnarsx.cherrygram.core.crashlytics.FirebaseCrashlyticsHelper;
+import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseCrashlyticsHelper;
 
 import org.telegram.SQLite.SQLiteCursor;
 import org.telegram.SQLite.SQLiteDatabase;
@@ -91,8 +91,8 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.TreeSet;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
-import uz.unnarsx.cherrygram.core.configs.CherrygramPrivacyConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramPrivacyConfig;
 
 public class StoriesController {
 

@@ -15,7 +15,7 @@ import androidx.core.view.ViewCompat;
 import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
 
 public class UpdateLayoutWrapper extends ViewGroup {
     public static final int HEIGHT = 44;

@@ -105,7 +105,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
 
 public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implements NestedScrollingParent3 {
 

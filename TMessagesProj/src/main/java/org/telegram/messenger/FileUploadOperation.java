@@ -26,7 +26,7 @@ import java.io.RandomAccessFile;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
 
 public class FileUploadOperation {
 

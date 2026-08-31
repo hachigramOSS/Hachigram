@@ -47,7 +47,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import uz.unnarsx.cherrygram.camera.VideoMessagesHelper;
+import com.the306bobby.cherrygramnext.camera.VideoMessagesHelper;
 
 @TargetApi(Build.VERSION_CODES.LOLLIPOP)
 public class Camera2Session {

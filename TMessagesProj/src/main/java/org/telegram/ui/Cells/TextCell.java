@@ -51,7 +51,7 @@ import org.telegram.ui.Stories.recorder.HintView2;
 
 import java.util.ArrayList;
 
-import uz.unnarsx.cherrygram.helpers.ui.MonetHelper;
+import com.the306bobby.cherrygramnext.helpers.ui.MonetHelper;
 
 public class TextCell extends FrameLayout {
 

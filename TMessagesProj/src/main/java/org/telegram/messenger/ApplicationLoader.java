@@ -34,7 +34,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import uz.unnarsx.cherrygram.core.crashlytics.FirebaseCrashlyticsHelper;
+import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseCrashlyticsHelper;
 
 import org.json.JSONObject;
 import org.telegram.messenger.browser.Browser;
@@ -54,8 +54,8 @@ import java.util.Locale;
 import kotlin.coroutines.Continuation;
 import kotlin.coroutines.CoroutineContext;
 import kotlin.coroutines.EmptyCoroutineContext;
-import uz.unnarsx.cherrygram.camera.CameraXUtils;
-import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
+import com.the306bobby.cherrygramnext.camera.CameraXUtils;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
 
 public class ApplicationLoader extends Application {
 
@@ -173,7 +173,7 @@ public class ApplicationLoader extends Application {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        return new File("/data/data/uz.unnarsx.cherrygram/files");
+        return new File("/data/data/com.the306bobby.cherrygramnext/files");
     }
 
     public static File getFilesDirFixed(String child) {

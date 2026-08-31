@@ -31,8 +31,8 @@ import org.telegram.ui.IUpdateLayout;
 import java.io.File;
 import java.util.ArrayList;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
-import uz.unnarsx.cherrygram.core.updater.UpdaterUtils;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.cherrygramnext.core.updater.UpdaterUtils;
 
 public class UpdateLayout extends IUpdateLayout {
 

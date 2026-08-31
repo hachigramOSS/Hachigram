@@ -34,8 +34,8 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.stream.Stream;
 
-import uz.unnarsx.cherrygram.core.helpers.CGResourcesHelper;
-import uz.unnarsx.cherrygram.core.PermissionsUtils;
+import com.the306bobby.cherrygramnext.core.helpers.CGResourcesHelper;
+import com.the306bobby.cherrygramnext.core.PermissionsUtils;
 
 @RequiresApi(api = Build.VERSION_CODES.R)
 public class FilesMigrationService extends Service {

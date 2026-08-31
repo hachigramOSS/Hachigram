@@ -34,9 +34,9 @@ import org.telegram.ui.SMSSubscribeSheet;
 
 import java.io.File;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
-import uz.unnarsx.cherrygram.core.updater.UpdaterBottomSheet;
-import uz.unnarsx.cherrygram.core.updater.UpdaterUtils;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.cherrygramnext.core.updater.UpdaterBottomSheet;
+import com.the306bobby.cherrygramnext.core.updater.UpdaterUtils;
 
 public class ApplicationLoaderImpl extends ApplicationLoader {
     @Override

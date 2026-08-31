@@ -94,7 +94,7 @@ import org.telegram.ui.Components.URLSpanNoUnderline;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 
-import uz.unnarsx.cherrygram.core.PermissionsUtils;
+import com.the306bobby.cherrygramnext.core.PermissionsUtils;
 
 public class CameraScanActivity extends BaseFragment {
 

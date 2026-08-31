@@ -69,15 +69,15 @@ import org.telegram.ui.bots.BotWebViewAttachedSheet;
 
 import java.util.ArrayList;
 
-import uz.unnarsx.cherrygram.chats.ui.MessageMenuHelper;
-import uz.unnarsx.cherrygram.chats.helpers.ChatActivityHelper;
-import uz.unnarsx.cherrygram.chats.helpers.ChatsHelper;
-import uz.unnarsx.cherrygram.chats.helpers.ChatsPasswordHelper;
-import uz.unnarsx.cherrygram.chats.helpers.MessageHelper;
-import uz.unnarsx.cherrygram.core.VibrateUtil;
-import uz.unnarsx.cherrygram.core.configs.CherrygramChatsConfig;
-import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
-import uz.unnarsx.cherrygram.helpers.ProfileActivityHelper;
+import com.the306bobby.cherrygramnext.chats.ui.MessageMenuHelper;
+import com.the306bobby.cherrygramnext.chats.helpers.ChatActivityHelper;
+import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper;
+import com.the306bobby.cherrygramnext.chats.helpers.ChatsPasswordHelper;
+import com.the306bobby.cherrygramnext.chats.helpers.MessageHelper;
+import com.the306bobby.cherrygramnext.core.VibrateUtil;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.cherrygramnext.helpers.ProfileActivityHelper;
 
 public abstract class BaseFragment {
 

@@ -88,14 +88,14 @@ import java.util.List;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
-import uz.unnarsx.cherrygram.chats.CGChatMenuInjector;
-import uz.unnarsx.cherrygram.chats.helpers.ChatsHelper2;
-import uz.unnarsx.cherrygram.core.configs.CherrygramAppearanceConfig;
-import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
-import uz.unnarsx.cherrygram.core.configs.CherrygramPrivacyConfig;
-import uz.unnarsx.cherrygram.core.ui.CGBulletinCreator;
-import uz.unnarsx.cherrygram.core.ui.mainTabs.MainTabsManager;
-import uz.unnarsx.cherrygram.preferences.CherrygramPreferencesNavigator;
+import com.the306bobby.cherrygramnext.chats.CGChatMenuInjector;
+import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper2;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramPrivacyConfig;
+import com.the306bobby.cherrygramnext.core.ui.CGBulletinCreator;
+import com.the306bobby.cherrygramnext.core.ui.mainTabs.MainTabsManager;
+import com.the306bobby.cherrygramnext.preferences.CherrygramPreferencesNavigator;
 
 public class MainTabsActivity extends ViewPagerActivity implements NotificationCenter.NotificationCenterDelegate, FactorAnimator.Target {
 

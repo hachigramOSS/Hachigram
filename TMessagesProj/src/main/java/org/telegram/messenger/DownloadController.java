@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramMessagesConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
 
 public class DownloadController extends BaseController implements NotificationCenter.NotificationCenterDelegate {
 

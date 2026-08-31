@@ -115,9 +115,9 @@ import java.util.List;
 
 import me.vkryl.core.reference.ReferenceList;
 
-import uz.unnarsx.cherrygram.chats.helpers.ChatsHelper;
-import uz.unnarsx.cherrygram.core.configs.CherrygramChatsConfig;
-import uz.unnarsx.cherrygram.core.configs.CherrygramMessagesConfig;
+import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
 
 public class ContentPreviewViewer {
 

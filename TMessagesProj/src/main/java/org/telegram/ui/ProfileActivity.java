@@ -343,17 +343,17 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import uz.unnarsx.cherrygram.chats.helpers.ChatsHelper2;
-import uz.unnarsx.cherrygram.core.CGBiometricPrompt;
-import uz.unnarsx.cherrygram.core.configs.CherrygramAppearanceConfig;
-import uz.unnarsx.cherrygram.Extra;
-import uz.unnarsx.cherrygram.core.configs.CherrygramChatsConfig;
-import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
-import uz.unnarsx.cherrygram.core.helpers.AppRestartHelper;
-import uz.unnarsx.cherrygram.core.ui.mainTabs.MainTabsManager;
-import uz.unnarsx.cherrygram.helpers.ProfileActivityHelper;
-import uz.unnarsx.cherrygram.misc.Constants;
-import uz.unnarsx.cherrygram.preferences.CherrygramPreferencesNavigator;
+import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper2;
+import com.the306bobby.cherrygramnext.core.CGBiometricPrompt;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
+import com.the306bobby.cherrygramnext.Extra;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.cherrygramnext.core.helpers.AppRestartHelper;
+import com.the306bobby.cherrygramnext.core.ui.mainTabs.MainTabsManager;
+import com.the306bobby.cherrygramnext.helpers.ProfileActivityHelper;
+import com.the306bobby.cherrygramnext.misc.Constants;
+import com.the306bobby.cherrygramnext.preferences.CherrygramPreferencesNavigator;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.core.reference.ReferenceList;

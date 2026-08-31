@@ -216,7 +216,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicReference;
 
-import uz.unnarsx.cherrygram.helpers.QrHelper;
+import com.the306bobby.cherrygramnext.helpers.QrHelper;
 
 @SuppressLint("HardwareIds")
 public class LoginActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {

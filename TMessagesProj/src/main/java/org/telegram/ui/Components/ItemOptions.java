@@ -86,7 +86,7 @@ import org.telegram.ui.Stories.recorder.HintView2;
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
 
-import uz.unnarsx.cherrygram.chats.ui.WindowBlurHelper;
+import com.the306bobby.cherrygramnext.chats.ui.WindowBlurHelper;
 
 public class ItemOptions {
 

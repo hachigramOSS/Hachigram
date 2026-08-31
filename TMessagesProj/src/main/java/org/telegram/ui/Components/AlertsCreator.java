@@ -178,8 +178,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import uz.unnarsx.cherrygram.core.CGBiometricPrompt;
-import uz.unnarsx.cherrygram.core.configs.CherrygramMessagesConfig;
+import com.the306bobby.cherrygramnext.core.CGBiometricPrompt;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
 
 import me.vkryl.core.BitwiseUtils;
 

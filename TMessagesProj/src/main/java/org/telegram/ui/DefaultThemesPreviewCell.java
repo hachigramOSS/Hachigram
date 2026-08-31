@@ -40,7 +40,7 @@ import org.telegram.ui.Components.ThemeSmallPreviewView;
 
 import java.util.ArrayList;
 
-import uz.unnarsx.cherrygram.core.ui.MD3ListAdapter;
+import com.the306bobby.cherrygramnext.core.ui.MD3ListAdapter;
 
 @SuppressLint("ViewConstructor")
 public class DefaultThemesPreviewCell extends LinearLayout {

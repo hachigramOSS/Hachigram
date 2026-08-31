@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramAppearanceConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
 
 public class ProfileGiftsView extends View implements NotificationCenter.NotificationCenterDelegate {
 

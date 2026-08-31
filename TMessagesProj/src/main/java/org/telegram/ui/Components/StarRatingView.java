@@ -18,7 +18,7 @@ import org.telegram.messenger.R;
 import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.ui.ActionBar.Theme;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramAppearanceConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
 
 public class StarRatingView extends View {
     private final BadgeLevelDrawable drawable;

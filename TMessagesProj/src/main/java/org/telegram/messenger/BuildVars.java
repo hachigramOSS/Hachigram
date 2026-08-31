@@ -12,9 +12,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
-import uz.unnarsx.cherrygram.Extra;
-import uz.unnarsx.cherrygram.misc.Constants;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.cherrygramnext.Extra;
+import com.the306bobby.cherrygramnext.misc.Constants;
 
 import com.android.billingclient.api.ProductDetails;
 

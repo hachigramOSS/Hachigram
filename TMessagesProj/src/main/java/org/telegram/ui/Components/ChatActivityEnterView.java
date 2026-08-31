@@ -228,11 +228,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 
-import uz.unnarsx.cherrygram.chats.gemini.GeminiSDKImplementation;
-import uz.unnarsx.cherrygram.core.configs.CherrygramChatsConfig;
-import uz.unnarsx.cherrygram.chats.translator.BaseTranslator;
-import uz.unnarsx.cherrygram.chats.translator.Translator;
-import uz.unnarsx.cherrygram.core.configs.CherrygramDebugConfig;
+import com.the306bobby.cherrygramnext.chats.gemini.GeminiSDKImplementation;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.cherrygramnext.chats.translator.BaseTranslator;
+import com.the306bobby.cherrygramnext.chats.translator.Translator;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramDebugConfig;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;

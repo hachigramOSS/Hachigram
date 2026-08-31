@@ -100,12 +100,12 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
 
-import uz.unnarsx.cherrygram.chats.helpers.ChatsPasswordHelper;
-import uz.unnarsx.cherrygram.chats.filters.MessagesFilterHelper;
-import uz.unnarsx.cherrygram.core.configs.CherrygramChatsConfig;
-import uz.unnarsx.cherrygram.core.VibrateUtil;
-import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
-import uz.unnarsx.cherrygram.core.helpers.CGResourcesHelper;
+import com.the306bobby.cherrygramnext.chats.helpers.ChatsPasswordHelper;
+import com.the306bobby.cherrygramnext.chats.filters.MessagesFilterHelper;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.cherrygramnext.core.VibrateUtil;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.cherrygramnext.core.helpers.CGResourcesHelper;
 
 public class NotificationsController extends BaseController implements NotificationCenter.NotificationCenterDelegate {
 

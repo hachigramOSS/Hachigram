@@ -60,7 +60,7 @@ import java.util.ArrayList;
 
 import me.vkryl.core.BitwiseUtils;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramAppearanceConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
 
 public class UniversalAdapter extends AdapterWithDiffUtils {
 

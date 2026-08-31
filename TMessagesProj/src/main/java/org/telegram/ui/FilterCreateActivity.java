@@ -106,8 +106,8 @@ import org.telegram.ui.Components.spoilers.SpoilersTextView;
 import java.util.ArrayList;
 import java.util.Collections;
 
-import uz.unnarsx.cherrygram.preferences.folders.helpers.FolderIconHelper;
-import uz.unnarsx.cherrygram.preferences.folders.IconSelectorAlert;
+import com.the306bobby.cherrygramnext.preferences.folders.helpers.FolderIconHelper;
+import com.the306bobby.cherrygramnext.preferences.folders.IconSelectorAlert;
 
 public class FilterCreateActivity extends BaseFragment {
 

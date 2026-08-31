@@ -16,7 +16,7 @@ import android.os.IBinder;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
 
-import uz.unnarsx.cherrygram.core.crashlytics.FirebaseCrashlyticsHelper;
+import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseCrashlyticsHelper;
 
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.LaunchActivity;

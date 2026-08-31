@@ -1,0 +1,17 @@
+/**
+ * This is the source code of Cherrygram Next for Android.
+ * It is a fork of Cherrygram, licensed under GNU GPL v. 2 or later.
+ * You should have received a copy of the license in this archive (see LICENSE).
+ * Please, be respectful and credit the original author if you use this code.
+ *
+ * Copyright github.com/arsLan4k1390, 2022-2026.
+ * Copyright github.com/306bobby-android, 2026.
+ */
+
+package com.the306bobby.cherrygramnext.core.icons.icon_replaces
+
+import com.the306bobby.cherrygramnext.core.icons.newHashMap
+
+class NoIconReplace : BaseIconReplace() {
+    override val replaces: HashMap<Int, Int> = newHashMap()
+}

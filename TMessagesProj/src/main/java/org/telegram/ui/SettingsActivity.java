@@ -150,12 +150,12 @@ import java.util.Set;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
-import uz.unnarsx.cherrygram.core.configs.CherrygramAppearanceConfig;
-import uz.unnarsx.cherrygram.core.ui.CGBulletinCreator;
-import uz.unnarsx.cherrygram.core.ui.StarsBadgeDrawable;
-import uz.unnarsx.cherrygram.helpers.ui.MonetHelper;
-import uz.unnarsx.cherrygram.preferences.CherrygramPreferencesNavigator;
-import uz.unnarsx.cherrygram.preferences.helpers.TelegramSettingsHelper;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
+import com.the306bobby.cherrygramnext.core.ui.CGBulletinCreator;
+import com.the306bobby.cherrygramnext.core.ui.StarsBadgeDrawable;
+import com.the306bobby.cherrygramnext.helpers.ui.MonetHelper;
+import com.the306bobby.cherrygramnext.preferences.CherrygramPreferencesNavigator;
+import com.the306bobby.cherrygramnext.preferences.helpers.TelegramSettingsHelper;
 
 public class SettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ImageUpdater.ImageUpdaterDelegate, MainTabsActivity.TabFragmentDelegate, FactorAnimator.Target {
 

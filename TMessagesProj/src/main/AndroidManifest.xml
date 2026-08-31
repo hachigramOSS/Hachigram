@@ -127,7 +127,7 @@
 
         <activity-alias
             android:enabled="true"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_Cherry"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_Cherry"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry"
             android:exported="true">
@@ -142,7 +142,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_Dark"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_Dark"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_dark"
             android:exported="true">
@@ -157,7 +157,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_Dark_Bra"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_Dark_Bra"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_dark_bra"
             android:exported="true">
@@ -172,7 +172,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_White_Cherry"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_White_Cherry"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_white"
             android:exported="true">
@@ -187,7 +187,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_White_Cherry_Bra"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_White_Cherry_Bra"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_white_bra"
             android:exported="true">
@@ -202,7 +202,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_Laguna"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_Laguna"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_laguna"
             android:exported="true">
@@ -217,7 +217,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_Aqua"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_Aqua"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_aqua"
             android:exported="true">
@@ -232,7 +232,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_Green"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_Green"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_green"
             android:exported="true">
@@ -247,7 +247,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_Lavanda"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_Lavanda"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_lavanda"
             android:exported="true">
@@ -262,7 +262,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_Violet_Sunset"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_Violet_Sunset"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_violet_sunset"
             android:exported="true">
@@ -277,7 +277,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_Violet_Sunset_Bra"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_Violet_Sunset_Bra"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_violet_sunset_bra"
             android:exported="true">
@@ -292,7 +292,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_Sunset"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_Sunset"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_sunset"
             android:exported="true">
@@ -307,7 +307,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_Sunrise"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_Sunrise"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_sunrise"
             android:exported="true">
@@ -322,7 +322,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_Turbo"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_Turbo"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_turbo"
             android:exported="true">
@@ -337,7 +337,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_Night"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_Night"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_nox"
             android:exported="true">
@@ -352,7 +352,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.CG_Icon_Dark_NY"
+            android:name="com.the306bobby.cherrygramnext.CG_Icon_Dark_NY"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_launcher_cherry_dark_ny"
             android:exported="true">
@@ -368,7 +368,7 @@
 <!--        Telegram launch icons start -->
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.PremiumIcon"
+            android:name="com.the306bobby.cherrygramnext.PremiumIcon"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_3_launcher"
             android:exported="true">
@@ -383,7 +383,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.TurboIcon"
+            android:name="com.the306bobby.cherrygramnext.TurboIcon"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_5_launcher"
             android:exported="true">
@@ -398,7 +398,7 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="uz.unnarsx.cherrygram.NoxIcon"
+            android:name="com.the306bobby.cherrygramnext.NoxIcon"
             android:targetActivity="org.telegram.ui.LaunchActivity"
             android:icon="@mipmap/icon_2_launcher"
             android:exported="true">
@@ -457,7 +457,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="vnd.android.cursor.item/vnd.uz.unnarsx.cherrygram.android.profile" />
+                <data android:mimeType="vnd.android.cursor.item/vnd.com.the306bobby.cherrygramnext.android.profile" />
             </intent-filter>
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
@@ -504,8 +504,8 @@
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
-                <data android:mimeType="vnd.android.cursor.item/vnd.uz.unnarsx.cherrygram.android.call"/>
-                <data android:mimeType="vnd.android.cursor.item/vnd.uz.unnarsx.cherrygram.android.call.video"/>
+                <data android:mimeType="vnd.android.cursor.item/vnd.com.the306bobby.cherrygramnext.android.call"/>
+                <data android:mimeType="vnd.android.cursor.item/vnd.com.the306bobby.cherrygramnext.android.call.video"/>
             </intent-filter>
         </activity-alias>
         <activity
@@ -544,7 +544,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="uz.unnarsx.cherrygram.misc.widgets.KaboomWidgetActivity"
+            android:name="com.the306bobby.cherrygramnext.misc.widgets.KaboomWidgetActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustPan"
@@ -612,14 +612,14 @@
                 android:theme="@style/Theme.TMessages.TransparentWithAlerts"/>
 
         <activity
-            android:name="uz.unnarsx.cherrygram.core.helpers.AppRestartHelper"
+            android:name="com.the306bobby.cherrygramnext.core.helpers.AppRestartHelper"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"
             android:process=":cherrygram"
             android:exported="false"
             />
 
         <receiver
-            android:name="uz.unnarsx.cherrygram.core.helpers.SleepHelper"
+            android:name="com.the306bobby.cherrygramnext.core.helpers.SleepHelper"
             android:enabled="true"
             android:exported="true" />
 
@@ -875,7 +875,7 @@
             />
 
 
-        <receiver android:name="uz.unnarsx.cherrygram.misc.widgets.KaboomWidget" android:exported="false">
+        <receiver android:name="com.the306bobby.cherrygramnext.misc.widgets.KaboomWidget" android:exported="false">
             <intent-filter>
                 <action android:name="android.appwidget.action.APPWIDGET_UPDATE"/>
             </intent-filter>

@@ -40,7 +40,7 @@ import org.telegram.ui.DialogsActivity;
 
 import java.util.ArrayList;
 
-import uz.unnarsx.cherrygram.preferences.folders.helpers.FolderIconHelper;
+import com.the306bobby.cherrygramnext.preferences.folders.helpers.FolderIconHelper;
 
 public class FiltersListBottomSheet extends BottomSheet implements NotificationCenter.NotificationCenterDelegate {
 

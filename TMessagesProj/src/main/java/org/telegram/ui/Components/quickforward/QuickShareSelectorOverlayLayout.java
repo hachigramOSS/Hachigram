@@ -24,7 +24,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 
-import uz.unnarsx.cherrygram.chats.helpers.ChatsHelper2;
+import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper2;
 
 public class QuickShareSelectorOverlayLayout extends View {
     private final HashMap<String, QuickShareSelectorDrawable> drawableHashMap = new HashMap<>();

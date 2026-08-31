@@ -48,7 +48,7 @@ You will require Android Studio 2025.1.4, Android NDK 27.2.12479018 and Android 
 3. Go to https://console.firebase.google.com/, create android apps matching your application ID,
    enable Firebase Messaging and download `google-services.json` into the `TMessagesProj` folder.
 4. Open the project in Android Studio (note that it should be opened, NOT imported).
-5. Fill out values in `TMessagesProj/src/main/java/uz/unnarsx/cherrygram/Extra.kt` – each variable
+5. Fill out values in `TMessagesProj/src/main/java/com/the306bobby/cherrygramnext/Extra.kt` – each variable
    contains a link explaining where to get the required data. Register your own `api_id`/`api_hash`
    at https://my.telegram.org; do not reuse another client's.
 6. You are ready to compile.

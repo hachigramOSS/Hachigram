@@ -29,7 +29,7 @@ import org.telegram.ui.Components.glass.GlassTabView;
 import java.util.HashSet;
 import java.util.Set;
 
-import uz.unnarsx.cherrygram.core.configs.CherrygramAppearanceConfig;
+import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.ListAnimator;
