@@ -1,6 +1,3 @@
-import java.nio.file.Files
-import java.nio.file.Paths
-
 apply plugin: 'com.android.application'
 if (file('google-services.json').exists()) {
     apply plugin: 'com.google.firebase.crashlytics'
@@ -243,61 +240,10 @@ android {
  *
  * **/
 
-static def loadEnv(filePath) {
-    def env = [:]
-    Files.lines(Paths.get(filePath)).each { line ->
-        if (line && !line.startsWith("#")) {
-            def (key, value) = line.split('=', 2)
-            env[key.trim()] = value?.trim()
-        }
-    }
-    return env
-}
-
-def env = loadEnv("${project.rootDir}/secrets_for_ci.env")
-
-env.each { key, value ->
-    ext."$key" = value
-}
-
-static def isWindows() {
-    def osName = System.getProperty('os.name').toLowerCase()
-    return osName.contains('win')
-}
-
-static def isMacOS() {
-    def osName = System.getProperty('os.name').toLowerCase()
-    return osName.contains('mac')
-}
-
-static def isWindowsOrMacOS() {
-    def osName = System.getProperty('os.name').toLowerCase()
-    return osName.contains('win') || osName.contains('mac')
-}
-
-def desktopPath
-if (isWindows()) {
-    desktopPath = "C:/Users/${SYSTEM_USERNAME}/Desktop/Cherry/Stable"
-} else if (isMacOS()) {
-    desktopPath = "/Users/${SYSTEM_USERNAME}/Desktop/Cherry/Stable"
-}
-
-tasks.register('copyFiles', Copy) {
-    from "${projectDir}/afat/release/"
-    include '**/*.aab'
-    into desktopPath
-}
-
 tasks.configureEach { task ->
     if (task.name == 'extractProguardFiles') {
         task.doFirst {
             delete "${projectDir}/afat/release/"
-        }
-    }
-
-    if (task.name == 'bundleAfatRelease') {
-        if (isWindowsOrMacOS()) {
-            task.finalizedBy 'copyFiles'
         }
     }
 }
