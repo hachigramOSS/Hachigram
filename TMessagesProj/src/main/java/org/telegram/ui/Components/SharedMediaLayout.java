@@ -1287,8 +1287,6 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     if (message.getId() == messageObject.getId()) {
                         imageReceiver = cell.imageReceiver;
                         cell.getLocationInWindow(coords);
-                        coords[0] += Math.round(cell.imageReceiver.getImageX());
-                        coords[1] += Math.round(cell.imageReceiver.getImageY());
                     }
                 } else if (view instanceof SharedDocumentCell) {
                     SharedDocumentCell cell = (SharedDocumentCell) view;
