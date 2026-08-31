@@ -90,6 +90,7 @@ public class ScrimOptions extends Dialog {
     private float scrimDrawableTx1, scrimDrawableTy1;
     private float scrimDrawableTx2, scrimDrawableTy2;
     private float scrimDrawableSw = 1f, scrimDrawableSh = 1f;
+    private boolean scrimMorphsToOptions;
 
     public ScrimOptions(@NonNull Context context, Theme.ResourcesProvider resourcesProvider) {
         super(context, R.style.TransparentDialog);
@@ -434,7 +435,7 @@ public class ScrimOptions extends Dialog {
                     optionsView.setPivotX(optionsView.getMeasuredWidth() - dp(6));
                     optionsContainer.setX(Math.max(dp(8), boundsRight + dp(4) - optionsContainer.getMeasuredWidth()) - containerView.getX());
                 }
-                scrimDrawableTx1 = right ? optionsContainer.getX() + optionsContainer.getWidth() - dp(6) - boundsRight : optionsContainer.getX() + dp(10) - boundsLeft;
+                scrimDrawableTx1 = !scrimMorphsToOptions ? 0f : right ? optionsContainer.getX() + optionsContainer.getWidth() - dp(6) - boundsRight : optionsContainer.getX() + dp(10) - boundsLeft;
                 scrimDrawableTy1 = 0f;
             }
 
@@ -777,6 +778,7 @@ public class ScrimOptions extends Dialog {
                 scrimDrawableTy2 -= (top + pathBounds.height()) - (AndroidUtilities.displaySize.y - AndroidUtilities.statusBarHeight - AndroidUtilities.navigationBarHeight - dp(8));
             }
             if (realPathBounds != null) {
+                scrimMorphsToOptions = true;
                 scrimDrawableSw = realPathBounds.width() / pathBounds.width();
                 scrimDrawableSh = realPathBounds.height() / pathBounds.height();
             }
