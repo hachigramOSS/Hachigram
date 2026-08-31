@@ -30,3 +30,4 @@ __pycache__/
 google-services.json
 google-services.b64
 *firebase-adminsdk*.json
+.kotlin/
