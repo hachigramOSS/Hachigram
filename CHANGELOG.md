@@ -3,6 +3,18 @@
 headings match the tag: `v0.<major>.<minor>[.<rc>]` for release candidates,
 `v<major>.<minor>[.<patch>]` for the real thing. the display name lives in `VERSION`.
 
+## v0.1.0.1
+
+rc1 wouldn't start. fixed that.
+
+### fixed
+
+- the app crashed on launch with "the crashlytics build id is missing". the
+  crashlytics sdk was still bundled but its gradle plugin deliberately wasn't, and
+  once a firebase config was present the sdk auto-started and demanded a build id
+  only that plugin writes. we don't want crash reporting, so the sdk is gone rather
+  than the plugin added. crashes go to the local log like before
+
 ## v0.1.0
 
 first build of cherrygram next. picks up where cherrygram left off when its source
