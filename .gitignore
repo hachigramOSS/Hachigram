@@ -31,3 +31,4 @@ google-services.json
 google-services.b64
 *firebase-adminsdk*.json
 .kotlin/
+push-token.env
