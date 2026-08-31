@@ -107,6 +107,10 @@ public class SectionsScrollView extends ScrollView {
         if (child == contentView || !(child.getParent() instanceof View)) return child.getY();
         return getChildY((View) child.getParent()) + child.getY();
     }
+    private float getChildAlpha(View child) {
+        if (child == contentView || !(child.getParent() instanceof View)) return child.getAlpha();
+        return getChildAlpha((View) child.getParent()) * child.getAlpha();
+    }
 
     private void drawSectionsBackgrounds(Canvas canvas) {
         children.clear();
@@ -119,7 +123,7 @@ public class SectionsScrollView extends ScrollView {
                 start = prev = null;
                 continue;
             }
-            if (start != null && Math.abs(prev.getAlpha() - child.getAlpha()) > 0.1f) {
+            if (start != null && Math.abs(getChildAlpha(prev) - getChildAlpha(child)) > 0.1f) {
                 drawSectionBackground(canvas, start, prev);
                 start = null;
             }
@@ -154,7 +158,7 @@ public class SectionsScrollView extends ScrollView {
             Math.min(getHeight() + dp(16) + getScrollY(), contentView.getY() + getChildY(to) + to.getHeight() + toBottomMargin)
         );
         if (AndroidUtilities.rectTmp.bottom < AndroidUtilities.rectTmp.top) return;
-        RecyclerListView.drawBackgroundRect(canvas, AndroidUtilities.rectTmp, dp(16), dp(16), from.getAlpha(), resourcesProvider);
+        RecyclerListView.drawBackgroundRect(canvas, AndroidUtilities.rectTmp, dp(16), dp(16), getChildAlpha(from), resourcesProvider);
     }
 
     @Override
