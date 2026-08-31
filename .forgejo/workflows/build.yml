@@ -5,11 +5,31 @@ on:
     branches: [main]
   pull_request:
   workflow_dispatch:
+    inputs:
+      verbose:
+        description: "Gradle --info --stacktrace"
+        type: boolean
+        default: false
+
+env:
+  GRADLE_FLAGS: ${{ inputs.verbose && '--info --stacktrace' || '--warning-mode=summary' }}
 
 jobs:
   compile:
     runs-on: android
     steps:
+      - name: Toolchain
+        run: |
+          echo "image      : $ImageOS $ImageVersion"
+          echo "java       : $(java -version 2>&1 | head -1)"
+          echo "sdk        : $ANDROID_SDK_ROOT"
+          echo "ndk        : $(ls $ANDROID_SDK_ROOT/ndk 2>/dev/null | tr '\n' ' ')"
+          echo "cmake      : $(ls $ANDROID_SDK_ROOT/cmake 2>/dev/null | tr '\n' ' ')"
+          echo "platforms  : $(ls $ANDROID_SDK_ROOT/platforms 2>/dev/null | tr '\n' ' ')"
+          echo "node       : $(node --version)"
+          echo "cpus/mem   : $(nproc) / $(free -h | awk '/Mem:/{print $2}')"
+          df -h . | tail -1
+
       - uses: actions/checkout@v4
 
       # Only jlatexmath is needed to configure Gradle; the native submodules are
@@ -38,7 +58,7 @@ jobs:
 
       - name: Compile
         run: |
-          ./gradlew --no-daemon --console=plain \
+          ./gradlew --no-daemon --console=plain $GRADLE_FLAGS \
             :TMessagesProj:compileDebugJavaWithJavac \
             :TMessagesProj_App:compileAfatDebugJavaWithJavac \
             :TMessagesProj_AppStandalone:compileAfatDebugJavaWithJavac
@@ -98,7 +118,7 @@ jobs:
                   -PRELEASE_KEY_ALIAS=$KEY_ALIAS \
                   -PRELEASE_KEY_PASSWORD=$KEY_PASSWORD"
           fi
-          ./gradlew --no-daemon --console=plain $ARGS :TMessagesProj_App:assembleAfatDebug
+          ./gradlew --no-daemon --console=plain $GRADLE_FLAGS $ARGS :TMessagesProj_App:assembleAfatDebug
 
       - name: Report signer
         run: |
