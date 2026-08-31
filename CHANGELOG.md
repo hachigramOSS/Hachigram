@@ -27,8 +27,9 @@ went dark.
 
 ### changed
 
-- firebase is opt-in. no config ships, so analytics, crash reporting, remote config
-  and push sit dead until you add your own `google-services.json`
+- firebase does push and nothing else. analytics is off by default, the crashlytics
+  plugin isn't applied, and remote config never starts, so nothing can phone home or
+  change how the app behaves from a server
 - everything that used to be locked behind donating is just available
 - update checks and the repo link point here now
 - renamed to `com.the306bobby.cherrygramnext`, so it installs next to cherrygram
