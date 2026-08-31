@@ -42,9 +42,7 @@ CMD mkdir -p /home/source/TMessagesProj/build/outputs/apk && \
         :TMessagesProj_App:bundleBundleAfat_SDK23Release \
         :TMessagesProj_App:bundleBundleAfatRelease \
         :TMessagesProj_AppStandalone:assembleAfatStandalone \
-        :TMessagesProj_App:assembleAfatRelease \
-        :TMessagesProj_AppHuawei:assembleAfatRelease --stacktrace && \
+        :TMessagesProj_App:assembleAfatRelease --stacktrace && \
     cp -R /home/gradle/TMessagesProj_App/build/outputs/apk/. /home/source/TMessagesProj/build/outputs/apk && \
-    cp -R /home/gradle/TMessagesProj_AppHuawei/build/outputs/apk/. /home/source/TMessagesProj/build/outputs/apk && \
     cp -R /home/gradle/TMessagesProj_AppStandalone/build/outputs/apk/. /home/source/TMessagesProj/build/outputs/apk && \
     cp -R /home/gradle/TMessagesProj_App/build/outputs/bundle/. /home/source/TMessagesProj/build/outputs/bundle

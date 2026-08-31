@@ -95,11 +95,6 @@
   <init>(com.google.android.exoplayer2.upstream.DataSource$Factory);
 }
 
-# Huawei Services
--keep class com.huawei.hianalytics.**{ *; }
--keep class com.huawei.updatesdk.**{ *; }
--keep class com.huawei.hms.**{ *; }
-
 # Used by AtomicReferenceFieldUpdater and sun.misc.Unsafe
 -keepclassmembers class com.google.common.util.concurrent.AbstractFuture** {
   *** waiters;
@@ -219,42 +214,3 @@
 -dontwarn java.lang.invoke.StringConcatFactory
 
 -dontwarn a.a.a.a.a.a
--dontwarn android.telephony.HwTelephonyManager
--dontwarn com.huawei.android.os.BuildEx$VERSION
--dontwarn com.huawei.android.telephony.ServiceStateEx
--dontwarn com.huawei.hianalytics.process.HiAnalyticsConfig$Builder
--dontwarn com.huawei.hianalytics.process.HiAnalyticsConfig
--dontwarn com.huawei.hianalytics.process.HiAnalyticsInstance$Builder
--dontwarn com.huawei.hianalytics.process.HiAnalyticsInstance
--dontwarn com.huawei.hianalytics.process.HiAnalyticsManager
--dontwarn com.huawei.hianalytics.util.HiAnalyticTools
--dontwarn com.huawei.hms.commonkit.config.Config
--dontwarn com.huawei.hms.config.Server
--dontwarn com.huawei.hms.maps.auth.AuthClient
--dontwarn com.huawei.hms.maps.provider.inhuawei.IDistanceCalculatorDelegate
--dontwarn com.huawei.hms.maps.provider.inhuawei.IHuaweiMapDelegate
--dontwarn com.huawei.hms.maps.provider.inhuawei.MapFragmentDelegate
--dontwarn com.huawei.hms.maps.provider.inhuawei.MapViewDelegate
--dontwarn com.huawei.hms.network.NetworkKit$Callback
--dontwarn com.huawei.hms.network.NetworkKit
--dontwarn com.huawei.hms.network.httpclient.HttpClient$Builder
--dontwarn com.huawei.hms.network.httpclient.HttpClient
--dontwarn com.huawei.hms.network.httpclient.Response
--dontwarn com.huawei.hms.network.httpclient.ResponseBody
--dontwarn com.huawei.hms.network.httpclient.Submit
--dontwarn com.huawei.hms.network.restclient.RestClient$Builder
--dontwarn com.huawei.hms.network.restclient.RestClient
--dontwarn com.huawei.hms.network.restclient.anno.Body
--dontwarn com.huawei.hms.network.restclient.anno.GET
--dontwarn com.huawei.hms.network.restclient.anno.HeaderMap
--dontwarn com.huawei.hms.network.restclient.anno.POST
--dontwarn com.huawei.hms.network.restclient.anno.Url
--dontwarn com.huawei.hms.tss.inner.TssCallback
--dontwarn com.huawei.hms.tss.inner.TssInnerAPI
--dontwarn com.huawei.hms.tss.inner.TssInnerClient
--dontwarn com.huawei.hms.tss.inner.entity.GetCertificationKeyReq
--dontwarn com.huawei.hms.tss.inner.entity.GetCertifiedCredentialReq
--dontwarn com.huawei.libcore.io.ExternalStorageFile
--dontwarn com.huawei.libcore.io.ExternalStorageFileInputStream
--dontwarn com.huawei.libcore.io.ExternalStorageFileOutputStream
--dontwarn com.huawei.libcore.io.ExternalStorageRandomAccessFile

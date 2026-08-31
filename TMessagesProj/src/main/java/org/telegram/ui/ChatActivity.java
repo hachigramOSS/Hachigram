@@ -42425,8 +42425,6 @@ public class ChatActivity extends BaseFragment implements
                     */
                     LaunchActivity.instance.checkCgUpdates(ChatActivity.this, null, true);
                 }
-            } else if (BuildVars.isHuaweiStoreApp()) {
-                Browser.openUrl(getContext(), BuildVars.HUAWEI_STORE_URL);
             } else {
                 Browser.openUrl(getContext(), BuildVars.PLAYSTORE_APP_URL);
             }
@@ -42481,9 +42479,7 @@ public class ChatActivity extends BaseFragment implements
                         };
                         LaunchActivity.instance.checkCgUpdates(ChatActivity.this, progressDialogCurrent, true);
                     }
-                } /*else if (BuildVars.isHuaweiStoreApp()) {
-                    Browser.openUrl(getContext(), BuildVars.HUAWEI_STORE_URL);
-                }*/ else {
+                } else {
                     Browser.openUrl(getContext(), Constants.UPDATE_APP_URL);
                 }
             } else if (type == ChatMessageCell.INSTANT_BUTTON_TYPE_ADD_OPTION) {

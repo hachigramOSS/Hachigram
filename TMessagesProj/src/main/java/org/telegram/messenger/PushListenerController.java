@@ -33,13 +33,11 @@ import java.util.concurrent.CountDownLatch;
 
 @Keep
 public class PushListenerController {
-    public static final int PUSH_TYPE_FIREBASE = 2,
-        PUSH_TYPE_HUAWEI = 13;
+    public static final int PUSH_TYPE_FIREBASE = 2;
 
     @Retention(RetentionPolicy.SOURCE)
     @IntDef({
-            PUSH_TYPE_FIREBASE,
-            PUSH_TYPE_HUAWEI
+            PUSH_TYPE_FIREBASE
     })
     public @interface PushType {}
 
@@ -66,7 +64,7 @@ public class PushListenerController {
                 if (userConfig.getClientUserId() != 0) {
                     final int currentAccount = a;
                     if (sendStat) {
-                        String tag = pushType == PUSH_TYPE_FIREBASE ? "fcm" : "hcm";
+                        String tag = "fcm";
                         TLRPC.TL_help_saveAppLog req = new TLRPC.TL_help_saveAppLog();
                         TLRPC.TL_inputAppEvent event = new TLRPC.TL_inputAppEvent();
                         event.time = SharedConfig.pushStringGetTimeStart;
@@ -94,7 +92,7 @@ public class PushListenerController {
     }
 
     public static void processRemoteMessage(@PushType int pushType, String data, long time) {
-        String tag = pushType == PUSH_TYPE_FIREBASE ? "FCM" : "HCM";
+        String tag = "FCM";
         if (BuildVars.LOGS_ENABLED) {
             FileLog.d(tag + " PRE START PROCESSING");
         }
