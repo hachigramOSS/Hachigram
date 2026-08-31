@@ -64,10 +64,12 @@ public class UpdaterUtils {
 
     public static final DispatchQueue otaQueue = new DispatchQueue("otaQueue");
 
-    private static final String RELEASE_URI = "https://git.306bobbyandroid.download/api/v1/repos/306bobby/Cherrygram-Next/releases/latest";
-    private static final String BETA_URI = "https://git.306bobbyandroid.download/api/v1/repos/306bobby/Cherrygram-Next/releases/latest";
+    private static final String RELEASES_API = "https://git.306bobbyandroid.download/api/v1/repos/306bobby/Cherrygram-Next/releases";
+    private static final String RELEASE_URI = RELEASES_API + "/latest";
+    // Includes pre-releases, which /latest omits; newest first.
+    private static final String BETA_URI = RELEASES_API + "?draft=false&limit=20";
     public static String downloadURL = null;
-    public static String version, changelog, size, uploadDate;
+    public static String version, releaseName, changelog, size, uploadDate;
     public static File otaPath, versionPath, apkFile;
 
     public static long id = 1L;
@@ -125,11 +127,7 @@ public class UpdaterUtils {
             FileLog.e(e);
         }
 
-        String[] current = CGResourcesHelper.getCherryVersion().split("\\.");
-        String[] downloaded = version.split("\\.");
-
-        int cmp = compareVersions(current, downloaded);
-        boolean isNew = cmp < 0;
+        boolean isNew = UpdateChannel.shouldOffer(CGResourcesHelper.INSTANCE.getCherryVersion(), version);
         CherrygramCoreConfig.INSTANCE.setUpdateAvailable(isNew);
 
         return isNew && apkFile.exists();
@@ -170,10 +168,9 @@ public class UpdaterUtils {
             CherrygramCoreConfig.INSTANCE.getLastUpdateCheckTime();
             CherrygramCoreConfig.INSTANCE.setLastUpdateCheckTime(System.currentTimeMillis());
             try {
-                HttpURLConnection connection = (HttpURLConnection) new URI(RELEASE_URI).toURL().openConnection();
-                if (CherrygramCoreConfig.INSTANCE.getInstallBetas()) {
-                    connection = (HttpURLConnection) new URI(BETA_URI).toURL().openConnection();
-                }
+                boolean wantsPreReleases = CherrygramCoreConfig.INSTANCE.getInstallBetas()
+                        || UpdateChannel.isReleaseCandidate(CGResourcesHelper.INSTANCE.getCherryVersion());
+                HttpURLConnection connection = (HttpURLConnection) new URI(wantsPreReleases ? BETA_URI : RELEASE_URI).toURL().openConnection();
                 connection.setRequestMethod("GET");
                 connection.setRequestProperty("User-Agent", NetworkHelper.formatUserAgent());
                 connection.setRequestProperty("Content-Type", "application/json");
@@ -185,7 +182,22 @@ public class UpdaterUtils {
                         textBuilder.append((char) c);
                 }
 
-                JSONObject obj = new JSONObject(textBuilder.toString());
+                String payload = textBuilder.toString().trim();
+                JSONObject obj = null;
+                if (payload.startsWith("[")) {
+                    JSONArray releases = new JSONArray(payload);
+                    String installed = CGResourcesHelper.INSTANCE.getCherryVersion();
+                    for (int i = 0; i < releases.length(); i++) {
+                        JSONObject candidate = releases.getJSONObject(i);
+                        if (UpdateChannel.shouldOffer(installed, candidate.optString("tag_name"))) {
+                            obj = candidate;
+                            break;
+                        }
+                    }
+                    if (obj == null) return;
+                } else {
+                    obj = new JSONObject(payload);
+                }
                 JSONArray arr = obj.getJSONArray("assets");
 
                 if (arr.length() == 0)
@@ -206,7 +218,8 @@ public class UpdaterUtils {
                         }
                     }
                 }
-                version = obj.getString("name"); // Can be changed to tag_name
+                version = obj.getString("tag_name");
+                releaseName = obj.optString("name", version);
                 changelog = obj.getString("body");
                 uploadDate = obj.getString("published_at").replaceAll("[TZ]", " ");
                 uploadDate = LocaleController.formatDateTime(getMillisFromDate(uploadDate, "yyyy-M-dd hh:mm:ss") / 1000, true);
@@ -510,11 +523,9 @@ public class UpdaterUtils {
 
         // todo: compare by version code, not version
         public boolean isNew() {
-            String[] current = CGResourcesHelper.getCherryVersion().split("\\.");
-            String[] latest = version.split("\\.");
-            int cmp = compareVersions(current, latest);
-            CherrygramCoreConfig.INSTANCE.setUpdateAvailable(cmp < 0);
-            return cmp < 0;
+            boolean offer = UpdateChannel.shouldOffer(CGResourcesHelper.INSTANCE.getCherryVersion(), version);
+            CherrygramCoreConfig.INSTANCE.setUpdateAvailable(offer);
+            return offer;
         }
 
         public boolean isForce() {
@@ -525,17 +536,6 @@ public class UpdaterUtils {
     /**
      * Returns negative if a < b, 0 if equals, positive if a > b
      */
-    private static int compareVersions(String[] a, String[] b) {
-        int length = Math.max(a.length, b.length);
-        for (int i = 0; i < length; i++) {
-            int v1 = i < a.length ? Utilities.parseInt(a[i]) : 0;
-            int v2 = i < b.length ? Utilities.parseInt(b[i]) : 0;
-            if (v1 != v2) {
-                return Integer.compare(v1, v2);
-            }
-        }
-        return 0;
-    }
 
     /*public static String getLastCheckUpdateTime() {
         return getString(R.string.UP_LastCheck) + ": " + LocaleController.formatDateTime(CherrygramCoreConfig.INSTANCE.getLastUpdateCheckTime() / 1000, true);
