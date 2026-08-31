@@ -120,7 +120,12 @@ android {
         bundleAfat {
             ndk {
                 //noinspection ChromeOsAbiSupport
-                abiFilters "armeabi-v7a", "arm64-v8a"/*, "x86", "x86_64"*/
+                // -PCI_ABI=arm64-v8a halves the native build on a runner
+                if (project.hasProperty('CI_ABI')) {
+                    abiFilters project.property('CI_ABI')
+                } else {
+                    abiFilters "armeabi-v7a", "arm64-v8a"/*, "x86", "x86_64"*/
+                }
             }
             ext {
                 abiVersionCode = 1
@@ -130,7 +135,12 @@ android {
         bundleAfat_SDK23 {
             ndk {
                 //noinspection ChromeOsAbiSupport
-                abiFilters "armeabi-v7a", "arm64-v8a"/*, "x86", "x86_64"*/
+                // -PCI_ABI=arm64-v8a halves the native build on a runner
+                if (project.hasProperty('CI_ABI')) {
+                    abiFilters project.property('CI_ABI')
+                } else {
+                    abiFilters "armeabi-v7a", "arm64-v8a"/*, "x86", "x86_64"*/
+                }
             }
             sourceSets.debug {
                 manifest.srcFile '../TMessagesProj/config/debug/AndroidManifest_SDK23.xml'
@@ -147,7 +157,12 @@ android {
         afat {
             ndk {
                 //noinspection ChromeOsAbiSupport
-                abiFilters "armeabi-v7a", "arm64-v8a"/*, "x86", "x86_64"*/
+                // -PCI_ABI=arm64-v8a halves the native build on a runner
+                if (project.hasProperty('CI_ABI')) {
+                    abiFilters project.property('CI_ABI')
+                } else {
+                    abiFilters "armeabi-v7a", "arm64-v8a"/*, "x86", "x86_64"*/
+                }
             }
             sourceSets.debug {
                 manifest.srcFile '../TMessagesProj/config/debug/AndroidManifest_SDK23.xml'
