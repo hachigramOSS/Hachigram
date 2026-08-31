@@ -198,6 +198,10 @@ android {
         buildConfigField "String", "BUILD_VERSION_STRING_CHERRY", "\"${cherryVersion}\""
         buildConfigField "String", "BUILD_SOURCE_CODE_VERSION", "\"${sourceCodeVersion}\""
         buildConfigField "String", "GIT_COMMIT_HASH", "\"${getGitHash()}\""
+
+        buildConfigField "int", "CG_APP_ID", getPropOr("CHERRYGRAM_APP_ID", "12345678")
+        buildConfigField "String", "CG_APP_HASH", "\"" + getPropOr("CHERRYGRAM_APP_HASH", "abcdefg") + "\""
+        buildConfigField "String", "CG_SMS_HASH", "\"" + getPropOr("CHERRYGRAM_SMS_HASH", "") + "\""
     }
 
     buildTypes {
@@ -252,6 +256,11 @@ android {
     namespace 'org.telegram.messenger'
 }
 
+
+def getPropOr(String propName, String fallback) {
+    def v = getProps(propName)
+    return (v == null || v.toString().isEmpty()) ? fallback : v.toString()
+}
 
 def getProps(String propName) {
     def propsFile = rootProject.file('local.properties')

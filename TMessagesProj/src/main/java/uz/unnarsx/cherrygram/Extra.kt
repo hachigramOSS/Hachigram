@@ -11,6 +11,7 @@ package uz.unnarsx.cherrygram
 
 import android.app.Activity
 import org.telegram.messenger.AndroidUtilities
+import org.telegram.messenger.BuildConfig
 import org.telegram.messenger.ChatObject
 import org.telegram.messenger.FileLog
 import org.telegram.messenger.LocaleController
@@ -28,33 +29,14 @@ import uz.unnarsx.cherrygram.helpers.UserHelper
 
 object Extra {
     // https://core.telegram.org/api/obtaining_api_id
-    const val APP_ID = 12345678
-    const val APP_HASH = "abcdefg"
+    @JvmField
+    val APP_ID = BuildConfig.CG_APP_ID
+    @JvmField
+    val APP_HASH: String = BuildConfig.CG_APP_HASH
 
     // https://developers.google.com/identity/sms-retriever/verify#computing_your_apps_hash_string
-    const val SMS_HASH = ""
-
-    /** Donates links start */
-    val FILE_NAME_HASH = arrayOf("")
-    val GITLAB_RAW_URL_HASH = arrayOf("")
-
-    val FILE_NAME_MARKETPLACE_HASH = arrayOf("")
-    val GITLAB_RAW_URL_MARKETPLACE_HASH = arrayOf("")
-
-    val FILE_NAME_BLOCKED_HASH = arrayOf("")
-    val GITLAB_RAW_URL_BLOCKED_HASH = arrayOf("")
-
-    val FILE_NAME_BADGE_COLORS_HASH = arrayOf("")
-    val GITLAB_RAW_URL_BADGE_COLORS_HASH = arrayOf("")
-
-    val FILE_NAME_TON_RATE_HASH = arrayOf("dG9u", "X3Vz", "ZHRf", "cmF0", "ZS5q", "c29u")
-    val TON_RATE_URL_HASH = arrayOf(
-        "aHR0", "cHM6", "Ly9j", "ZG4u", "anNk", "ZWxp", "dnIu",
-        "bmV0", "L25w", "bS9A", "ZmF3", "YXph", "aG1l", "ZDAv",
-        "Y3Vy", "cmVu", "Y3kt", "YXBp", "QGxh", "dGVz", "dC92",
-        "MS9j", "dXJy", "ZW5j", "aWVz", "L3Rv", "bi5q", "c29u"
-    )
-    /** Donates links finish */
+    @JvmField
+    val SMS_HASH: String = BuildConfig.CG_SMS_HASH
 
     const val ENDPOINT_FOR_DATE = "abcdefg"
     const val ENDPOINT_FOR_DATE_SECRET = "abcdefg"
