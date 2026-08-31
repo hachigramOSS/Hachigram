@@ -42,69 +42,14 @@ import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper
 object StickersManager {
 
     private const val FILE_NAME = "blocker_stickers_list.txt"
-    private const val GITLAB_RAW_URL = "https://gitlab.com/arsLan4k1390/Cherrygram-IDS/-/raw/main/stickers.txt?inline=false"
     private val REFRESH_INTERVAL = if (CherrygramCoreConfig.isDevBuild()) 60 * 60 * 1000L else 24 * 60 * 60 * 1000L // 24 hours
 
     private val blockedStickersIds = mutableSetOf<Long>()
 
     suspend fun startAutoRefresh(context: Context) {
-        val lastUpdateTime = CherrygramChatsConfig.lastStickersCheckTime
-        val currentTime = System.currentTimeMillis()
-
-        if (currentTime - lastUpdateTime > REFRESH_INTERVAL) {
-            updaterStickersList(context)
-            if (CherrygramCoreConfig.isDevBuild() || CherrygramDebugConfig.showRPCErrors) {
-                AndroidUtilities.runOnUIThread {
-                    Toast.makeText(ApplicationLoader.applicationContext, "Loaded remote stickers list", Toast.LENGTH_SHORT).show()
-                }
-            }
-        } else {
-            loadLocalStickersList(context)
-            if (CherrygramCoreConfig.isDevBuild() || CherrygramDebugConfig.showRPCErrors) {
-                AndroidUtilities.runOnUIThread {
-                    Toast.makeText(ApplicationLoader.applicationContext, "Loaded local stickers list", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
+        loadLocalStickersList(context)
     }
 
-    private suspend fun updaterStickersList(context: Context) {
-        withContext(Dispatchers.IO) {
-            try {
-                val url = URL(GITLAB_RAW_URL)
-                val connection = (url.openConnection() as HttpURLConnection).apply {
-                    connectTimeout = 5000
-                    readTimeout = 5000
-                }
-
-                val reader = InputStreamReader(connection.inputStream)
-                val tempStickerSetIDs = mutableSetOf<Long>()
-                val file = File(context.filesDir, FILE_NAME)
-                val writer = OutputStreamWriter(file.outputStream())
-
-                reader.buffered().useLines { lines ->
-                    lines.forEach { line ->
-                        line.trim().toLongOrNull()?.let { id ->
-                            tempStickerSetIDs.add(id)
-                            writer.write("$id\n")
-                        }
-                    }
-                }
-
-                writer.close()
-
-                synchronized(blockedStickersIds) {
-                    blockedStickersIds.clear()
-                    blockedStickersIds.addAll(tempStickerSetIDs)
-                }
-
-                CherrygramChatsConfig.lastStickersCheckTime = System.currentTimeMillis()
-
-            } catch (e: Exception) {
-                FileLog.e(e)
-            }
-        }
-    }
 
     private suspend fun loadLocalStickersList(context: Context) {
         withContext(Dispatchers.IO) {

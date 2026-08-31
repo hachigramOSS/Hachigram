@@ -38,13 +38,11 @@ object Constants {
 
     @JvmField
     var CG_PRIVACY_URL = "https://arslan4k1390.github.io/cherrygram/privacy"
-    @JvmField
-    var CG_DONATIONS_AND_TERMS_URL = "https://arslan4k1390.github.io/cherrygram/donation-terms"
 
     @JvmField
     var CG_CROWDIN_URL = "https://crowdin.com/project/cherrygram"
     @JvmField
-    var CG_GITHUB_URL = "https://github.com/arsLan4k1390/Cherrygram"
+    var CG_GITHUB_URL = "https://git.306bobbyandroid.download/306bobby/Cherrygram-Next"
     /** CG Links finish**/
 
     const val PACKAGE_NAME = "com.the306bobby.cherrygramnext"
