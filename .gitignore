@@ -25,3 +25,5 @@ TMessagesProj/jni/ffmpeg/build_android
 telegram-config.txt
 *.jks
 .keystore-password
+__pycache__/
+*.pyc
