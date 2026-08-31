@@ -72,8 +72,39 @@ jobs:
             [ -n "$APP_HASH" ] && echo "CHERRYGRAM_APP_HASH=$APP_HASH"
           } > local.properties
 
+      # A stable keystore keeps every runner-produced APK upgrade-compatible;
+      # without it AGP regenerates a debug key per container and each build
+      # would be signed by a different identity.
+      - name: Restore keystore
+        id: keystore
+        env:
+          KEYSTORE_BASE64: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          if [ -n "$KEYSTORE_BASE64" ]; then
+            printf '%s' "$KEYSTORE_BASE64" | base64 -d > "$RUNNER_TEMP/release.jks"
+            echo "path=$RUNNER_TEMP/release.jks" >> "$GITHUB_OUTPUT"
+          fi
+
       - name: Assemble debug APK
-        run: ./gradlew --no-daemon --console=plain :TMessagesProj_App:assembleAfatDebug
+        env:
+          STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          ARGS=""
+          if [ -n "${{ steps.keystore.outputs.path }}" ]; then
+            ARGS="-PRELEASE_STORE_FILE=${{ steps.keystore.outputs.path }} \
+                  -PRELEASE_STORE_PASSWORD=$STORE_PASSWORD \
+                  -PRELEASE_KEY_ALIAS=$KEY_ALIAS \
+                  -PRELEASE_KEY_PASSWORD=$KEY_PASSWORD"
+          fi
+          ./gradlew --no-daemon --console=plain $ARGS :TMessagesProj_App:assembleAfatDebug
+
+      - name: Report signer
+        run: |
+          APK=$(find TMessagesProj_App/build/outputs/apk -name '*.apk' | head -1)
+          "$ANDROID_SDK_ROOT/build-tools/36.0.0/apksigner" verify --print-certs "$APK" \
+            | grep -E 'certificate DN|certificate SHA-256' || true
 
       - uses: actions/upload-artifact@v4
         with:

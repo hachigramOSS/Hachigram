@@ -68,6 +68,7 @@ android {
     buildTypes {
         debug {
             debuggable true
+            signingConfig project.findProperty('RELEASE_STORE_FILE') ? signingConfigs.release : signingConfigs.debug
             jniDebuggable true
 //            applicationIdSuffix ".beta"
             minifyEnabled false
