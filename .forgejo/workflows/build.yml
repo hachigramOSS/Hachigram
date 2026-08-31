@@ -66,6 +66,7 @@ jobs:
   apk:
     runs-on: android
     needs: compile
+    if: github.event_name == 'workflow_dispatch'
     steps:
       # The native build needs every submodule: some are compiled, others are
       # only included from, such as openh264's headers in the WebRTC code.
