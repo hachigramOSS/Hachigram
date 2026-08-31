@@ -272,9 +272,8 @@ def getProps(String propName) {
         return "";
     }
 }
-if (file('google-services.json').exists()) {
-    apply plugin: 'com.google.gms.google-services'
-}
+// Not applied here: this is com.android.library, and the plugin only works on an
+// application module. The app modules carry google-services.json instead.
 
 task checkVisibility {
     doFirst {

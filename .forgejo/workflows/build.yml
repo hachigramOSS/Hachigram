@@ -105,6 +105,20 @@ jobs:
             echo "path=$RUNNER_TEMP/release.jks" >> "$GITHUB_OUTPUT"
           fi
 
+      # Cloud Messaging only; the crashlytics plugin is not applied and Remote
+      # Config is never initialised, so this file only enables push.
+      - name: Restore Firebase config
+        env:
+          GOOGLE_SERVICES_JSON: ${{ secrets.GOOGLE_SERVICES_JSON }}
+        run: |
+          if [ -n "$GOOGLE_SERVICES_JSON" ]; then
+            printf '%s' "$GOOGLE_SERVICES_JSON" | base64 -d > TMessagesProj_App/google-services.json
+            cp TMessagesProj_App/google-services.json TMessagesProj_AppStandalone/
+            echo "push enabled for this build"
+          else
+            echo "no GOOGLE_SERVICES_JSON; building without push"
+          fi
+
       - name: Assemble debug APK
         env:
           STORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}

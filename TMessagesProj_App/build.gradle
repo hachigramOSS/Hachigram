@@ -1,7 +1,7 @@
 apply plugin: 'com.android.application'
-if (file('google-services.json').exists()) {
-    apply plugin: 'com.google.firebase.crashlytics'
-}
+// Deliberately not applied: google-services.json is present for Cloud Messaging
+// only, and the crashlytics plugin would start uploading crashes with it.
+// apply plugin: 'com.google.firebase.crashlytics'
 apply plugin: 'kotlin-android'
 
 /*repositories {

@@ -22,7 +22,7 @@ object CherrygramPrivacyConfig {
 
     /** Privacy start */
     var hideProxySponsor by sharedPreferences.boolean("SP_NoProxyPromo", true)
-    var googleAnalytics by sharedPreferences.boolean("SP_GoogleAnalytics", ApplicationLoader.checkPlayServices())
+    var googleAnalytics by sharedPreferences.boolean("SP_GoogleAnalytics", false)
     /** Privacy finish */
 
     /** Passcode lock start */

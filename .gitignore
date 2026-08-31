@@ -27,3 +27,6 @@ telegram-config.txt
 .keystore-password
 __pycache__/
 *.pyc
+google-services.json
+google-services.b64
+*firebase-adminsdk*.json

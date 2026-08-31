@@ -159,8 +159,10 @@ object CherrygramCoreConfig: CoroutineScope by CoroutineScope(
 
     fun init() {
         launch {
-            if (ApplicationLoader.checkPlayServices() && FirebaseApp.initializeApp(ApplicationLoader.applicationContext) != null) {
-                FirebaseRemoteConfigHelper.initRemoteConfig()
+            // Firebase is initialised for Cloud Messaging only. Remote Config would let
+            // a server change how the app behaves, so it is left uninitialised.
+            if (ApplicationLoader.checkPlayServices()) {
+                FirebaseApp.initializeApp(ApplicationLoader.applicationContext)
             }
 
             migratePreferences()
