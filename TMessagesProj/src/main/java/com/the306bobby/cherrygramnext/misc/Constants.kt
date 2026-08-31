@@ -37,7 +37,7 @@ object Constants {
     var UPDATE_APP_URL = if (CherrygramCoreConfig.isPlayStoreBuild()) "https://play.google.com/store/apps/details?id=com.the306bobby.cherrygramnext" else CG_CHANNEL_URL
 
     @JvmField
-    var CG_PRIVACY_URL = "https://arslan4k1390.github.io/cherrygram/privacy"
+    var CG_PRIVACY_URL = "https://the306bobby.com/cherrygram-next/privacy"
 
     @JvmField
     var CG_CROWDIN_URL = "https://crowdin.com/project/cherrygram"

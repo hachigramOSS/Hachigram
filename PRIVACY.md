@@ -1,0 +1,57 @@
+# Privacy Policy — Cherrygram Next
+
+_Last updated: 2026-08-31_
+
+Cherrygram Next is an open-source Telegram client for Android. It is a fork of
+Cherrygram, which is itself a fork of the official Telegram app.
+
+## What we collect
+
+Nothing. The project runs no servers that collect user data, no analytics, no
+crash reporting and no telemetry of any kind. There are no ads and no trackers.
+
+Builds published by this project ship **no Firebase configuration**, so Firebase
+Analytics, Crashlytics, Remote Config and Cloud Messaging are all inert. The
+anti-tamper SDK that upstream Cherrygram bundled has been removed entirely.
+
+## Where your data does go
+
+**Telegram.** This is a Telegram client, so your messages, contacts, media and
+account details are handled by Telegram's own servers under
+[Telegram's Privacy Policy](https://telegram.org/privacy). Nothing in this app
+changes that, and none of it passes through us.
+
+**Update checks.** When you check for updates, the app requests the latest
+release from `git.306bobbyandroid.download`. That server sees your IP address and
+the request, as any web server would. Update checks are not automatic; they only
+happen when you ask for one.
+
+**Google Gemini (optional, off by default).** The AI features do nothing unless
+you enter your own Gemini API key. If you do, the text you send to those features
+goes to Google under your own API key and Google's terms. Remove the key and
+nothing is sent.
+
+**Links you tap.** Opening a link, a Telegram channel or a payment shortcut hands
+off to your browser or the relevant app. We do not proxy or log any of it.
+
+## What stays on your device
+
+App settings, cached media and chat data stay on your device and are handled by
+Android's normal app-data mechanisms. If the app crashes it writes a local
+`last_crash.log`; it is never uploaded, and it is only shared if you choose to
+share it.
+
+## If you build it yourself
+
+Adding your own `google-services.json` re-enables Firebase Cloud Messaging for
+your build. That is a decision for whoever produces that build, and this policy
+describes the builds published by this project.
+
+## Changes
+
+This policy lives in the repository alongside the code, so its history is public.
+Material changes will appear in the commit log.
+
+## Contact
+
+Source and issues: <https://git.306bobbyandroid.download/306bobby/Cherrygram-Next>
