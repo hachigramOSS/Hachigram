@@ -30,6 +30,23 @@ Telegram API manuals: https://core.telegram.org/api
 MTproto protocol manuals: https://core.telegram.org/mtproto
 
 
+## Versioning and releases
+
+`APP_VERSION_NAME_CHERRY` in `gradle.properties` is this fork's own version and is
+unrelated to Telegram's, which is tracked separately in `APP_VERSION_NAME` and shown
+in the APK filename as the `-TG-` component.
+
+Release-candidate status lives in the Forgejo release, not the version string: mark
+the release as a pre-release. `/releases/latest`, which the in-app updater reads,
+skips pre-releases, so stable users are not offered them.
+
+Do not put a suffix such as `-RC1` in the version. The updater compares versions with
+`Utilities.parseInt` on each dot-separated segment, which stops at the first
+non-digit, so `1.0.0-RC1`, `1.0.0-RC2` and `1.0.0` all compare equal and no update
+would ever be offered between them.
+
+Pre-1.0 builds use `0.0.x` so that `1.0.0` remains free for the first stable release.
+
 ## Compilation Guide
 
 You will require Android Studio 2025.1.4, Android NDK 27.2.12479018 and Android SDK 36.
