@@ -13,16 +13,60 @@ import java.nio.ByteOrder;
 
 import androidx.core.math.MathUtils;
 
+import org.telegram.messenger.ApplicationLoader;
+
 public class NinePatchBuilder {
+    public static final int TRANSPARENT_COLOR = 0x00000000;
+    public static final int NO_COLOR = 0x00000001;
+
+    public interface NinePathRenderer {
+        void draw(Canvas canvas, RectF rect, float[] radii);
+    }
+
+
     private NinePatchBuilder() {}
 
     public static NinePatchDrawable createNinePatch(
+        Bitmap[] bitmapRef,
         int fillColor,
         float[] radii,              // 8 values: TLx,TLy, TRx,TRy, BRx,BRy, BLx,BLy
         float shadowRadiusPx,
         int shadowColor,
         float shadowDxPx,
-        float shadowDyPx
+        float shadowDyPx,
+        int centralColorHint
+    ) {
+        return createNinePatch(bitmapRef, radii, shadowRadiusPx, shadowDxPx, shadowDyPx, centralColorHint, (canvas, rect, radii1) -> {
+            final Path path = new Path();
+            // radii are already per-corner (x,y), supports elliptical corners
+            path.addRoundRect(rect, radii1, Path.Direction.CW);
+
+            final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+            paint.setStyle(Paint.Style.FILL);
+            paint.setColor(fillColor);
+
+            if (shadowRadiusPx > 0f) {
+                paint.setShadowLayer(shadowRadiusPx, shadowDxPx, shadowDyPx, shadowColor);
+            }
+
+            canvas.drawPath(path, paint);
+
+            // Optional second pass without shadow to keep fill perfectly crisp
+            if (shadowRadiusPx > 0f) {
+                paint.clearShadowLayer();
+                canvas.drawPath(path, paint);
+            }
+        });
+    }
+
+    public static NinePatchDrawable createNinePatch(
+        Bitmap[] bitmapRef,
+        float[] radii,              // 8 values: TLx,TLy, TRx,TRy, BRx,BRy, BLx,BLy
+        float shadowRadiusPx,
+        float shadowDxPx,
+        float shadowDyPx,
+        int centralColorHint,
+        NinePathRenderer renderer
     ) {
         if (radii == null || radii.length != 8) {
             throw new IllegalArgumentException("radii must have 8 values: TLx,TLy, TRx,TRy, BRx,BRy, BLx,BLy");
@@ -58,40 +102,36 @@ public class NinePatchBuilder {
         final int bitmapW = contentW + padLeft + padRight;
         final int bitmapH = contentH + padTop + padBottom;
 
-        final Bitmap bitmap = Bitmap.createBitmap(bitmapW, bitmapH, Bitmap.Config.ARGB_8888);
+        final boolean hasBitmapRef = bitmapRef != null && bitmapRef.length == 1;
+
+        Bitmap bitmap = null;
+        if (hasBitmapRef && bitmapRef[0] != null) {
+            final Bitmap b = bitmapRef[0];
+            if (!b.isRecycled() && b.isMutable() && b.getWidth() == bitmapW && b.getHeight() == bitmapH && b.getConfig() == Bitmap.Config.ARGB_8888) {
+                b.eraseColor(0);
+                bitmap = b;
+            }
+        }
+        if (bitmap == null) {
+            bitmap = Bitmap.createBitmap(bitmapW, bitmapH, Bitmap.Config.ARGB_8888);
+        }
+        if (hasBitmapRef) {
+            bitmapRef[0] = bitmap;
+        }
+
         final Canvas canvas = new Canvas(bitmap);
-
-        final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        paint.setStyle(Paint.Style.FILL);
-        paint.setColor(fillColor);
-
-        if (shadowRadiusPx > 0f) {
-            paint.setShadowLayer(shadowRadiusPx, shadowDxPx, shadowDyPx, shadowColor);
-        }
-
         final RectF rect = new RectF(
-                padLeft,
-                padTop,
-                padLeft + contentW,
-                padTop + contentH
+            padLeft,
+            padTop,
+            padLeft + contentW,
+            padTop + contentH
         );
-
-        final Path path = new Path();
-        // radii are already per-corner (x,y), supports elliptical corners
-        path.addRoundRect(rect, new float[]{
-                tlRx, tlRy,
-                trRx, trRy,
-                brRx, brRy,
-                blRx, blRy
-        }, Path.Direction.CW);
-
-        canvas.drawPath(path, paint);
-
-        // Optional second pass without shadow to keep fill perfectly crisp
-        if (shadowRadiusPx > 0f) {
-            paint.clearShadowLayer();
-            canvas.drawPath(path, paint);
-        }
+        renderer.draw(canvas, rect, new float[]{
+            tlRx, tlRy,
+            trRx, trRy,
+            brRx, brRy,
+            blRx, blRy
+        });
 
         // 4) Stretch area: central region that must not include any corner curvature.
         // X uses Rx; Y uses Ry.
@@ -111,13 +151,50 @@ public class NinePatchBuilder {
         final int y2 = MathUtils.clamp(v, y1 + 1, bitmapH - 1);
 
         final byte[] chunk = createNinePatchChunk(
-            x1, x2,
-            y1, y2,
-            padLeft, padTop, padRight, padBottom
+                x1, x2,
+                y1, y2,
+                padLeft, padTop, padRight, padBottom,
+                centralColorHint
         ).array();
 
         final Rect padding = new Rect(padLeft, padTop, padRight, padBottom);
-        return new NinePatchDrawable(bitmap, chunk, padding, null);
+        return new NinePatchDrawable(ApplicationLoader.applicationContext.getResources(),
+            bitmap, chunk, padding, null);
+    }
+
+    /**
+     * Creates a NinePatchDrawable from an existing bitmap with a 1x1 stretch
+     * section at the specified pixel. The central color hint is read directly
+     * from the bitmap; all other sections use NO_COLOR.
+     */
+    public static NinePatchDrawable createNinePatch(Bitmap bitmap, Rect padding, int centerX, int centerY) {
+        if (bitmap == null) {
+            throw new IllegalArgumentException("bitmap == null");
+        }
+        if (bitmap.isRecycled()) {
+            throw new IllegalArgumentException("bitmap is recycled");
+        }
+        if (centerX < 0 || centerX >= bitmap.getWidth() || centerY < 0 || centerY >= bitmap.getHeight()) {
+            throw new IllegalArgumentException(
+                    "center pixel is outside bitmap: (" + centerX + ", " + centerY + ") for "
+                            + bitmap.getWidth() + "x" + bitmap.getHeight());
+        }
+
+        final int centralColor = bitmap.getPixel(centerX, centerY);
+        final byte[] chunk = createNinePatchChunk(
+                centerX, centerX + 1,
+                centerY, centerY + 1,
+                padding.left, padding.top, padding.right, padding.bottom,
+                centralColor
+        ).array();
+
+        return new NinePatchDrawable(
+                ApplicationLoader.applicationContext.getResources(),
+                bitmap,
+                chunk,
+                padding,
+                null
+        );
     }
 
     /**
@@ -127,7 +204,9 @@ public class NinePatchBuilder {
     public static ByteBuffer createNinePatchChunk(
             int x1, int x2,
             int y1, int y2,
-            int padLeft, int padTop, int padRight, int padBottom
+            int padLeft, int padTop,
+            int padRight, int padBottom,
+            int centralColorHint
     ) {
         final byte xDivsCount = 2;
         final byte yDivsCount = 2;
@@ -162,10 +241,16 @@ public class NinePatchBuilder {
         buffer.putInt(y1);
         buffer.putInt(y2);
 
-        // colors: fill with NO_COLOR (1)
-        for (int i = 0; i < colorsCount; i++) {
-            buffer.putInt(0x00000001);
-        }
+        // color hint
+        buffer.putInt(NO_COLOR);
+        buffer.putInt(NO_COLOR);
+        buffer.putInt(NO_COLOR);
+        buffer.putInt(NO_COLOR);
+        buffer.putInt(centralColorHint);
+        buffer.putInt(NO_COLOR);
+        buffer.putInt(NO_COLOR);
+        buffer.putInt(NO_COLOR);
+        buffer.putInt(NO_COLOR);
 
         return buffer;
     }

@@ -31,7 +31,6 @@ import uz.unnarsx.cherrygram.preferences.int
 import uz.unnarsx.cherrygram.preferences.long
 import uz.unnarsx.cherrygram.preferences.string
 import androidx.core.content.edit
-import org.telegram.ui.web.RestrictedDomainsList
 
 object CherrygramCoreConfig: CoroutineScope by CoroutineScope(
     context = SupervisorJob() + Dispatchers.Default
@@ -173,12 +172,6 @@ object CherrygramCoreConfig: CoroutineScope by CoroutineScope(
             DonatesManager.startAutoRefresh(ApplicationLoader.applicationContext, force = false, fromIntegrityChecker = false)
 
             migratePreferences()
-
-            if (allowSafeStars) {
-                if (!RestrictedDomainsList.getInstance().isRestricted("safestars.pro")) {
-                    RestrictedDomainsList.getInstance().setRestricted(true, "safestars.pro")
-                }
-            }
         }
     }
 

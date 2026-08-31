@@ -45,6 +45,7 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.tgnet.tl.TL_stars;
 import org.telegram.ui.AccountFrozenAlert;
 import org.telegram.ui.ActionBar.ActionBar;
+import org.telegram.ui.ActionBar.BackDrawable;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.HeaderCell;
@@ -198,9 +199,11 @@ public class TONIntroActivity extends GradientHeaderActivity implements Notifica
                 super.onMeasure(widthMeasureSpec, MeasureSpec.makeMeasureSpec(firstViewHeight, MeasureSpec.EXACTLY));
             }
         };
-        emptyLayout.setBackgroundColor(Theme.getColor(allowTopUp ? Theme.key_dialogBackgroundGray : Theme.key_dialogBackground));
 
         super.createView(context);
+        if (parentLayout != null && parentLayout.isRightLayout()) {
+            actionBar.setBackButtonImage(R.drawable.ic_ab_close);
+        }
 
         aboveTitleView = new FrameLayout(context);
         aboveTitleView.setClickable(true);
@@ -244,7 +247,7 @@ public class TONIntroActivity extends GradientHeaderActivity implements Notifica
         starBalanceTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteBlackText, resourceProvider));
 
         starBalanceIcon = new SpannableStringBuilder("S");
-        final ColoredImageSpan starBalanceIconSpan = new ColoredImageSpan(R.drawable.ton);
+        final ColoredImageSpan starBalanceIconSpan = new ColoredImageSpan(R.drawable.mini_gram_72);
         starBalanceIconSpan.setOverrideColor(0xFF3391D4);
         starBalanceIconSpan.setScale(0.5f, 0.5f);
         starBalanceIconSpan.translate(-dp(3), 0);
@@ -626,9 +629,9 @@ public class TONIntroActivity extends GradientHeaderActivity implements Notifica
 
         if (hadTransactions = c.hasTransactions()) {
             if (!allowTopUp) items.add(UItem.asShadow(null));
-            items.add(UItem.asFullscreenCustom(transactionsLayout, ActionBar.getCurrentActionBarHeight() + AndroidUtilities.statusBarHeight + dp(12)));
+            items.add(UItem.asFullscreenCustom(transactionsLayout, ActionBar.getCurrentActionBarHeight() + AndroidUtilities.statusBarHeight + dp(24) + AndroidUtilities.navigationBarHeight));
         } else {
-            items.add(UItem.asCustom(emptyLayout));
+            items.add(UItem.asCustomShadow(emptyLayout));
         }
     }
 

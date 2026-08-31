@@ -10,6 +10,7 @@ import android.util.SparseIntArray;
 
 import androidx.core.graphics.ColorUtils;
 
+import org.telegram.ui.ActionBar.MessageDrawable;
 import org.telegram.ui.ActionBar.Theme;
 
 import java.util.HashSet;
@@ -181,6 +182,7 @@ public class DarkThemeResourceProvider implements Theme.ResourcesProvider {
         sparseIntArray.put(Theme.key_player_progress, -11292689);
         sparseIntArray.put(Theme.key_player_progressBackground, -12829636);
         sparseIntArray.put(Theme.key_player_progressCachedBackground, -11184811);
+        sparseIntArray.put(Theme.key_glass_targetMainTopPanel, -15198183);
 
         appendColors();
         dividerPaint.setColor(getColor(Theme.key_divider));
@@ -209,7 +211,7 @@ public class DarkThemeResourceProvider implements Theme.ResourcesProvider {
     public Drawable getDrawable(String drawableKey) {
         if (Objects.equals(drawableKey, Theme.key_drawable_msgOutMedia)) {
             if (msgOutMedia == null) {
-                msgOutMedia = new Theme.MessageDrawable(Theme.MessageDrawable.TYPE_MEDIA, true, false, this);
+                msgOutMedia = new MessageDrawable(MessageDrawable.TYPE_MEDIA, true, false, this);
             }
             return msgOutMedia;
         }

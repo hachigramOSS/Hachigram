@@ -32,12 +32,26 @@ MTproto protocol manuals: https://core.telegram.org/mtproto
 
 ## Compilation Guide
 
-1. Download the Cherrygram source code (`git clone https://github.com/arslan4k1390/Cherrygram.git`)
-2. Fill out storeFile, storePassword, keyAlias, keyPassword in all module build.gradle files (TMessagesProj_App, TMessagesProj_AppHuawei, TMessagesProj_AppStandalone) to sign your app.
-3. Go to https://console.firebase.google.com/, create two android apps with application IDs uz.unnarsx.cherrygram and uz.unnarsx.cherrygram.beta, enable Firebase Messaging and download `google-services.json`, which should be copied into `TMessagesProj` folder.
-4. Open the project in the Studio (note that it should be opened, NOT imported).
-5. Fill out values in `TMessagesProj/src/main/java/uz/unnarsx/cherrygram/Extra.kt` – each variable contains a link explaining where to get the required data.
-6. You are ready to compile and use Cherrygram.
+You will require Android Studio 2025.1.4, Android NDK 27.2.12479018 and Android SDK 36.
+
+1. Clone the source code **with its submodules** — upstream Telegram now vendors ffmpeg,
+   libvpx, dav1d, opus, openh264, libyuv, tlottie and jlatexmath as git submodules:
+   ```bash
+   git clone --recursive --shallow-submodules <your-fork-url> Cherrygram-Next
+   ```
+   If you already cloned without `--recursive`:
+   ```bash
+   git submodule update --init --recursive --depth=1
+   ```
+2. Fill out storeFile, storePassword, keyAlias, keyPassword in all module build.gradle files
+   (TMessagesProj_App, TMessagesProj_AppStandalone) to sign your app.
+3. Go to https://console.firebase.google.com/, create android apps matching your application ID,
+   enable Firebase Messaging and download `google-services.json` into the `TMessagesProj` folder.
+4. Open the project in Android Studio (note that it should be opened, NOT imported).
+5. Fill out values in `TMessagesProj/src/main/java/uz/unnarsx/cherrygram/Extra.kt` – each variable
+   contains a link explaining where to get the required data. Register your own `api_id`/`api_hash`
+   at https://my.telegram.org; do not reuse another client's.
+6. You are ready to compile.
 
 
 ## Thanks to:

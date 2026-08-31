@@ -22,6 +22,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.messenger.ImageLocation;
 import org.telegram.messenger.ImageReceiver;
 import org.telegram.tgnet.TLRPC;
+import org.telegram.ui.ActionBar.MessageDrawable;
 import org.telegram.ui.ActionBar.Theme;
 
 import java.util.Locale;
@@ -88,10 +89,8 @@ public class RadialProgress2 {
         overlayImageView.setInvalidateAll(true);
 
         mediaActionDrawable = new MediaActionDrawable();
-        mediaActionDrawable.setDelegate(parentView::invalidate);
 
         miniMediaActionDrawable = new MediaActionDrawable();
-        miniMediaActionDrawable.setDelegate(parentView::invalidate);
         miniMediaActionDrawable.setMini(true);
         miniMediaActionDrawable.setIcon(MediaActionDrawable.ICON_NONE, false);
 
@@ -99,6 +98,18 @@ public class RadialProgress2 {
         overlayImageView.setRoundRadius(circleRadius);
 
         overlayPaint.setColor(0x64000000);
+
+        if (parentView != null) {
+            mediaActionDrawable.setDelegate(parentView::invalidate);
+            miniMediaActionDrawable.setDelegate(parentView::invalidate);
+        }
+    }
+
+    public void setParent(View parent) {
+        this.parent = parent;
+        overlayImageView.setParentView(parent);
+        mediaActionDrawable.setDelegate(parent::invalidate);
+        miniMediaActionDrawable.setDelegate(parent::invalidate);
     }
 
     public void setResourcesProvider(Theme.ResourcesProvider resourcesProvider) {
@@ -127,7 +138,7 @@ public class RadialProgress2 {
         return circleRadius;
     }
 
-    public void setBackgroundDrawable(Theme.MessageDrawable drawable) {
+    public void setBackgroundDrawable(MessageDrawable drawable) {
         mediaActionDrawable.setBackgroundDrawable(drawable);
         miniMediaActionDrawable.setBackgroundDrawable(drawable);
     }
@@ -150,6 +161,10 @@ public class RadialProgress2 {
 
     public void setImageOverlay(String url) {
         overlayImageView.setImage(url, url != null ? String.format(Locale.US, "%d_%d", circleRadius * 2, circleRadius * 2) : null, null, null, -1);
+    }
+
+    public void setImageOverlay(Bitmap bitmap) {
+        overlayImageView.setImageBitmap(bitmap);
     }
 
     public void onAttachedToWindow() {
@@ -244,10 +259,12 @@ public class RadialProgress2 {
             return;
         }
         mediaActionDrawable.setIcon(icon, animated);
-        if (!animated) {
-            parent.invalidate();
-        } else {
-            invalidateParent();
+        if (parent != null) {
+            if (!animated) {
+                parent.invalidate();
+            } else {
+                invalidateParent();
+            }
         }
     }
 
@@ -309,6 +326,25 @@ public class RadialProgress2 {
         return overrideAlpha;
     }
 
+    public float getWholeAlpha() {
+        final int currentIcon = mediaActionDrawable.getCurrentIcon();
+        final int prevIcon = mediaActionDrawable.getPreviousIcon();
+
+        if (backgroundStroke != 0) {
+            if (currentIcon == MediaActionDrawable.ICON_CANCEL) {
+                return 1.0f - mediaActionDrawable.getTransitionProgress();
+            } else if (prevIcon == MediaActionDrawable.ICON_CANCEL) {
+                return mediaActionDrawable.getTransitionProgress();
+            } else {
+                return 1.0f;
+            }
+        } else if ((currentIcon == MediaActionDrawable.ICON_CANCEL || currentIcon == MediaActionDrawable.ICON_CHECK || currentIcon == MediaActionDrawable.ICON_EMPTY || currentIcon == MediaActionDrawable.ICON_GIF || currentIcon == MediaActionDrawable.ICON_PLAY) && prevIcon == MediaActionDrawable.ICON_NONE) {
+            return mediaActionDrawable.getTransitionProgress();
+        } else {
+            return currentIcon != MediaActionDrawable.ICON_NONE ? 1.0f : 1.0f - mediaActionDrawable.getTransitionProgress();
+        }
+    }
+
     @Keep
     public void draw(Canvas canvas) {
         if (mediaActionDrawable.getCurrentIcon() == MediaActionDrawable.ICON_NONE && mediaActionDrawable.getTransitionProgress() >= 1.0f || progressRect.isEmpty()) {
@@ -316,22 +352,7 @@ public class RadialProgress2 {
         }
 
         int currentIcon = mediaActionDrawable.getCurrentIcon();
-        int prevIcon = mediaActionDrawable.getPreviousIcon();
-
-        float wholeAlpha;
-        if (backgroundStroke != 0) {
-            if (currentIcon == MediaActionDrawable.ICON_CANCEL) {
-                wholeAlpha = 1.0f - mediaActionDrawable.getTransitionProgress();
-            } else if (prevIcon == MediaActionDrawable.ICON_CANCEL) {
-                wholeAlpha = mediaActionDrawable.getTransitionProgress();
-            } else {
-                wholeAlpha = 1.0f;
-            }
-        } else if ((currentIcon == MediaActionDrawable.ICON_CANCEL || currentIcon == MediaActionDrawable.ICON_CHECK || currentIcon == MediaActionDrawable.ICON_EMPTY || currentIcon == MediaActionDrawable.ICON_GIF || currentIcon == MediaActionDrawable.ICON_PLAY) && prevIcon == MediaActionDrawable.ICON_NONE) {
-            wholeAlpha = mediaActionDrawable.getTransitionProgress();
-        } else {
-            wholeAlpha = currentIcon != MediaActionDrawable.ICON_NONE ? 1.0f : 1.0f - mediaActionDrawable.getTransitionProgress();
-        }
+        final float wholeAlpha = getWholeAlpha();
 
         if (isPressedMini && circleCrossfadeColorKey < 0) {
             if (iconPressedColorKey >= 0) {

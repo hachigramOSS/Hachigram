@@ -21,6 +21,7 @@ import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.text.Editable;
 import android.text.InputType;
+import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.text.TextPaint;
@@ -58,6 +59,7 @@ import org.telegram.messenger.ChatObject;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.LocaleController;
 import org.telegram.messenger.MediaDataController;
+import org.telegram.messenger.MessageObject;
 import org.telegram.messenger.MessagesController;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
@@ -93,6 +95,7 @@ import org.telegram.ui.Components.FlickerLoadingView;
 import org.telegram.ui.Components.ItemOptions;
 import org.telegram.ui.Components.LayoutHelper;
 import org.telegram.ui.Components.LinkSpanDrawable;
+import org.telegram.ui.Components.LoadingSpan;
 import org.telegram.ui.Components.Premium.boosts.UserSelectorBottomSheet;
 import org.telegram.ui.Components.RLottieDrawable;
 import org.telegram.ui.Components.RecyclerListView;
@@ -369,18 +372,12 @@ public class ProfileGiftsContainer extends FrameLayout implements NotificationCe
         }
 
         public void bind(boolean isCollection, StarsController.GiftsList list) {
-            if (this.list != null) {
-                NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.starUserGiftsLoaded);
-            }
             this.isCollection = isCollection;
             this.list = list;
             if (list != null) {
                 list.load();
             }
             update(false);
-            if (this.list != null) {
-                NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.starUserGiftsLoaded);
-            }
             if (emptyView2Layout != null) {
                 emptyView2Layout.setVisibility(parent.collections.isMine() ? View.VISIBLE : View.GONE);
             }
@@ -418,17 +415,13 @@ public class ProfileGiftsContainer extends FrameLayout implements NotificationCe
         @Override
         protected void onAttachedToWindow() {
             super.onAttachedToWindow();
-            if (list != null) {
-                NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.starUserGiftsLoaded);
-            }
+            NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.starUserGiftsLoaded);
         }
 
         @Override
         protected void onDetachedFromWindow() {
             super.onDetachedFromWindow();
-            if (list != null) {
-                NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.starUserGiftsLoaded);
-            }
+            NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.starUserGiftsLoaded);
         }
 
         @Override
@@ -642,7 +635,7 @@ public class ProfileGiftsContainer extends FrameLayout implements NotificationCe
             if (parent.list == list) {
                 items.add(UItem.asSpace(dp(20)));
                 if (parent.dialogId == UserConfig.getInstance(currentAccount).getClientUserId()) {
-                    items.add(TextFactory.asText(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider), Gravity.CENTER, 14, LocaleController.getString(R.string.ProfileGiftsInfo), true, dp(24)));
+                    items.add(TextFactory.asText(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText2, resourcesProvider), Gravity.CENTER, 14, LocaleController.getString(R.string.ProfileGiftsInfo), false, dp(24), 0));
                 }
                 items.add(UItem.asSpace(dp(24 + 48 + 10)));
             } else if (!items.isEmpty()) {
@@ -698,7 +691,7 @@ public class ProfileGiftsContainer extends FrameLayout implements NotificationCe
                         .setOnGiftUpdatedListener(() -> {
                             update(false);
                         })
-                        .setOnBoughtGift((boughtGift, dialogId) -> {
+                        .setOnBoughtGift((boughtGift, dialogId, fragmentsImmediately) -> {
                             list.gifts.remove(userGift);
                             update(true);
 
@@ -1739,10 +1732,10 @@ public class ProfileGiftsContainer extends FrameLayout implements NotificationCe
         if (gifts.isEmpty()) return "";
         final SpannableStringBuilder ssb = new SpannableStringBuilder(" ");
         for (int i = 0; i < gifts.size(); ++i) {
-            final SpannableStringBuilder emoji = new SpannableStringBuilder("x");
             final TLRPC.Document sticker = gifts.get(i);
+            final SpannableStringBuilder emoji = new SpannableStringBuilder(MessageObject.getEmoji(sticker));
             final AnimatedEmojiSpan span = new AnimatedEmojiSpan(sticker, .9f, fontMetricsInt);
-            emoji.setSpan(span, 0, 1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            emoji.setSpan(span, 0, emoji.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
             ssb.append(emoji);
         }
 
@@ -1811,27 +1804,28 @@ public class ProfileGiftsContainer extends FrameLayout implements NotificationCe
             textView.setGravity(item.intValue);
             textView.setTextColor((int) item.longValue);
             textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, item.floatValue);
-            textView.setTypeface(item.checked ? null : AndroidUtilities.bold());
-            textView.setPadding(item.pad, 0, item.pad, 0);
+            textView.setTypeface(item.accent ? AndroidUtilities.bold() : null);
+            textView.setPadding(item.pad, 0, item.pad, item.iconResId);
             textView.setText(item.text);
         }
 
         public static UItem asBoldText(int color, int gravity, float textSizeDp, CharSequence text) {
-            return asText(color, gravity, textSizeDp, text, true, 0);
+            return asText(color, gravity, textSizeDp, text, true, 0, 0);
         }
 
         public static UItem asText(int color, int gravity, float textSizeDp, CharSequence text) {
-            return asText(color, gravity, textSizeDp, text, false, 0);
+            return asText(color, gravity, textSizeDp, text, false, 0, 0);
         }
 
-        public static UItem asText(int color, int gravity, float textSizeDp, CharSequence text, boolean bold, int padding) {
+        public static UItem asText(int color, int gravity, float textSizeDp, CharSequence text, boolean bold, int padding, int bottomPadding) {
             UItem item = UItem.ofFactory(TextFactory.class);
             item.text = text;
             item.intValue = gravity;
             item.longValue = color;
             item.floatValue = textSizeDp;
             item.pad = padding;
-            item.checked = bold;
+            item.iconResId = bottomPadding;
+            item.accent = bold;
             return item;
         }
     }

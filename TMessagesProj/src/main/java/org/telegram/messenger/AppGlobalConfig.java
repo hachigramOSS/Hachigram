@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import org.telegram.tgnet.TLRPC;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 public class AppGlobalConfig {
@@ -57,6 +58,49 @@ public class AppGlobalConfig {
     public final ConfigBoolean disableBlurInDarkTheme = ofBoolean("android_disable_blur_in_dark_theme", false);
 
     public final ConfigTime noForwardsRequestExpirePeriod = ofTime("no_forwards_request_expire_period", 86400, TimeUnit.SECONDS);
+    public final ConfigTime pollClosePeriodMax = ofTime("poll_close_period_max", 86400 * 30, TimeUnit.SECONDS);
+
+    public final ConfigString musicSearchUsername = ofString("music_search_username", null);
+
+    public final ConfigInt pollAnswersMax = ofInt("poll_answers_max", 12);
+    public final ConfigInt pollCountriesMax = ofInt("poll_countries_max", 12);
+    public final ConfigInt pollAnswerLengthMax = ofInt("poll_answer_length_max", 100);
+    public final ConfigInt pollQuestionLengthMax = ofInt("poll_question_length_max", 255);
+    public final ConfigInt pollSolutionLengthMax = ofInt("poll_solution_length_max", 200);
+    public final ConfigInt pollCaptionLengthMax = ofInt("poll_caption_length_max", 300);
+
+    public final ConfigTime pollAnswerDeletePeriod = ofTime("poll_answer_delete_period", 300, TimeUnit.SECONDS);
+
+    public final ConfigInt botsCreateLimitDefault = ofInt("bots_create_limit_default", 20);
+    public final ConfigInt botsCreateLimitPremium = ofInt("bots_create_limit_premium", 40);
+
+    public final ConfigString phoneCountryIso2 = ofString("phone_country_iso2", "en");
+
+    public final ConfigInt aicomposeToneExamplesNum = ofInt("aicompose_tone_examples_num", 3);
+    public final ConfigInt aicomposeToneTitleLengthMax = ofInt("aicompose_tone_title_length_max", 12);
+    public final ConfigInt aicomposeTonePromptLengthMax = ofInt("aicompose_tone_prompt_length_max", 1024);
+    public final ConfigInt aicomposeToneSavedLimitDefault = ofInt("aicompose_tone_saved_limit_default", 5);
+    public final ConfigInt aicomposeToneSavedLimitPremium = ofInt("aicompose_tone_saved_limit_premium", 20);
+
+    public final ConfigBoolean messagePrimaryEditedDate = ofBoolean("message_primary_edited_date", false);
+
+    public final ConfigInt richMessageLengthLimit = ofInt("rich_message_length_limit", 32_768);
+    public final ConfigInt richMessageMaxBlocks = ofInt("rich_message_max_blocks", 500);
+    public final ConfigInt richMessageMaxDepth = ofInt("rich_message_max_depth", 16);
+    public final ConfigInt richMessageMaxMedia = ofInt("rich_message_max_media", 50);
+    public final ConfigInt richMessageMaxTableCols = ofInt("rich_message_max_table_cols", 20);
+    public final ConfigString richMessagePosting = ofString("rich_message_posting", "premium");
+
+    public final ConfigInt communityPeersLimit = ofInt("community_peers_limit", 100);
+    public final ConfigInt communityBotPeersLimit = ofInt("community_bot_peers_limit", 100);
+
+    public final ConfigInt messageLengthLimitDefault = ofInt("message_length_limit_default", 4096);
+    public final ConfigInt messageLengthLimitPremium = ofInt("message_length_limit_premium", 8192);
+
+    public final ConfigInt quickReplyMessagesLimit = ofInt("quick_reply_messages_limit", 20);
+    public final ConfigInt ephemeralWelcomeMessagesMax = ofInt("ephemeral_welcome_messages_max", 5);
+
+    public final ConfigBoolean starsSpendTopUpInvoiceDisabled = ofBoolean("stars_spend_topup_invoice_disabled", false);
 
     /* * */
 
@@ -358,5 +402,9 @@ public class AppGlobalConfig {
         map.put(name, configInt.handler);
 
         return configInt;
+    }
+
+    public static AppGlobalConfig getInstance(int num) {
+        return MessagesController.getInstance(num).config;
     }
 }

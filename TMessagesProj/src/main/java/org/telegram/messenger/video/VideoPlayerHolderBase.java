@@ -112,7 +112,7 @@ public class VideoPlayerHolderBase {
             ensurePlayerCreated(audioDisabled);
             videoPlayer.setPlaybackSpeed(speed);
             FileLog.d("videoplayerholderbase.preparePlayer(): preparePlayer new player as preload uri=" + uri);
-            videoPlayer.preparePlayer(uri, "other", FileLoader.PRIORITY_LOW);
+            videoPlayer.preparePlayer(uri, "other", FileLoader.PRIORITY_LOW, 0);
             videoPlayer.setPlayWhenReady(false);
             videoPlayer.setWorkerQueue(dispatchQueue);
         });
@@ -262,16 +262,6 @@ public class VideoPlayerHolderBase {
                         onReadyListener = null;
                     }
                 }, surface != null ? 0 : surfaceView == null ? 16 : 32);
-            }
-
-            @Override
-            public void onSurfaceTextureUpdated(SurfaceTexture surfaceTexture) {
-
-            }
-
-            @Override
-            public boolean onSurfaceDestroyed(SurfaceTexture surfaceTexture) {
-                return false;
             }
         });
         videoPlayer.setIsStory();
