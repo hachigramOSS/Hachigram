@@ -8,6 +8,10 @@ on:
 jobs:
   release:
     runs-on: android
+    # The runner has two cores, where this build starves the docker daemon and is
+    # killed. Releases are built elsewhere until that changes; set the repository
+    # variable CI_RELEASE_BUILDS to true to hand it back to the runner.
+    if: vars.CI_RELEASE_BUILDS == 'true'
     steps:
       - uses: actions/checkout@v4
         with:
