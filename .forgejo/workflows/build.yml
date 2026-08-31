@@ -7,36 +7,33 @@ on:
   workflow_dispatch:
 
 jobs:
-  build:
+  compile:
     runs-on: android
     steps:
-      # The runner image ships no node, so JS actions cannot run; clone by hand.
-      - name: Checkout
-        run: |
-          git init -q .
-          git remote add origin "${{ github.server_url }}/${{ github.repository }}.git"
-          git fetch -q --depth=1 origin "${{ github.sha }}"
-          git checkout -q FETCH_HEAD
-          git submodule update --init --depth 1 TMessagesProj/lib/jlatexmath
+      - uses: actions/checkout@v4
 
-      # The generic Android images carry android-34; skip when the runner image
-      # already provides what the project pins.
-      - name: Install SDK packages
-        run: |
-          if [ ! -d "$ANDROID_SDK_ROOT/platforms/android-36" ]; then
-            yes | sdkmanager --licenses >/dev/null 2>&1 || true
-            sdkmanager --install "platforms;android-36" "build-tools;36.0.0" >/dev/null
-          fi
+      # Only jlatexmath is needed to configure Gradle; the native submodules are
+      # not, and they are the expensive ones.
+      - name: Fetch build-time submodule
+        run: git submodule update --init --depth 1 TMessagesProj/lib/jlatexmath
 
-      - name: Configure credentials
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ hashFiles('**/*.gradle', 'gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: gradle-
+
+      - name: Configure
         env:
-          CHERRYGRAM_APP_ID: ${{ secrets.CHERRYGRAM_APP_ID }}
-          CHERRYGRAM_APP_HASH: ${{ secrets.CHERRYGRAM_APP_HASH }}
+          APP_ID: ${{ secrets.CHERRYGRAM_APP_ID }}
+          APP_HASH: ${{ secrets.CHERRYGRAM_APP_HASH }}
         run: |
           {
             echo "sdk.dir=$ANDROID_SDK_ROOT"
-            [ -n "$CHERRYGRAM_APP_ID" ] && echo "CHERRYGRAM_APP_ID=$CHERRYGRAM_APP_ID"
-            [ -n "$CHERRYGRAM_APP_HASH" ] && echo "CHERRYGRAM_APP_HASH=$CHERRYGRAM_APP_HASH"
+            [ -n "$APP_ID" ] && echo "CHERRYGRAM_APP_ID=$APP_ID"
+            [ -n "$APP_HASH" ] && echo "CHERRYGRAM_APP_HASH=$APP_HASH"
           } > local.properties
 
       - name: Compile
@@ -45,3 +42,41 @@ jobs:
             :TMessagesProj:compileDebugJavaWithJavac \
             :TMessagesProj_App:compileAfatDebugJavaWithJavac \
             :TMessagesProj_AppStandalone:compileAfatDebugJavaWithJavac
+
+  apk:
+    runs-on: android
+    needs: compile
+    steps:
+      # The native build needs every submodule: some are compiled, others are
+      # only included from, such as openh264's headers in the WebRTC code.
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: gradle-${{ hashFiles('**/*.gradle', 'gradle/wrapper/gradle-wrapper.properties') }}
+          restore-keys: gradle-
+
+      - name: Configure
+        env:
+          APP_ID: ${{ secrets.CHERRYGRAM_APP_ID }}
+          APP_HASH: ${{ secrets.CHERRYGRAM_APP_HASH }}
+        run: |
+          {
+            echo "sdk.dir=$ANDROID_SDK_ROOT"
+            [ -n "$APP_ID" ] && echo "CHERRYGRAM_APP_ID=$APP_ID"
+            [ -n "$APP_HASH" ] && echo "CHERRYGRAM_APP_HASH=$APP_HASH"
+          } > local.properties
+
+      - name: Assemble debug APK
+        run: ./gradlew --no-daemon --console=plain :TMessagesProj_App:assembleAfatDebug
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: cherrygram-next-debug
+          path: TMessagesProj_App/build/outputs/apk/**/*.apk
+          if-no-files-found: error
