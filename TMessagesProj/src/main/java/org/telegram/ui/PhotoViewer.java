@@ -2058,6 +2058,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
     private boolean currentVideoFinishedLoading;
     private TL_iv.PageBlock currentPageBlock;
     private ImageReceiver.BitmapHolder currentThumb;
+    private ImageReceiver inu_hiddenImageReceiver;
     private boolean ignoreDidSetImage;
     private boolean dontAutoPlay;
     boolean fromCamera;
@@ -2754,6 +2755,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
     public static class PlaceProviderObject {
         public ImageReceiver imageReceiver;
+        public String inu_imageKey;
         public int viewX;
         public int viewY;
         public int viewY2;
@@ -16082,6 +16084,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                 currentPlaceObject.imageReceiver.setVisible(false, true);
             } else {
                 hideAfterAnimation = currentPlaceObject;
+                inu_armDeferredHide(hideAfterAnimation);
             }
         }
 
@@ -17976,7 +17979,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         if (showAfterAnimation != null) {
                             showAfterAnimation.imageReceiver.setVisible(true, true);
                         }
-                        if (hideAfterAnimation != null && !hideAfterAnimation.keepImageReceiverVisible) {
+                        if (hideAfterAnimation != null && !hideAfterAnimation.keepImageReceiverVisible && inu_stillBound(hideAfterAnimation)) {
                             hideAfterAnimation.imageReceiver.setVisible(false, true);
                         }
                         if (photos != null && sendPhotoType != 3 && sendPhotoType != SELECT_TYPE_AVATAR) {
@@ -18056,9 +18059,11 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                             photoCropView.setAlpha(1.0f);
                         }
                     }
+                    inu_armDeferredHide(object);
                     backgroundDrawable.drawRunnable = () -> {
                         disableShowCheck = false;
-                        if (!object.keepImageReceiverVisible) {
+                        if (!object.keepImageReceiverVisible && inu_stillBound(object)) {
+                            inu_hiddenImageReceiver = object.imageReceiver;
                             object.imageReceiver.setVisible(false, true);
                         }
                     };
@@ -18810,6 +18815,21 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
+    // a PlaceProviderObject holds the ImageReceiver of whichever cell showed the photo when it was
+    // resolved. deferred hides fire a frame or more later, by which time the list may have recycled
+    // that cell onto another message - hiding it then blanks the wrong cell, and the restore (which
+    // re-resolves by message id) lands elsewhere, so it never comes back.
+    private static void inu_armDeferredHide(PlaceProviderObject object) {
+        if (object != null && object.imageReceiver != null) {
+            object.inu_imageKey = object.imageReceiver.getImageKey();
+        }
+    }
+
+    private static boolean inu_stillBound(PlaceProviderObject object) {
+        return object != null && object.imageReceiver != null
+            && (object.inu_imageKey == null || object.inu_imageKey.equals(object.imageReceiver.getImageKey()));
+    }
+
     private ClippingImageView[] getAnimatingImageViews(PlaceProviderObject object) {
         final boolean hasSecondAnimatingImageView = !AndroidUtilities.isTablet() && object != null && object.animatingImageView != null;
         final ClippingImageView[] animatingImageViews = new ClippingImageView[1 + (hasSecondAnimatingImageView ? 1 : 0)];
@@ -18975,6 +18995,19 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         shownControlsByEnd = false;
         videoCutStart = 0;
         videoCutEnd = 1f;
+        if (inu_hiddenImageReceiver != null) {
+            inu_hiddenImageReceiver.setVisible(true, true);
+            inu_hiddenImageReceiver = null;
+        }
+        if (currentPlaceObject != null) {
+            currentPlaceObject.imageReceiver.setVisible(true, true);
+            currentPlaceObject = null;
+        }
+        if (hideAfterAnimation != null) {
+            hideAfterAnimation.imageReceiver.setVisible(true, true);
+            hideAfterAnimation = null;
+        }
+        showAfterAnimation = null;
         if (object != null) {
             object.imageReceiver.setVisible(true, true);
         }
