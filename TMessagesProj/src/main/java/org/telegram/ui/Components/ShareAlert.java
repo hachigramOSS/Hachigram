@@ -1175,7 +1175,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
             @Override
             protected boolean allowSelectChildAtPosition(float x, float y) {
-                return y >= dp(darkTheme && linkToCopy[1] != null ? 111 - getSearchContainerPadding() : 58 - getSearchContainerPadding()) + systemInsets.top;
+                return y >= scrollOffsetY + dp(darkTheme && linkToCopy[1] != null ? 111 - getSearchContainerPadding() : 58 - getSearchContainerPadding());
             }
 
             @Override
@@ -1255,7 +1255,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
             @Override
             protected boolean allowSelectChildAtPosition(float x, float y) {
-                return y >= dp(darkTheme && linkToCopy[1] != null ? 111 - getSearchContainerPadding() : 58 - getSearchContainerPadding()) + systemInsets.top;
+                return y >= scrollOffsetY + dp(darkTheme && linkToCopy[1] != null ? 111 - getSearchContainerPadding() : 58 - getSearchContainerPadding());
             }
 
             @Override
