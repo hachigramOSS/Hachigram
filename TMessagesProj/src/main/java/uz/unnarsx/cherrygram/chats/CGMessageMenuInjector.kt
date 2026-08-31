@@ -556,7 +556,6 @@ object CGMessageMenuInjector {
             prefIcon,
             prefCheck,
             null,
-            null,
             prefDivider,
             clickListener,
             null

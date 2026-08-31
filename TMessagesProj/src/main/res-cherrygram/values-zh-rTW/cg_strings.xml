@@ -84,9 +84,6 @@
     <!--Search filter-->
     <!--Chats screen-->
     <!--Misc-->
-    <string name="CG_SafeStars_buy">購買星幣（Multi-chain 且無需KYC實名驗證）</string>
-    <string name="CG_SafeStars_buy_Telegram">透過 Telegram 購買星幣</string>
-    <string name="CG_Stats_TOS">繼續操作即表示您自動同意**Telegram使用條款**及**Cherrygram服務條款**。</string>
     <string name="CG_SortByDate">Sort by message date</string>
     <string name="CG_SortByUnread">Sort by unread first</string>
     <string name="CG_UnknownCherrySettingsOption">沒有這樣的 Cherry 設定選項</string>
@@ -401,36 +398,11 @@
     <!--Donations-->
     <string name="DP_EnjoyingUs">喜歡使用 Cherrygram 嗎？</string>
     <string name="DP_RateUs">評價 Cherrygram</string>
-    <string name="DP_DonatesMoreInfo">想協助 Cherrygram 發展嗎？歡迎加入 **Cherrygram Support** 聊天室。</string>
-    <string name="DP_DonatesThanks">感謝您的支持！正是您讓 Cherrygram 茁壯成長❤️</string>
-    <string name="DP_DonateBadge">捐款並解鎖額外功能</string>
-    <string name="DP_Donate_Desc">當您捐款達2美元或以上時，您還將獲得額外贈品：</string>
-    <string name="DP_Donate_Badge_desc">1. 在使用者名稱旁顯示 **Cherrygram 徽章**。</string>
-    <string name="DP_Donate_MsgMenuCompactView_Desc">2. **訊息選單** 使用緊湊型風格。</string>
-    <string name="DP_Donate_EpicBadge_desc">1. **史詩級 Cherrygram 徽章** 顯示於您的姓名旁。</string>
-    <string name="DP_Donate_GiftMarket_Desc">2. 側邊選單中的「**禮物市集**」按鈕。</string>
-    <string name="DP_Donate_MessageFilter_Desc">3. 「**訊息過濾器**」功能。</string>
-    <string name="DP_Donate_MessageMenu_Desc">4. 「**iOS風格**」的訊息選單。</string>
-    <string name="DP_Donate_Cheque">將付款確認書傳送至 **@arsLan** 以獲取獎勵。</string>
-    <string name="DP_Donate_Terms">在捐贈前，請閱讀 **捐贈條款**。所有捐贈行為均為自願執行且不可退款。</string>
-    <string name="DP_Donate_Counter_one">已有**%1$d**人支持此專案並獲得獎勵</string>
-    <string name="DP_Donate_Counter_few">已有**%1$d**人支持此專案並獲得獎勵</string>
-    <string name="DP_Donate_Counter_many">已有**%1$d**人支持此專案並獲得獎勵</string>
-    <string name="DP_Donate_Counter_other">已有**%1$d**人支持此專案並獲得獎勵</string>
-    <string name="DP_Donate_Bulletin">**%s** 支持了 **Cherrygram** 的開發！</string>
-    <string name="DP_Support">喜歡 Cherrygram 嗎？支持它！</string>
-    <string name="DP_SupportOptions">支持選項</string>
     <string name="DP_CameraCutoutHeader">留水印截圖</string>
     <string name="DP_CameraCutout">顯示 Cherrygram 標誌</string>
     <string name="DP_CameraCutoutDesc">您可以在相機下方顯示 Cherrygram 水印標誌 — 將會出現在螢幕截圖中。
     \n如果標誌**顯示正確，並保持在您的相機區域內**，請保持啟用此選項。
     \n這有助於推廣本應用程式並支持本專案 — 不勝感激！❤️</string>
-    <string name="DP_Donate_Method_Int">國際支付系統</string>
-    <string name="DP_Donate_Method_Rus">適用於俄羅斯聯邦居民</string>
-    <string name="DP_Donate_Method_Uzb">適用於烏茲別克共和國居民</string>
-    <string name="DP_Donate_Method_Surname">如果付款系統要求填寫收款人的個人資訊，請聯絡 **@arsLan**。</string>
-    <string name="DP_Donate_Exclusive">支持者專屬功能</string>
-    <string name="DP_Donate_ExclusiveDesc">支持本專案以解鎖所有功能。</string>
     <!--Donations-->
     <!--Cherrygram screens-->
 </resources>

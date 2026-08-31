@@ -7,7 +7,7 @@
  * Copyright github.com/arsLan4k1390, 2022-2026.
  */
 
-package uz.unnarsx.cherrygram.donates
+package uz.unnarsx.cherrygram.core.ui
 
 import android.content.Context
 import android.graphics.Canvas

@@ -48,7 +48,6 @@ import uz.unnarsx.cherrygram.core.helpers.AppRestartHelper
 import uz.unnarsx.cherrygram.core.helpers.CGResourcesHelper
 import uz.unnarsx.cherrygram.core.helpers.DeeplinkHelper
 import uz.unnarsx.cherrygram.core.ui.mainTabs.MainTabsManager
-import uz.unnarsx.cherrygram.donates.DonatesManager
 import uz.unnarsx.cherrygram.misc.CherrygramExtras
 import uz.unnarsx.cherrygram.misc.Constants
 import uz.unnarsx.cherrygram.preferences.CherrygramPreferencesNavigator
@@ -102,11 +101,10 @@ class TelegramSettingsHelper(
         }
 
         o.addGapIf(
-            DonatesManager.checkAllDonatedAccountsForMarketplace() && fragment.messageMenuHelper.showDivider()
+            fragment.messageMenuHelper.showDivider()
         )
 
-        o.addIf(
-            DonatesManager.checkAllDonatedAccountsForMarketplace(),
+        o.add(
             R.drawable.menu_gift,
             getString(
                 if (CherrygramAppearanceConfig.marketPlaceDrawerButton)
@@ -389,7 +387,7 @@ class TelegramSettingsHelper(
             )
         )
 
-        if (CherrygramAppearanceConfig.marketPlaceDrawerButton && DonatesManager.checkAllDonatedAccountsForMarketplace()) {
+        if (CherrygramAppearanceConfig.marketPlaceDrawerButton) {
             val giftsItem = SettingsActivity.SettingCell.Factory.of(
                 1394,
                 0xFFF38B31.toInt(),

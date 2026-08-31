@@ -23,7 +23,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.ActionBar;
 import org.telegram.ui.ActionBar.BackDrawable;
@@ -39,8 +38,6 @@ import org.telegram.ui.Components.RecyclerListView;
 import uz.unnarsx.cherrygram.chats.CGMessageMenuInjector;
 import uz.unnarsx.cherrygram.core.configs.CherrygramMessagesConfig;
 import uz.unnarsx.cherrygram.core.crashlytics.FirebaseAnalyticsHelper;
-import uz.unnarsx.cherrygram.core.ui.CGBulletinCreator;
-import uz.unnarsx.cherrygram.donates.DonatesManager;
 
 public class MessageMenuPreferencesEntry extends BaseFragment {
 
@@ -117,22 +114,8 @@ public class MessageMenuPreferencesEntry extends BaseFragment {
         frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
         listView.setOnItemClickListener((view, position, x, y) -> {
-            boolean requireDonate;
-
-            if (position == messageMenuItemsCompactView) {
-                requireDonate = !DonatesManager.INSTANCE.checkAllDonatedAccounts() && !DonatesManager.INSTANCE.checkAllDonatedAccountsForMarketplace();
-            } else {
-                requireDonate = !DonatesManager.INSTANCE.checkAllDonatedAccountsForMarketplace();
-            }
-
             var holder = listView.findViewHolderForAdapterPosition(position);
             if (holder == null || !listAdapter.isEnabled(holder)) {
-                return;
-            }
-            if (requireDonate && position != messageMenuItemsRow) {
-                AndroidUtilities.shakeViewSpring(view);
-                BotWebViewVibrationEffect.APP_ERROR.vibrate();
-                CGBulletinCreator.INSTANCE.createRequireDonateBulletin(this);
                 return;
             }
             if (position == enableNewMessageMenuRow) {
@@ -243,7 +226,6 @@ public class MessageMenuPreferencesEntry extends BaseFragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            boolean requireDonate = !DonatesManager.INSTANCE.checkAllDonatedAccountsForMarketplace();
             switch (holder.getItemViewType()) {
                 case VIEW_TYPE_SHADOW:
                     ShadowSectionCell shadowSectionCell = (ShadowSectionCell) holder.itemView;
@@ -269,14 +251,7 @@ public class MessageMenuPreferencesEntry extends BaseFragment {
                     break;
                 case VIEW_TYPE_TEXT_CHECK:
                     TextCheckCell textCheckCell = (TextCheckCell) holder.itemView;
-                    textCheckCell.setEnabled(!requireDonate, null);
-
-                    if (position == messageMenuItemsCompactView) {
-                        requireDonate = !DonatesManager.INSTANCE.checkAllDonatedAccounts() && !DonatesManager.INSTANCE.checkAllDonatedAccountsForMarketplace();
-                    } else {
-                        requireDonate = !DonatesManager.INSTANCE.checkAllDonatedAccountsForMarketplace();
-                    }
-                    if (requireDonate) textCheckCell.setCheckBoxIcon(R.drawable.permission_locked);
+                    textCheckCell.setEnabled(true, null);
 
                     if (position == enableNewMessageMenuRow) {
                         textCheckCell.setEnabled(true, null);

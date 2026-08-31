@@ -152,11 +152,8 @@ import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
 import uz.unnarsx.cherrygram.core.configs.CherrygramAppearanceConfig;
 import uz.unnarsx.cherrygram.core.ui.CGBulletinCreator;
-import uz.unnarsx.cherrygram.donates.BadgeHelper;
-import uz.unnarsx.cherrygram.donates.DonatesManager;
-import uz.unnarsx.cherrygram.donates.StarsBadgeDrawable;
+import uz.unnarsx.cherrygram.core.ui.StarsBadgeDrawable;
 import uz.unnarsx.cherrygram.helpers.ui.MonetHelper;
-import uz.unnarsx.cherrygram.misc.Constants;
 import uz.unnarsx.cherrygram.preferences.CherrygramPreferencesNavigator;
 import uz.unnarsx.cherrygram.preferences.helpers.TelegramSettingsHelper;
 
@@ -1031,7 +1028,6 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
         private final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable botDrawable;
         private final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiStatusDrawable;
-        private final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable cherrygramStatusDrawable;
 
         public AccountCell(Context context, Theme.ResourcesProvider resourcesProvider) {
             super(context);
@@ -1050,21 +1046,18 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
             botDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(textView, dp(24), AnimatedEmojiDrawable.CACHE_TYPE_EMOJI_STATUS);
             emojiStatusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(textView, dp(24), AnimatedEmojiDrawable.CACHE_TYPE_EMOJI_STATUS);
-            cherrygramStatusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(textView, dp(22), AnimatedEmojiDrawable.CACHE_TYPE_EMOJI_STATUS);
 
             textView.addOnAttachStateChangeListener(new OnAttachStateChangeListener() {
                 @Override
                 public void onViewAttachedToWindow(@NonNull View v) {
                     botDrawable.attach();
                     emojiStatusDrawable.attach();
-                    cherrygramStatusDrawable.attach();
                 }
 
                 @Override
                 public void onViewDetachedFromWindow(@NonNull View v) {
                     botDrawable.detach();
                     emojiStatusDrawable.detach();
-                    cherrygramStatusDrawable.detach();
                 }
             });
 
@@ -1118,7 +1111,6 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
             botDrawable.setCurrentAccount(account);
             emojiStatusDrawable.setCurrentAccount(account);
-            cherrygramStatusDrawable.setCurrentAccount(account);
 
             botDrawable.setColor(Theme.getColor(Theme.key_profile_verifiedBackground, resourcesProvider));
             if (user != null && user.bot_verification_icon != 0) {
@@ -1137,8 +1129,6 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             }
             textView.setLeftDrawable(!botDrawable.isEmpty() ? botDrawable : null);
             textView.setRightDrawable(!emojiStatusDrawable.isEmpty() ? emojiStatusDrawable : null);
-
-            checkCherrygramBadge(user);
 
             int counter = MessagesStorage.getInstance(account).getMainUnreadCount();
             counterView.setVisibility(counter > 0 ? View.VISIBLE : View.GONE);
@@ -1181,36 +1171,6 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             @Override
             public boolean contentsEquals(UItem a, UItem b) {
                 return a.intValue == b.intValue;
-            }
-        }
-
-        private void checkCherrygramBadge(TLRPC.User user) {
-            if (user == null) return;
-
-            long emojiDocumentId;
-            boolean isPremium = false; // cgPremium
-            boolean isDonated = DonatesManager.INSTANCE.didUserDonate(user.id);
-            boolean forceBra = user.id == Constants.Cherrygram_Owner;
-            boolean showParticles = isPremium || forceBra || DonatesManager.INSTANCE.didUserDonateForMarketplace(user.id);
-
-            if (isPremium && isDonated) {
-                emojiDocumentId = Constants.CHERRY_EMOJI_ID_VERIFIED_BRA;
-            } else if (isPremium || isDonated || forceBra) {
-                emojiDocumentId = isPremium || forceBra ? Constants.CHERRY_EMOJI_ID_VERIFIED_BRA : Constants.CHERRY_EMOJI_ID_VERIFIED;
-            } else {
-                emojiDocumentId = 0;
-                textView.setRightDrawable2(null);
-            }
-
-            if (emojiDocumentId != 0) {
-                cherrygramStatusDrawable.set(emojiDocumentId, false);
-
-                int color = Theme.getColor(Theme.key_chats_verifiedBackground, resourcesProvider);
-                cherrygramStatusDrawable.setColor(BadgeHelper.Companion.getEmojiStatusColor(user.id, color, false));
-                cherrygramStatusDrawable.setParticles(showParticles, showParticles);
-
-                textView.setRightDrawable2(cherrygramStatusDrawable);
-                textView.setRightDrawableInside(true);
             }
         }
     }

@@ -45,7 +45,6 @@ public class DebugPreferencesEntry extends UniversalFragment {
 
     private final int toastRpcRow = 1;
     private final int oldTimeStyleRow = 2;
-    private final int safeStarsRow = 3;
     private final int performanceClassRow = 4;
     private final int fixCallsNotifRow = 5;
 
@@ -88,9 +87,6 @@ public class DebugPreferencesEntry extends UniversalFragment {
         }
         items.add(SettingsHelper.asSwitchCG(oldTimeStyleRow, "Default time style in chats *", "Unlike iOS and TDesktop")
                 .setChecked(CherrygramDebugConfig.INSTANCE.getOldTimeStyle())
-        );
-        items.add(SettingsHelper.asSwitchCG(safeStarsRow, "Use SafeStars *")
-                .setChecked(CherrygramCoreConfig.INSTANCE.getAllowSafeStars())
         );
         items.add(UItem.asButton(performanceClassRow, "Force performance class", SharedConfig.performanceClassName(SharedConfig.getDevicePerformanceClass())));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
@@ -152,9 +148,6 @@ public class DebugPreferencesEntry extends UniversalFragment {
         } else if (item.id == oldTimeStyleRow) {
             CherrygramDebugConfig.INSTANCE.setOldTimeStyle(!CherrygramDebugConfig.INSTANCE.getOldTimeStyle());
             SettingsHelper.updateCheckState(view, CherrygramDebugConfig.INSTANCE.getOldTimeStyle());
-        } else if (item.id == safeStarsRow) {
-            CherrygramCoreConfig.INSTANCE.setAllowSafeStars(!CherrygramCoreConfig.INSTANCE.getAllowSafeStars());
-            SettingsHelper.updateCheckState(view, CherrygramCoreConfig.INSTANCE.getAllowSafeStars());
         } else if (item.id == performanceClassRow) {
             showPerformanceClassDialog(view);
         } else if (item.id == fixCallsNotifRow) {

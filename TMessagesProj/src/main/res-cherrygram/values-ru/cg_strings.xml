@@ -108,11 +108,6 @@
     <!--Chats screen-->
 
     <!--Misc-->
-    <string name="CG_SafeStars_buy">Купить через SafeStars</string>
-    <string name="CG_SafeStars_Desc">Мультичейн и без KYC</string>
-    <string name="CG_SafeStars_BuyPremiumButton">Проверить на сайте</string>
-    <string name="CG_SafeStars_buy_Telegram">Купить звезды через Telegram</string>
-    <string name="CG_Stats_TOS">Продолжая, вы автоматически принимаете **Условия покупки Telegram** и **Пользовательское соглашение Cherrygram**.</string>
 
     <string name="CG_SortByDate">Сортировка по дате сообщения</string>
     <string name="CG_SortByUnread">Сортировка по непрочитанным</string>
@@ -475,31 +470,11 @@
     <string name="DP_EnjoyingUs">Нравится Cherrygram?</string>
     <string name="DP_RateUs">Оставьте отзыв в Google Play!</string>
 
-    <string name="DP_DonatesMoreInfo">Хотите помочь развитию Cherrygram? Загляните в чат **Cherrygram Support**.</string>
-    <string name="DP_DonatesThanks">Спасибо за поддержку! Вишенка счастлива благодаря вам ❤️️</string>
 
-    <string name="DP_DonateBadge">Поддержите проект и получите бонусы</string>
-    <string name="DP_Donate_Desc">При поддержке от 2$ вы также получите небольшие бонусы:</string>
 
-    <string name="DP_Donate_Badge_desc">1. **Значок Cherrygram** рядом с вашим ником.</string>
-    <string name="DP_Donate_MsgMenuCompactView_Desc">2. Компактный вид элементов **меню сообщения**.</string>
-    <string name="DP_Donate_FoldersAtBottom_Desc">3. **Панель папок** внизу экрана.</string>
-    <string name="DP_Donate_EpicBadge_desc">1. **Эпический значок Cherrygram** рядом с вашим ником.</string>
-    <string name="DP_Donate_GiftMarket_Desc">2. Кнопку \"**Маркетплейс подарков**\" в боковом меню.</string>
-    <string name="DP_Donate_MessageFilter_Desc">3. Функцию \"**Фильтр сообщений**\"</string>
-    <string name="DP_Donate_MessageMenu_Desc">4. Меню сообщения \"**в стиле Telegram iOS**\".</string>
-    <string name="DP_Donate_Cheque">Отправьте подтверждение платежа **@arsLan** для получения бонусов.</string>
-    <string name="DP_Donate_Terms">Перед донатом, пожалуйста, ознакомьтесь с **Условиями донатов**. Все донаты являются добровольными и безвозвратными.</string>
 
-    <string name="DP_Donate_Counter_one">**%1$d** человек уже поддержал проект и получил бонусы</string>
-    <string name="DP_Donate_Counter_few">**%1$d** человек уже поддержали проект и получили бонусы</string>
-    <string name="DP_Donate_Counter_many">**%1$d** человек уже поддержали проект и получили бонусы</string>
-    <string name="DP_Donate_Counter_other">**%1$d** человек уже поддержали проект и получили бонусы</string>
 
-    <string name="DP_Donate_Bulletin">**%s** поддержал(а) разработку **Cherrygram**!</string>
 
-    <string name="DP_Support">Нравится Cherrygram? Поддержите!</string>
-    <string name="DP_SupportOptions">Варианты поддержки</string>
 
     <string name="DP_CameraCutoutHeader">Фирменные скриншоты</string>
     <string name="DP_CameraCutout">Показывать логотип Cherrygram</string>
@@ -507,13 +482,7 @@
     \nЕсли логотип **отображается корректно и остается в пределах области камеры**, пожалуйста, оставьте эту функцию включённой.
     \Это поможет продвигать приложение и поддержать проект — мне будет очень приятно! ❤️</string>
 
-    <string name="DP_Donate_Method_Int">Международные платежные системы</string>
-    <string name="DP_Donate_Method_Rus">Для резидентов РФ</string>
-    <string name="DP_Donate_Method_Uzb">Для резидентов Узбекистана</string>
-    <string name="DP_Donate_Method_Surname">Пожалуйста, свяжитесь с **@arsLan**, если платежная система требует персональные данные получателя.</string>
 
-    <string name="DP_Donate_Exclusive">Эксклюзив для поддержавших</string>
-    <string name="DP_Donate_ExclusiveDesc">Поддержите проект и откройте доступ ко всем возможностям.</string>
     <!--Donations-->
     <!--Cherrygram screens-->
 

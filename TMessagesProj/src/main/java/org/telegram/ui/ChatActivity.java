@@ -377,7 +377,6 @@ import uz.unnarsx.cherrygram.core.helpers.CGResourcesHelper;
 import uz.unnarsx.cherrygram.helpers.network.StickersManager;
 import uz.unnarsx.cherrygram.misc.Constants;
 import uz.unnarsx.cherrygram.core.PermissionsUtils;
-import uz.unnarsx.cherrygram.preferences.CherrygramPreferencesNavigator;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
@@ -4672,8 +4671,7 @@ public class ChatActivity extends BaseFragment implements
             if (currentUser != null && currentUser.self && getDialogId() != UserObject.VERIFY) {
                 headerItem.lazilyAddSubItem(add_shortcut, R.drawable.msg_home, LocaleController.getString(R.string.AddShortcut));
             }
-            boolean isDeleteButtonAvailable = getDialogId() != Constants.Cherrygram_Owner && getDialogId() != Constants.Alina;
-            if (!isTopic && !ChatObject.isMonoForum(currentChat) && isDeleteButtonAvailable) {
+            if (!isTopic && !ChatObject.isMonoForum(currentChat)) {
                 clearHistoryItem = headerItem.lazilyAddSubItem(clear_history, R.drawable.msg_clear,
                     LocaleController.getString(UserObject.isBotForum(currentUser) ? R.string.ClearAllHistory : R.string.ClearHistory));
             }
@@ -4702,7 +4700,7 @@ public class ChatActivity extends BaseFragment implements
                         headerItem.lazilyAddSubItem(delete_chat, R.drawable.msg_block2, LocaleController.getString(R.string.DeleteAndBlock)).setColors(getThemedColor(Theme.key_text_RedRegular), getThemedColor(Theme.key_text_RedRegular));
                         updateBotButtons();
                     } else {
-                        if (isDeleteButtonAvailable) headerItem.lazilyAddSubItem(delete_chat, R.drawable.msg_delete, LocaleController.getString(R.string.DeleteChatUser));
+                        headerItem.lazilyAddSubItem(delete_chat, R.drawable.msg_delete, LocaleController.getString(R.string.DeleteChatUser));
                     }
                 }
             }
@@ -40259,22 +40257,6 @@ public class ChatActivity extends BaseFragment implements
             if (cell == null) {
                 return;
             }
-            if (document != null && (document.id == Constants.CHERRY_EMOJI_ID_VERIFIED || document.id == Constants.CHERRY_EMOJI_ID_VERIFIED_BRA)) {
-                SpannableStringBuilder stringBuilder = new SpannableStringBuilder(
-                        AndroidUtilities.replaceTags(
-                                LocaleController.formatString(R.string.DP_Donate_Bulletin, UserObject.getUserName(user))
-                        )
-                );
-
-                BulletinFactory.of(ChatActivity.this).createDonatesBulletin(
-                        document,
-                        stringBuilder,
-                        LocaleController.getString(R.string.LearnMore),
-                        Bulletin.DURATION_PROLONG,
-                        () -> CherrygramPreferencesNavigator.INSTANCE.createDonate(ChatActivity.this)
-                ).show();
-                return;
-            }
             if (!TextUtils.isEmpty(giftSlug)) {
                 Browser.openUrl(getContext(), "https://" + getMessagesController().linkPrefix + "/nft/" + giftSlug);
                 return;
@@ -41379,13 +41361,7 @@ public class ChatActivity extends BaseFragment implements
 
         @Override
         public void didPressUrl(ChatMessageCell cell, final CharacterStyle url, boolean longPress) {
-            if (cell.getMessageObject() != null
-                    && cell.getMessageObject().messageOwner != null
-                    && cell.getMessageObject().messageOwner.from_id != null
-                    && !getChatsHelper().checkDeepLink(url.toString(), cell.getMessageObject().messageOwner.from_id.user_id)
-            ) {
-                didPressMessageUrl(url, longPress, cell.getMessageObject(), cell);
-            }
+            didPressMessageUrl(url, longPress, cell.getMessageObject(), cell);
         }
 
         @Override

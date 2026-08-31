@@ -40,7 +40,6 @@ import org.telegram.ui.LaunchActivity
 import uz.unnarsx.cherrygram.chats.helpers.ChatActivityHelper
 import uz.unnarsx.cherrygram.core.configs.CherrygramChatsConfig
 import uz.unnarsx.cherrygram.core.configs.CherrygramPrivacyConfig
-import uz.unnarsx.cherrygram.donates.DonatesManager
 import uz.unnarsx.cherrygram.misc.Constants
 import kotlin.math.abs
 import androidx.core.content.edit
@@ -279,7 +278,7 @@ object CGChatMenuInjector {
     }
 
     fun injectGifts(io: ItemOptions, currentAccount: Int, context: Context) {
-        val available: Boolean = CherrygramAppearanceConfig.marketPlaceDrawerButton && DonatesManager.checkAllDonatedAccountsForMarketplace()
+        val available: Boolean = CherrygramAppearanceConfig.marketPlaceDrawerButton
 
         io.addGapIf(available)
 

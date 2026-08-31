@@ -72,9 +72,6 @@ import uz.unnarsx.cherrygram.chats.helpers.ChatsHelper2;
 import uz.unnarsx.cherrygram.core.configs.CherrygramAppearanceConfig;
 import uz.unnarsx.cherrygram.core.configs.CherrygramDebugConfig;
 import uz.unnarsx.cherrygram.core.helpers.CGResourcesHelper;
-import uz.unnarsx.cherrygram.donates.DonatesManager;
-import uz.unnarsx.cherrygram.donates.BadgeHelper;
-import uz.unnarsx.cherrygram.misc.Constants;
 
 public class UserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, Theme.Colorable {
 
@@ -237,7 +234,6 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
 
         botVerification = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(nameTextView, dp(20));
         emojiStatus = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(nameTextView, dp(20));
-        cherrygramStatusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(nameTextView, dp(20));
 
         statusTextView = new SimpleTextView(context);
         statusTextView.setTextSize(15);
@@ -757,7 +753,6 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             nameTextView.setRightDrawable(null);
             nameTextView.setRightDrawableTopPadding(0);
         }
-        checkCherrygramBadges(nameTextView, currentUser);
         if (currentStatus != null) {
             statusTextView.setTextColor(statusColor);
             CharSequence status = currentStatus;
@@ -892,7 +887,6 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
         emojiStatus.attach();
         botVerification.attach();
-        cherrygramStatusDrawable.attach();
     }
 
     @Override
@@ -901,7 +895,6 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
         emojiStatus.detach();
         botVerification.detach();
-        cherrygramStatusDrawable.detach();
         storyParams.onDetachFromWindow();
     }
 
@@ -983,38 +976,6 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
     private ImageView mutualView;
 
     private final boolean addEditButton;
-
-    private AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable cherrygramStatusDrawable;
-
-    private void checkCherrygramBadges(SimpleTextView nameTextView, TLRPC.User user) {
-        if (user == null) return;
-
-        long emojiDocumentId;
-        boolean isPremium = false; // cgPremium
-        boolean isDonated = DonatesManager.INSTANCE.didUserDonate(user.id);
-        boolean forceBra = user.id == Constants.Cherrygram_Owner;
-        boolean showParticles = isPremium || forceBra || DonatesManager.INSTANCE.didUserDonateForMarketplace(user.id);
-
-        if (isPremium && isDonated) {
-            emojiDocumentId = Constants.CHERRY_EMOJI_ID_VERIFIED_BRA;
-        } else if (isPremium || isDonated || forceBra) {
-            emojiDocumentId = isPremium || forceBra ? Constants.CHERRY_EMOJI_ID_VERIFIED_BRA : Constants.CHERRY_EMOJI_ID_VERIFIED;
-        } else {
-            emojiDocumentId = 0;
-            nameTextView.setRightDrawable2(null);
-        }
-
-        if (emojiDocumentId != 0 && !addEditButton) {
-            cherrygramStatusDrawable.set(emojiDocumentId, false);
-
-            int color = Theme.getColor(Theme.key_chats_verifiedBackground, resourcesProvider);
-            cherrygramStatusDrawable.setColor(BadgeHelper.Companion.getEmojiStatusColor(user.id, color, false));
-            cherrygramStatusDrawable.setParticles(showParticles, showParticles);
-
-            nameTextView.setRightDrawable2(cherrygramStatusDrawable);
-            nameTextView.setRightDrawableInside(true);
-        }
-    }
 
     private int joinDate;
 

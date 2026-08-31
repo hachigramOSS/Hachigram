@@ -44,29 +44,17 @@ object Constants {
     var CG_CROWDIN_URL = "https://crowdin.com/project/cherrygram"
     @JvmField
     var CG_GITHUB_URL = "https://github.com/arsLan4k1390/Cherrygram"
-
-    @JvmField
-    var CG_SAFESTARS = "https://safestars.pro/?partner=cherrygram"
-    @JvmField
-    var CG_SAFESTARS_RU = "https://safestars.pro/ru/?partner=cherrygram"
     /** CG Links finish**/
 
     const val PACKAGE_NAME = "uz.unnarsx.cherrygram"
 
     /** CG Chats IDs start**/
-    const val Cherrygram_Owner = 282287840L // Cherrygram Owner (Arslan)
     const val Cherrygram_Channel = 1776033848L // Cherrygram Channel
     const val Cherrygram_Support = 1554776538L // Cherrygram Support Group
     const val Cherrygram_APKs = 1557718915L // Cherrygram APKs
     const val Cherrygram_Beta = 1544768810L // Cherrygram Beta APKs
     const val Cherrygram_Archive = 1719103382L // Cherrygram Archive
     /** CG Chats IDs finish**/
-
-    /** OWNer's friends start */
-    const val Yuki = 706402791L
-    const val Alina = 553511970L
-    const val Samir = 5710829964L
-    /** OWNer's friends finish */
 
     /** Misc start**/
     const val CHERRY_EMOJI_ID = 5220045200780458122L // Cherrygram logo
@@ -83,11 +71,9 @@ object Constants {
 
     /** Firebase remote Config start */
     const val Videomessages_Resolution = "videomessages_resolution"
-    const val Is_Donate_Screen_Available = "is_donate_screen_available"
     const val Re_Tg_Check = "re_tg_check"
     const val is_new_updates_ui_available = "is_new_updates_ui_available"
     const val is_new_updates_ui_available_v2 = "is_new_updates_ui_available_v2"
-    const val allow_use_safestars = "allow_use_safestars"
     /** Firebase remote Config finish */
 
 }

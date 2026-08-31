@@ -3256,10 +3256,6 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 chat = MessagesController.getInstance(currentAccount).getChat(Constants.Cherrygram_Channel);
                 avatarImage.setForUserOrChat(chat, avatarDrawable);
             }
-            if (customDialog.id == 2003) {
-                user = MessagesController.getInstance(currentAccount).getUser(Constants.Cherrygram_Owner);
-                if (user != null && user.photo != null) avatarImage.setForUserOrChat(user, avatarDrawable, null, true, VectorAvatarThumbDrawable.TYPE_SMALL, false);
-            }
             for (int i = 0; i < thumbImage.length; ++i) {
                 thumbImage[i].setImageBitmap((BitmapDrawable) null);
             }

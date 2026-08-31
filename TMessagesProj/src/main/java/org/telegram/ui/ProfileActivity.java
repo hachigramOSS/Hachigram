@@ -352,7 +352,6 @@ import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
 import uz.unnarsx.cherrygram.core.helpers.AppRestartHelper;
 import uz.unnarsx.cherrygram.core.ui.mainTabs.MainTabsManager;
 import uz.unnarsx.cherrygram.helpers.ProfileActivityHelper;
-import uz.unnarsx.cherrygram.donates.BadgeHelper;
 import uz.unnarsx.cherrygram.misc.Constants;
 import uz.unnarsx.cherrygram.preferences.CherrygramPreferencesNavigator;
 
@@ -2565,13 +2564,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 } else if (id == ProfileActivityHelper.OPTION_APPLY_PROFILE_BACKGROUND) {
                     getProfileActivityHelper().applyProfileBackground(getParentLayout().getSafeLastFragment(), getDialogId());
                 } else if (id == ProfileActivityHelper.OPTION_USER_INFO) {
-                    final TLRPC.User user = getMessagesController().getUser(getDialogId());
-                    if (user != null) {
-                        getProfileActivityHelper().showCherryUserInfo(getParentLayout().getSafeLastFragment(), getDialogId());
-                    } else {
-                        final TLRPC.Chat chat = getMessagesController().getChat(-getDialogId());
-                        if (chat != null) getProfileActivityHelper().showRestrictionReason(getParentLayout().getSafeLastFragment(), chat);
-                    }
+                    final TLRPC.Chat chat = getMessagesController().getChat(-getDialogId());
+                    if (chat != null) getProfileActivityHelper().showRestrictionReason(getParentLayout().getSafeLastFragment(), chat);
                 } else if (id == -1) {
                     if (sharedMediaLayout != null && sharedMediaLayout.scrollSlidingTextTabStrip != null && sharedMediaLayout.scrollSlidingTextTabStrip.isReordering()) {
                         stopTabsReorder();
@@ -11332,7 +11326,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 botVerificationDrawable[a].setColor(ColorUtils.blendARGB(ColorUtils.blendARGB(fromColor, 0x99ffffff, progress), getThemedColor(Theme.key_player_actionBarTitle), mediaHeaderAnimationProgress));
             }
             if (cherrygramStatusDrawable != null) {
-                cherrygramStatusDrawable.setColor(BadgeHelper.Companion.getEmojiStatusColor(userId, color, false));
+                cherrygramStatusDrawable.setColor(color);
             }
             if (a == 1) {
                 animatedStatusView.setColor(color);
@@ -11657,19 +11651,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         nameTextView[a].setRightDrawable(null);
                     }
                 }
-
-                getProfileActivityHelper().checkCherrygramBadges(
-                        this,
-                        nameTextView,
-                        a,
-                        peerColor,
-                        avatarContainer2,
-                        extraHeight,
-                        currentExpandAnimatorValue,
-                        currentExpanAnimatorFracture,
-                        expandAnimatorValues,
-                        user
-                );
 
                 if (leftIcon == null && currentEncryptedChat == null && user.bot_verification_icon != 0) {
                     nameTextView[a].setLeftDrawableOutside(true);
@@ -16933,13 +16914,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     public void updateCollectibleHint() {
-        getProfileActivityHelper().updateDonatorHint(
-                nameTextView,
-                extraHeight,
-                currentExpandAnimatorValue,
-                currentExpanAnimatorFracture,
-                expandAnimatorValues
-        );
         if (collectibleHint == null) return;
         collectibleHint.setJointPx(0, -collectibleHint.getPaddingLeft() + nameTextView[1].getX() + (nameTextView[1].getRightDrawableX() - nameTextView[1].getRightDrawableWidth() * lerp(0.45f, 0.25f, currentExpandAnimatorValue)) * nameTextView[1].getScaleX());
         final float expanded = AndroidUtilities.lerp(expandAnimatorValues, currentExpanAnimatorFracture);

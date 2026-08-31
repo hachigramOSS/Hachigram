@@ -21,7 +21,6 @@ import org.telegram.ui.ActionBar.BaseFragment
 import org.telegram.ui.Components.Bulletin
 import org.telegram.ui.Components.BulletinFactory
 import uz.unnarsx.cherrygram.core.helpers.AppRestartHelper
-import uz.unnarsx.cherrygram.preferences.CherrygramPreferencesNavigator
 
 object CGBulletinCreator {
 
@@ -40,17 +39,6 @@ object CGBulletinCreator {
             .createSuccessBulletin(getString(R.string.OK))
             .setDuration(Bulletin.DURATION_LONG)
             .show()
-    }
-
-    fun createRequireDonateBulletin(fragment: BaseFragment) {
-        BulletinFactory.of(fragment).createSimpleBulletin(
-            R.raw.cg_star_reaction,  // stars_topup // star_premium_2
-            getString(R.string.DP_Donate_Exclusive),
-            getString(R.string.DP_Donate_ExclusiveDesc),
-            getString(R.string.MoreInfo)
-        ) {
-            CherrygramPreferencesNavigator.createDonate(fragment, !fragment.connectionsManager.isTestBackend)
-        }.show()
     }
 
     fun createSwitchAccountBulletin(account: Int) {

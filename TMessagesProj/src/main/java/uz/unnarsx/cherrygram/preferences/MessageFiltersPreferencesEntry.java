@@ -26,7 +26,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.DialogObject;
 import org.telegram.messenger.FileLog;
 import org.telegram.messenger.R;
@@ -54,9 +53,7 @@ import uz.unnarsx.cherrygram.chats.filters.MessagesFilterHelper;
 import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
 import uz.unnarsx.cherrygram.core.configs.CherrygramMessagesConfig;
 import uz.unnarsx.cherrygram.core.crashlytics.FirebaseAnalyticsHelper;
-import uz.unnarsx.cherrygram.core.ui.CGBulletinCreator;
 import uz.unnarsx.cherrygram.core.ui.MD3ListAdapter;
-import uz.unnarsx.cherrygram.donates.DonatesManager;
 
 public class MessageFiltersPreferencesEntry extends BaseFragment {
 
@@ -144,16 +141,8 @@ public class MessageFiltersPreferencesEntry extends BaseFragment {
         frameLayout.addView(listView, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT));
 
         listView.setOnItemClickListener((view, position, x, y) -> {
-            boolean requireDonate = !DonatesManager.INSTANCE.checkAllDonatedAccountsForMarketplace();
-
             var holder = listView.findViewHolderForAdapterPosition(position);
             if (holder == null || !listAdapter.isEnabled(holder)) {
-                return;
-            }
-            if (requireDonate) {
-                AndroidUtilities.shakeViewSpring(view);
-                BotWebViewVibrationEffect.APP_ERROR.vibrate();
-                CGBulletinCreator.INSTANCE.createRequireDonateBulletin(this);
                 return;
             }
             if (position == enableFilterRow) {
@@ -298,7 +287,6 @@ public class MessageFiltersPreferencesEntry extends BaseFragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            boolean requireDonate = !DonatesManager.INSTANCE.checkAllDonatedAccountsForMarketplace();
             switch (holder.getItemViewType()) {
                 case VIEW_TYPE_SHADOW:
                     holder.itemView.setEnabled(false);
@@ -333,8 +321,6 @@ public class MessageFiltersPreferencesEntry extends BaseFragment {
                 case VIEW_TYPE_TEXT_CHECK:
                     TextCheckCell textCheckCell = (TextCheckCell) holder.itemView;
                     textCheckCell.setEnabled(CherrygramMessagesConfig.INSTANCE.getEnableMsgFilters(), null);
-
-                    if (requireDonate) textCheckCell.setCheckBoxIcon(R.drawable.permission_locked);
 
                     if (position == enableFilterRow) {
                         textCheckCell.setEnabled(true, null);

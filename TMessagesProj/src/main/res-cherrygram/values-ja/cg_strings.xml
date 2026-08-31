@@ -387,30 +387,11 @@
     <!--Donations-->
     <string name="DP_EnjoyingUs">Cherrygram にご満足いただけていますか?</string>
     <string name="DP_RateUs">Google Play で評価してください!</string>
-    <string name="DP_DonatesMoreInfo">Want to help Cherrygram grow? Check out **Cherrygram Support** chat.</string>
-    <string name="DP_DonatesThanks">Thanks for your support! You made Cherry happy ❤️</string>
-    <string name="DP_DonateBadge">寄付をしてボーナスを獲得</string>
-    <string name="DP_Donate_Desc">When you donate $2 or more, you\'ll also get some bonus gifts:</string>
-    <string name="DP_Donate_Badge_desc">**Cherrygram badge** next to your name.</string>
-    <string name="DP_Donate_EpicBadge_desc">1. An **epic Cherrygram badge** next to your name.</string>
-    <string name="DP_Donate_GiftMarket_Desc">2. \"**Gift Market**\" button in the side menu.</string>
-    <string name="DP_Donate_MessageFilter_Desc">3. \"**Message filter**\" feature.</string>
-    <string name="DP_Donate_MessageMenu_Desc">4. \"**iOS-styled**\" message menu.</string>
-    <string name="DP_Donate_Cheque">Send a payment confirmation to **@arsLan** to get bonuses.</string>
-    <string name="DP_Donate_Bulletin">**%s**が**Cherrygram**の開発をサポートしました!</string>
-    <string name="DP_Support">Cherrygramを気に入ってますか? ならばご支援を!</string>
-    <string name="DP_SupportOptions">サポートオプション</string>
     <string name="DP_CameraCutoutHeader">ブランドスクリーンショット</string>
     <string name="DP_CameraCutout">Cherrygramロゴを表示</string>
     <string name="DP_CameraCutoutDesc">カメラの下にCherrygramのロゴを表示できます — スクリーンショットに表示されます。
      \nロゴが**正しく表示とカメラ領域内に収まっている**場合は、このオプションを有効のままにしてください。
      \nアプリの宣伝やプロジェクトのサポートに役立ちます — ありがとうごさいます! ❤️</string>
-    <string name="DP_Donate_Method_Int">国際決済システム</string>
-    <string name="DP_Donate_Method_Rus">For residents of the Russian Federation</string>
-    <string name="DP_Donate_Method_Uzb">ウズベキスタン在住者向け</string>
-    <string name="DP_Donate_Method_Surname">決済システムで受取人の個人情報が必要な場合は **@arsLan** までご連絡ください。</string>
-    <string name="DP_Donate_Exclusive">サポーター限定</string>
-    <string name="DP_Donate_ExclusiveDesc">プロジェクトをサポートしてすべての機能をアンロックしましょう。</string>
     <!--Donations-->
     <!--Cherrygram screens-->
 </resources>

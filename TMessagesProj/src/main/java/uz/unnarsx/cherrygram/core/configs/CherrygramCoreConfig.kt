@@ -119,7 +119,6 @@ object CherrygramCoreConfig: CoroutineScope by CoroutineScope(
     var cgBrandedScreenshots by sharedPreferences.boolean("DP_BrandedScreenshots", false)
     var sleepTimer by sharedPreferences.boolean("CG_Sleep_Timer", false)
     var showNotifications by sharedPreferences.boolean("CG_ShowNotifications", true)
-    var allowSafeStars by sharedPreferences.boolean("CG_AllowSafeStarsUI1", true)
     /** Misc finish */
 
     /** Cherrygram build types start */
@@ -148,10 +147,6 @@ object CherrygramCoreConfig: CoroutineScope by CoroutineScope(
         return !ApplicationLoader.isStandaloneBuild()
     }
     /** Cherrygram build types finish */
-
-    /** Misc start */
-    var lastDonatesCheckTime by sharedPreferences.long("CG_LastDonatesCheckTime", 0)
-    /** Misc finish*/
 
     /** Migration start */
     private fun migratePreferences() {

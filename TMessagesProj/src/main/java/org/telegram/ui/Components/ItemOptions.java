@@ -85,10 +85,8 @@ import org.telegram.ui.Stories.recorder.HintView2;
 
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
-import java.util.Objects;
 
 import uz.unnarsx.cherrygram.chats.ui.WindowBlurHelper;
-import uz.unnarsx.cherrygram.donates.BadgeHelper;
 
 public class ItemOptions {
 
@@ -2347,121 +2345,6 @@ public class ItemOptions {
         return this;
     }
 
-    public ItemOptions addEmojiStatus(TLRPC.User user, long documentID, boolean particles) {
-
-        ActionBarMenuSubItem subItem = new ActionBarMenuSubItem(context, false, false, resourcesProvider);
-
-        String name = UserObject.getUserName(user);
-        int maxChars = 20;
-        if (name.length() > maxChars) {
-            name = name.substring(0, maxChars) + "…";
-        }
-        subItem.setText(name);
-        subItem.getTextView().setTypeface(AndroidUtilities.getTypeface(AndroidUtilities.TYPEFACE_ROBOTO_MEDIUM));
-        subItem.setClipToPadding(false);
-
-        BackupImageView imageView = new BackupImageView(context);
-        AvatarDrawable avatarDrawable = new AvatarDrawable();
-        avatarDrawable.setInfo(user);
-        imageView.setRoundRadius(dp(34));
-        imageView.setForUserOrChat(user, avatarDrawable);
-        subItem.addView(imageView, LayoutHelper.createFrame(34, 34, Gravity.CENTER_VERTICAL | Gravity.LEFT, -5, 0, -5, 0));
-
-        subItem.setColors(
-                textColor != null ? textColor : Theme.getColor(Theme.key_actionBarDefaultSubmenuItem, resourcesProvider),
-                iconColor != null ? iconColor : Theme.getColor(Theme.key_actionBarDefaultSubmenuItemIcon, resourcesProvider)
-        );
-
-        LinearLayout textAndStatuses = new LinearLayout(context);
-        textAndStatuses.setOrientation(LinearLayout.HORIZONTAL);
-        textAndStatuses.setGravity(Gravity.CENTER_VERTICAL);
-
-        ViewGroup parent = (ViewGroup) subItem.getTextView().getParent();
-        if (parent != null) {
-            parent.removeView(subItem.getTextView());
-        }
-        textAndStatuses.addView(subItem.getTextView(), LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
-
-        final BackupImageView emojiDrawableImageView = new BackupImageView(context);
-        final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable emojiDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(emojiDrawableImageView, dp(24), AnimatedEmojiDrawable.CACHE_TYPE_EMOJI_STATUS);
-        emojiDrawableImageView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-            @Override
-            public void onViewAttachedToWindow(@NonNull View v) {
-                emojiDrawable.attach();
-            }
-
-            @Override
-            public void onViewDetachedFromWindow(@NonNull View v) {
-                emojiDrawable.detach();
-            }
-        });
-
-        final BackupImageView cgEmojiDrawableImageView = new BackupImageView(context);
-        final AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable cgStatusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(cgEmojiDrawableImageView, dp(24), AnimatedEmojiDrawable.CACHE_TYPE_EMOJI_STATUS);
-        cgEmojiDrawableImageView.addOnAttachStateChangeListener(new View.OnAttachStateChangeListener() {
-            @Override
-            public void onViewAttachedToWindow(@NonNull View v) {
-                cgStatusDrawable.attach();
-            }
-
-            @Override
-            public void onViewDetachedFromWindow(@NonNull View v) {
-                cgStatusDrawable.detach();
-            }
-        });
-
-        boolean isPremium = user.premium;
-
-        final Utilities.Callback<Object[]> updateStatus = args -> {
-            final int color = Theme.getColor(Theme.key_featuredStickers_addButton, resourcesProvider);
-
-            if (isPremium) {
-                Long emojiStatusId = UserObject.getEmojiStatusDocumentId(user.emoji_status);
-
-                emojiDrawable.set(Objects.requireNonNullElse(emojiStatusId, 6028338546736107668L), true);
-                emojiDrawable.setParticles(false, false);
-                emojiDrawable.setColor(color);
-
-                emojiDrawableImageView.setImageDrawable(emojiDrawable);
-            }
-
-            if (documentID != 0) {
-                cgStatusDrawable.set(documentID, true);
-                cgStatusDrawable.setParticles(particles, particles);
-                cgStatusDrawable.setColor(!particles ? color : BadgeHelper.Companion.getEmojiStatusColor(user.id, color, true));
-
-                cgEmojiDrawableImageView.setImageDrawable(cgStatusDrawable);
-            }
-        };
-        updateStatus.run(null);
-
-        if (isPremium) {
-            textAndStatuses.addView(
-                    emojiDrawableImageView,
-                    LayoutHelper.createLinear(24, 24, Gravity.CENTER_VERTICAL, dp(1), 0, 0, 0)
-            );
-        }
-        if (documentID != 0) {
-            textAndStatuses.addView(
-                    cgEmojiDrawableImageView,
-                    LayoutHelper.createLinear(24, 24, Gravity.CENTER_VERTICAL, dp(1), 0, 0, 0)
-            );
-        }
-
-        subItem.addView(
-                textAndStatuses,
-                LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.CENTER_VERTICAL, 35, 0, 0, 0)
-        );
-
-        if (minWidthDp > 0) {
-            subItem.setMinimumWidth(dp(minWidthDp));
-            addView(subItem, LayoutHelper.createLinear(minWidthDp, LayoutHelper.WRAP_CONTENT));
-        } else {
-            addView(subItem, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT));
-        }
-
-        return this;
-    }
     /** Cherrygram finish */
 
 }

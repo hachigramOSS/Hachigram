@@ -324,7 +324,6 @@ public class GeneralPreferencesEntry extends UniversalFragment {
                 prefIcon,
                 prefCheck,
                 null,
-                null,
                 prefDivider,
                 clickListener,
                 null

@@ -36,7 +36,6 @@ public class CGPreferencesEntry extends UniversalFragment {
     private final int experimentalRow = 5;
     private final int privacyRow = 6;
 
-    private final int supportRow = 7;
     private final int exportRow = 8;
     private final int importRow = 9;
     private final int restartRow = 10;
@@ -67,7 +66,6 @@ public class CGPreferencesEntry extends UniversalFragment {
         items.add(UItem.asShadow(null));
 
         items.add(UItem.asHeader(getString(R.string.LocalOther)));
-        items.add(UItem.asButton(supportRow, R.drawable.heart_angle_solar, getString(R.string.DP_Support)));
         items.add(UItem.asButton(exportRow, R.drawable.msg_instant_link_solar, getString(R.string.CG_ExportSettings)));
         items.add(UItem.asButton(importRow, R.drawable.msg_photo_settings_solar, getString(R.string.CG_ImportSettings)));
         items.add(UItem.asButton(restartRow, R.drawable.msg_retry_solar, getString(R.string.CG_Restart)));
@@ -92,8 +90,6 @@ public class CGPreferencesEntry extends UniversalFragment {
             CherrygramPreferencesNavigator.INSTANCE.createExperimental(this);
         } else if (item.id == privacyRow) {
             CherrygramPreferencesNavigator.INSTANCE.createPrivacy(this);
-        } else if (item.id == supportRow) {
-            CherrygramPreferencesNavigator.INSTANCE.createDonate(this);
         } else if (item.id == exportRow) {
             BackupHelper.INSTANCE.backupSettings(this);
         } else if (item.id == importRow) {
@@ -124,9 +120,6 @@ public class CGPreferencesEntry extends UniversalFragment {
             return true;
         } else if (item.id == privacyRow) {
             AndroidUtilities.addToClipboard("tg://" + DeeplinkHelper.DeepLinksRepo.CG_Privacy);
-            return true;
-        } else if (item.id == supportRow) {
-            AndroidUtilities.addToClipboard("tg://" + DeeplinkHelper.DeepLinksRepo.CG_Support_Force);
             return true;
         } else if (item.id == restartRow) {
             AndroidUtilities.addToClipboard("tg://" + DeeplinkHelper.DeepLinksRepo.CG_Restart);

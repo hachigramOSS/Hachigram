@@ -348,7 +348,6 @@ public class PrivacyPreferencesEntry extends UniversalFragment {
                 prefIcon,
                 prefCheck,
                 null,
-                null,
                 prefDivider,
                 clickListener,
                 null

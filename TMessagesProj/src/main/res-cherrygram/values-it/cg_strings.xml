@@ -390,36 +390,11 @@
     <!--Donations-->
     <string name="DP_EnjoyingUs">Ti piace Cherrygram?</string>
     <string name="DP_RateUs">Lascia una (ottima) valutazione su Google Play!</string>
-    <string name="DP_DonatesMoreInfo">Vuoi aiutare Cherrygram a migliorare? Partecipa alla chat **Cherrygram Support** e contribuisci con le tue segnalazioni.</string>
-    <string name="DP_DonatesThanks">Grazie per il tuo supporto! Hai reso Cherry felice ❤️</string>
-    <string name="DP_DonateBadge">Fai una donazione per sbloccare le funzionalità extra</string>
-    <string name="DP_Donate_Desc">Se doni $2 $ o più, otterrai anche alcuni bonus:</string>
-    <string name="DP_Donate_Badge_desc">1. **Badge Cherrygram** accanto al tuo nome.</string>
-    <string name="DP_Donate_MsgMenuCompactView_Desc">2. Vista compatta degli elementi del **menu messaggio**.</string>
-    <string name="DP_Donate_EpicBadge_desc">1. Un **epico badge di Cherrygram** accanto al tuo nome.</string>
-    <string name="DP_Donate_GiftMarket_Desc">2. Pulsante \"**Store regali**\" nel menu laterale.</string>
-    <string name="DP_Donate_MessageFilter_Desc">3. Funzione \"**Filtro messaggi**\".</string>
-    <string name="DP_Donate_MessageMenu_Desc">4. Menu messaggi \"**stile iOS**\".</string>
-    <string name="DP_Donate_Cheque">Invia una conferma di pagamento a **@arsLan** per attivare le funzionalità extra.</string>
-    <string name="DP_Donate_Terms">Prima di donare, leggi attentamente le **Condizioni**. Tutte le donazioni sono volontarie e non rimborsabili.</string>
-    <string name="DP_Donate_Counter_one">**%1$d** person has already supported the project and received bonuses</string>
-    <string name="DP_Donate_Counter_few">**%1$d** people have already supported the project and received bonuses</string>
-    <string name="DP_Donate_Counter_many">**%1$d** people have already supported the project and received bonuses</string>
-    <string name="DP_Donate_Counter_other">**%1$d** people have already supported the project and received bonuses</string>
-    <string name="DP_Donate_Bulletin">**%s** supporta lo sviluppo di **Cherrygram**!</string>
-    <string name="DP_Support">Ti piace Cherrygram? Supporta il progetto!</string>
-    <string name="DP_SupportOptions">Opzioni di supporto</string>
     <string name="DP_CameraCutoutHeader">Screenshot brandizzati</string>
     <string name="DP_CameraCutout">Mostra il logo di Cherrygram</string>
     <string name="DP_CameraCutoutDesc">Puoi mostrare il logo Cherrygram sotto la tua fotocamera: apparirà nelle foto scattate dall\'app.
     \nSe il logo **è visualizzato correttamente e rimane nell\'area della fotocamera**, puoi lasciare l\'opzione attiva.
     \nAiuta a promuovere l\'app e a supportare il progetto: lo apprezziamo tantissimo! ❤️</string>
-    <string name="DP_Donate_Method_Int">Sistemi di pagamento internazionali</string>
-    <string name="DP_Donate_Method_Rus">Per i cittadini della Federazione Russa</string>
-    <string name="DP_Donate_Method_Uzb">Per i cittadini dell\'Uzbekistan</string>
-    <string name="DP_Donate_Method_Surname">Puoi contattare **@arsLan** se la piattaforma di pagamento richiede i dati del destinatario.</string>
-    <string name="DP_Donate_Exclusive">In esclusiva per i sostenitori</string>
-    <string name="DP_Donate_ExclusiveDesc">Supporta il progetto per sbloccare tutte le funzionalità.</string>
     <!--Donations-->
     <!--Cherrygram screens-->
 </resources>

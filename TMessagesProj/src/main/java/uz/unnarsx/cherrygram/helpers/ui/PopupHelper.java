@@ -16,19 +16,15 @@ import android.view.View;
 import android.widget.LinearLayout;
 
 import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.R;
 import org.telegram.ui.ActionBar.AlertDialog;
 import org.telegram.ui.ActionBar.BaseFragment;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Cells.RadioColorCell;
 import org.telegram.ui.Cells.TextCell;
-import org.telegram.ui.Components.Bulletin;
 
 import java.util.ArrayList;
 
-import uz.unnarsx.cherrygram.core.ui.CGBulletinCreator;
-import uz.unnarsx.cherrygram.donates.DonatesManager;
 import uz.unnarsx.cherrygram.preferences.ChatsPreferencesEntry;
 
 public class PopupHelper {
@@ -104,7 +100,6 @@ public class PopupHelper {
             ArrayList<Integer> prefIcon,
             ArrayList<Boolean> prefCheck,
             ArrayList<Boolean> prefCheckInvisible,
-            ArrayList<Boolean> donateLock,
             ArrayList<Boolean> prefDivider,
             ArrayList<Runnable> clickListener,
             Runnable dismissRunnable
@@ -125,25 +120,13 @@ public class PopupHelper {
                 textCell.getCheckBox().setVisibility(View.INVISIBLE);
             }
 
-            boolean requireDonate = donateLock != null && donateLock.get(a) && !DonatesManager.INSTANCE.checkAllDonatedAccountsForMarketplace();
-            if (requireDonate) textCell.setCheckBoxIcon(R.drawable.permission_locked);
-
             linearLayout.addView(textCell);
             int finalA = a;
             textCell.setOnClickListener(view -> {
-                if (requireDonate) {
-                    AndroidUtilities.shakeViewSpring(view);
-                    BotWebViewVibrationEffect.APP_ERROR.vibrate();
-                    Bulletin.BulletinWindow.BulletinWindowLayout window = Bulletin.BulletinWindow.make(fragment.getParentActivity());
-                    window.setTouchable(true);
-
-                    CGBulletinCreator.INSTANCE.createRequireDonateBulletin(fragment);
-                } else {
-                    boolean newValue = !prefCheck.get(finalA);
-                    prefCheck.set(finalA, newValue);
-                    textCell.setChecked(newValue);
-                    clickListener.get(finalA).run();
-                }
+                boolean newValue = !prefCheck.get(finalA);
+                prefCheck.set(finalA, newValue);
+                textCell.setChecked(newValue);
+                clickListener.get(finalA).run();
             });
         }
 

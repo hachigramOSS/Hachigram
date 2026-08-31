@@ -383,30 +383,11 @@ Si se encuentra una coincidencia dentro del enlace, el mensaje completo se ocult
     <!--Donations-->
     <string name="DP_EnjoyingUs">¿Disfrutando de Cherrygram?</string>
     <string name="DP_RateUs">¡Califícanos en Google Play!</string>
-    <string name="DP_DonatesMoreInfo">¿Quieres ayudar a que Cherrygram crezca? Echa un vistazo a **Cherrygram Support** chat.</string>
-    <string name="DP_DonatesThanks">¡Gracias por tu apoyo! Hiciste Cherry feliz ❤️</string>
-    <string name="DP_DonateBadge">Donar y desbloquear bonificaciones</string>
-    <string name="DP_Donate_Desc">Cuando donas 2 o más $, también obtendrás algunos regalos de bonos:</string>
-    <string name="DP_Donate_Badge_desc">**Insignia de Cherrygram** junto a tu nombre.</string>
-    <string name="DP_Donate_EpicBadge_desc">1. Una **insignia épica de Cherrygram** al lado de tu nombre.</string>
-    <string name="DP_Donate_GiftMarket_Desc">2. Botón \"**Mercado de regalos**\" en el menú lateral.</string>
-    <string name="DP_Donate_MessageFilter_Desc">3. Función \"**Filtro de mensajes**\".</string>
-    <string name="DP_Donate_MessageMenu_Desc">4. menú de mensajes con estilo iOS.</string>
-    <string name="DP_Donate_Cheque">Envía una confirmación de pago a **@arsLan** para obtener bonos.</string>
-    <string name="DP_Donate_Bulletin">**%s** apoyó el desarrollo de **Cherrygram**!</string>
-    <string name="DP_Support">¿Te gusta Cherrygram? ¡Ayúdalo!</string>
-    <string name="DP_SupportOptions">Opciones de soporte</string>
     <string name="DP_CameraCutoutHeader">Capturas de pantalla con marca</string>
     <string name="DP_CameraCutout">Mostrar logotipo de Cherrygram</string>
     <string name="DP_CameraCutoutDesc">Puedes mostrar el logo de Cherrygram debajo de tu cámara; aparecerá en las capturas de pantalla.
 \nSi el logo **se muestra correctamente y permanece dentro del área de tu cámara**, mantén esta opción activada.
 \nEsto ayuda a promocionar la app y a apoyar el proyecto. ¡Te lo agradecería mucho! ❤️</string>
-    <string name="DP_Donate_Method_Int">Sistemas de pago internacionales</string>
-    <string name="DP_Donate_Method_Rus">Para los residentes de la Federación Rusa</string>
-    <string name="DP_Donate_Method_Uzb">Para los residentes de Uzbekistán</string>
-    <string name="DP_Donate_Method_Surname">Póngase en contacto con **@arsLan** si el sistema de pago requiere la información personal del destinatario.</string>
-    <string name="DP_Donate_Exclusive">Exclusivo para los seguidores</string>
-    <string name="DP_Donate_ExclusiveDesc">Apoya el proyecto y desbloquea todas las funciones.</string>
     <!--Donations-->
     <!--Cherrygram screens-->
 </resources>

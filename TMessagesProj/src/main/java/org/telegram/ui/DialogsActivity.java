@@ -7271,7 +7271,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 return;
             }
             final boolean askedAboutFSILockscreen = MessagesController.getGlobalNotificationsSettings().getBoolean("askedAboutFSILockscreen", false);
-            if (!askedAboutFSILockscreen || getUserConfig() != null && getUserConfig().clientUserId == Constants.Yuki) {
+            if (!askedAboutFSILockscreen) {
                 showDialog(new AlertDialog.Builder(getParentActivity())
                     .setTopAnimation(R.raw.permission_request_apk, AlertsCreator.PERMISSIONS_REQUEST_TOP_ICON_SIZE, false, getThemedColor(Theme.key_dialogTopBackground))
                     .setMessage(getString(R.string.PermissionFSILockscreen))
@@ -8968,7 +8968,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             previewMenu[0].addView(muteItem);
         }
 
-        if (!isCommunityCell && dialogId != Constants.Cherrygram_Owner && dialogId != Constants.Alina) {
+        if (!isCommunityCell) {
             ActionBarMenuSubItem deleteItem = new ActionBarMenuSubItem(getParentActivity(), false, true);
             deleteItem.setIconColor(getThemedColor(Theme.key_text_RedRegular));
             deleteItem.setTextColor(getThemedColor(Theme.key_text_RedBold));
@@ -9445,9 +9445,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 getMessagesController().toggleCommunityCollapsedInDialogs(-selectedDialog, false);
             }
         } else if ((action == delete || action == clear) && count > 1 && alert) {
-            if (selectedDialogs.contains(Constants.Cherrygram_Owner) || selectedDialogs.contains(Constants.Alina)) {
-                return;
-            }
             boolean hasDialogsToRevoke = false;
             HashSet<Long> dialogsIdsPossibleToRevoke = new HashSet<>();
             boolean canRevokePmInbox = MessagesController.getInstance(currentAccount).canRevokePmInbox;
@@ -9596,9 +9593,6 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     markAsUnread(selectedDialog);
                 }
             } else if (action == delete || action == clear) {
-                if (dialog.id == Constants.Cherrygram_Owner || dialog.id == Constants.Alina) {
-                    return;
-                }
                 if (count == 1) {
                     if (action == delete && canDeletePsaSelected) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getParentActivity());

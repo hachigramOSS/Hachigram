@@ -11,7 +11,6 @@ import static org.telegram.ui.Stars.StarsController.findAttribute;
 import static org.telegram.ui.Stars.StarsIntroActivity.StarsTransactionView.getPlatformDrawable;
 import static org.telegram.ui.bots.AffiliateProgramFragment.percents;
 
-import static uz.unnarsx.cherrygram.preferences.StarsIntroActivityCG.allowSafeStars;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -167,7 +166,6 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Locale;
 
-import uz.unnarsx.cherrygram.preferences.CherrygramPreferencesNavigator;
 
 public class StarsIntroActivity extends GradientHeaderActivity implements NotificationCenter.NotificationCenterDelegate {
 
@@ -364,11 +362,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
                 AccountFrozenAlert.show(currentAccount);
                 return;
             }
-            if (allowSafeStars()) {
-                createSafeStars(null, null, -1);
-            } else {
-                new StarsOptionsSheet(context, resourceProvider).show();
-            }
+            new StarsOptionsSheet(context, resourceProvider).show();
         });
         oneButtonsLayout.addView(buyButton, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 48, Gravity.FILL));
 
@@ -388,11 +382,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         ssb.append(getString(R.string.StarsTopUp));
         topupButton.setText(ssb, false);
         topupButton.setOnClickListener(v -> {
-            if (allowSafeStars()) {
-                createSafeStars(null, null, -1);
-            } else {
-                new StarsOptionsSheet(context, resourceProvider).show();
-            }
+            new StarsOptionsSheet(context, resourceProvider).show();
         });
         twoButtonsLayout.addView(topupButton, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, 48, Gravity.CENTER, 1, 0, 0, 8, 0));
 
@@ -2487,8 +2477,6 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         private FrameLayout footerView;
         private FireworksOverlay fireworksOverlay;
 
-        public static boolean fromSafeStars = false;
-
         @Override
         public void didReceivedNotification(int id, int account, Object... args) {
             if (id == NotificationCenter.starOptionsLoaded || id == NotificationCenter.starBalanceUpdated) {
@@ -2525,11 +2513,6 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             Theme.ResourcesProvider resourcesProvider
         ) {
             super(context, null, false, false, false, resourcesProvider);
-
-            if (allowSafeStars() && !fromSafeStars) {
-                createSafeStars(null, null, -1);
-                return;
-            }
 
             recyclerListView.setPadding(backgroundPaddingLeft, 0, backgroundPaddingLeft, 0);
             recyclerListView.setOnItemClickListener((view, position) -> {
@@ -2745,16 +2728,6 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
             long purposePeerDialogId
         ) {
             super(context, null, false, false, false, resourcesProvider);
-
-            if (allowSafeStars()) {
-                long balance = StarsController.getInstance(currentAccount).getBalance().amount;
-                createSafeStars(
-                        formatPluralString("StarsNeededTitle", (int) Math.max(0, starsNeeded - balance)),
-                        botName,
-                        type
-                );
-                return;
-            }
 
             topPadding = .2f;
 
@@ -5843,12 +5816,4 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         return ssb;
     }
 
-    /** Cherrygram start */
-    public static void createSafeStars(String customTitle, String userName, int type) {
-        final BaseFragment lastFragment = LaunchActivity.getLastFragment();
-        if (lastFragment != null) {
-            CherrygramPreferencesNavigator.INSTANCE.createStars(lastFragment, customTitle, userName, type);
-        }
-    }
-    /** Cherrygram finish */
 }

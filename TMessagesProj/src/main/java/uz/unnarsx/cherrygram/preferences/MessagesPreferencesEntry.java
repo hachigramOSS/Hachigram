@@ -386,7 +386,6 @@ public class MessagesPreferencesEntry extends UniversalFragment {
                 prefIcon,
                 prefCheck,
                 prefCheckInvisible,
-                null,
                 prefDivider,
                 clickListener,
                 null

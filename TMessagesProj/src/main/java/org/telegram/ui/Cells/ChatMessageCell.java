@@ -265,9 +265,6 @@ import uz.unnarsx.cherrygram.core.configs.CherrygramMessagesConfig;
 import uz.unnarsx.cherrygram.core.configs.CherrygramDebugConfig;
 import uz.unnarsx.cherrygram.core.helpers.CGResourcesHelper;
 import uz.unnarsx.cherrygram.chats.helpers.ChatsHelper;
-import uz.unnarsx.cherrygram.donates.BadgeHelper;
-import uz.unnarsx.cherrygram.donates.DonatesManager;
-import uz.unnarsx.cherrygram.misc.Constants;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
@@ -19143,15 +19140,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 } else if (currentNameStatus instanceof Drawable) {
                     currentNameStatusDrawable.set((Drawable) currentNameStatus, false);
                 }
-
-                if (currentUser != null && currentNameStatus instanceof Long) {
-                    boolean isPremium = false; // cgPremium
-                    boolean forceBra = currentUser.id == Constants.Cherrygram_Owner;
-                    boolean showParticles = isPremium || forceBra || DonatesManager.INSTANCE.didUserDonateForMarketplace(currentUser.id);
-                    boolean isCherryEmojiApplied = currentNameStatus != null && ((long) currentNameStatus == Constants.CHERRY_EMOJI_ID_VERIFIED || (long) currentNameStatus == Constants.CHERRY_EMOJI_ID_VERIFIED_BRA);
-
-                    if (isCherryEmojiApplied) currentNameStatusDrawable.setParticles(showParticles, showParticles);
-                }
             }
             if (currentNameEmojiStatusDrawable == null && currentNameBotVerificationId != 0) {
                 currentNameEmojiStatusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(this, true, dp(18));
@@ -19904,17 +19892,6 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (CherrygramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) return null;
         if (currentUser != null) {
             Long emojiStatusId = UserObject.getEmojiStatusDocumentId(currentUser);
-
-            boolean isPremium = false; // cgPremium
-            boolean isDonated = DonatesManager.INSTANCE.didUserDonate(currentUser.id);
-            boolean forceBra = currentUser.id == Constants.Cherrygram_Owner;
-
-            if (emojiStatusId == null && isPremium && isDonated) {
-                emojiStatusId = Constants.CHERRY_EMOJI_ID_VERIFIED_BRA;
-            } else if (emojiStatusId == null && (isPremium || isDonated || forceBra)) {
-                emojiStatusId = isPremium || forceBra ? Constants.CHERRY_EMOJI_ID_VERIFIED_BRA : Constants.CHERRY_EMOJI_ID_VERIFIED;
-            }
-
             if (emojiStatusId != null) {
                 if (currentUser.emoji_status instanceof TLRPC.TL_emojiStatusCollectible) {
                     nameStatusSlug = ((TLRPC.TL_emojiStatusCollectible) currentUser.emoji_status).slug;
@@ -21479,7 +21456,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     (int) (Math.abs(nx) + (viaNameWidth > 0 ? viaNameWidth - dp(4 + 28) : nameLayoutWidth) + dp(22)),
                     (int) (ny + nameLayout.getHeight() / 2 + dp(10))
                 );
-                currentNameStatusDrawable.setColor(BadgeHelper.Companion.getEmojiStatusColor(currentMessageObject.getFromPeer().user_id, ColorUtils.setAlphaComponent(color, 115), false));
+                currentNameStatusDrawable.setColor(ColorUtils.setAlphaComponent(color, 115));
                 currentNameStatusDrawable.draw(canvas);
             }
 

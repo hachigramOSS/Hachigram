@@ -39,7 +39,6 @@ import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
 import uz.unnarsx.cherrygram.core.crashlytics.FirebaseAnalyticsHelper;
 import uz.unnarsx.cherrygram.core.helpers.CGResourcesHelper;
 import uz.unnarsx.cherrygram.core.ui.CGBulletinCreator;
-import uz.unnarsx.cherrygram.donates.DonatesManager;
 import uz.unnarsx.cherrygram.helpers.ui.PopupHelper;
 import uz.unnarsx.cherrygram.preferences.helpers.SettingsHelper;
 
@@ -252,8 +251,7 @@ public class CameraPreferencesEntry extends UniversalFragment {
     }
 
     private boolean isExtendedFpsAvailable() {
-        return CherrygramCoreConfig.isDevBuild() || CherrygramCoreConfig.isStandalonePremiumBuild()
-                || DonatesManager.INSTANCE.checkAllDonatedAccounts() || DonatesManager.INSTANCE.checkAllDonatedAccountsForMarketplace();
+        return CherrygramCoreConfig.isDevBuild() || CherrygramCoreConfig.isStandalonePremiumBuild();
     }
 
     public static String getCameraName() {

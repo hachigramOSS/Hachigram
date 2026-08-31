@@ -531,7 +531,6 @@ public class ChatsPreferencesEntry extends UniversalFragment {
                 prefIcon,
                 prefCheck,
                 prefCheckInvisible,
-                null,
                 prefDivider,
                 clickListener,
                 null

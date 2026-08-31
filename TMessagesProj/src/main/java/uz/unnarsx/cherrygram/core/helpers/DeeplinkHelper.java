@@ -76,20 +76,8 @@ public class DeeplinkHelper {
                     CherrygramPreferencesNavigator.INSTANCE.createDebug(fragment);
                     return;
                 }
-                case DeepLinksRepo.CG_Support, "cg_donate", "cg_donates", "cg_badge" -> {
-                    CherrygramPreferencesNavigator.INSTANCE.createDonate(fragment);
-                    return;
-                }
-                case DeepLinksRepo.CG_Support_Force, "cg_donate_force", "cg_donates_force", "cg_support_f", "cg_badge_force" -> {
-                    CherrygramPreferencesNavigator.INSTANCE.createDonate(fragment, true);
-                    return;
-                }
                 case DeepLinksRepo.CG_Stars -> {
-                    if (CherrygramCoreConfig.INSTANCE.getAllowSafeStars()) {
-                        CherrygramPreferencesNavigator.INSTANCE.createStars(fragment, null, null, -1);
-                    } else {
-                        new StarsIntroActivity.StarsOptionsSheet(fragment.getContext(), fragment.getResourceProvider()).show();
-                    }
+                    new StarsIntroActivity.StarsOptionsSheet(fragment.getContext(), fragment.getResourceProvider()).show();
                     return;
                 }
                 case DeepLinksRepo.CG_Experimental -> {
@@ -207,8 +195,6 @@ public class DeeplinkHelper {
 
         public static final String CG_Privacy = "cg_privacy";
 
-        public static final String CG_Support = "cg_support";
-        public static final String CG_Support_Force = "cg_support_force";
         public static final String CG_Stars = "cg_stars";
 
         public static final String CG_Restart = "cg_restart";

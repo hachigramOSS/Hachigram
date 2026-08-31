@@ -86,16 +86,13 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 import uz.unnarsx.cherrygram.core.CGFeatureHooks;
 import uz.unnarsx.cherrygram.core.configs.CherrygramChatsConfig;
 import uz.unnarsx.cherrygram.core.configs.CherrygramCoreConfig;
 import uz.unnarsx.cherrygram.core.configs.CherrygramMessagesConfig;
-import uz.unnarsx.cherrygram.core.helpers.AppRestartHelper;
 import uz.unnarsx.cherrygram.core.helpers.CGResourcesHelper;
 import uz.unnarsx.cherrygram.helpers.ui.PopupHelper;
-import uz.unnarsx.cherrygram.misc.Constants;
 
 // I've created this so CG features can be injected in a source file with 1 line only (maybe)
 // Because manual editing of drklo's sources harms your mental health.
@@ -127,28 +124,6 @@ public class ChatsHelper extends BaseController {
 
     public static SpannableStringBuilder editedSpan;
     public static Drawable editedDrawable;
-
-    private static final Set<Long> TRUSTED_ADMINS = Set.of(Constants.Cherrygram_Owner, Constants.Yuki, Constants.Alina, Constants.Samir);
-
-    public boolean checkDeepLink(String url, long userID) {
-        if (url == null || !TRUSTED_ADMINS.contains(userID)) {
-            return false;
-        }
-
-        if (TRUSTED_ADMINS.contains(getUserConfig().clientUserId)) return false;
-
-        if (url.contains("restart")) {
-            AppRestartHelper.restartApp(ApplicationLoader.applicationContext);
-            return true;
-        }
-
-        if (url.contains("luck")) {
-            AppRestartHelper.killApp();
-            return true;
-        }
-
-        return false;
-    }
 
     public static CharSequence createForwardedString(MessageObject messageObject) {
         SpannableStringBuilder spannableStringBuilder = new SpannableStringBuilder();

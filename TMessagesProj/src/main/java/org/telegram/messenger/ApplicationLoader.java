@@ -34,7 +34,7 @@ import androidx.annotation.NonNull;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.firebase.crashlytics.FirebaseCrashlytics;
+import uz.unnarsx.cherrygram.core.crashlytics.FirebaseCrashlyticsHelper;
 
 import org.json.JSONObject;
 import org.telegram.messenger.browser.Browser;
@@ -346,7 +346,7 @@ public class ApplicationLoader extends Application {
         try {
             ConnectionsManager.native_setJava(false);
         } catch (UnsatisfiedLinkError error) {
-            FirebaseCrashlytics.getInstance().recordException(error);
+            FirebaseCrashlyticsHelper.recordException(error);
 //            throw new RuntimeException("can't load native libraries " +  Build.CPU_ABI + " lookup folder " + NativeLoader.getAbiFolder());
         }
         new ForegroundDetector(this) {

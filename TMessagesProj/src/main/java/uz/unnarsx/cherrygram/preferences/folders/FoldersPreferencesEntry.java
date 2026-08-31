@@ -16,8 +16,6 @@ import android.view.View;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import org.telegram.messenger.AndroidUtilities;
-import org.telegram.messenger.BotWebViewVibrationEffect;
 import org.telegram.messenger.NotificationCenter;
 import org.telegram.messenger.R;
 import org.telegram.ui.Components.UItem;
@@ -29,7 +27,6 @@ import java.util.ArrayList;
 import uz.unnarsx.cherrygram.core.configs.CherrygramAppearanceConfig;
 import uz.unnarsx.cherrygram.core.crashlytics.FirebaseAnalyticsHelper;
 import uz.unnarsx.cherrygram.core.ui.CGBulletinCreator;
-import uz.unnarsx.cherrygram.donates.DonatesManager;
 import uz.unnarsx.cherrygram.helpers.ui.PopupHelper;
 import uz.unnarsx.cherrygram.preferences.folders.cells.FoldersPreviewCell;
 import uz.unnarsx.cherrygram.preferences.helpers.SettingsHelper;
@@ -82,7 +79,7 @@ public class FoldersPreferencesEntry extends UniversalFragment {
                 .setChecked(CherrygramAppearanceConfig.INSTANCE.getFolderNameInHeader())
         );
         items.add(SettingsHelper.asSwitchCG(foldersAtBottomRow, getString(R.string.AP_FoldersAtBottom))
-                .setChecked(CherrygramAppearanceConfig.INSTANCE.getFoldersAtBottom()).setLocked(!DonatesManager.INSTANCE.didUserDonateForFeature())
+                .setChecked(CherrygramAppearanceConfig.INSTANCE.getFoldersAtBottom())
         );
         items.add(UItem.asShadow(null));
     }
@@ -146,13 +143,6 @@ public class FoldersPreferencesEntry extends UniversalFragment {
 
             getNotificationCenter().postNotificationName(NotificationCenter.dialogFiltersUpdated);
         } else if (item.id == foldersAtBottomRow) {
-            if (!DonatesManager.INSTANCE.didUserDonateForFeature()) {
-                AndroidUtilities.shakeViewSpring(view);
-                BotWebViewVibrationEffect.APP_ERROR.vibrate();
-                CGBulletinCreator.INSTANCE.createRequireDonateBulletin(this);
-                return;
-            }
-
             CherrygramAppearanceConfig.INSTANCE.setFoldersAtBottom(!CherrygramAppearanceConfig.INSTANCE.getFoldersAtBottom());
             SettingsHelper.updateCheckState(view, CherrygramAppearanceConfig.INSTANCE.getFoldersAtBottom());
 
