@@ -5532,6 +5532,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         communityItem = new ImageView(context);
         communityItem.setScaleType(ImageView.ScaleType.CENTER);
         communityItem.setAlpha(0f);
+        communityItem.setVisibility(View.GONE);
         communityItem.setImageDrawable(communityArrowDrawable = new CommunityArrowDrawable().withCircle());
         frameLayout.addView(communityItem, LayoutHelper.createFrame(16, 16, Gravity.TOP | Gravity.LEFT));
 
@@ -9596,6 +9597,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
         if (visible) {
             communityItem.setTag(1);
+            communityItem.setAlpha(1f);
             communityItem.setVisibility(View.VISIBLE);
         } else {
             communityItem.setTag(null);
@@ -10024,6 +10026,27 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     private float prevAvatarTranslation;
 
+    private BaseFragment findPreviousChatFragment() {
+        if (parentLayout == null || parentLayout.getFragmentStack().size() < 2) {
+            return null;
+        }
+        BaseFragment fragment = parentLayout.getFragmentStack().get(parentLayout.getFragmentStack().size() - 2);
+        if (fragment instanceof ViewPagerActivity) {
+            fragment = ((ViewPagerActivity) fragment).getCurrentVisibleFragment();
+        }
+        if (fragment instanceof DialogsActivity) {
+            DialogsActivity dialogsActivity = (DialogsActivity) fragment;
+            if (dialogsActivity.rightSlidingDialogContainer != null && dialogsActivity.rightSlidingDialogContainer.currentFragment instanceof ChatActivityInterface) {
+                previousTransitionMainFragment = dialogsActivity;
+                return dialogsActivity.rightSlidingDialogContainer.currentFragment;
+            }
+        }
+        if (fragment instanceof ChatActivityInterface) {
+            return fragment;
+        }
+        return null;
+    }
+
     @Override
     public AnimatorSet onCustomTransitionAnimation(final boolean isOpen, final Runnable callback) {
         if (hasMainTabs) {
@@ -10036,9 +10059,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             return null;
         }
 
-        if (communityItem != null) {
-            communityItem.setAlpha(1f);
-        }
         if (timeItem != null) {
             timeItem.setAlpha(1.0f);
         }
@@ -10053,18 +10073,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             starBgItem.setScaleY(1.0f);
         }
         previousTransitionMainFragment = null;
-        if (parentLayout != null && parentLayout.getFragmentStack().size() >= 2) {
-            BaseFragment fragment = parentLayout.getFragmentStack().get(parentLayout.getFragmentStack().size() - 2);
-            if (fragment instanceof ChatActivityInterface) {
-                previousTransitionFragment = (ChatActivityInterface) fragment;
-            }
-            if (fragment instanceof DialogsActivity) {
-                DialogsActivity dialogsActivity = (DialogsActivity) fragment;
-                if (dialogsActivity.rightSlidingDialogContainer != null && dialogsActivity.rightSlidingDialogContainer.currentFragment instanceof ChatActivityInterface) {
-                    previousTransitionMainFragment = dialogsActivity;
-                    previousTransitionFragment = (ChatActivityInterface) dialogsActivity.rightSlidingDialogContainer.currentFragment;
-                }
-            }
+        final BaseFragment previousChatFragment = findPreviousChatFragment();
+        if (previousChatFragment != null) {
+            previousTransitionFragment = (ChatActivityInterface) previousChatFragment;
         }
 
         final ActionBar previousActionBar;
@@ -10076,8 +10087,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         }
 
         final boolean fromChat = previousTransitionFragment instanceof ChatActivity && ((ChatActivity) previousTransitionFragment).getCurrentChat() != null;
+        updateCommunityArrowItem();
         if (previousTransitionFragment != null) {
-            updateCommunityArrowItem();
             updateTimeItem();
             updateStar();
         }
@@ -10210,7 +10221,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (previousTransitionFragment != null) {
                 ChatAvatarContainer avatarContainer = previousTransitionFragment.getAvatarContainer();
                 if (avatarContainer != null) {
-                    prevAvatarTranslation = ViewPositionWatcher.computeXCoordinateInParent(avatarContainer.avatarImageView, previousTransitionFragment.getContentView());
+                    final ViewGroup previousRoot = previousTransitionMainFragment != null && previousTransitionMainFragment.getFragmentView() instanceof ViewGroup
+                        ? (ViewGroup) previousTransitionMainFragment.getFragmentView()
+                        : previousTransitionFragment.getContentView();
+                    prevAvatarTranslation = ViewPositionWatcher.computeXCoordinateInParent(avatarContainer.avatarImageView, previousRoot);
                 }
                 if (avatarContainer != null && avatarContainer.getSubtitleTextView() instanceof SimpleTextView && ((SimpleTextView) avatarContainer.getSubtitleTextView()).getLeftDrawable() != null || avatarContainer.statusMadeShorter[0]) {
                     transitionOnlineText = avatarContainer.getSubtitleTextView();
@@ -11447,20 +11461,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             onlineTextOverride = null;
         }
 
-        BaseFragment prevFragment = null;
-        if (parentLayout != null && parentLayout.getFragmentStack().size() >= 2) {
-            BaseFragment fragment = parentLayout.getFragmentStack().get(parentLayout.getFragmentStack().size() - 2);
-            if (fragment instanceof ChatActivityInterface) {
-                prevFragment = fragment;
-            }
-            if (fragment instanceof DialogsActivity) {  //
-                DialogsActivity dialogsActivity = (DialogsActivity) fragment;
-                if (dialogsActivity.rightSlidingDialogContainer != null && dialogsActivity.rightSlidingDialogContainer.currentFragment instanceof ChatActivityInterface) {
-                    previousTransitionMainFragment = dialogsActivity;
-                    prevFragment = dialogsActivity.rightSlidingDialogContainer.currentFragment;
-                }
-            }
-        }
+        BaseFragment prevFragment = findPreviousChatFragment();
         final boolean copyFromChatActivity = prevFragment instanceof ChatActivity && ((ChatActivity) prevFragment).avatarContainer != null && ((ChatActivity) prevFragment).getChatMode() == ChatActivity.MODE_SUGGESTIONS;
 
         TLRPC.TL_forumTopic topic = null;
