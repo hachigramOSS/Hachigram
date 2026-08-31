@@ -1,0 +1,47 @@
+name: Build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: android
+    steps:
+      # The runner image ships no node, so JS actions cannot run; clone by hand.
+      - name: Checkout
+        run: |
+          git init -q .
+          git remote add origin "${{ github.server_url }}/${{ github.repository }}.git"
+          git fetch -q --depth=1 origin "${{ github.sha }}"
+          git checkout -q FETCH_HEAD
+          git submodule update --init --depth 1 TMessagesProj/lib/jlatexmath
+
+      # The generic Android images carry android-34; skip when the runner image
+      # already provides what the project pins.
+      - name: Install SDK packages
+        run: |
+          if [ ! -d "$ANDROID_SDK_ROOT/platforms/android-36" ]; then
+            yes | sdkmanager --licenses >/dev/null 2>&1 || true
+            sdkmanager --install "platforms;android-36" "build-tools;36.0.0" >/dev/null
+          fi
+
+      - name: Configure credentials
+        env:
+          CHERRYGRAM_APP_ID: ${{ secrets.CHERRYGRAM_APP_ID }}
+          CHERRYGRAM_APP_HASH: ${{ secrets.CHERRYGRAM_APP_HASH }}
+        run: |
+          {
+            echo "sdk.dir=$ANDROID_SDK_ROOT"
+            [ -n "$CHERRYGRAM_APP_ID" ] && echo "CHERRYGRAM_APP_ID=$CHERRYGRAM_APP_ID"
+            [ -n "$CHERRYGRAM_APP_HASH" ] && echo "CHERRYGRAM_APP_HASH=$CHERRYGRAM_APP_HASH"
+          } > local.properties
+
+      - name: Compile
+        run: |
+          ./gradlew --no-daemon --console=plain \
+            :TMessagesProj:compileDebugJavaWithJavac \
+            :TMessagesProj_App:compileAfatDebugJavaWithJavac \
+            :TMessagesProj_AppStandalone:compileAfatDebugJavaWithJavac
