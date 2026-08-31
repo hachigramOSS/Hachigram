@@ -222,6 +222,7 @@ android {
         }
 
         standalone {
+            matchingFallbacks = ['release']
 //            jniDebuggable false
 //            minifyEnabled true
 //            multiDexEnabled true
