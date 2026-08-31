@@ -1638,7 +1638,7 @@ public class GroupCallActivity extends BottomSheet implements NotificationCenter
             return;
         }
         int time = accountInstance.getConnectionsManager().getCurrentTime() - call.call.record_start_date;
-        if (call.recording) {
+        if (call.recording && call.call.record_start_date != 0) {
             recordItem.setSubtext(AndroidUtilities.formatDuration(time, false));
         } else {
             recordItem.setSubtext(null);
