@@ -88,7 +88,6 @@ import java.util.Locale;
 
 import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
 import com.the306bobby.cherrygramnext.Extra;
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper;
 import com.the306bobby.cherrygramnext.misc.Constants;
 import com.the306bobby.cherrygramnext.core.helpers.CGResourcesHelper;
 
@@ -982,7 +981,6 @@ public class MessagesAndProfilesPreferencesEntry extends BaseFragment {
 
         fragmentView = contentView = frameLayout;
 
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("msgs_and_profiles_prefs");
 
         return contentView;
     }

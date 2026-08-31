@@ -33,7 +33,6 @@ import java.util.ArrayList;
 
 import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
 import com.the306bobby.cherrygramnext.core.crashlytics.Crashlytics;
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper;
 import com.the306bobby.cherrygramnext.core.helpers.CGResourcesHelper;
 import com.the306bobby.cherrygramnext.core.helpers.DeeplinkHelper;
 import com.the306bobby.cherrygramnext.misc.Constants;
@@ -54,7 +53,6 @@ public class AboutPreferencesEntry extends UniversalFragment {
 
     @Override
     protected CharSequence getTitle() {
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("about_preferences_screen");
         return getString(R.string.CGP_Header_About);
     }
 

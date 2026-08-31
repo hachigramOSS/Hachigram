@@ -37,7 +37,6 @@ import java.util.Locale;
 import com.the306bobby.cherrygramnext.chats.gemini.network.ApiClient;
 import com.the306bobby.cherrygramnext.chats.gemini.network.ModelInfo;
 import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper;
 import com.the306bobby.cherrygramnext.core.helpers.CGResourcesHelper;
 import com.the306bobby.cherrygramnext.helpers.ui.PopupHelper;
 import com.the306bobby.cherrygramnext.preferences.helpers.SettingsHelper;
@@ -52,7 +51,6 @@ public class GeminiPreferencesEntry extends UniversalFragment {
 
     @Override
     protected CharSequence getTitle() {
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("gemini_preferences_screen");
         return getString(R.string.CP_GeminiAI_Header);
     }
 

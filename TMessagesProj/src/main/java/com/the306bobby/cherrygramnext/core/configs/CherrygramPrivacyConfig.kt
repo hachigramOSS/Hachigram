@@ -13,7 +13,6 @@ package com.the306bobby.cherrygramnext.core.configs
 import android.app.Activity
 import android.content.SharedPreferences
 import org.telegram.messenger.ApplicationLoader
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper
 import com.the306bobby.cherrygramnext.preferences.boolean
 
 object CherrygramPrivacyConfig {
@@ -22,7 +21,6 @@ object CherrygramPrivacyConfig {
 
     /** Privacy start */
     var hideProxySponsor by sharedPreferences.boolean("SP_NoProxyPromo", true)
-    var googleAnalytics by sharedPreferences.boolean("SP_GoogleAnalytics", false)
     /** Privacy finish */
 
     /** Passcode lock start */
@@ -38,10 +36,5 @@ object CherrygramPrivacyConfig {
     var hideArchivedStories by sharedPreferences.boolean("CP_HideArchivedStories", false)
     var reTgCheck by sharedPreferences.boolean("SP_ReTgCheck", true)
     /** Misc **/
-
-    fun init() {
-        FirebaseAnalyticsHelper.init(ApplicationLoader.applicationContext)
-        FirebaseAnalyticsHelper.trackEventWithEmptyBundle("cg_start")
-    }
 
 }

@@ -27,7 +27,6 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper;
 import com.the306bobby.cherrygramnext.core.helpers.DeeplinkHelper;
 import com.the306bobby.cherrygramnext.core.ui.CGBulletinCreator;
 import com.the306bobby.cherrygramnext.helpers.ui.PopupHelper;
@@ -47,7 +46,6 @@ public class MessagesPreferencesEntry extends UniversalFragment {
 
     @Override
     protected CharSequence getTitle() {
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("messages_preferences_screen");
         return getString(R.string.MessagesSettings);
     }
 

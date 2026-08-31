@@ -53,7 +53,6 @@ import java.util.Set;
 import com.the306bobby.cherrygramnext.chats.filters.MessagesFilterHelper;
 import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
 import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper;
 import com.the306bobby.cherrygramnext.core.ui.MD3ListAdapter;
 
 public class MessageFiltersPreferencesEntry extends BaseFragment {
@@ -256,7 +255,6 @@ public class MessageFiltersPreferencesEntry extends BaseFragment {
             }
         });
 
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("filters_preferences_screen");
 
         actionBar.setAdaptiveBackground(listView);
 

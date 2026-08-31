@@ -38,7 +38,6 @@ import org.telegram.ui.Components.RecyclerListView;
 
 import com.the306bobby.cherrygramnext.chats.CGMessageMenuInjector;
 import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper;
 
 public class MessageMenuPreferencesEntry extends BaseFragment {
 
@@ -195,7 +194,6 @@ public class MessageMenuPreferencesEntry extends BaseFragment {
             }
         });
 
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("message_menu_preferences_screen");
 
         listView.setSections(true);
         actionBar.setAdaptiveBackground(listView);

@@ -41,7 +41,6 @@ import java.util.function.Supplier;
 import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper2;
 import com.the306bobby.cherrygramnext.core.VibrateUtil;
 import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper;
 import com.the306bobby.cherrygramnext.core.helpers.DeeplinkHelper;
 import com.the306bobby.cherrygramnext.core.ui.CGBulletinCreator;
 import com.the306bobby.cherrygramnext.helpers.ui.PopupHelper;
@@ -72,7 +71,6 @@ public class ChatsPreferencesEntry extends UniversalFragment {
 
     @Override
     protected CharSequence getTitle() {
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("chats_preferences_screen");
         return getString(R.string.FilterChats);
     }
 

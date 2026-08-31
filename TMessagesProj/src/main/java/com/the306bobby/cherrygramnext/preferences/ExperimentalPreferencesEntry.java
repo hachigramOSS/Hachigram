@@ -22,13 +22,11 @@ import org.telegram.ui.Components.UniversalFragment;
 
 import java.util.ArrayList;
 
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper;
 
 public class ExperimentalPreferencesEntry extends UniversalFragment {
 
     @Override
     protected CharSequence getTitle() {
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("experimental_preferences_screen");
         return getString(R.string.EP_Category_Experimental);
     }
 

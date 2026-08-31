@@ -23,7 +23,6 @@ import org.telegram.ui.Components.UniversalFragment;
 
 import java.util.ArrayList;
 
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper;
 import com.the306bobby.cherrygramnext.core.helpers.AppRestartHelper;
 import com.the306bobby.cherrygramnext.core.helpers.DeeplinkHelper;
 import com.the306bobby.cherrygramnext.core.helpers.backup.BackupHelper;
@@ -45,7 +44,6 @@ public class CGPreferencesEntry extends UniversalFragment {
 
     @Override
     protected CharSequence getTitle() {
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("main_preferences_screen");
         return getString(R.string.CGP_AdvancedSettings);
     }
 

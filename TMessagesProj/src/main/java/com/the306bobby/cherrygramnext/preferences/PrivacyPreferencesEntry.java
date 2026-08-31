@@ -41,7 +41,6 @@ import java.util.function.Supplier;
 import com.the306bobby.cherrygramnext.core.CGBiometricPrompt;
 import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
 import com.the306bobby.cherrygramnext.core.configs.CherrygramPrivacyConfig;
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper;
 import com.the306bobby.cherrygramnext.core.helpers.AppRestartHelper;
 import com.the306bobby.cherrygramnext.core.ui.CGBulletinCreator;
 import com.the306bobby.cherrygramnext.helpers.ui.PopupHelper;
@@ -50,7 +49,6 @@ import com.the306bobby.cherrygramnext.preferences.helpers.SettingsHelper;
 public class PrivacyPreferencesEntry extends UniversalFragment {
 
     private final int proxySponsorRow = 1;
-    private final int googleAnalyticsRow = 2;
     private final int deleteAccountRow = 3;
 
     private final int hideArchiveFromChatsListRow = 4;
@@ -65,7 +63,6 @@ public class PrivacyPreferencesEntry extends UniversalFragment {
 
     @Override
     protected CharSequence getTitle() {
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("privacy_preferences_screen");
         return getString(R.string.SettingsPrivacySecurity);
     }
 
@@ -81,10 +78,6 @@ public class PrivacyPreferencesEntry extends UniversalFragment {
         items.add(SettingsHelper.asSwitchCG(proxySponsorRow, getString(R.string.SP_NoProxyPromo))
                 .setChecked(CherrygramPrivacyConfig.INSTANCE.getHideProxySponsor())
         );
-        items.add(SettingsHelper.asSwitchCG(googleAnalyticsRow, getString(R.string.SP_GoogleAnalytics), getString(R.string.SP_GoogleAnalytics_Desc))
-                .setChecked(CherrygramPrivacyConfig.INSTANCE.getGoogleAnalytics())
-        );
-
         UItem deleteAccountButton = UItem.asButton(
                 deleteAccountRow,
                 R.drawable.msg_delete,
@@ -124,11 +117,6 @@ public class PrivacyPreferencesEntry extends UniversalFragment {
             SettingsHelper.updateCheckState(view, CherrygramPrivacyConfig.INSTANCE.getHideProxySponsor());
 
             getMessagesController().checkPromoInfo(true);
-        } else if (item.id == googleAnalyticsRow) {
-            CherrygramPrivacyConfig.INSTANCE.setGoogleAnalytics(!CherrygramPrivacyConfig.INSTANCE.getGoogleAnalytics());
-            SettingsHelper.updateCheckState(view, CherrygramPrivacyConfig.INSTANCE.getGoogleAnalytics());
-
-            FirebaseAnalyticsHelper.INSTANCE.onPrivacyConfigChanged(CherrygramPrivacyConfig.INSTANCE.getGoogleAnalytics());
         } else if (item.id == deleteAccountRow) {
             if (getChatsPasswordHelper().checkBiometricAvailable()) {
                 CGBiometricPrompt.prompt(getParentActivity(), () -> DeleteAccountDialog.showDeleteAccountDialog(this));

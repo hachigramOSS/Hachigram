@@ -26,7 +26,6 @@ import org.telegram.ui.Components.UniversalFragment;
 import java.util.ArrayList;
 
 import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper;
 import com.the306bobby.cherrygramnext.core.ui.CGBulletinCreator;
 import com.the306bobby.cherrygramnext.helpers.ui.PopupHelper;
 import com.the306bobby.cherrygramnext.preferences.folders.cells.FoldersPreviewCell;
@@ -47,7 +46,6 @@ public class FoldersPreferencesEntry extends UniversalFragment {
 
     @Override
     public View createView(Context context) {
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("folders_preferences_screen");
         setMD3(true);
         return super.createView(context);
     }

@@ -85,7 +85,6 @@ public class CrashReportBottomSheet extends OnceBottomSheetHelper {
         scrollView.addView(frameLayout);
         setCustomView(scrollView);
 
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("crash_screen");
     }
 
     public static void checkBottomSheet(BaseFragment fragment) {

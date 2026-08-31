@@ -37,7 +37,6 @@ import java.util.ArrayList;
 
 import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
 import com.the306bobby.cherrygramnext.core.configs.CherrygramDebugConfig;
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper;
 import com.the306bobby.cherrygramnext.core.ui.CGBulletinCreator;
 import com.the306bobby.cherrygramnext.helpers.ui.PopupHelper;
 import com.the306bobby.cherrygramnext.preferences.helpers.SettingsHelper;
@@ -68,7 +67,6 @@ public class DebugPreferencesEntry extends UniversalFragment {
 
     @Override
     protected CharSequence getTitle() {
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("debug_preferences_screen");
         return "Debug // WIP";
     }
 

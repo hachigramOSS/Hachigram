@@ -3,6 +3,21 @@
 headings match the tag: `v0.<major>.<minor>[.<rc>]` for release candidates,
 `v<major>.<minor>[.<patch>]` for the real thing. the display name lives in `VERSION`.
 
+## v0.1.0.2
+
+firebase is now genuinely push-only, not just configured that way.
+
+### changed
+
+- dropped the firebase analytics, remote config and app indexing sdks. none of
+  them were initialised, but remote config still accounted for 546 references in
+  the shipped apk, and shipping code that can't run is just weight
+- the google analytics toggle went with them, since it controlled nothing
+- removed telegram's google assistant action reporting, which told google when an
+  assistant-launched action finished
+
+firebase cloud messaging is the only firebase left.
+
 ## v0.1.0.1
 
 rc1 wouldn't start. fixed that.

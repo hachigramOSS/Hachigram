@@ -37,7 +37,6 @@ import com.the306bobby.cherrygramnext.camera.CameraTypeSelector;
 import com.the306bobby.cherrygramnext.camera.CameraXUtils;
 import com.the306bobby.cherrygramnext.core.configs.CherrygramCameraConfig;
 import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper;
 import com.the306bobby.cherrygramnext.core.helpers.CGResourcesHelper;
 import com.the306bobby.cherrygramnext.core.ui.CGBulletinCreator;
 import com.the306bobby.cherrygramnext.helpers.ui.PopupHelper;
@@ -62,7 +61,6 @@ public class CameraPreferencesEntry extends UniversalFragment {
 
     @Override
     protected CharSequence getTitle() {
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("camera_preferences_screen");
         return getString(R.string.CP_Category_Camera);
     }
 

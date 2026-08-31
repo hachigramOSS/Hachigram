@@ -36,7 +36,6 @@ import org.telegram.ui.Components.UniversalFragment;
 import java.util.ArrayList;
 
 import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.crashlytics.FirebaseAnalyticsHelper;
 import com.the306bobby.cherrygramnext.core.ui.CGBulletinCreator;
 import com.the306bobby.cherrygramnext.core.ui.mainTabs.MainTabsManager;
 import com.the306bobby.cherrygramnext.preferences.helpers.SettingsHelper;
@@ -55,7 +54,6 @@ public class MainTabsPreferencesEntry extends UniversalFragment {
 
     @Override
     protected CharSequence getTitle() {
-        FirebaseAnalyticsHelper.INSTANCE.trackEventWithEmptyBundle("tabs_preferences_screen");
         return getString(R.string.CP_MainTabs_Header);
     }
 

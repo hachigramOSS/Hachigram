@@ -23,7 +23,6 @@ import org.telegram.messenger.LocaleController.getString
 import org.telegram.messenger.MessagesController
 import org.telegram.messenger.R
 import org.telegram.messenger.UserConfig
-import com.the306bobby.cherrygramnext.core.helpers.FirebaseRemoteConfigHelper
 import com.the306bobby.cherrygramnext.misc.Constants
 import com.the306bobby.cherrygramnext.preferences.boolean
 import com.the306bobby.cherrygramnext.preferences.float
