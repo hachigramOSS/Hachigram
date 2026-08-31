@@ -19,3 +19,7 @@ Cherrygram.jks
 mykey.jks
 actions-runner
 TMessagesProj/jni/ffmpeg/build_android
+
+# local credentials
+.forgejo-token.env
+telegram-config.txt
