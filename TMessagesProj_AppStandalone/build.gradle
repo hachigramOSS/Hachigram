@@ -108,7 +108,14 @@ android {
         afat {
             ndk {
                 //noinspection ChromeOsAbiSupport
-                abiFilters "armeabi-v7a", "arm64-v8a"/*, "x86", "x86_64"*/
+                // The per-commit test build narrows this to one abi. Injecting the
+                // abi the other way, with android.injected.build.abi, marks the apk
+                // testOnly and android then refuses to install it by tapping it.
+                if (project.hasProperty('SINGLE_ABI')) {
+                    abiFilters project.getProperty('SINGLE_ABI')
+                } else {
+                    abiFilters "armeabi-v7a", "arm64-v8a"/*, "x86", "x86_64"*/
+                }
             }
             ext {
                 abiVersionCode = 9
@@ -124,7 +131,7 @@ android {
     applicationVariants.configureEach { variant ->
         variant.outputs.configureEach { output ->
             def abi = output.getFilter('ABI')
-            if (abi == null) abi = 'universal'
+            if (abi == null) abi = project.hasProperty('SINGLE_ABI') ? project.getProperty('SINGLE_ABI') : 'universal'
             outputFileName = "Hachigram-${APP_VERSION_NAME_CHERRY}-TG-${defaultConfig.versionName}-${abi}.apk"
             output.versionCodeOverride = defaultConfig.versionCode * 10
         }
@@ -178,7 +185,9 @@ android {
     }
 
     splits.abi {
-        enable true
+        // AGP rejects abi filters here alongside ndk.abiFilters, and splitting is
+        // pointless when only one abi was built.
+        enable !project.hasProperty('SINGLE_ABI')
         reset()
         //noinspection ChromeOsAbiSupport
         include "arm64-v8a", "armeabi-v7a"
