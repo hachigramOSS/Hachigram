@@ -2618,7 +2618,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             SharedPreferences preferences = MessagesController.getGlobalMainSettings();
                             boolean hintShowed = preferences.getBoolean("archivehint_l", false) || SharedConfig.archiveHidden;
                             if (!hintShowed) {
-                                preferences.edit().putBoolean("archivehint_l", true).apply();
+                                preferences.edit().putBoolean("archivehint_l", true).commit();
                             }
                             final UndoView undoView = getUndoView();
                             if (undoView != null) {
@@ -9353,7 +9353,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 SharedPreferences preferences = MessagesController.getGlobalMainSettings();
                 boolean hintShowed = preferences.getBoolean("archivehint_l", false) || SharedConfig.archiveHidden;
                 if (!hintShowed) {
-                    preferences.edit().putBoolean("archivehint_l", true).apply();
+                    preferences.edit().putBoolean("archivehint_l", true).commit();
                 }
                 int undoAction;
                 if (hintShowed) {
