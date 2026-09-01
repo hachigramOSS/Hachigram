@@ -13,7 +13,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  compile:
+  debug-apk:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -27,6 +27,33 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
+      - name: Install NDK, CMake and ccache
+        run: |
+          yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" \
+            'ndk;27.2.12479018' 'cmake;3.22.1' >/dev/null
+          sudo apt-get install -y ccache >/dev/null
+
+      - name: Native compiler cache key
+        id: ccache-key
+        run: |
+          { git submodule status | awk '{print $1, $2}'; \
+            find TMessagesProj/jni -name 'CMakeLists.txt' -exec sha256sum {} +; \
+          } | sha256sum | cut -c1-16 | sed 's/^/key=/' >> "$GITHUB_OUTPUT"
+
+      # Shared with the release job, which builds the same objects for this abi.
+      - uses: actions/cache@v4
+        with:
+          path: ~/.ccache
+          key: ccache-${{ runner.os }}-${{ steps.ccache-key.outputs.key }}
+          restore-keys: ccache-${{ runner.os }}-
+
+      - name: Configure ccache
+        run: |
+          ccache --set-config max_size=3G
+          ccache --set-config hash_dir=false
+          ccache --set-config compiler_check=content
+          ccache --zero-stats
+
       - name: Configure
         env:
           APP_ID: ${{ secrets.HACHIGRAM_APP_ID }}
@@ -38,9 +65,22 @@ jobs:
             [ -n "$APP_HASH" ] && echo "HACHIGRAM_APP_HASH=$APP_HASH"
           } > local.properties
 
-      # Java and Kotlin only. The native libraries are the slow half of a build
-      # and nothing in this job depends on them.
-      - name: Compile
+      # One abi only. Every device worth smoke testing on is arm64, and building
+      # the second one doubles the slowest part of the job for nobody.
+      - name: Assemble debug apk
         run: |
           ./gradlew --no-daemon --console=plain --warning-mode=summary \
-            :TMessagesProj_AppStandalone:compileAfatDebugJavaWithJavac
+            -PNATIVE_CCACHE=true \
+            -Pandroid.injected.build.abi=arm64-v8a \
+            :TMessagesProj_AppStandalone:assembleAfatDebug
+
+      - name: ccache stats
+        if: always()
+        run: ccache --show-stats
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: hachigram-debug-arm64-${{ github.sha }}
+          path: TMessagesProj_AppStandalone/build/outputs/apk/**/debug/*.apk
+          if-no-files-found: error
+          retention-days: 14
