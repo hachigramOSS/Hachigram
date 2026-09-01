@@ -8,6 +8,8 @@
 
 package org.telegram.ui;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Canvas;
@@ -184,7 +186,7 @@ public class ThemeSetUrlActivity extends BaseFragment implements NotificationCen
         });
 
         ActionBarMenu menu = actionBar.createMenu();
-        doneButton = menu.addItem(done_button, LocaleController.getString(R.string.Done).toUpperCase());
+        doneButton = menu.addItem(done_button, UiCase.caps(LocaleController.getString(R.string.Done)));
 
         fragmentView = new LinearLayout(context);
         fragmentView.setBackgroundColor(Theme.getColor(Theme.key_windowBackgroundGray));

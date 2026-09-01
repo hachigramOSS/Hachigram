@@ -9,6 +9,8 @@
 
 package org.telegram.ui;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import android.app.Activity;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -787,7 +789,7 @@ public class EditWidgetActivity extends BaseFragment {
             actionBar.setTitle(LocaleController.getString(R.string.WidgetShortcuts));
         }
         ActionBarMenu menu = actionBar.createMenu();
-        menu.addItem(done_item, LocaleController.getString(R.string.Done).toUpperCase());
+        menu.addItem(done_item, UiCase.caps(LocaleController.getString(R.string.Done)));
 
         actionBar.setActionBarMenuOnItemClick(new ActionBar.ActionBarMenuOnItemClick() {
             @Override

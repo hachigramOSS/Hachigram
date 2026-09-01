@@ -1,5 +1,7 @@
 package org.telegram.ui.Components.Paint.Views;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import static org.telegram.messenger.AndroidUtilities.dp;
 
 import android.animation.ValueAnimator;
@@ -149,7 +151,7 @@ public class MaskPaintView extends FrameLayout {
         cancelButton.setTypeface(AndroidUtilities.bold());
         cancelButton.setBackground(Theme.createSelectorDrawable(Theme.multAlpha(Color.WHITE, .15f), Theme.RIPPLE_MASK_CIRCLE_TO_BOUND_EDGE));
         cancelButton.setPadding(dp(28), 0, dp(28), 0);
-        cancelButton.setText(LocaleController.getString(R.string.Cancel).toUpperCase());
+        cancelButton.setText(UiCase.caps(LocaleController.getString(R.string.Cancel)));
         cancelButton.setTextColor(Color.WHITE);
         cancelButton.setGravity(Gravity.CENTER);
         buttonsLayout.addView(cancelButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 44, Gravity.LEFT, -8, 0, 0, 0));
@@ -159,7 +161,7 @@ public class MaskPaintView extends FrameLayout {
         doneButton.setTypeface(AndroidUtilities.bold());
         doneButton.setBackground(Theme.createSelectorDrawable(Theme.multAlpha(Theme.getColor(Theme.key_chat_editMediaButton), .15f), Theme.RIPPLE_MASK_CIRCLE_TO_BOUND_EDGE));
         doneButton.setPadding(dp(28), 0, dp(28), 0);
-        doneButton.setText(LocaleController.getString(R.string.Save).toUpperCase());
+        doneButton.setText(UiCase.caps(LocaleController.getString(R.string.Save)));
         doneButton.setTextColor(Theme.getColor(Theme.key_chat_editMediaButton));
         doneButton.setGravity(Gravity.CENTER);
         buttonsLayout.addView(doneButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 44, Gravity.RIGHT, 0, 0, -8, 0));

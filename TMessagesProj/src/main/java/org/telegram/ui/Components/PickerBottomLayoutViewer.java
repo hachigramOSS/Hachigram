@@ -8,6 +8,8 @@
 
 package org.telegram.ui.Components;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import android.content.Context;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -44,7 +46,7 @@ public class PickerBottomLayoutViewer extends FrameLayout {
         cancelButton.setGravity(Gravity.CENTER);
         cancelButton.setBackground(Theme.createSelectorDrawable(isDarkTheme ? Theme.ACTION_BAR_PICKER_SELECTOR_COLOR : Theme.ACTION_BAR_AUDIO_SELECTOR_COLOR, 0));
         cancelButton.setPadding(AndroidUtilities.dp(20), 0, AndroidUtilities.dp(20), 0);
-        cancelButton.setText(LocaleController.getString(R.string.Cancel).toUpperCase());
+        cancelButton.setText(UiCase.caps(LocaleController.getString(R.string.Cancel)));
         cancelButton.setTypeface(AndroidUtilities.bold());
         addView(cancelButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
 
@@ -54,7 +56,7 @@ public class PickerBottomLayoutViewer extends FrameLayout {
         doneButton.setGravity(Gravity.CENTER);
         doneButton.setBackgroundDrawable(Theme.createSelectorDrawable(isDarkTheme ? Theme.ACTION_BAR_PICKER_SELECTOR_COLOR : Theme.ACTION_BAR_AUDIO_SELECTOR_COLOR, 0));
         doneButton.setPadding(AndroidUtilities.dp(20), 0, AndroidUtilities.dp(20), 0);
-        doneButton.setText(LocaleController.getString(R.string.Send).toUpperCase());
+        doneButton.setText(UiCase.caps(LocaleController.getString(R.string.Send)));
         doneButton.setTypeface(AndroidUtilities.bold());
         addView(doneButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.RIGHT));
 

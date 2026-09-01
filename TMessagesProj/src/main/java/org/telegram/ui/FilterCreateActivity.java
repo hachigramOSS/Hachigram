@@ -1,5 +1,7 @@
 package org.telegram.ui;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.dpf2;
 
@@ -437,7 +439,7 @@ public class FilterCreateActivity extends BaseFragment {
                 }
             }
         });
-        doneItem = menu.addItem(done_button, LocaleController.getString(R.string.Save).toUpperCase());
+        doneItem = menu.addItem(done_button, UiCase.caps(LocaleController.getString(R.string.Save)));
 
         fragmentView = new SizeNotifierFrameLayout(context) {
             @Override

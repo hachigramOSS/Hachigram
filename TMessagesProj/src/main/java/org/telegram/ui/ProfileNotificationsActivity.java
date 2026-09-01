@@ -8,6 +8,8 @@
 
 package org.telegram.ui;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -356,7 +358,7 @@ public class ProfileNotificationsActivity extends BaseFragment implements Notifi
 
         if (addingException) {
             avatarContainer.setSubtitle(LocaleController.getString(R.string.NotificationsNewException));
-            actionBar.createMenu().addItem(done_button, LocaleController.getString(R.string.Done).toUpperCase());
+            actionBar.createMenu().addItem(done_button, UiCase.caps(LocaleController.getString(R.string.Done)));
         } else {
             avatarContainer.setSubtitle(LocaleController.getString(R.string.CustomNotifications));
         }

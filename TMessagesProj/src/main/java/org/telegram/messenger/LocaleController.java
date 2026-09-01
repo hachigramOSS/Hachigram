@@ -34,6 +34,8 @@ import androidx.annotation.RequiresApi;
 import androidx.annotation.StringRes;
 
 import org.telegram.messenger.time.FastDateFormat;
+
+import com.the306bobby.hachigram.misc.UiCase;
 import org.telegram.tgnet.Vector;
 import org.telegram.ui.Components.TypefaceSpan;
 import org.telegram.ui.Stars.StarsController;
@@ -1502,7 +1504,7 @@ public class LocaleController {
         if (value == null) {
             value = "LOC_ERR:" + key;
         }
-        return value;
+        return UiCase.apply(value);
     }
 
     public static String getServerString(String key) {
@@ -1513,7 +1515,7 @@ public class LocaleController {
                 value = ApplicationLoader.applicationContext.getString(resourceId);
             }
         }
-        return value;
+        return UiCase.apply(value);
     }
 
     public static String getString(@StringRes int res) {

@@ -1,5 +1,7 @@
 package org.telegram.ui.Components.voip;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import android.Manifest;
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -652,7 +654,7 @@ public class VoIPHelper {
 				((InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(commentBox.getWindowToken(), 0);
 			}
 			*/
-			((TextView) btn).setText((rating < 4 ? LocaleController.getString(R.string.Next) : LocaleController.getString(R.string.Send)).toUpperCase());
+			((TextView) btn).setText(UiCase.caps(rating < 4 ? LocaleController.getString(R.string.Next) : LocaleController.getString(R.string.Send)));
 		});
 		btn.setOnClickListener(v -> {
 			int rating = bar.getRating();
@@ -703,7 +705,7 @@ public class VoIPHelper {
 					logsText.setVisibility(View.VISIBLE);
 				}
 				problemsWrap.setVisibility(View.VISIBLE);
-				((TextView) btn).setText(LocaleController.getString(R.string.Send).toUpperCase());
+				((TextView) btn).setText(UiCase.caps(LocaleController.getString(R.string.Send)));
 			}
 		});
 	}

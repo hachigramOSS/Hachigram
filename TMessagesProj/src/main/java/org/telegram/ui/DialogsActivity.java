@@ -8,6 +8,8 @@
 
 package org.telegram.ui;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.dpf2;
 import static org.telegram.messenger.AndroidUtilities.lerp;
@@ -3295,7 +3297,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
         if (!onlySelect && searchString == null && folderId == 0 && communityId == 0) {
             doneItem = new ActionBarMenuItem(context, null, getThemedColor(Theme.key_actionBarDefaultSelector), getThemedColor(Theme.key_actionBarDefaultIcon), true);
-            doneItem.setText(LocaleController.getString(R.string.Done).toUpperCase());
+            doneItem.setText(UiCase.caps(LocaleController.getString(R.string.Done)));
             actionBar.addView(doneItem, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.TOP | Gravity.RIGHT, 0, 0, 10, 0));
             doneItem.setOnClickListener(v -> {
                 filterTabsView.setIsEditing(false);

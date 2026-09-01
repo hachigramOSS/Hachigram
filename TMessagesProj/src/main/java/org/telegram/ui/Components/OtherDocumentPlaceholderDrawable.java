@@ -1,5 +1,7 @@
 package org.telegram.ui.Components;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -169,7 +171,7 @@ public class OtherDocumentPlaceholderDrawable extends RecyclableDrawable impleme
             offsetY = 0;
         } else {
             if (loading) {
-                button = LocaleController.getString(R.string.Cancel).toUpperCase();
+                button = UiCase.caps(LocaleController.getString(R.string.Cancel));
             } else {
                 button = LocaleController.getString(R.string.TapToDownload);
             }

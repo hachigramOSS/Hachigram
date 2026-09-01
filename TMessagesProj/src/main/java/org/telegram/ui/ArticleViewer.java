@@ -8,6 +8,8 @@
 
 package org.telegram.ui;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import static org.telegram.messenger.AndroidUtilities.dp;
 import static org.telegram.messenger.AndroidUtilities.lerp;
 import static org.telegram.messenger.LocaleController.formatString;
@@ -1641,7 +1643,7 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
             deleteView.setPadding(dp(20), 0, dp(20), 0);
             deleteView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
             deleteView.setTypeface(AndroidUtilities.bold());
-            deleteView.setText(LocaleController.getString(R.string.Copy).toUpperCase());
+            deleteView.setText(UiCase.caps(LocaleController.getString(R.string.Copy)));
             deleteView.setOnClickListener(v -> {
                 if (pressedLinkOwnerLayout != null) {
                     AndroidUtilities.addToClipboard(pressedLinkOwnerLayout.getText());

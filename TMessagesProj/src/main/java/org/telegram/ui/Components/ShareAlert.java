@@ -8,6 +8,8 @@
 
 package org.telegram.ui.Components;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import static org.telegram.messenger.AndroidUtilities.dp;
 
 import android.animation.Animator;
@@ -1407,7 +1409,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 linkCopyButton = new TextView(context);
                 linkCopyButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
                 linkCopyButton.setTextColor(getThemedColor(Theme.key_windowBackgroundWhiteBlackText));
-                linkCopyButton.setText(LocaleController.getString(R.string.Copy).toUpperCase());
+                linkCopyButton.setText(UiCase.caps(LocaleController.getString(R.string.Copy)));
                 linkCopyButton.setPadding(dp(9), 0, dp(9), 0);
                 linkCopyButton.setTypeface(AndroidUtilities.bold());
                 linkCopyButton.setGravity(Gravity.CENTER);
@@ -1481,9 +1483,9 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                 pickerTextView.setTypeface(AndroidUtilities.bold());
                 pickerTextView.setGravity(Gravity.CENTER);
                 if (darkTheme && linkToCopy[1] != null) {
-                    pickerTextView.setText(LocaleController.getString(R.string.VoipGroupCopySpeakerLinkNoCaps).toUpperCase());
+                    pickerTextView.setText(UiCase.caps(LocaleController.getString(R.string.VoipGroupCopySpeakerLinkNoCaps)));
                 } else {
-                    pickerTextView.setText(LocaleController.getString(R.string.CopyLink).toUpperCase());
+                    pickerTextView.setText(UiCase.caps(LocaleController.getString(R.string.CopyLink)));
                 }
                 // ScaleStateListAnimator.apply(pickerTextView, 0.015f, 1.2f);
                 pickerTextView.setOnClickListener(v -> {

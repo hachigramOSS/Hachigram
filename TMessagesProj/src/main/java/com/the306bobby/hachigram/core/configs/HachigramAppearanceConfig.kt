@@ -29,6 +29,7 @@ object HachigramAppearanceConfig {
     var centerTitle by sharedPreferences.boolean("AP_CenterTitle", true)
     var hideSearchFiled by sharedPreferences.boolean("AP_HideSearchField", true)
     var drawSnowInActionBar by sharedPreferences.boolean("AP_DrawSnowInActionBar", false && SharedConfig.getDevicePerformanceClass() >= SharedConfig.PERFORMANCE_CLASS_AVERAGE)
+    var lowercaseUi by sharedPreferences.boolean("AP_LowercaseUi", true)
     /** Header finish */
 
     /** Appearance start */

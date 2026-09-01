@@ -1,5 +1,7 @@
 package org.telegram.ui.Components.Paint;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -259,11 +261,11 @@ public class ColorPickerBottomSheet extends BottomSheet {
                     switch (position) {
                         default:
                         case 0:
-                            return LocaleController.getString(R.string.PaintPaletteGrid).toUpperCase();
+                            return UiCase.caps(LocaleController.getString(R.string.PaintPaletteGrid));
                         case 1:
-                            return LocaleController.getString(R.string.PaintPaletteSpectrum).toUpperCase();
+                            return UiCase.caps(LocaleController.getString(R.string.PaintPaletteSpectrum));
                         case 2:
-                            return LocaleController.getString(R.string.PaintPaletteSliders).toUpperCase();
+                            return UiCase.caps(LocaleController.getString(R.string.PaintPaletteSliders));
                     }
                 }
 
@@ -624,7 +626,7 @@ public class ColorPickerBottomSheet extends BottomSheet {
             TextView hexTitle = new TextView(context);
             hexTitle.setTextColor(0x99ffffff);
             hexTitle.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 16);
-            hexTitle.setText(LocaleController.getString(R.string.PaintPaletteSlidersHexColor).toUpperCase());
+            hexTitle.setText(UiCase.caps(LocaleController.getString(R.string.PaintPaletteSlidersHexColor)));
             hexTitle.setTypeface(AndroidUtilities.bold());
             hexLayout.addView(hexTitle, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, 0, 0, 8, 0));
 
@@ -820,13 +822,13 @@ public class ColorPickerBottomSheet extends BottomSheet {
             sliderView.setMode(mode);
             switch (mode) {
                 case ColorSliderView.MODE_RED:
-                    titleView.setText(LocaleController.getString(R.string.PaintPaletteSlidersRed).toUpperCase());
+                    titleView.setText(UiCase.caps(LocaleController.getString(R.string.PaintPaletteSlidersRed)));
                     break;
                 case ColorSliderView.MODE_GREEN:
-                    titleView.setText(LocaleController.getString(R.string.PaintPaletteSlidersGreen).toUpperCase());
+                    titleView.setText(UiCase.caps(LocaleController.getString(R.string.PaintPaletteSlidersGreen)));
                     break;
                 case ColorSliderView.MODE_BLUE:
-                    titleView.setText(LocaleController.getString(R.string.PaintPaletteSlidersBlue).toUpperCase());
+                    titleView.setText(UiCase.caps(LocaleController.getString(R.string.PaintPaletteSlidersBlue)));
                     break;
             }
             invalidateColor();

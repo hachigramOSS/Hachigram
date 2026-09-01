@@ -1,5 +1,7 @@
 package org.telegram.ui.Components;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import android.content.Context;
 import android.os.Build;
 import android.text.SpannableStringBuilder;
@@ -85,7 +87,7 @@ public class TermsOfServiceView extends FrameLayout {
         addView(scrollView, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
         TextView declineTextView = new TextView(context);
-        declineTextView.setText(LocaleController.getString(R.string.Decline).toUpperCase());
+        declineTextView.setText(UiCase.caps(LocaleController.getString(R.string.Decline)));
         declineTextView.setGravity(Gravity.CENTER);
         declineTextView.setTypeface(AndroidUtilities.bold());
         declineTextView.setTextColor(Theme.getColor(Theme.key_windowBackgroundWhiteGrayText));

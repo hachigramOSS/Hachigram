@@ -11,6 +11,8 @@
 package com.the306bobby.hachigram.misc
 
 import android.app.Activity
+import java.util.Locale
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig
 import android.content.Context
 import android.graphics.Color
 import android.os.Build
@@ -330,4 +332,32 @@ object HachigramExtras : CoroutineScope by MainScope() {
         return Build.MANUFACTURER.contains(brand, ignoreCase = true) || Build.BRAND.contains(brand, ignoreCase = true)
     }
 
+}
+
+object UiCase {
+
+    /**
+     * Telegram serves most strings from a langpack, so downcasing the bundled xml
+     * would only reach the strings the server never replaces. This runs at the
+     * point every string is resolved instead.
+     */
+    @JvmStatic
+    fun apply(value: String?): String? {
+        if (value == null || !HachigramAppearanceConfig.lowercaseUi) return value
+        // getString() hands this marker back on a miss and nullable() detects it
+        // with startsWith, so downcasing it would break the miss path.
+        if (value.startsWith("LOC_ERR")) return value
+        // Paths are case sensitive: t.me/SomeChannel is not t.me/somechannel.
+        if (value.contains("://")) return value
+        return value.lowercase(Locale.ROOT)
+    }
+
+    /**
+     * Telegram upper-cases some button labels at the call site, after the string
+     * has already been resolved. Routing those through here keeps them shouting
+     * when the toggle is off and quiet when it is on.
+     */
+    @JvmStatic
+    fun caps(value: String): String =
+        if (HachigramAppearanceConfig.lowercaseUi) value else value.uppercase(Locale.ROOT)
 }

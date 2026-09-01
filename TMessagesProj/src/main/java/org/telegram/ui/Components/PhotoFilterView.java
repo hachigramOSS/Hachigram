@@ -8,6 +8,8 @@
 
 package org.telegram.ui.Components;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -509,7 +511,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         cancelTextView.setGravity(Gravity.CENTER);
         cancelTextView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.ACTION_BAR_PICKER_SELECTOR_COLOR, 0));
         cancelTextView.setPadding(AndroidUtilities.dp(20), 0, AndroidUtilities.dp(20), 0);
-        cancelTextView.setText(LocaleController.getString(R.string.Cancel).toUpperCase());
+        cancelTextView.setText(UiCase.caps(LocaleController.getString(R.string.Cancel)));
         cancelTextView.setTypeface(AndroidUtilities.bold());
         frameLayout.addView(cancelTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
 
@@ -519,7 +521,7 @@ public class PhotoFilterView extends FrameLayout implements FilterShaders.Filter
         doneTextView.setGravity(Gravity.CENTER);
         doneTextView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.ACTION_BAR_PICKER_SELECTOR_COLOR, 0));
         doneTextView.setPadding(AndroidUtilities.dp(20), 0, AndroidUtilities.dp(20), 0);
-        doneTextView.setText(LocaleController.getString(R.string.Done).toUpperCase());
+        doneTextView.setText(UiCase.caps(LocaleController.getString(R.string.Done)));
         doneTextView.setTypeface(AndroidUtilities.bold());
         frameLayout.addView(doneTextView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.RIGHT));
 

@@ -8,6 +8,8 @@
 
 package org.telegram.ui.Components;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
@@ -187,7 +189,7 @@ public class SharingLocationsAlert extends BottomSheet implements NotificationCe
             dismiss();
         });
         pickerBottomLayout.doneButtonTextView.setTextColor(getThemedColor(Theme.key_dialogTextBlue2));
-        pickerBottomLayout.doneButtonTextView.setText(LocaleController.getString(R.string.Close).toUpperCase());
+        pickerBottomLayout.doneButtonTextView.setText(UiCase.caps(LocaleController.getString(R.string.Close)));
         pickerBottomLayout.doneButton.setPadding(AndroidUtilities.dp(18), 0, AndroidUtilities.dp(18), 0);
         pickerBottomLayout.doneButton.setOnClickListener(view -> dismiss());
         pickerBottomLayout.doneButtonBadgeTextView.setVisibility(View.GONE);

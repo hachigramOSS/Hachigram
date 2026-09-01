@@ -8,6 +8,8 @@
 
 package org.telegram.ui.Cells;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import android.content.Context;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -43,7 +45,7 @@ public class StickerSetGroupInfoCell extends LinearLayout {
         addButton.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
         addButton.setTypeface(AndroidUtilities.bold());
         addButton.setBackground(Theme.AdaptiveRipple.filledRectByKey(Theme.key_featuredStickers_addButton, 4));
-        addButton.setText(LocaleController.getString(R.string.ChooseStickerSet).toUpperCase());
+        addButton.setText(UiCase.caps(LocaleController.getString(R.string.ChooseStickerSet)));
         addView(addButton, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 28, Gravity.TOP | Gravity.LEFT, 17, 10, 14, 8));
     }
 

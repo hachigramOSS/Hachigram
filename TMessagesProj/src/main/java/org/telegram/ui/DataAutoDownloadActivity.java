@@ -8,6 +8,8 @@
 
 package org.telegram.ui;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import static org.telegram.messenger.AndroidUtilities.dp;
 
 import android.animation.Animator;
@@ -467,7 +469,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
                     textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlue2));
                     textView.setGravity(Gravity.CENTER);
                     textView.setTypeface(AndroidUtilities.bold());
-                    textView.setText(LocaleController.getString(R.string.Cancel).toUpperCase());
+                    textView.setText(UiCase.caps(LocaleController.getString(R.string.Cancel)));
                     textView.setPadding(dp(10), 0, dp(10), 0);
                     buttonsLayout.addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 36, Gravity.TOP | Gravity.LEFT));
                     textView.setOnClickListener(v14 -> builder.getDismissRunnable().run());
@@ -477,7 +479,7 @@ public class DataAutoDownloadActivity extends BaseFragment {
                     textView.setTextColor(Theme.getColor(Theme.key_dialogTextBlue2));
                     textView.setGravity(Gravity.CENTER);
                     textView.setTypeface(AndroidUtilities.bold());
-                    textView.setText(LocaleController.getString(R.string.Save).toUpperCase());
+                    textView.setText(UiCase.caps(LocaleController.getString(R.string.Save)));
                     textView.setPadding(dp(10), 0, dp(10), 0);
                     buttonsLayout.addView(textView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, 36, Gravity.TOP | Gravity.RIGHT));
                     textView.setOnClickListener(v1 -> {

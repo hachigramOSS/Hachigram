@@ -1,5 +1,7 @@
 package org.telegram.ui;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import android.Manifest;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
@@ -2524,7 +2526,7 @@ public class PassportActivity extends BaseFragment implements NotificationCenter
         emptyTextView3.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 15);
         emptyTextView3.setTypeface(AndroidUtilities.bold());
         emptyTextView3.setGravity(Gravity.CENTER);
-        emptyTextView3.setText(LocaleController.getString(R.string.PassportNoDocumentsAdd).toUpperCase());
+        emptyTextView3.setText(UiCase.caps(LocaleController.getString(R.string.PassportNoDocumentsAdd)));
         emptyLayout.addView(emptyTextView3, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, 30, Gravity.CENTER, 0, 12, 0, 0));
         emptyTextView3.setOnClickListener(v -> openAddDocumentAlert());
 

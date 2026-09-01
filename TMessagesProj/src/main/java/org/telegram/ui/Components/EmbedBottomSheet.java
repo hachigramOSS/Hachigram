@@ -8,6 +8,8 @@
 
 package org.telegram.ui.Components;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import static org.telegram.messenger.LocaleController.getString;
 
 import android.animation.Animator;
@@ -753,7 +755,7 @@ public class EmbedBottomSheet extends BottomSheet {
         textView.setEllipsize(TextUtils.TruncateAt.END);
         textView.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 0));
         textView.setPadding(AndroidUtilities.dp(18), 0, AndroidUtilities.dp(18), 0);
-        textView.setText(LocaleController.getString(R.string.Close).toUpperCase());
+        textView.setText(UiCase.caps(LocaleController.getString(R.string.Close)));
         textView.setTypeface(AndroidUtilities.bold());
         frameLayout.addView(textView, LayoutHelper.createLinear(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
         textView.setOnClickListener(v -> dismiss());
@@ -862,7 +864,7 @@ public class EmbedBottomSheet extends BottomSheet {
         copyTextButton.setEllipsize(TextUtils.TruncateAt.END);
         copyTextButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 0));
         copyTextButton.setPadding(AndroidUtilities.dp(18), 0, AndroidUtilities.dp(18), 0);
-        copyTextButton.setText(LocaleController.getString(R.string.Copy).toUpperCase());
+        copyTextButton.setText(UiCase.caps(LocaleController.getString(R.string.Copy)));
         copyTextButton.setTypeface(AndroidUtilities.bold());
         linearLayout.addView(copyTextButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
         copyTextButton.setOnClickListener(copyClickListener);
@@ -875,7 +877,7 @@ public class EmbedBottomSheet extends BottomSheet {
         openInButton.setEllipsize(TextUtils.TruncateAt.END);
         openInButton.setBackgroundDrawable(Theme.createSelectorDrawable(Theme.getColor(Theme.key_dialogButtonSelector), 0));
         openInButton.setPadding(AndroidUtilities.dp(18), 0, AndroidUtilities.dp(18), 0);
-        openInButton.setText(LocaleController.getString(R.string.OpenInBrowser).toUpperCase());
+        openInButton.setText(UiCase.caps(LocaleController.getString(R.string.OpenInBrowser)));
         openInButton.setTypeface(AndroidUtilities.bold());
         linearLayout.addView(openInButton, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.MATCH_PARENT, Gravity.TOP | Gravity.LEFT));
         openInButton.setOnClickListener(v -> {

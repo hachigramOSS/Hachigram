@@ -1,5 +1,7 @@
 package org.telegram.ui.Components.Paint.Views;
 
+import com.the306bobby.hachigram.misc.UiCase;
+
 import static org.telegram.messenger.AndroidUtilities.dp;
 
 import android.animation.Animator;
@@ -1174,7 +1176,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         bottomLayout.addView(tabsLayout, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 32 + 8, Gravity.BOTTOM, 52, 0, 52, 0));
 
         drawTab = new TextView(context);
-        drawTab.setText(LocaleController.getString(R.string.PhotoEditorDraw).toUpperCase());
+        drawTab.setText(UiCase.caps(LocaleController.getString(R.string.PhotoEditorDraw)));
         drawTab.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), Theme.RIPPLE_MASK_ROUNDRECT_6DP));
         drawTab.setPadding(0, dp(8), 0, dp(8));
         drawTab.setTextColor(Color.WHITE);
@@ -1192,7 +1194,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         tabsLayout.addView(drawTab, LayoutHelper.createLinear(0, LayoutHelper.WRAP_CONTENT, 1f));
 
         stickerTab = new TextView(context);
-        stickerTab.setText(LocaleController.getString(R.string.PhotoEditorSticker).toUpperCase());
+        stickerTab.setText(UiCase.caps(LocaleController.getString(R.string.PhotoEditorSticker)));
         stickerTab.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), Theme.RIPPLE_MASK_ROUNDRECT_6DP));
         stickerTab.setPadding(0, dp(8), 0, dp(8));
         stickerTab.setOnClickListener(v -> openStickersView());
@@ -1205,7 +1207,7 @@ public class LPhotoPaintView extends SizeNotifierFrameLayoutPhoto implements IPh
         tabsLayout.addView(stickerTab, LayoutHelper.createLinear(0, LayoutHelper.WRAP_CONTENT, 1f));
 
         textTab = new TextView(context);
-        textTab.setText(LocaleController.getString(R.string.PhotoEditorText).toUpperCase());
+        textTab.setText(UiCase.caps(LocaleController.getString(R.string.PhotoEditorText)));
         textTab.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), Theme.RIPPLE_MASK_ROUNDRECT_6DP));
         textTab.setPadding(0, dp(8), 0, dp(8));
         textTab.setTextColor(Color.WHITE);
