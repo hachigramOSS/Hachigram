@@ -234,7 +234,7 @@ public class ProfileActivityHelper extends BaseController {
         if (getRestrictionReasons(chat.restriction_reason) != null && getRestrictionReasons(chat.restriction_reason).length() > 0) {
             builder.setMessage(getRestrictionReasons(chat.restriction_reason));
         } else {
-            builder.setMessage("Chat or channel is not restricted.");
+            builder.setMessage("chat or channel is not restricted.");
         }
 
         builder.setPositiveButton(getString(R.string.OK), null);

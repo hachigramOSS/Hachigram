@@ -119,7 +119,7 @@ public class CameraPreferencesEntry extends UniversalFragment {
                     .setChecked(HachigramCameraConfig.INSTANCE.getCameraStabilisation())
             );
             items.add(UItem.asButton(cameraXQualityRow, getString(R.string.CP_CameraQuality), HachigramCameraConfig.INSTANCE.getCameraResolution() + "p"));
-            items.add(UItem.asButton(cameraXFpsRangeRow, "FPS", getCameraXFpsRange()));
+            items.add(UItem.asButton(cameraXFpsRangeRow, "fps", getCameraXFpsRange()));
         }
         items.add(UItem.asShadow(null));
         if (CameraXUtils.isCurrentCameraCameraX()) {
@@ -180,7 +180,7 @@ public class CameraPreferencesEntry extends UniversalFragment {
             configStringKeys.add(getString(R.string.Default));
             configValues.add(HachigramCameraConfig.CameraXFpsRangeDefault);
 
-            PopupHelper.show(configStringKeys, "FPS", configValues.indexOf(HachigramCameraConfig.INSTANCE.getCameraXFpsRange()), getContext(), i -> {
+            PopupHelper.show(configStringKeys, "fps", configValues.indexOf(HachigramCameraConfig.INSTANCE.getCameraXFpsRange()), getContext(), i -> {
                 HachigramCameraConfig.INSTANCE.setCameraXFpsRange(configValues.get(i));
                 SettingsHelper.updateButtonValue(view, getCameraXFpsRange());
             });

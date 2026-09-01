@@ -88,11 +88,9 @@ public class PrivacyPreferencesEntry extends UniversalFragment {
         items.add(UItem.asShadow(null));
 
         items.add(UItem.asHeader(getString(R.string.FilterChats)));
-        if ((HachigramCoreConfig.isStandalonePremiumBuild() || HachigramCoreConfig.isDevBuild()) && (getUserConfig().clientUserId == 6578415824L || getUserConfig().clientUserId == 282287840L)) {
-            items.add(SettingsHelper.asSwitchCG(hideArchivedStoriesRow, "Скрыть архивированные истории", "Скрывает раздел архивированных историй в профиле")
-                    .setChecked(HachigramPrivacyConfig.INSTANCE.getHideArchivedStories())
-            );
-        }
+        items.add(SettingsHelper.asSwitchCG(hideArchivedStoriesRow, "hide archived stories", "hides the archived stories section in your profile")
+                .setChecked(HachigramPrivacyConfig.INSTANCE.getHideArchivedStories())
+        );
         items.add(SettingsHelper.asSwitchCG(hideArchiveFromChatsListRow, getString(R.string.SP_HideArchive), getString(R.string.SP_HideArchive_Desc))
                 .setChecked(HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList())
         );
