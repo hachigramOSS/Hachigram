@@ -100,7 +100,7 @@ public class BitmapsCache {
             fileTmo.mkdir();
             mkdir = true;
         }
-        file = new File(fileTmo, fileName + "_" + w + "_" + h + (noLimit ? "_nolimit" : " ") + (fitz != 0 ? "_fitz" + fitz : "") + ".pcache2");
+        file = new File(fileTmo, fileName + "_" + w + "_" + h + (noLimit ? "_nolimit" : " ") + (fitz != 0 ? "_fitz" + fitz : "") + ".pcache2i"); // inu: cache busting for bugfix__webm-sticker-precache-centering
         useSharedBuffers = w < AndroidUtilities.dp(60) && h < AndroidUtilities.dp(60);
 
         // check cache created in file load queue only for high devices

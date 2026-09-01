@@ -793,6 +793,7 @@ public class MessagesController extends BaseController implements NotificationCe
         final boolean isVotes = !isReactions;
 
         final MessagesStorage messagesStorage = getMessagesStorage();
+        final int expectedCount = inu_getUnreadCount(dialogId, topicId, isReactions);
         messagesStorage.getStorageQueue().postRunnable(() -> {
             boolean needRequest = true;
             try {
@@ -841,10 +842,24 @@ public class MessagesController extends BaseController implements NotificationCe
                     req.add_offset = count - 1;
                     request = req;
                 }
+                final boolean canApplyServerCount = topicId == 0 || isReactions && isMonoForum(dialogId);
                 getConnectionsManager().sendRequestTyped(request, AndroidUtilities::runOnUIThread, (res, error) -> {
                     int messageId = 0;
                     if (error == null && res != null && res.messages != null && !res.messages.isEmpty()) {
                         messageId = res.messages.get(0).id;
+                    }
+                    if (error == null && res != null && res.messages != null && canApplyServerCount) {
+                        if (messageId != 0) {
+                            int serverCount = Math.max(res.count, res.messages.size());
+                            int current = inu_getUnreadCount(dialogId, topicId, isReactions);
+                            if (current > 0 && current == expectedCount && serverCount < current) {
+                                inu_setUnreadCount(dialogId, topicId, serverCount, isReactions, true);
+                            }
+                        } else if (count > 1) {
+                            // add_offset != 0, so we can't trust server count. rerun with count = 1 (i.e. add_offset = 0)
+                            getNextReactionMentionInternal(dialogId, topicId, 1, isReactions, callback);
+                            return;
+                        }
                     }
                     int finalMessageId = messageId;
                     AndroidUtilities.runOnUIThread(() -> callback.accept(finalMessageId));
@@ -2393,6 +2408,17 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                     sortDialogs(null);
                     getNotificationCenter().postNotificationName(NotificationCenter.dialogsNeedReload);
+
+                    for (int a = 0, N = dialogFilters.size(); a < N; a++) {
+                        DialogFilter filter = dialogFilters.get(a);
+                        for (int b = 0, N2 = filter.pinnedDialogs.size(); b < N2; b++) {
+                            long did = filter.pinnedDialogs.keyAt(b);
+                            if (DialogObject.isEncryptedDialog(did) || dialogs_dict.indexOfKey(did) >= 0) {
+                                continue;
+                            }
+                            loadUnknownDialog(getInputPeer(did), 0);
+                        }
+                    }
                 }
                 if (remote != 0) {
                     getUserConfig().filtersLoaded = true;
@@ -7582,6 +7608,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                 }
             }
+            return false;
         }
         final TLRPC.ChannelParticipant participant = array.get(uid);
         return participant instanceof TLRPC.TL_channelParticipantAdmin || participant instanceof TLRPC.TL_channelParticipantCreator;
@@ -7602,6 +7629,7 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                 }
             }
+            return false;
         }
         final TLRPC.ChannelParticipant participant = array.get(uid);
         return participant instanceof TLRPC.TL_channelParticipantCreator;
@@ -7612,6 +7640,11 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void loadChannelAdmins(long chatId, boolean cache) {
+        // server rejects channelParticipantsAdmins with COMMUNITY_FILTER_INVALID for non-admins of a community
+        final TLRPC.Chat adminsChat = getChat(chatId);
+        if (ChatObject.isCommunity(adminsChat) && !ChatObject.hasAdminRights(adminsChat)) {
+            return;
+        }
         int loadTime = loadingChannelAdmins.get(chatId);
         if ((SystemClock.elapsedRealtime() / 1000) - loadTime < 60) {
             return;
@@ -11755,7 +11788,7 @@ public class MessagesController extends BaseController implements NotificationCe
                             if (!res.dialogs.isEmpty()) {
                                 TLRPC.Dialog dialog = res.dialogs.get(0);
 
-                                if (dialog.top_message != 0) {
+                                if (dialog.top_message != 0 && (chat == null || !ChatObject.isNotInChat(chat))) {
                                     TLRPC.TL_messages_dialogs dialogs = new TLRPC.TL_messages_dialogs();
                                     dialogs.chats = res.chats;
                                     dialogs.users = res.users;
@@ -11984,6 +12017,22 @@ public class MessagesController extends BaseController implements NotificationCe
         }
         final boolean isInitialLoading = offset_date == 0 && max_id == 0;
         final boolean reload;
+        // a non-member channel (link/preview) opened at an old read position has a stale dialog top, and
+        // getChannelDifference returns empty for non-members, so newer messages never sync. two fixes:
+        final TLRPC.Chat nonMemberChat = dialogId < 0 ? getChat(-dialogId) : null;
+        final boolean nonMemberChannel = ChatObject.isChannel(nonMemberChat) && ChatObject.isNotInChat(nonMemberChat);
+        // 1. the stale dialog top must not reach ChatActivity as last_message_id on the cache around/unread
+        //    load: it latches forwardEndReached (a delivered message id == last_message_id) and kills forward
+        //    loading for good. hand it 0 (unknown) so forward pagination runs until the server runs dry.
+        final boolean nonMemberChannelStaleTop = isCache && nonMemberChannel && (load_type == LOAD_AROUND_MESSAGE || load_type == LOAD_FROM_UNREAD);
+        // 2. no hole exists above the cache edge for non-members (putDialogs is skipped), so a short forward
+        //    cache page never falls back to the server; treat it as a cache miss so the server keeps filling.
+        final boolean nonMemberChannelForward = isCache && nonMemberChannel && load_type == LOAD_FORWARD && resCount < count;
+        // 3. "load latest" (go-to-bottom / open-at-bottom) trusts the cache's newest page as the channel top,
+        //    but for a non-member that's just the cache edge — it latches forwardEndReached. force a server
+        //    fetch for the real newest and suppress the stale cache delivery so only the server result lands.
+        final boolean nonMemberChannelLatest = isCache && nonMemberChannel && load_type == LOAD_BACKWARD && isInitialLoading;
+        final int deliveredLastMessageId = nonMemberChannelStaleTop || nonMemberChannelLatest ? 0 : last_message_id;
         final LongSparseArray<TLRPC.User> usersDict = new LongSparseArray<>();
         final LongSparseArray<TLRPC.Chat> chatsDict = new LongSparseArray<>();
         for (int a = 0; a < messagesRes.users.size(); a++) {
@@ -12005,7 +12054,7 @@ public class MessagesController extends BaseController implements NotificationCe
         } else if (mode == ChatActivity.MODE_SAVED) {
             reload = resCount == 0 && (!isInitialLoading || (SystemClock.elapsedRealtime() - lastSavedServerQueryTime.get(threadMessageId, 0L)) > 60 * 1000 || isCache);
         } else {
-            reload = resCount == 0 && (!isInitialLoading || (SystemClock.elapsedRealtime() - lastServerQueryTime.get(dialogId, 0L)) > 60 * 1000 || (isCache && isTopic));
+            reload = (resCount == 0 || nonMemberChannelForward || nonMemberChannelLatest) && (!isInitialLoading || nonMemberChannelLatest || (SystemClock.elapsedRealtime() - lastServerQueryTime.get(dialogId, 0L)) > 60 * 1000 || (isCache && isTopic));
         }
         if (!DialogObject.isEncryptedDialog(dialogId) && isCache && reload) {
             if (mode == ChatActivity.MODE_SCHEDULED) {
@@ -12065,8 +12114,10 @@ public class MessagesController extends BaseController implements NotificationCe
                 }
             }
             final long finalHash = hash;
-            AndroidUtilities.runOnUIThread(() -> loadMessagesInternal(dialogId, mergeDialogId, false, count, load_type == LOAD_FROM_UNREAD && queryFromServer ? first_unread : max_id, offset_date, false, 0, classGuid, load_type, last_message_id, mode, threadMessageId, loadIndex, first_unread, unread_count, last_date, queryFromServer, mentionsCount, true, needProcess, isTopic, loaderLogger, finalHash));
-            if (messagesRes.messages.isEmpty()) {
+            AndroidUtilities.runOnUIThread(() -> loadMessagesInternal(dialogId, mergeDialogId, false, count, load_type == LOAD_FROM_UNREAD && queryFromServer ? first_unread : max_id, offset_date, false, 0, classGuid, load_type, deliveredLastMessageId, mode, threadMessageId, loadIndex, first_unread, unread_count, last_date, queryFromServer, mentionsCount, true, needProcess, isTopic, loaderLogger, finalHash));
+            // don't deliver the stale cache "latest" page: it would make the chat treat the cache edge as the
+            // channel bottom (clearChatData → forwardEndReached). let the server reload above land instead.
+            if (messagesRes.messages.isEmpty() || nonMemberChannelLatest) {
                 return;
             }
         }
@@ -12247,11 +12298,11 @@ public class MessagesController extends BaseController implements NotificationCe
                     if (!needProcess) {
                         getNotificationCenter().postNotificationName(NotificationCenter.messagesDidLoadWithoutProcess, classGuid, resCount, isCache, isEnd, last_message_id);
                     } else {
-                        getNotificationCenter().postNotificationName(NotificationCenter.messagesDidLoad, dialogId, count, objects, isCache, finalFirst_unread_final, last_message_id, unread_count, last_date, load_type, isEnd, classGuid, loadIndex, max_id, mentionsCount, mode);
+                        getNotificationCenter().postNotificationName(NotificationCenter.messagesDidLoad, dialogId, count, objects, isCache, finalFirst_unread_final, deliveredLastMessageId, unread_count, last_date, load_type, isEnd, classGuid, loadIndex, max_id, mentionsCount, mode);
                     }
                 }, classGuid, loaderLogger);
             } else {
-                getNotificationCenter().postNotificationName(NotificationCenter.messagesDidLoad, dialogId, count, objects, isCache, first_unread_final, last_message_id, unread_count, last_date, load_type, isEnd, classGuid, loadIndex, max_id, mentionsCount, mode);
+                getNotificationCenter().postNotificationName(NotificationCenter.messagesDidLoad, dialogId, count, objects, isCache, first_unread_final, deliveredLastMessageId, unread_count, last_date, load_type, isEnd, classGuid, loadIndex, max_id, mentionsCount, mode);
             }
 
             if (!messagesToReload.isEmpty()) {
@@ -20974,6 +21025,7 @@ public class MessagesController extends BaseController implements NotificationCe
                                     updateDialogs = true;
                                     break;
                                 } else if (oldObject.getDialogId() == newMessage.getDialogId() && oldObject.messageOwner.action instanceof TLRPC.TL_messageActionPinMessage && oldObject.replyMessageObject != null && oldObject.replyMessageObject.getId() == newMessage.getId()) {
+                                    if (oldObject.replyMessageObject.isSpoilersRevealed) newMessage.isSpoilersRevealed = true;
                                     oldObject.replyMessageObject = newMessage;
                                     oldObject.generatePinMessageText(null, null);
                                     updateDialogs = true;
@@ -21310,6 +21362,60 @@ public class MessagesController extends BaseController implements NotificationCe
         checkUnreadReactionsInternal(dialogId, topicId, unreadPollVotes, false);
     }
 
+    private final LongSparseArray<ArrayList<Integer>> inu_pendingContentReadAcks = new LongSparseArray<>();
+
+    public void inu_onMessageUnreadContentRead(long dialogId, long topicId, int messageId, boolean isReactions) {
+        AndroidUtilities.runOnUIThread(() -> {
+            int current = inu_getUnreadCount(dialogId, topicId, isReactions);
+            if (current == 1) {
+                if (isReactions) {
+                    markReactionsAsRead(dialogId, topicId);
+                } else {
+                    markPollVotesAsRead(dialogId, topicId);
+                }
+            } else if (current > 1) {
+                inu_setUnreadCount(dialogId, topicId, current - 1, isReactions, false);
+            }
+            if (messageId <= 0 || DialogObject.isEncryptedDialog(dialogId)) {
+                return;
+            }
+            ArrayList<Integer> ids = inu_pendingContentReadAcks.get(dialogId);
+            if (ids == null) {
+                ids = new ArrayList<>();
+                inu_pendingContentReadAcks.put(dialogId, ids);
+                AndroidUtilities.runOnUIThread(() -> {
+                    ArrayList<Integer> pending = inu_pendingContentReadAcks.get(dialogId);
+                    inu_pendingContentReadAcks.remove(dialogId);
+                    if (pending == null) {
+                        return;
+                    }
+                    TLRPC.Chat chat = DialogObject.isChatDialog(dialogId) ? getChat(-dialogId) : null;
+                    if (ChatObject.isChannel(chat)) {
+                        TLRPC.TL_channels_readMessageContents req = new TLRPC.TL_channels_readMessageContents();
+                        req.channel = getInputChannel(chat);
+                        if (req.channel == null) {
+                            return;
+                        }
+                        req.id.addAll(pending);
+                        getConnectionsManager().sendRequest(req, null);
+                    } else {
+                        TLRPC.TL_messages_readMessageContents req = new TLRPC.TL_messages_readMessageContents();
+                        req.id.addAll(pending);
+                        getConnectionsManager().sendRequest(req, (response, error) -> {
+                            if (error == null) {
+                                TLRPC.TL_messages_affectedMessages res = (TLRPC.TL_messages_affectedMessages) response;
+                                processNewDifferenceParams(-1, res.pts, -1, res.pts_count);
+                            }
+                        });
+                    }
+                }, 300);
+            }
+            if (!ids.contains(messageId)) {
+                ids.add(messageId);
+            }
+        });
+    }
+
     private void checkUnreadReactionsInternal(long dialogId, long topicId, SparseBooleanArray unreadReactions, boolean isReactions) {
         final String tableMentionsForDialogs = isReactions ? "reaction_mentions" : "poll_votes_mentions";
         final String tableMentionsForTopics = isReactions ? "reaction_mentions_topics" : "poll_votes_mentions_topics";
@@ -21559,6 +21665,46 @@ public class MessagesController extends BaseController implements NotificationCe
                     }
                 }
             });
+        }
+    }
+
+    private int inu_getUnreadCount(long dialogId, long topicId, boolean isReactions) {
+        if (topicId == 0) {
+            TLRPC.Dialog dialog = dialogs_dict.get(dialogId);
+            if (dialog == null) {
+                return -1;
+            }
+            return isReactions ? dialog.unread_reactions_count : dialog.unread_poll_votes_count;
+        }
+        TLRPC.TL_forumTopic topic = getTopicsController().findTopic(-dialogId, topicId);
+        if (topic == null) {
+            return -1;
+        }
+        return isReactions ? topic.unread_reactions_count : topic.unread_poll_votes_count;
+    }
+
+    private void inu_setUnreadCount(long dialogId, long topicId, int count, boolean isReactions, boolean notifyChat) {
+        if (topicId == 0) {
+            TLRPC.Dialog dialog = dialogs_dict.get(dialogId);
+            if (isReactions) {
+                dialog.unread_reactions_count = count;
+            } else {
+                dialog.unread_poll_votes_count = count;
+            }
+        } else if (isReactions) {
+            getTopicsController().updateReactionsUnread(dialogId, topicId, count, false);
+        } else {
+            getTopicsController().updatePollVotesUnread(dialogId, topicId, count, false);
+        }
+        if (isReactions) {
+            getMessagesStorage().updateUnreadReactionsCount(dialogId, topicId, count);
+        } else {
+            getMessagesStorage().updateUnreadPollVotesCount(dialogId, topicId, count);
+        }
+        if (notifyChat) {
+            getNotificationCenter().postNotificationName(isReactions ? NotificationCenter.dialogsUnreadReactionsCounterChanged : NotificationCenter.dialogsUnreadPollVotesCounterChanged, dialogId, topicId, count, null);
+        } else {
+            getNotificationCenter().postNotificationName(NotificationCenter.updateInterfaces, UPDATE_MASK_REACTIONS_READ);
         }
     }
 

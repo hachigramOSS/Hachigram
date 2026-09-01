@@ -181,7 +181,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
 
         viewsText.setCallback(this);
         viewsText.setTextSize(dp(12));
-        viewsText.setTextColor(Color.WHITE);
+        viewsText.setTextColor(sharedResources.inu_mediaTimeTextColor);
         viewsText.setTypeface(AndroidUtilities.bold());
         viewsText.setOverrideFullWidth(AndroidUtilities.displaySize.x);
 
@@ -265,6 +265,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         }
 
         int oldParentColumnsCount = currentParentColumnsCount;
+        final int inu_prevMsgId = currentMessageObject == null ? 0 : currentMessageObject.getId();
         currentParentColumnsCount = parentColumnsCount;
         if (currentMessageObject == null && messageObject == null) {
             return;
@@ -283,6 +284,13 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
             return;
         }
         currentMessageObject = messageObject;
+        // PhotoViewer hides the source cell's receiver during its transition and restores it by
+        // re-resolving the cell later. if this cell got recycled onto another message in between,
+        // that restore lands elsewhere and this receiver would stay invisible forever - the flag
+        // belongs to the (cell, message) pair, so drop it whenever the message changes.
+        if (messageObject == null || inu_prevMsgId != messageObject.getId()) {
+            this.imageReceiver.setVisible(true, false);
+        }
         isStory = currentMessageObject != null && currentMessageObject.isStory();
         isStoryUploading = currentMessageObject != null && currentMessageObject.uploadingStory != null;
         updateSpoilers2();
@@ -675,7 +683,7 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
             imageReceiver.draw(canvas);
             if (currentMessageObject != null && currentMessageObject.hasMediaSpoilers() && !currentMessageObject.isMediaSpoilersRevealedInSharedMedia) {
                 canvas.save();
-                canvas.clipRect(leftpadding, toppadding, leftpadding + imageWidth - rightpadding, toppadding + imageHeight - bottompadding);
+                canvas.clipRect(imageReceiver.getImageX(), imageReceiver.getImageY(), imageReceiver.getImageX2(), imageReceiver.getImageY2());
 
                 if (spoilerRevealProgress != 0f) {
                     path.rewind();
@@ -1234,14 +1242,18 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         Paint highlightPaint = new Paint();
         SparseArray<String> imageFilters = new SparseArray<>();
         private final HashMap<Integer, Bitmap> privacyBitmaps = new HashMap<>();
+        public int inu_mediaTimeTextColor;
 
         public SharedResources(Context context, Theme.ResourcesProvider resourcesProvider) {
+            inu_mediaTimeTextColor = Theme.getColor(Theme.key_chat_mediaTimeText, resourcesProvider);
             textPaint.setTextSize(dp(12));
-            textPaint.setColor(Color.WHITE);
+            textPaint.setColor(inu_mediaTimeTextColor);
             textPaint.setTypeface(AndroidUtilities.bold());
             playDrawable = ContextCompat.getDrawable(context, R.drawable.play_mini_video).mutate();
+            playDrawable.setColorFilter(new PorterDuffColorFilter(inu_mediaTimeTextColor, PorterDuff.Mode.SRC_IN));
             playDrawable.setBounds(0, 0, playDrawable.getIntrinsicWidth(), playDrawable.getIntrinsicHeight());
             viewDrawable = ContextCompat.getDrawable(context, R.drawable.filled_views).mutate();
+            viewDrawable.setColorFilter(new PorterDuffColorFilter(inu_mediaTimeTextColor, PorterDuff.Mode.SRC_IN));
             viewDrawable.setBounds(0, 0, (int) (viewDrawable.getIntrinsicWidth() * .7f), (int) (viewDrawable.getIntrinsicHeight() * .7f));
             backgroundPaint.setColor(Theme.getColor(Theme.key_sharedMedia_photoPlaceholder, resourcesProvider));
         }

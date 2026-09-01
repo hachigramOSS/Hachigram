@@ -610,6 +610,23 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         Bundle args = savedInstanceState.getBundle("args");
                         switch (fragmentName) {
                             case "chat":
+                                long inuThreadChat = savedInstanceState.getLong("inu_thread_chat", 0);
+                                if (inuThreadChat != 0) {
+                                    TLRPC.Chat inuChat = MessagesController.getInstance(currentAccount).getChat(inuThreadChat);
+                                    if (inuChat != null) {
+                                        int inuThreadMsg = savedInstanceState.getInt("inu_thread_msg");
+                                        AlertDialog inuLoading = new AlertDialog(this, AlertDialog.ALERT_TYPE_SPINNER);
+                                        inuLoading.setCanCancel(false);
+                                        inuLoading.show();
+                                        runCommentRequest(currentAccount, () -> {
+                                            try {
+                                                inuLoading.dismiss();
+                                            } catch (Exception ignore) {
+                                            }
+                                        }, inuThreadMsg, null, (long) inuThreadMsg, null, inuChat);
+                                        break;
+                                    }
+                                }
                                 if (args != null) {
                                     ChatActivity chat = new ChatActivity(args);
                                     if (actionBarLayout.addFragmentToStack(chat)) {
@@ -6998,7 +7015,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 getOnBackInvokedDispatcher().unregisterOnBackInvokedCallback((OnBackInvokedCallback) onBackInvokedCallback);
             }
         }
-        Bulletin.removeDelegate(frameLayout);
+        if (frameLayout != null) {
+            Bulletin.removeDelegate(frameLayout);
+        }
         VideoAds.dropCache();
 
         clearFragments();
@@ -8381,6 +8400,14 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                 if (lastFragment instanceof ChatActivity && args != null) {
                     outState.putBundle("args", args);
                     outState.putString("fragment", "chat");
+                    ChatActivity ca = (ChatActivity) lastFragment;
+                    if (ca.isReplyChatComment()) {
+                        outState.putLong("inu_thread_chat", ca.replyOriginalChat.id);
+                        outState.putInt("inu_thread_msg", ca.replyOriginalMessageId);
+                    } else if (ca.isTopic) {
+                        outState.putLong("inu_thread_chat", -ca.getDialogId());
+                        outState.putInt("inu_thread_msg", (int) ca.getTopicId());
+                    }
                 } else if (lastFragment instanceof GroupCreateFinalActivity && args != null) {
                     outState.putBundle("args", args);
                     outState.putString("fragment", "group");
@@ -9312,13 +9339,17 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     private int reasonsToHideMainContent = 0;
     private int reasonsToHideDecorView = 0;
 
+    // inugram: keep the main content VISIBLE and drawing instead of setting GONE — GONE freezes
+    // the view tree's layout, which dismisses the keyboard and breaks PhotoViewer close-animation
+    // target positions. drawing must keep running too: link-preview photo positions inside
+    // ChatMessageCell are only assigned at draw time, so suppressing draws leaves stale
+    // ImageReceiver coords for the close-animation target (visual jump at the end).
+    // rebase note: this is more of a workaround (revert to old behavior) than an actual bugfix.
+    // if future upstream updates fixes those, our workaround should be removed.
     private void updateReasonsToHideMainContent(boolean increment, boolean withDecorView) {
         reasonsToHideMainContent += (increment ? 1 : -1);
         if (withDecorView) {
             reasonsToHideDecorView += (increment ? 1 : -1);
-        }
-        if (frameLayout != null) {
-            frameLayout.setVisibility(reasonsToHideMainContent > 0 ? View.GONE : View.VISIBLE);
         }
         checkDecorViewVisibility();
     }

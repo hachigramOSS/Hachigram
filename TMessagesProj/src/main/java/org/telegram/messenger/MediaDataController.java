@@ -4058,7 +4058,7 @@ public class MediaDataController extends BaseController {
                 int N = Math.min(res.messages.size(), req.limit - 1);
                 for (int a = 0; a < N; a++) {
                     TLRPC.Message message = res.messages.get(a);
-                    MessageObject messageObject = new MessageObject(currentAccount, message, null, null, null, null, null, true, true, 0, false, false, isSaved);
+                    MessageObject messageObject = new MessageObject(currentAccount, message, null, null, null, null, null, false, true, 0, false, false, isSaved);
                     if (messageObject.hasValidGroupId()) {
                         messageObject.isPrimaryGroupMessage = true;
                     }
@@ -6854,6 +6854,7 @@ public class MediaDataController extends BaseController {
                 if (arrayList != null) {
                     for (int b = 0; b < arrayList.size(); b++) {
                         MessageObject m = arrayList.get(b);
+                        if (m.replyMessageObject != null && m.replyMessageObject.isSpoilersRevealed) messageObject.isSpoilersRevealed = true;
                         m.replyMessageObject = messageObject;
                         m.applyTimestampsHighlightForReplyMsg();
                         if (m.messageOwner.action instanceof TLRPC.TL_messageActionPinMessage) {
@@ -7614,7 +7615,7 @@ public class MediaDataController extends BaseController {
                 // check if it is inside a code block: do not convert __ ** || to styles inside code
                 for (int i = 0; i < entities.size(); ++i) {
                     final TLRPC.MessageEntity entity = entities.get(i);
-                    if (entity instanceof TLRPC.TL_messageEntityPre || entity instanceof TLRPC.TL_messageEntityCode) {
+                    if (entity instanceof TLRPC.TL_messageEntityPre || entity instanceof TLRPC.TL_messageEntityCode || entity instanceof TLRPC.TL_messageEntityUrl || entity instanceof TLRPC.TL_messageEntityTextUrl) {
                         if (AndroidUtilities.intersect1d(m.start() - offset, m.end() - offset, entity.offset, entity.offset + entity.length)) {
                             allowEntity = false;
                             break;

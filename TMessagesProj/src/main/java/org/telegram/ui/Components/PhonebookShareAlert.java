@@ -420,7 +420,6 @@ public class PhonebookShareAlert extends BottomSheet {
 
                 if (Build.VERSION.SDK_INT >= 21) {
                     top += AndroidUtilities.statusBarHeight;
-                    height -= AndroidUtilities.statusBarHeight;
                 }
 
                 shadowDrawable.setBounds(0, top, getMeasuredWidth(), height);

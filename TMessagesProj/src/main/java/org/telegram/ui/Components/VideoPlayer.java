@@ -195,6 +195,30 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
 
     boolean audioDisabled;
 
+    private long inu_mediaDurationMs;
+
+    public void inu_setMediaDurationMs(long durationMs) {
+        inu_mediaDurationMs = durationMs;
+    }
+
+    /**
+     * The platform never starts a MODE_STREAM AudioTrack whose buffer has not filled, so a buffer
+     * longer than the media itself stalls forever when the media loops instead of ending. Sizing
+     * for AudioTrack playback params multiplies the buffer by MAX_PLAYBACK_SPEED (8x), which for
+     * short clips overshoots the content, so cap it at half the media.
+     */
+    private final DefaultAudioSink.AudioTrackBufferSizeProvider inu_bufferSizeProvider =
+            (minBufferSizeInBytes, encoding, outputMode, pcmFrameSize, sampleRate, bitrate, maxAudioTrackPlaybackSpeed) -> {
+                final DefaultAudioSink.AudioTrackBufferSizeProvider provider = DefaultAudioSink.AudioTrackBufferSizeProvider.DEFAULT;
+                final int size = provider.getBufferSizeInBytes(minBufferSizeInBytes, encoding, outputMode, pcmFrameSize, sampleRate, bitrate, maxAudioTrackPlaybackSpeed);
+                if (inu_mediaDurationMs <= 0 || outputMode != DefaultAudioSink.OUTPUT_MODE_PCM) {
+                    return size;
+                }
+                final int unscaled = provider.getBufferSizeInBytes(minBufferSizeInBytes, encoding, outputMode, pcmFrameSize, sampleRate, bitrate, 1.0);
+                final long halfMedia = (long) pcmFrameSize * sampleRate * inu_mediaDurationMs / 2000L;
+                return (int) Math.max(unscaled, Math.min(size, halfMedia - halfMedia % Math.max(pcmFrameSize, 1)));
+            };
+
     public VideoPlayer() {
         this(true, false);
     }
@@ -260,9 +284,10 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
             if (audioVisualizerDelegate != null) {
                 factory = new AudioVisualizerRenderersFactory(ApplicationLoader.applicationContext);
             } else {
-                factory = new DefaultRenderersFactory(ApplicationLoader.applicationContext);
+                factory = new InuRenderersFactory(ApplicationLoader.applicationContext);
             }
             factory.setExtensionRendererMode(DefaultRenderersFactory.EXTENSION_RENDERER_MODE_PREFER);
+            factory.setEnableAudioTrackPlaybackParams(true);
             ExoPlayer.Builder builder = new ExoPlayer.Builder(ApplicationLoader.applicationContext).setRenderersFactory(factory)
                     .setTrackSelector(trackSelector)
                     .setLoadControl(loadControl);
@@ -271,6 +296,12 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
             }
             player = builder.build();
 
+            if (handleAudioFocus) {
+                if (player instanceof com.google.android.exoplayer2.ExoPlayerImpl) {
+                    ((com.google.android.exoplayer2.ExoPlayerImpl) player).inu_setTransientAudioFocus(true);
+                }
+                player.setAudioAttributes(player.getAudioAttributes(), true);
+            }
             player.addAnalyticsListener(this);
             player.addListener(this);
             player.addVideoListener(this);
@@ -1466,7 +1497,7 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     public void setPlaybackSpeed(float speed) {
         try {
             if (player != null) {
-                player.setPlaybackParameters(new PlaybackParameters(speed, speed > 1.0f ? 0.98f : 1.0f));
+                player.setPlaybackParameters(new PlaybackParameters(speed, 1.0f));
             }
         } catch (Exception ignore) {}
     }
@@ -1627,6 +1658,9 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
     public void handleAudioFocus(boolean handleAudioFocus) {
         this.handleAudioFocus = handleAudioFocus;
         if (player != null) {
+            if (handleAudioFocus && player instanceof com.google.android.exoplayer2.ExoPlayerImpl) {
+                ((com.google.android.exoplayer2.ExoPlayerImpl) player).inu_setTransientAudioFocus(true);
+            }
             player.setAudioAttributes(player.getAudioAttributes(), handleAudioFocus);
         }
     }
@@ -1797,7 +1831,38 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
         return repeatCount;
     }
 
-    private class AudioVisualizerRenderersFactory extends DefaultRenderersFactory {
+    private class InuRenderersFactory extends DefaultRenderersFactory {
+
+        public InuRenderersFactory(Context context) {
+            super(context);
+        }
+
+        @Nullable
+        protected AudioProcessor[] getAudioProcessors() {
+            return null;
+        }
+
+        @Nullable
+        @Override
+        protected AudioSink buildAudioSink(Context context, boolean enableFloatOutput, boolean enableAudioTrackPlaybackParams, boolean enableOffload) {
+            DefaultAudioSink.Builder builder = new DefaultAudioSink.Builder()
+                    .setAudioCapabilities(AudioCapabilities.getCapabilities(context))
+                    .setEnableFloatOutput(enableFloatOutput)
+                    .setEnableAudioTrackPlaybackParams(enableAudioTrackPlaybackParams)
+                    .setAudioTrackBufferSizeProvider(inu_bufferSizeProvider)
+                    .setOffloadMode(
+                            enableOffload
+                                    ? DefaultAudioSink.OFFLOAD_MODE_ENABLED_GAPLESS_REQUIRED
+                                    : DefaultAudioSink.OFFLOAD_MODE_DISABLED);
+            AudioProcessor[] audioProcessors = getAudioProcessors();
+            if (audioProcessors != null) {
+                builder.setAudioProcessors(audioProcessors);
+            }
+            return builder.build();
+        }
+    }
+
+    private class AudioVisualizerRenderersFactory extends InuRenderersFactory {
 
         public AudioVisualizerRenderersFactory(Context context) {
             super(context);
@@ -1805,17 +1870,8 @@ public class VideoPlayer implements Player.Listener, VideoListener, AnalyticsLis
 
         @Nullable
         @Override
-        protected AudioSink buildAudioSink(Context context, boolean enableFloatOutput, boolean enableAudioTrackPlaybackParams, boolean enableOffload) {
-            return new DefaultAudioSink.Builder()
-                    .setAudioCapabilities(AudioCapabilities.getCapabilities(context))
-                    .setEnableFloatOutput(enableFloatOutput)
-                    .setEnableAudioTrackPlaybackParams(enableAudioTrackPlaybackParams)
-                    .setAudioProcessors(new AudioProcessor[] {new TeeAudioProcessor(new VisualizerBufferSink())})
-                    .setOffloadMode(
-                            enableOffload
-                                    ? DefaultAudioSink.OFFLOAD_MODE_ENABLED_GAPLESS_REQUIRED
-                                    : DefaultAudioSink.OFFLOAD_MODE_DISABLED)
-                    .build();
+        protected AudioProcessor[] getAudioProcessors() {
+            return new AudioProcessor[] {new TeeAudioProcessor(new VisualizerBufferSink())};
         }
     }
 

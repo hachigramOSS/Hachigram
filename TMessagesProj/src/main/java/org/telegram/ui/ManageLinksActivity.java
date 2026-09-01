@@ -1291,6 +1291,8 @@ public class ManageLinksActivity extends BaseFragment implements NotificationCen
                 linkIconRevoked.setBounds(cX - dp(12), cY - dp(12), cX + dp(12), cY + dp(12));
                 linkIconRevoked.draw(canvas);
             } else {
+                int inu_iconTint = drawState == LINK_STATE_BLUE ? Theme.getColor(Theme.key_featuredStickers_buttonText) : Color.WHITE;
+                linkIcon.setColorFilter(new PorterDuffColorFilter(inu_iconTint, PorterDuff.Mode.MULTIPLY));
                 linkIcon.setBounds(cX - dp(12), cY - dp(12), cX + dp(12), cY + dp(12));
                 linkIcon.draw(canvas);
             }

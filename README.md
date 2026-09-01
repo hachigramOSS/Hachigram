@@ -39,6 +39,10 @@ encrypted so google cannot read it.
 GPLv2, inherited from Telegram. Cherrygram's copyright notices are kept in the
 files that came from it, as the licence requires.
 
+some patches come from [inugram](https://github.com/teidesu/inugram), which is
+MIT. that notice is in [LICENSES/inugram-MIT.txt](LICENSES/inugram-MIT.txt), and
+the commits keep their original authors.
+
 ## Versioning and releases
 
 `APP_VERSION_NAME_CHERRY` in `gradle.properties` is this fork's own version and is

@@ -618,10 +618,17 @@ extern "C" JNIEXPORT jlong JNICALL Java_org_telegram_ui_Components_AnimatedFileN
         }
         if (video_stream_index != -1) {
             AVStream* video_stream = info->fmt_ctx->streams[video_stream_index];
-            if (video_stream->avg_frame_rate.den && video_stream->avg_frame_rate.num) {
-                fps = av_q2d(video_stream->avg_frame_rate);
-            } else if(video_stream->r_frame_rate.den && video_stream->r_frame_rate.num) {
-                fps = av_q2d(video_stream->r_frame_rate);
+            // avg_frame_rate is unusable for matroska/webm (often 0/0, or the mean of a
+            // variable frame rate); r_frame_rate is the smallest rate representing every
+            // timestamp, i.e. an upper bound. Matches the codec split in getVideoInfo.
+            bool preferAverage = video_stream->codecpar->codec_id == AV_CODEC_ID_H264 ||
+                                 video_stream->codecpar->codec_id == AV_CODEC_ID_HEVC;
+            AVRational preferred = preferAverage ? video_stream->avg_frame_rate : video_stream->r_frame_rate;
+            AVRational fallback = preferAverage ? video_stream->r_frame_rate : video_stream->avg_frame_rate;
+            if (preferred.den && preferred.num) {
+                fps = av_q2d(preferred);
+            } else if (fallback.den && fallback.num) {
+                fps = av_q2d(fallback);
             } else {
                 /*
                 int ticks = video_stream->codec->ticks_per_frame;
@@ -629,7 +636,7 @@ extern "C" JNIEXPORT jlong JNICALL Java_org_telegram_ui_Components_AnimatedFileN
                  */
             }
         }
-        dataArr[5] = (int32_t) fps;
+        dataArr[5] = (int32_t) ceil(fps);
         //(int32_t) (1000 * info->video_stream->duration * av_q2d(info->video_stream->time_base));
         env->ReleaseIntArrayElements(data, dataArr, 0);
     }

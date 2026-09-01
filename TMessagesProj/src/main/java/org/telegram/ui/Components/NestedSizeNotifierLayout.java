@@ -53,7 +53,7 @@ public class NestedSizeNotifierLayout extends SizeNotifierFrameLayout implements
         if (target == targetListView && childAttached()) {
             RecyclerListView innerListView = childLayout.getListView();
             int top = childLayout.getTop();
-            if (top == maxTop) {
+            if (top <= maxTop) {
                 consumed[1] = dyUnconsumed;
                 innerListView.scrollBy(0, dyUnconsumed);
             }
@@ -133,9 +133,12 @@ public class NestedSizeNotifierLayout extends SizeNotifierFrameLayout implements
     public void setChildLayout(ChildLayout childLayout, int maxTopPadding) {
         this.maxTopPadding = maxTopPadding;
         if (this.childLayout != childLayout) {
+            if (attached && this.childLayout != null) {
+                this.childLayout.removeOnLayoutChangeListener(this);
+            }
             this.childLayout = childLayout;
-            if (attached && childLayout != null && childLayout.getListView() != null) {
-                childLayout.getListView().addOnLayoutChangeListener(this);
+            if (attached && childLayout != null) {
+                childLayout.addOnLayoutChangeListener(this);
             }
         }
         updateMaxTop();
@@ -160,7 +163,7 @@ public class NestedSizeNotifierLayout extends SizeNotifierFrameLayout implements
     }
 
     public boolean isPinnedToTop() {
-        return childLayout != null && childLayout.getTop() == maxTop;
+        return childLayout != null && childLayout.getTop() <= maxTop;
     }
 
     @Override

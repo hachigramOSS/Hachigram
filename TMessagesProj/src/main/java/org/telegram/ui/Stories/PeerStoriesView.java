@@ -2273,7 +2273,7 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
                 if (user == null) {
                     return;
                 }
-                String firstName = user.first_name;
+                String firstName = UserObject.getForcedFirstName(user);
                 int index;
                 if ((index = firstName.indexOf(' ')) > 0) {
                     firstName = firstName.substring(0, index);
@@ -4760,6 +4760,15 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.userIsPremiumBlockedUpadted);
         NotificationCenter.getInstance(currentAccount).addObserver(this, NotificationCenter.didLoadSendAsPeers);
         NotificationCenter.getGlobalInstance().addObserver(this, NotificationCenter.emojiLoaded);
+    }
+
+    public void destroy() {
+        if (chatActivityEnterView != null) {
+            chatActivityEnterView.onDestroy();
+        }
+        if (mentionContainer != null && mentionContainer.getAdapter() != null) {
+            mentionContainer.getAdapter().onDestroy();
+        }
     }
 
     @Override

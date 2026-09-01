@@ -136,7 +136,11 @@ public abstract class BaseFragment {
         }
     }
 
-    public static interface AttachedSheetWindow {}
+    public static interface AttachedSheetWindow {
+        default boolean inu_occupyNavigationBar() {
+            return false;
+        }
+    }
 
     @Nullable
     public StoryViewer getLastStoryViewer() {

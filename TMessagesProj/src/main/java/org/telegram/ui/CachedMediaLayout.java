@@ -436,7 +436,7 @@ public class CachedMediaLayout extends FrameLayout implements NestedSizeNotifier
 
     @Override
     public boolean isAttached() {
-        return true;
+        return isAttachedToWindow();
     }
 
     public void updateVisibleRows() {

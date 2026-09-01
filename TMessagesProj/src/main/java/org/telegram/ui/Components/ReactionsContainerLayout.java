@@ -2037,7 +2037,7 @@ public class ReactionsContainerLayout extends FrameLayout implements Notificatio
 
             resetAnimation();
             currentReaction = react;
-            hasEnterAnimation = currentReaction.isStar || (currentReaction.emojicon != null && (showCustomEmojiReaction() || allReactionsIsDefault)) && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS);
+            hasEnterAnimation = (currentReaction.isStar || (currentReaction.emojicon != null && (showCustomEmojiReaction() || allReactionsIsDefault))) && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_REACTIONS);
             if (type == TYPE_STICKER_SET_EMOJI || currentReaction.isEffect) {
                 hasEnterAnimation = false;
             }

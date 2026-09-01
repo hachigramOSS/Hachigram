@@ -262,10 +262,11 @@ public class PhotoAttachPhotoCell extends FrameLayout {
 
         videoPlayImageView = new ImageView(context);
         videoPlayImageView.setImageResource(R.drawable.play_mini_video);
+        videoPlayImageView.setColorFilter(getThemedColor(Theme.key_chat_mediaTimeText));
         videoInfoContainer.addView(videoPlayImageView, LayoutHelper.createFrame(LayoutHelper.WRAP_CONTENT, LayoutHelper.WRAP_CONTENT, Gravity.LEFT | Gravity.CENTER_VERTICAL));
 
         videoTextView = new TextView(context);
-        videoTextView.setTextColor(0xffffffff);
+        videoTextView.setTextColor(getThemedColor(Theme.key_chat_mediaTimeText));
         videoTextView.setTypeface(AndroidUtilities.bold());
         videoTextView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12);
         videoTextView.setImportantForAccessibility(IMPORTANT_FOR_ACCESSIBILITY_NO);

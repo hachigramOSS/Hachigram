@@ -460,6 +460,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         cameraImageView = new ImageView(context);
         cameraImageView.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
         cameraImageView.setImageResource(R.drawable.filled_premium_camera);
+        cameraImageView.setColorFilter(getThemedColor(Theme.key_featuredStickers_buttonText), android.graphics.PorterDuff.Mode.SRC_IN);
         cameraBackground.addView(cameraImageView, LayoutHelper.createFrame(22, 22, Gravity.CENTER));
         cameraButton.addView(cameraBackground, LayoutHelper.createFrame(30, 30));
         avatarContainer.addView(cameraButton, LayoutHelper.createFrame(34, 34, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 32, 75, 0, 0));

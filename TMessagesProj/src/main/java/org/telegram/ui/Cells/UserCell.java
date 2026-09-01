@@ -354,6 +354,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             adminTextView.setTranslationX(0);
             adminTextView.setBackground(null);
             adminTextView.setOnClickListener(onClick);
+            adminTextView.setClickable(onClick != null && role != null);
         }
         adminTextView.setVisibility(role != null || canAddTag ? VISIBLE : GONE);
         if (role != null || canAddTag) {

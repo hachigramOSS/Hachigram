@@ -96,6 +96,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
     private final HashMap<Long, AnimatedEmojiSpan> initialSelectedEmojis = new LinkedHashMap<>();
     private final List<TLRPC.TL_availableReaction> allAvailableReactions = new ArrayList<>();
     private boolean initialPaid;
+    private boolean initialEnabled;
 
     private final int maxReactionsCount = getMessagesController().boostsChannelLevelMax;
     private boolean emojiKeyboardVisible = false;
@@ -234,7 +235,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             if (enableReactionsCell.isChecked() && paidCheckCell != null && paidCheckCell.isChecked()) {
                 toggleStarsEnabled();
             }
-            setCheckedEnableReactionCell(enableReactionsCell.isChecked() ? SELECT_TYPE_NONE : SELECT_TYPE_SOME, enableReactionsCell.isChecked() ? false : paid, true);
+            setCheckedEnableReactionCell(enableReactionsCell.isChecked() ? SELECT_TYPE_NONE : getEnabledSelectType(), enableReactionsCell.isChecked() ? false : paid, true);
         });
         contentLayout.addView(enableReactionsCell, LayoutHelper.createLinear(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT));
 
@@ -461,6 +462,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         }
         initialSelectedEmojis.putAll(selectedEmojisMap);
         initialPaid = paid;
+        initialEnabled = selectedType != SELECT_TYPE_NONE || paid;
 
         fragmentView = rootLayout;
         return rootLayout;
@@ -667,10 +669,11 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
             if (animated) {
                 actionButtonContainer.animate().setListener(null).cancel();
                 switchLayout.animate().setListener(null).cancel();
-                switchLayout.animate().alpha(1f).setDuration(350).setInterpolator(CubicBezierInterpolator.DEFAULT).setListener(new AnimatorListenerAdapter() {
+                switchLayout.animate().alpha(1f).setDuration(350).setInterpolator(CubicBezierInterpolator.DEFAULT).setUpdateListener(a -> scrollView.invalidate()).setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         editText.setFocusableInTouchMode(true);
+                        scrollView.invalidate();
                     }
                 }).start();
                 actionButtonContainer.animate().alpha(1f).setDuration(350).setInterpolator(CubicBezierInterpolator.DEFAULT).start();
@@ -703,11 +706,12 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
                         actionButtonContainer.setVisibility(View.INVISIBLE);
                     }
                 }).start();
-                switchLayout.animate().alpha(0f).setDuration(350).setInterpolator(CubicBezierInterpolator.DEFAULT).setListener(new AnimatorListenerAdapter() {
+                switchLayout.animate().alpha(0f).setDuration(350).setInterpolator(CubicBezierInterpolator.DEFAULT).setUpdateListener(a -> scrollView.invalidate()).setListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         editText.setFocusableInTouchMode(false);
                         switchLayout.setVisibility(View.INVISIBLE);
+                        scrollView.invalidate();
                     }
                 }).start();
             } else {
@@ -765,7 +769,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         if (boostsStatus != null && boostsStatus.level < selectedCustomReactions) {
             hasChanges = false;
         }
-        if (initialPaid != paid) {
+        if (initialPaid != paid || initialEnabled != (selectedType != SELECT_TYPE_NONE || paid)) {
             hasChanges = true;
         }
         if (invoked && hasChanges) {
@@ -786,7 +790,7 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         if (boostsStatus == null) {
             return;
         }
-        if (selectedType == SELECT_TYPE_ALL) {
+        if (selectedType == SELECT_TYPE_ALL && !isAllReactionsSelected()) {
             selectedType = SELECT_TYPE_SOME;
         }
         selectedCustomReactions = grabReactions(true).size();
@@ -801,6 +805,23 @@ public class ChatCustomReactionsEditActivity extends BaseFragment implements Not
         } else {
             actionButton.removeLvlRequiredState();
         }
+    }
+
+    private int getEnabledSelectType() {
+        return selectedEmojisMap.isEmpty() || isAllReactionsSelected() ? SELECT_TYPE_ALL : SELECT_TYPE_SOME;
+    }
+
+    private boolean isAllReactionsSelected() {
+        int count = Math.min(allAvailableReactions.size(), maxReactionsCount);
+        if (selectedEmojisMap.size() - (selectedEmojisMap.containsKey(-1L) ? 1 : 0) != count) {
+            return false;
+        }
+        for (int i = 0; i < count; i++) {
+            if (!selectedEmojisMap.containsKey(allAvailableReactions.get(i).activate_animation.id)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     private List<TLRPC.Reaction> grabReactions(boolean onlyCustom) {

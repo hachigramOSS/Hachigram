@@ -176,6 +176,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
 
     private GestureDetectorFixDoubleTap gestureDetector;
     private View currentChildView;
+
     private int currentChildPosition;
     private boolean interceptedByChild;
     private boolean wasPressed;
@@ -335,6 +336,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
         private int count;
 
         private ArrayList<Integer> hashes = new ArrayList<>();
+        private boolean hashesComputed;
 
         public void cleanupCache() {
             if (sectionCache == null) {
@@ -452,9 +454,10 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
 
         public void update(boolean diff) {
             ArrayList<Integer> oldHashes = new ArrayList<>(hashes);
+            boolean hadHashes = hashesComputed;
             updateHashes();
 
-            if (diff) {
+            if (diff && hadHashes) {
                 DiffUtil.calculateDiff(new DiffUtil.Callback() {
                     @Override
                     public int getOldListSize() {
@@ -484,6 +487,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
         public void updateHashes() {
             cleanupCache();
 
+            hashesComputed = true;
             hashes.clear();
 
             for (int i = 0, N = internalGetSectionCount(); i < N; i++) {
@@ -1084,6 +1088,10 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
 
     }
 
+    private int inu_getChildPosition(View child) {
+        return useLayoutPositionOnClick ? getChildLayoutPosition(child) : getChildAdapterPosition(child);
+    }
+
     private class RecyclerListViewItemClickListener implements OnItemTouchListener {
 
         public RecyclerListViewItemClickListener(Context context) {
@@ -1117,7 +1125,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
 
                 @Override
                 public boolean onDoubleTap(MotionEvent e) {
-                    if (doubleTapView != null && onItemClickListenerExtended != null && onItemClickListenerExtended.hasDoubleTap(doubleTapView, currentChildPosition)) {
+                    if (doubleTapView != null && doubleTapView == currentChildView && onItemClickListenerExtended != null && onItemClickListenerExtended.hasDoubleTap(doubleTapView, currentChildPosition)) {
                         onItemClickListenerExtended.onDoubleTap(doubleTapView, currentChildPosition, e.getX(), e.getY());
                         doubleTapView = null;
                         return true;
@@ -1183,6 +1191,11 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                     if (currentChildView == null || currentChildPosition == -1 || onItemLongClickListener == null && onItemLongClickListenerExtended == null) {
                         return;
                     }
+                    int position = inu_getChildPosition(currentChildView);
+                    if (position == NO_POSITION) {
+                        return;
+                    }
+                    currentChildPosition = position;
                     View child = currentChildView;
                     if (onItemLongClickListener != null) {
                         if (onItemLongClickListener.onItemClick(currentChildView, currentChildPosition)) {
@@ -1213,7 +1226,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
 
                 @Override
                 public boolean hasDoubleTap(MotionEvent e) {
-                    return onItemLongClickListenerExtended != null;
+                    return currentChildView != null && onItemClickListenerExtended != null && onItemClickListenerExtended.hasDoubleTap(currentChildView, currentChildPosition);
                 }
             });
             gestureDetector.setIsLongpressEnabled(false);
@@ -1242,6 +1255,9 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                     final int count = viewGroup.getChildCount();
                     for (int i = count - 1; i >= 0; i--) {
                         final View child = viewGroup.getChildAt(i);
+                        if (child.getVisibility() != VISIBLE) {
+                            continue;
+                        }
                         if (x >= child.getLeft() && x <= child.getRight() && y >= child.getTop() && y <= child.getBottom()) {
                             if (child.isClickable()) {
                                 // todo: recursion search ???
@@ -1254,11 +1270,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                 }
                 currentChildPosition = -1;
                 if (currentChildView != null) {
-                    if (useLayoutPositionOnClick) {
-                        currentChildPosition = view.getChildLayoutPosition(currentChildView);
-                    } else {
-                        currentChildPosition = view.getChildAdapterPosition(currentChildView);
-                    }
+                    currentChildPosition = inu_getChildPosition(currentChildView);
                     MotionEvent childEvent = MotionEvent.obtain(0, 0, event.getActionMasked(), event.getX() - currentChildView.getLeft(), event.getY() - currentChildView.getTop(), 0);
                     if (currentChildView.onTouchEvent(childEvent)) {
                         interceptedByChild = true;

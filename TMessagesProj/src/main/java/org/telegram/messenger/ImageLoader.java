@@ -136,8 +136,6 @@ public class ImageLoader {
     private HashMap<String, Integer> forceLoadingImages = new HashMap<>();
     private static ThreadLocal<byte[]> bytesLocal = new ThreadLocal<>();
     private static ThreadLocal<byte[]> bytesThumbLocal = new ThreadLocal<>();
-    private static byte[] header = new byte[12];
-    private static byte[] headerThumb = new byte[12];
     private int currentHttpTasksCount = 0;
     private int currentArtworkTasksCount = 0;
     private boolean canForce8888;
@@ -172,11 +170,24 @@ public class ImageLoader {
         return false;
     }
 
+    private static final android.util.LruCache<Integer, BitmapDrawable> inu_strippedCache = new android.util.LruCache<>(64);
+
     public static Drawable createStripedBitmap(ArrayList<TLRPC.PhotoSize> thumbs) {
         for (int i = 0; i < thumbs.size(); i++) {
             if (thumbs.get(i) instanceof TLRPC.TL_photoStrippedSize) {
                 TLRPC.TL_photoStrippedSize size = (TLRPC.TL_photoStrippedSize) thumbs.get(i);
-                return new BitmapDrawable(ApplicationLoader.applicationContext.getResources(), getStrippedPhotoBitmap(size.bytes, "b"));
+                int key = Arrays.hashCode(size.bytes);
+                BitmapDrawable cached = inu_strippedCache.get(key);
+                if (cached != null) {
+                    return cached;
+                }
+                Bitmap bitmap = getStrippedPhotoBitmap(size.bytes, "b");
+                if (bitmap == null) {
+                    return null;
+                }
+                BitmapDrawable drawable = new BitmapDrawable(ApplicationLoader.applicationContext.getResources(), bitmap);
+                inu_strippedCache.put(key, drawable);
+                return drawable;
             }
         }
         return null;
@@ -853,6 +864,8 @@ public class ImageLoader {
     private class CacheOutTask implements Runnable {
         private Thread runningThread;
         private final Object sync = new Object();
+        private byte[] header = new byte[12];
+        private byte[] headerThumb = new byte[12];
 
         private CacheImage cacheImage;
         private boolean isCancelled;
@@ -1149,6 +1162,12 @@ public class ImageLoader {
                 } else {
                     fileDrawable.setLimitFps(limitFps);
                     Thread.interrupted();
+                    synchronized (sync) {
+                        if (isCancelled) {
+                            fileDrawable.recycle();
+                            return;
+                        }
+                    }
                     onPostExecute(fileDrawable);
                 }
             } else {
@@ -1288,9 +1307,9 @@ public class ImageLoader {
                             opts.inJustDecodeBounds = false;
                             if (scaleFactor > 1.0f && (photoW > w_filter || photoH > h_filter)) {
                                 int sample = 1;
-                                do {
+                                while (sample * 2 <= scaleFactor) {
                                     sample *= 2;
-                                } while (sample * 2 < scaleFactor);
+                                }
                                 opts.inSampleSize = sample;
                             } else {
                                 opts.inSampleSize = (int) scaleFactor;
@@ -2047,17 +2066,23 @@ public class ImageLoader {
     public ImageLoader() {
         thumbGeneratingQueue.setPriority(Thread.MIN_PRIORITY);
 
-        int memoryClass = ((ActivityManager) ApplicationLoader.applicationContext.getSystemService(Context.ACTIVITY_SERVICE)).getMemoryClass();
+        final ActivityManager inu_am = (ActivityManager) ApplicationLoader.applicationContext.getSystemService(Context.ACTIVITY_SERVICE);
+        // the app declares android:largeHeap, so the real budget is getLargeMemoryClass(); sizing
+        // the cache off getMemoryClass() leaves it too small to hold the shared media grid and
+        // PhotoViewer's full-screen bitmaps at once, so opening a photo evicts the whole grid.
+        int memoryClass = (ApplicationLoader.applicationContext.getApplicationInfo().flags & android.content.pm.ApplicationInfo.FLAG_LARGE_HEAP) != 0
+            ? inu_am.getLargeMemoryClass()
+            : inu_am.getMemoryClass();
         int maxSize;
         if (canForce8888 = memoryClass >= 192) {
-            maxSize = 30;
+            maxSize = 80;
         } else {
-            maxSize = 15;
+            maxSize = 30;
         }
-        int cacheSize = DEBUG_MODE ? 1 : Math.min(maxSize, memoryClass / 7) * 1024 * 1024;
+        int cacheSize = DEBUG_MODE ? 1 : Math.min(maxSize, memoryClass / 6) * 1024 * 1024;
 
-        int commonCacheSize =  DEBUG_MODE ? 1 : (int) (cacheSize * 0.8f);
-        int smallImagesCacheSize =   DEBUG_MODE ? 1 : (int) (cacheSize * 0.2f);
+        int commonCacheSize =  DEBUG_MODE ? 1 : (int) (cacheSize * 0.7f);
+        int smallImagesCacheSize =   DEBUG_MODE ? 1 : (int) (cacheSize * 0.3f);
 
         memCache = new LruCache<BitmapDrawable>(commonCacheSize) {
             @Override
@@ -2482,6 +2507,9 @@ public class ImageLoader {
                         File imagePath = new File(telegramPath, "Telegram Images");
                         imagePath.mkdir();
                         if (imagePath.isDirectory() && canMoveFiles(cachePath, imagePath, FileLoader.MEDIA_DIR_IMAGE)) {
+                            if (!BuildVars.NO_SCOPED_STORAGE) {
+                                AndroidUtilities.createEmptyFile(new File(imagePath, ".nomedia"));
+                            }
                             mediaDirs.put(FileLoader.MEDIA_DIR_IMAGE, imagePath);
                             if (BuildVars.LOGS_ENABLED) {
                                 FileLog.d("image path = " + imagePath);
@@ -2495,6 +2523,9 @@ public class ImageLoader {
                         File videoPath = new File(telegramPath, "Telegram Video");
                         videoPath.mkdir();
                         if (videoPath.isDirectory() && canMoveFiles(cachePath, videoPath, FileLoader.MEDIA_DIR_VIDEO)) {
+                            if (!BuildVars.NO_SCOPED_STORAGE) {
+                                AndroidUtilities.createEmptyFile(new File(videoPath, ".nomedia"));
+                            }
                             mediaDirs.put(FileLoader.MEDIA_DIR_VIDEO, videoPath);
                             if (BuildVars.LOGS_ENABLED) {
                                 FileLog.d("video path = " + videoPath);

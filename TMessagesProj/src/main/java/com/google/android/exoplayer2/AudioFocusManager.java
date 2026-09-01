@@ -244,6 +244,12 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
     }
   }
 
+  public boolean inu_transientFocus;
+
+  private int inu_getFocusGainToRequest() {
+    return inu_transientFocus && focusGainToRequest == AUDIOFOCUS_GAIN ? AUDIOFOCUS_GAIN_TRANSIENT : focusGainToRequest;
+  }
+
   private void abandonAudioFocusIfHeld() {
     if (audioFocusState == AUDIO_FOCUS_STATE_NO_FOCUS) {
       return;
@@ -260,7 +266,7 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
     return audioManager.requestAudioFocus(
         focusListener,
         Util.getStreamTypeForAudioUsage(checkNotNull(audioAttributes).usage),
-        focusGainToRequest);
+        inu_getFocusGainToRequest());
   }
 
   @RequiresApi(26)
@@ -268,7 +274,7 @@ import org.checkerframework.checker.nullness.qual.MonotonicNonNull;
     if (audioFocusRequest == null || rebuildAudioFocusRequest) {
       AudioFocusRequest.Builder builder =
           audioFocusRequest == null
-              ? new AudioFocusRequest.Builder(focusGainToRequest)
+              ? new AudioFocusRequest.Builder(inu_getFocusGainToRequest())
               : new AudioFocusRequest.Builder(audioFocusRequest);
 
       boolean willPauseWhenDucked = willPauseWhenDucked();

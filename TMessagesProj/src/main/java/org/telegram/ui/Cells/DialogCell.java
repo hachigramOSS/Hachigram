@@ -122,6 +122,7 @@ import org.telegram.ui.Components.Text;
 import org.telegram.ui.Components.TextStyleSpan;
 import org.telegram.ui.Components.TimerDrawable;
 import org.telegram.ui.Components.TypefaceSpan;
+import org.telegram.ui.Components.URLSpanMono;
 import org.telegram.ui.Components.URLSpanNoUnderline;
 import org.telegram.ui.Components.URLSpanNoUnderlineBold;
 import org.telegram.ui.Components.VectorAvatarThumbDrawable;
@@ -2761,7 +2762,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             if (messageString instanceof Spannable) {
                 Spannable messageStringSpannable = (Spannable) messageString;
                 for (Object span : messageStringSpannable.getSpans(0, messageStringSpannable.length(), Object.class)) {
-                    if (span instanceof ClickableSpan || span instanceof CodeHighlighting.Span || currentDialogCommunityId == 0 && !isFolderCell() && span instanceof TypefaceSpan || span instanceof CodeHighlighting.ColorSpan || span instanceof QuoteSpan || span instanceof QuoteSpan.QuoteStyleSpan || (span instanceof StyleSpan && ((StyleSpan) span).getStyle() == android.graphics.Typeface.BOLD)) {
+                    if (span instanceof ClickableSpan || span instanceof URLSpanMono || span instanceof CodeHighlighting.Span || currentDialogCommunityId == 0 && !isFolderCell() && span instanceof TypefaceSpan || span instanceof CodeHighlighting.ColorSpan || span instanceof QuoteSpan || span instanceof QuoteSpan.QuoteStyleSpan || (span instanceof StyleSpan && ((StyleSpan) span).getStyle() == android.graphics.Typeface.BOLD)) {
                         messageStringSpannable.removeSpan(span);
                     }
                 }

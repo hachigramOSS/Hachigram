@@ -240,6 +240,13 @@ public class PhotoCropView extends FrameLayout {
         return cropView.rotate(diff);
     }
 
+    public boolean inu_rotateKeepingCrop(float diff) {
+        if (wheelView != null) {
+            wheelView.reset(false);
+        }
+        return cropView.inu_rotateKeepingCrop(diff);
+    }
+
     public boolean mirror() {
         return cropView.mirror();
     }

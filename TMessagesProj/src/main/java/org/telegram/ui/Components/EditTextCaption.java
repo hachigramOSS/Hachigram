@@ -524,7 +524,65 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
     }
 
     public void makeSelectedRegular() {
-        applyTextStyleToSelection(null);
+        int start, end;
+        if (selectionStart >= 0 && selectionEnd >= 0) {
+            start = selectionStart;
+            end = selectionEnd;
+            selectionStart = selectionEnd = -1;
+        } else {
+            start = getSelectionStart();
+            end = getSelectionEnd();
+        }
+        if (start < 0 || end < 0 || start == end) return;
+        if (start > end) { int t = start; start = end; end = t; }
+        Editable editable = getText();
+        if (editable == null) return;
+
+        for (CharacterStyle sp : editable.getSpans(start, end, CharacterStyle.class)) {
+            TextStyleSpan.TextStyleRun run;
+            if (sp instanceof TextStyleSpan) {
+                run = ((TextStyleSpan) sp).getTextStyleRun();
+            } else if (sp instanceof URLSpanReplacement) {
+                run = ((URLSpanReplacement) sp).getTextStyleRun();
+            } else {
+                continue;
+            }
+            int ss = editable.getSpanStart(sp);
+            int se = editable.getSpanEnd(sp);
+            editable.removeSpan(sp);
+            if (ss < start) {
+                CharacterStyle left = sp instanceof TextStyleSpan
+                        ? new TextStyleSpan(new TextStyleSpan.TextStyleRun(run))
+                        : new URLSpanReplacement(((URLSpanReplacement) sp).getURL(), run != null ? new TextStyleSpan.TextStyleRun(run) : null);
+                editable.setSpan(left, ss, start, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            if (se > end) {
+                CharacterStyle right = sp instanceof TextStyleSpan
+                        ? new TextStyleSpan(new TextStyleSpan.TextStyleRun(run))
+                        : new URLSpanReplacement(((URLSpanReplacement) sp).getURL(), run != null ? new TextStyleSpan.TextStyleRun(run) : null);
+                editable.setSpan(right, end, se, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+
+        for (CodeHighlighting.Span c : editable.getSpans(start, end, CodeHighlighting.Span.class)) {
+            editable.removeSpan(c);
+        }
+
+        QuoteSpan[] quotes = editable.getSpans(start, end, QuoteSpan.class);
+        for (QuoteSpan q : quotes) {
+            editable.removeSpan(q);
+            editable.removeSpan(q.styleSpan);
+            if (q.collapsedSpan != null) {
+                editable.removeSpan(q.collapsedSpan);
+            }
+        }
+        if (quotes.length > 0) {
+            invalidateQuotes(true);
+        }
+
+        if (delegate != null) {
+            delegate.onSpansChanged();
+        }
     }
 
     public void setSelectionOverride(int start, int end) {
@@ -668,7 +726,11 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
             start = getSelectionStart();
             end = getSelectionEnd();
         }
-        MediaDataController.addStyleToText(span, start, end, getText(), allowTextEntitiesIntersection);
+        if (span != null) {
+            inu_applyTextStyleToSelection(span, start, end);
+        } else {
+            MediaDataController.addStyleToText(null, start, end, getText(), allowTextEntitiesIntersection);
+        }
 
         if (span == null) {
             Editable editable = getText();
@@ -691,6 +753,71 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
         if (delegate != null) {
             delegate.onSpansChanged();
         }
+    }
+
+    // stock MediaDataController.addStyleToText carves the unstyled remainder with a single (start,end) pair,
+    // so with 2+ overlapping spans in the selection it re-splits later spans against the wrong bounds and
+    // smears them across the gap (e.g. mono leaking over the whole selection). split each span independently.
+    private void inu_applyTextStyleToSelection(TextStyleSpan span, int start, int end) {
+        Editable editable = getText();
+        if (editable == null) return;
+        if (start > end) { int t = start; start = end; end = t; }
+        if (start < 0) start = 0;
+        if (end > editable.length()) end = editable.length();
+        if (start >= end) return;
+
+        TextStyleSpan.TextStyleRun newRun = span.getTextStyleRun();
+        boolean[] covered = new boolean[end - start];
+
+        for (CharacterStyle old : editable.getSpans(start, end, CharacterStyle.class)) {
+            TextStyleSpan.TextStyleRun run;
+            if (old instanceof TextStyleSpan) {
+                run = ((TextStyleSpan) old).getTextStyleRun();
+            } else if (old instanceof URLSpanReplacement) {
+                run = ((URLSpanReplacement) old).getTextStyleRun();
+                if (run == null) run = new TextStyleSpan.TextStyleRun();
+            } else {
+                continue;
+            }
+            int ss = editable.getSpanStart(old);
+            int se = editable.getSpanEnd(old);
+            int oStart = Math.max(start, ss);
+            int oEnd = Math.min(end, se);
+            editable.removeSpan(old);
+            if (ss < oStart) {
+                editable.setSpan(inu_cloneStyleSpan(old, run, null), ss, oStart, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+            if (oStart < oEnd) {
+                editable.setSpan(inu_cloneStyleSpan(old, run, newRun), oStart, oEnd, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+                for (int i = oStart - start; i < oEnd - start; i++) covered[i] = true;
+            }
+            if (oEnd < se) {
+                editable.setSpan(inu_cloneStyleSpan(old, run, null), oEnd, se, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+            }
+        }
+
+        int i = 0;
+        while (i < covered.length) {
+            if (covered[i]) { i++; continue; }
+            int gap = i;
+            while (i < covered.length && !covered[i]) i++;
+            editable.setSpan(new TextStyleSpan(new TextStyleSpan.TextStyleRun(newRun)), start + gap, start + i, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+    }
+
+    private CharacterStyle inu_cloneStyleSpan(CharacterStyle base, TextStyleSpan.TextStyleRun baseRun, TextStyleSpan.TextStyleRun mergeRun) {
+        TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun(baseRun);
+        if (mergeRun != null) {
+            if (allowTextEntitiesIntersection) {
+                run.merge(mergeRun);
+            } else {
+                run.replace(mergeRun);
+            }
+        }
+        if (base instanceof URLSpanReplacement) {
+            return new URLSpanReplacement(((URLSpanReplacement) base).getURL(), run);
+        }
+        return new TextStyleSpan(run);
     }
 
     @Override

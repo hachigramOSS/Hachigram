@@ -5,6 +5,8 @@ import android.graphics.BitmapShader;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.Shader;
 import android.os.Process;
@@ -40,6 +42,7 @@ public class SpoilerEffectBitmapFactory {
     private Bitmap backgroundBitmap;
     private Canvas backgroundCanvas;
     private Paint shaderPaint;
+    private final Paint clearPaint = new Paint();
     private long lastUpdateTime;
     private ArrayList<SpoilerEffect> shaderSpoilerEffects;
     private boolean isRunning;
@@ -55,6 +58,7 @@ public class SpoilerEffectBitmapFactory {
         for (int a = 0; a < buffers.length; a++) {
             buffers[a] = new PointsBuffer();
         }
+        clearPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.CLEAR));
     }
 
     Paint getPaint() {
@@ -155,10 +159,19 @@ public class SpoilerEffectBitmapFactory {
                 if (backgroundBitmap == null) {
                     backgroundBitmap = Bitmap.createBitmap(size, size, Bitmap.Config.ALPHA_8);
                     backgroundCanvas = new Canvas(backgroundBitmap);
+                    doDraw(backgroundCanvas, new Rect(0, 0, size, size));
                 } else {
-                    backgroundBitmap.eraseColor(Color.TRANSPARENT);
+                    // Refresh only the area covered by visible spoilers this frame; keep the rest of
+                    // the tile's previous noise. Erasing the whole tile and repainting just the clip
+                    // made any spoiler that didn't refresh its region this frame sample transparent
+                    // pixels -> blink while scrolling (worst for cells entering at the screen edges,
+                    // whose invalidation is deferred by Choreographer60FpsContent).
+                    backgroundCanvas.drawRect(clipRegionDump, clearPaint);
+                    backgroundCanvas.save();
+                    backgroundCanvas.clipRect(clipRegionDump);
+                    doDraw(backgroundCanvas, clipRegionDump);
+                    backgroundCanvas.restore();
                 }
-                doDraw(backgroundCanvas, clipRegionDump);
                 Utilities.copyBitmaps(backgroundBitmap, bitmapBuffers[nextBitmapBuffer].bitmap);
                 AndroidUtilities.runOnUIThread(() -> {
                     currentBitmapBuffer = nextBitmapBuffer;

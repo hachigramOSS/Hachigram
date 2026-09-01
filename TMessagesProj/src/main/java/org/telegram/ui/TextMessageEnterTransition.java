@@ -359,9 +359,6 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             drawableFromTop -= dp(46);
         }
 
-        listViewTargetBottomPadding = listView.getPaddingBottom()
-            - (chatActivity.getInputIslandHeightTarget() - dp(44));
-
         gradientMatrix = new Matrix();
         gradientPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         gradientPaint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.DST_IN));
@@ -434,7 +431,6 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
     private final RectF messageReplySelectorRect = new RectF();
     private Path replyRoundRect;
     private float[] roundRectRadii;
-    private float listViewTargetBottomPadding;
 
     public void onDraw(Canvas canvas) {
         if (drawBitmaps && !initBitmaps && crossfadeTextBitmap != null && messageView.getTransitionParams().wasDraw) {
@@ -464,7 +460,7 @@ public class TextMessageEnterTransition implements MessageEnterTransitionContain
             messageViewX = messageView.getX() + listView.getX() - container.getX();
             messageViewY = messageView.getTop() + messageView.getPaddingTop() + listView.getTop() - container.getY();
 
-            messageViewY -= (listViewTargetBottomPadding - listView.getPaddingBottom());
+            messageViewY += (chatActivity.getInputIslandHeightTarget() - dp(ChatActivityEnterView.DEFAULT_HEIGHT));
 
             lastMessageX = messageViewX;
             lastMessageY = messageViewY;

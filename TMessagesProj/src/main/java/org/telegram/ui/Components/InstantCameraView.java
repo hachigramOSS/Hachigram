@@ -2560,6 +2560,7 @@ public class InstantCameraView extends FrameLayout implements NotificationCenter
         }
 
         public void stopRecording(int send, SendOptions options) {
+            if (handler == null) return;
             handler.sendMessage(handler.obtainMessage(MSG_STOP_RECORDING, send, 0, options));
             AndroidUtilities.runOnUIThread(() -> {
                 NotificationCenter.getInstance(currentAccount).postNotificationName(NotificationCenter.stopAllHeavyOperations, 512);

@@ -1224,7 +1224,12 @@ public class DialogsAdapter extends RecyclerListView.SelectionAdapter implements
             toDialog.pinnedNum = oldNum;
         }
         Collections.swap(dialogs, fromIndex, toIndex);
-        updateList(null);
+        if (!isCalculatingDiff && fromPosition >= 0 && fromPosition < itemInternals.size() && toPosition >= 0 && toPosition < itemInternals.size()) {
+            itemInternals.add(toPosition, itemInternals.remove(fromPosition));
+            notifyItemMoved(fromPosition, toPosition);
+        } else {
+            updateList(null);
+        }
     }
 
     @Override

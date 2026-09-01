@@ -125,6 +125,12 @@ public class TextCheckCell2 extends FrameLayout {
 
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+        if (collapseViewContainer != null && collapseViewContainer.getVisibility() == VISIBLE) {
+            collapseViewContainer.measure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.AT_MOST), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
+            textView.setMaxWidth(MeasureSpec.getSize(widthMeasureSpec) - dp(21 + 76 + 20) - collapseViewContainer.getMeasuredWidth());
+        } else {
+            textView.setMaxWidth(Integer.MAX_VALUE);
+        }
         if (isMultiline) {
             super.onMeasure(MeasureSpec.makeMeasureSpec(MeasureSpec.getSize(widthMeasureSpec), MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(0, MeasureSpec.UNSPECIFIED));
         } else {

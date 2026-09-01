@@ -774,11 +774,30 @@ public class MessageObject {
         return null;
     }
 
+    private static boolean inu_reactionsEqual(TLRPC.TL_messageReactions a, TLRPC.TL_messageReactions b) {
+        if (a == null || b == null) {
+            return a == b;
+        }
+        if (a.results.size() != b.results.size() || hasUnreadReactions(a) != hasUnreadReactions(b)) {
+            return false;
+        }
+        for (int i = 0; i < a.results.size(); i++) {
+            TLRPC.ReactionCount reactionA = a.results.get(i);
+            TLRPC.ReactionCount reactionB = b.results.get(i);
+            if (reactionA.count != reactionB.count || reactionA.chosen != reactionB.chosen || !ReactionsLayoutInBubble.equalsTLReaction(reactionA.reaction, reactionB.reaction)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     public void copyStableParams(MessageObject old) {
         stableId = old.stableId;
         messageOwner.premiumEffectWasPlayed = old.messageOwner.premiumEffectWasPlayed;
         forcePlayEffect = old.forcePlayEffect;
         wasJustSent = old.wasJustSent;
+        reactionsLastCheckTime = old.reactionsLastCheckTime;
+        reactionsChanged |= !inu_reactionsEqual(old.messageOwner.reactions, messageOwner.reactions);
         if (messageOwner.reactions != null && messageOwner.reactions.results != null && !messageOwner.reactions.results.isEmpty() && old.messageOwner.reactions != null && old.messageOwner.reactions.results != null) {
             for (int i = 0; i < messageOwner.reactions.results.size(); i++) {
                 TLRPC.ReactionCount reactionCount = messageOwner.reactions.results.get(i);
@@ -791,6 +810,10 @@ public class MessageObject {
             }
         }
         isSpoilersRevealed = old.isSpoilersRevealed;
+        isMediaSpoilersRevealed = old.isMediaSpoilersRevealed;
+        expandedQuotes = old.expandedQuotes;
+        expandedExplanation = old.expandedExplanation;
+        factCheckExpanded = old.factCheckExpanded;
         messageOwner.replyStory = old.messageOwner.replyStory;
         if (messageOwner.media != null && old.messageOwner.media != null) {
             messageOwner.media.storyItem = old.messageOwner.media.storyItem;

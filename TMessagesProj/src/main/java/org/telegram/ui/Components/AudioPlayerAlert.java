@@ -320,8 +320,32 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             private int lastMeasturedHeight;
             private int lastMeasturedWidth;
 
+            private float inu_downX, inu_downY;
+            private boolean inu_headerTracking, inu_headerForwarding, inu_backdropTracking;
+
+            private void inu_forwardToListView(MotionEvent e, int action) {
+                MotionEvent forwarded = MotionEvent.obtain(e);
+                if (action != -1) {
+                    forwarded.setAction(action);
+                }
+                forwarded.offsetLocation(-listView.getX(), -listView.getY());
+                listView.dispatchTouchEvent(forwarded);
+                forwarded.recycle();
+            }
+
             @Override
             public boolean onTouchEvent(MotionEvent e) {
+                if (inu_headerForwarding) {
+                    if (!isDismissed()) {
+                        inu_forwardToListView(e, -1);
+                    }
+                    int action = e.getActionMasked();
+                    if (action == MotionEvent.ACTION_UP || action == MotionEvent.ACTION_CANCEL) {
+                        inu_headerForwarding = false;
+                        inu_headerTracking = false;
+                    }
+                    return true;
+                }
                 return !isDismissed() && super.onTouchEvent(e);
             }
 
@@ -353,6 +377,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 int contentSize = dp(179 + (!isMyList() && !noforwards ? 52 : 0));
                 if (playlist.size() > 1) {
                     contentSize += backgroundPaddingTop + playlist.size() * dp(56);
+                    if (isProfilePlaylist) {
+                        contentSize += ActionBar.getCurrentActionBarHeight();
+                    }
                 }
                 int padding;
                 if (searching || keyboardVisible) {
@@ -389,6 +416,45 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
 
             @Override
             public boolean onInterceptTouchEvent(MotionEvent ev) {
+                final boolean inu_profileSheet = isProfilePlaylist && !searching && !keyboardVisible;
+                final float inu_sheetTop = actionBar.getY() + AndroidUtilities.statusBarHeight;
+                switch (ev.getActionMasked()) {
+                    case MotionEvent.ACTION_DOWN:
+                        inu_headerTracking = inu_profileSheet
+                            && ev.getY() >= actionBar.getY()
+                            && ev.getY() <= actionBar.getY() + actionBar.getMeasuredHeight();
+                        inu_backdropTracking = inu_profileSheet && scrollOffsetY != 0
+                            && actionBarBackground.getAlpha() == 0.0f
+                            && ev.getY() < inu_sheetTop;
+                        inu_downX = ev.getX();
+                        inu_downY = ev.getY();
+                        break;
+                    case MotionEvent.ACTION_MOVE: {
+                        final float dx = ev.getX() - inu_downX;
+                        final float dy = ev.getY() - inu_downY;
+                        final int slop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
+                        if (inu_backdropTracking && Math.hypot(dx, dy) > slop) {
+                            inu_backdropTracking = false;
+                        }
+                        if (inu_headerTracking && !inu_headerForwarding && Math.abs(dy) > slop && Math.abs(dy) > Math.abs(dx)) {
+                            inu_headerForwarding = true;
+                            inu_forwardToListView(ev, MotionEvent.ACTION_DOWN);
+                            return true;
+                        }
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP:
+                    case MotionEvent.ACTION_CANCEL:
+                        inu_headerTracking = false;
+                        if (inu_backdropTracking) {
+                            inu_backdropTracking = false;
+                            if (ev.getActionMasked() == MotionEvent.ACTION_UP && !isDismissed()) {
+                                dismiss();
+                                return true;
+                            }
+                        }
+                        break;
+                }
                 if (ev.getAction() == MotionEvent.ACTION_DOWN && scrollOffsetY != 0 && actionBar.getAlpha() == 0.0f) {
                     boolean dismiss;
                     if (listAdapter.getItemCount() > 0) {
@@ -473,8 +539,9 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
 
                     if (isProfilePlaylist) {
                         actionBar.setVisibility(View.VISIBLE);
-                        actionBar.setTranslationY(Math.max(0, top - backgroundPaddingTop - dp(10) + dp(6) * (1.0f - actionBarSlide) - actionBar.getTop()));
-                        actionBarShadow.setTranslationY(Math.max(0, top - backgroundPaddingTop - dp(10) + dp(6) * (1.0f - actionBarSlide) - actionBar.getTop()));
+                        final float actionBarTranslation = Math.max(0, top + backgroundPaddingTop - AndroidUtilities.statusBarHeight + dp(6) * (1.0f - actionBarSlide) - actionBar.getTop());
+                        actionBar.setTranslationY(actionBarTranslation);
+                        actionBarShadow.setTranslationY(actionBarTranslation);
                     }
                 }
             }
@@ -1365,6 +1432,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             actionBar.setAlpha(1.0f);
             actionBarBackground.setAlpha(0.0f);
             actionBarSlideProperty.set(actionBar, 0.0f);
+        } else {
+            // menuOccupyBack=true makes the search container lay out at x=0; without
+            // this seed the search field overlaps the back button when search opens.
+            actionBarSlideProperty.set(actionBar, 1.0f);
         }
 
         listAdapter.setup();

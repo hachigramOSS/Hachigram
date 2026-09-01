@@ -119,6 +119,14 @@ public class HintDialogCell extends FrameLayout {
             checkBox.setChecked(false, false);
             setWillNotDraw(false);
         }
+
+        NotificationCenter.getInstance(currentAccount).listen(this, NotificationCenter.updateInterfaces, args -> update((Integer) args[0]));
+    }
+
+    @Override
+    protected void onAttachedToWindow() {
+        super.onAttachedToWindow();
+        update(0);
     }
 
     public void showPremiumBlocked() {

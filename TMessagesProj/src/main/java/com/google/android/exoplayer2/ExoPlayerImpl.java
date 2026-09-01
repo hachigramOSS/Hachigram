@@ -112,7 +112,7 @@ import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.concurrent.TimeoutException;
 
 /** The default implementation of {@link ExoPlayer}. */
-/* package */ final class ExoPlayerImpl extends BasePlayer
+public final class ExoPlayerImpl extends BasePlayer
     implements ExoPlayer,
         ExoPlayer.AudioComponent,
         ExoPlayer.VideoComponent,
@@ -1422,6 +1422,10 @@ import java.util.concurrent.TimeoutException;
     updatePlayWhenReady(
         playWhenReady, playerCommand, getPlayWhenReadyChangeReason(playWhenReady, playerCommand));
     listeners.flushEvents();
+  }
+
+  public void inu_setTransientAudioFocus(boolean transientFocus) {
+    audioFocusManager.inu_transientFocus = transientFocus;
   }
 
   @Override

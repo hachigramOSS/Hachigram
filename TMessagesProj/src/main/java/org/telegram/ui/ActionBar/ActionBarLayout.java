@@ -273,6 +273,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 drawerLayoutContainer.getInternalNavbarPaint().getColor() :
                 Theme.getColor(Theme.key_windowBackgroundGray);
 
+            boolean inu_drawNavbarOverChildren = false;
             if (this == sheetContainer) {
                 final float hasSheets = hasSheetsAnimator.set(sheetFragment != null && sheetFragment.hasSheet());
                 if (hasSheets > 0) {
@@ -282,20 +283,27 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 final BaseFragment fragment = getLastFragment();
                 if (fragment != null && !fragment.inPreviewMode) {
                     boolean drawNavbar = false;
+                    boolean inu_hasNonOccupyingSheet = false;
                     if (this == containerView && edgeToEdgeSupportMode != EdgeToEdgeSupportMode.NONE) {
                         for (int a = 0, N = getChildCount(); a < N; a++) {
                             View child2 = getChildAt(a);
                             if (child2 instanceof BaseFragment.AttachedSheetWindow) {
                                 drawNavbar = true;
-                                break;
+                                if (!((BaseFragment.AttachedSheetWindow) child2).inu_occupyNavigationBar()) {
+                                    inu_hasNonOccupyingSheet = true;
+                                }
                             }
                         }
                     }
 
                     drawInsets(canvas, color, drawNavbar);
+                    inu_drawNavbarOverChildren = inu_hasNonOccupyingSheet && getPaddingBottom() <= 0;
                 }
             }
             super.dispatchDraw(canvas);
+            if (inu_drawNavbarOverChildren && systemAndDisplayInsets.bottom > 0) {
+                canvas.drawRect(0, getHeight() - systemAndDisplayInsets.bottom, getWidth(), getHeight(), Theme.fillingPaint(color));
+            }
         }
 
         private void drawInsets(Canvas canvas, int color, boolean drawNavigationBar) {
@@ -320,8 +328,12 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
             int width = MeasureSpec.getSize(widthMeasureSpec);
             int height = MeasureSpec.getSize(heightMeasureSpec);
             boolean isPortrait = height > width;
-            if (wasPortrait != isPortrait && isInPreviewMode()) {
-                finishPreviewFragment();
+            if (wasPortrait != isPortrait && isInPreviewMode() && !inu_previewFinishPosted) {
+                inu_previewFinishPosted = true;
+                AndroidUtilities.runOnUIThread(() -> {
+                    inu_previewFinishPosted = false;
+                    finishPreviewFragment();
+                });
             }
             wasPortrait = isPortrait;
 
@@ -348,7 +360,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
                 View child = getChildAt(a);
                 if (!(child instanceof ActionBar)) {
                     if (child instanceof BaseFragment.AttachedSheetWindow) {
-                        measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, getBottomTabsHeight(false) > 0 || !isSupportEdgeToEdge ? 0 : systemAndDisplayInsets.bottom);
+                        measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, getBottomTabsHeight(false) > 0 || !isSupportEdgeToEdge || ((BaseFragment.AttachedSheetWindow) child).inu_occupyNavigationBar() ? 0 : systemAndDisplayInsets.bottom);
                     } else if (child.getTag(R.id.sheet_attached_to_fragment_tag) != null || child.getFitsSystemWindows()) {
                         int addHeight = isSupportEdgeToEdge ? systemAndDisplayInsets.bottom : 0;
                         measureChildWithMargins(child, widthMeasureSpec, 0, heightMeasureSpec, addHeight);
@@ -572,6 +584,8 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
     private boolean inPreviewMode;
     private boolean previewOpenAnimationInProgress;
     private ColorDrawable previewBackgroundDrawable;
+
+    private boolean inu_previewFinishPosted;
 
     public LayoutContainer containerView;
     public LayoutContainer containerViewBack;

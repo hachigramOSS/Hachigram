@@ -1287,8 +1287,6 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     if (message.getId() == messageObject.getId()) {
                         imageReceiver = cell.imageReceiver;
                         cell.getLocationInWindow(coords);
-                        coords[0] += Math.round(cell.imageReceiver.getImageX());
-                        coords[1] += Math.round(cell.imageReceiver.getImageY());
                     }
                 } else if (view instanceof SharedDocumentCell) {
                     SharedDocumentCell cell = (SharedDocumentCell) view;
@@ -1318,7 +1316,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                     object.viewX = coords[0];
                     object.viewY = coords[1] - (Build.VERSION.SDK_INT >= 21 ? 0 : AndroidUtilities.statusBarHeight);
                     object.parentView = listView;
-                    object.animatingImageView = mediaPages[0].animatingImageView;
+                    object.animatingImageView = null; // inu: matching photo-viewer-keyboard-dismiss
                     mediaPages[0].listView.getLocationInWindow(coords);
                     object.animatingImageViewYOffset = -coords[1];
                     object.imageReceiver = imageReceiver;
@@ -1556,6 +1554,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     private boolean maybeStartTracking;
     private int startedTrackingX;
     private int startedTrackingY;
+    private float inu_additionalOffset;
     private VelocityTracker velocityTracker;
 
     protected boolean isActionModeShowed;
@@ -3720,9 +3719,18 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                             );
                             final int paddingTopNew = page.listView.getPaddingTop();
                             final int scroll = paddingTopOld - paddingTopNew;
-                            AndroidUtilities.doOnLayout(page.listView, () -> page.listView.scrollBy(0, scroll));
+                            AndroidUtilities.doOnLayout(page.listView, () -> { if (page.listView.computeVerticalScrollOffset() > 0) page.listView.scrollBy(0, scroll); });
+                            if (page.progressView != null) {
+                                final boolean photos = page.selectedType == TAB_PHOTOVIDEO || isAnyStoryPageType(page.selectedType);
+                                ((FrameLayout.LayoutParams) page.progressView.getLayoutParams()).topMargin = dp(48 + (photos ? 8 : 12)) + topLayoutPadding;
+                                page.progressView.requestLayout();
+                            }
                         }
                     }
+                }
+                if (savedMessagesContainer != null && savedMessagesContainer.getParent() instanceof MediaPage) {
+                    ((FrameLayout.LayoutParams) savedMessagesContainer.getLayoutParams()).topMargin = dp(48 + 8) + topLayoutPadding;
+                    savedMessagesContainer.requestLayout();
                 }
                 // SharedMediaLayout.this.setPadding(0, , 0, 0);
             });
@@ -5639,7 +5647,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         maybeStartTracking = false;
         startedTracking = true;
         onTabScroll(true);
-        startedTrackingX = (int) ev.getX();
+        startedTrackingX = (int) (ev.getX() + inu_additionalOffset);
         actionBar.setEnabled(false);
         scrollSlidingTextTabStrip.setEnabled(false);
         mediaPages[1].selectedType = id;
@@ -5773,10 +5781,56 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
 
     private boolean disableScrolling;
 
-    @Override
+    private void inu_swapMediaPages() {
+        MediaPage tempPage = mediaPages[0];
+        mediaPages[0] = mediaPages[1];
+        mediaPages[1] = tempPage;
+        selectTabWithId(mediaPages[0].selectedType, 1.0f);
+    }
+
     public boolean onTouchEvent(MotionEvent ev) {
         if (disableScrolling) {
             return false;
+        }
+        if (ev != null && ev.getAction() == MotionEvent.ACTION_DOWN && tabsAnimationInProgress
+                && !isInPinchToZoomTouchMode
+                && (profileActivity.getParentLayout() == null || !profileActivity.getParentLayout().checkTransitionAnimation())
+                && ev.getY() >= dp(48 + 42)) {
+            if (velocityTracker == null) {
+                velocityTracker = VelocityTracker.obtain();
+            } else {
+                velocityTracker.clear();
+            }
+            velocityTracker.addMovement(ev);
+            startedTracking = true;
+            startedTrackingPointerId = ev.getPointerId(0);
+            startedTrackingX = (int) ev.getX();
+            startedTrackingY = (int) ev.getY();
+            if (animatingForward) {
+                if (startedTrackingX < mediaPages[0].getMeasuredWidth() + mediaPages[0].getTranslationX()) {
+                    inu_additionalOffset = mediaPages[0].getTranslationX();
+                } else {
+                    inu_swapMediaPages();
+                    animatingForward = false;
+                    inu_additionalOffset = mediaPages[0].getTranslationX();
+                }
+            } else {
+                if (startedTrackingX < mediaPages[1].getMeasuredWidth() + mediaPages[1].getTranslationX()) {
+                    inu_swapMediaPages();
+                    animatingForward = true;
+                    inu_additionalOffset = mediaPages[0].getTranslationX();
+                } else {
+                    inu_additionalOffset = mediaPages[0].getTranslationX();
+                }
+            }
+            if (tabsAnimation != null) {
+                tabsAnimation.removeAllListeners();
+                tabsAnimation.cancel();
+                tabsAnimation = null;
+            }
+            tabsAnimationInProgress = false;
+            getParent().requestDisallowInterceptTouchEvent(true);
+            return true;
         }
         if (profileActivity.getParentLayout() != null && !profileActivity.getParentLayout().checkTransitionAnimation() && !checkTabsAnimationInProgress() && !isInPinchToZoomTouchMode) {
             if (ev != null) {
@@ -5790,13 +5844,14 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 }
             }
             if (ev != null && ev.getAction() == MotionEvent.ACTION_DOWN && !startedTracking && !maybeStartTracking && ev.getY() >= dp(48 + 42)) {
+                inu_additionalOffset = 0;
                 startedTrackingPointerId = ev.getPointerId(0);
                 maybeStartTracking = true;
                 startedTrackingX = (int) ev.getX();
                 startedTrackingY = (int) ev.getY();
                 velocityTracker.clear();
             } else if (ev != null && ev.getAction() == MotionEvent.ACTION_MOVE && ev.getPointerId(0) == startedTrackingPointerId) {
-                int dx = (int) (ev.getX() - startedTrackingX);
+                int dx = (int) (ev.getX() - startedTrackingX + inu_additionalOffset);
                 int dy = Math.abs((int) ev.getY() - startedTrackingY);
                 if (startedTracking && (animatingForward && dx > 0 || !animatingForward && dx < 0)) {
                     if (!prepareForMoving(ev, dx < 0)) {
@@ -5807,6 +5862,10 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                         mediaPages[1].setTranslationX(animatingForward ? mediaPages[0].getMeasuredWidth() : -mediaPages[0].getMeasuredWidth());
                         selectTabWithId(mediaPages[1].selectedType, 0);
                         onTabProgress(getTabProgress());
+                        if (inu_additionalOffset != 0) {
+                            inu_additionalOffset = 0;
+                            getParent().requestDisallowInterceptTouchEvent(false);
+                        }
                     }
                 }
                 if (maybeStartTracking && !startedTracking) {
@@ -5872,7 +5931,17 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         if (startedTracking) {
             float x = mediaPages[0].getX();
             tabsAnimation = new AnimatorSet();
-            backAnimation = Math.abs(x) < mediaPages[0].getMeasuredWidth() / 3.0f && (Math.abs(velX) < 3500 || Math.abs(velX) < Math.abs(velY));
+            if (inu_additionalOffset != 0) {
+                if (Math.abs(velX) > 1500) {
+                    backAnimation = animatingForward ? velX > 0 : velX < 0;
+                } else if (animatingForward) {
+                    backAnimation = mediaPages[1].getX() > (mediaPages[0].getMeasuredWidth() >> 1);
+                } else {
+                    backAnimation = mediaPages[0].getX() < (mediaPages[0].getMeasuredWidth() >> 1);
+                }
+            } else {
+                backAnimation = Math.abs(x) < mediaPages[0].getMeasuredWidth() / 3.0f && (Math.abs(velX) < 3500 || Math.abs(velX) < Math.abs(velY));
+            }
             float dx;
             ValueAnimator invalidate = ValueAnimator.ofFloat(0, 1);
             invalidate.addUpdateListener(anm -> onTabProgress(getTabProgress()));
@@ -7374,7 +7443,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 }
                 if (savedMessagesContainer.getParent() != mediaPages[a]) {
                     AndroidUtilities.removeFromParent(savedMessagesContainer);
-                    mediaPages[a].addView(savedMessagesContainer, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.FILL, 0, 48 + 8, 0, 0));
+                    final FrameLayout.LayoutParams savedLp = LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.FILL, 0, 48 + 8, 0, 0);
+                    savedLp.topMargin += topLayoutPadding;
+                    mediaPages[a].addView(savedMessagesContainer, savedLp);
                 }
             } else if (mediaPages[a].selectedType == TAB_BOT_PREVIEWS) {
                 if (currentAdapter != null) {
@@ -7397,7 +7468,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
                 }
             }
             final boolean photos = mediaPages[a].selectedType == TAB_PHOTOVIDEO || isAnyStoryPageType(mediaPages[a].selectedType);
-            mediaPages[a].progressView.setLayoutParams(LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.FILL, photos ? 0 : 12, 48 + (photos ? 8 : 12), photos ? 0 : 12, photos ? 0 : 12));
+            final FrameLayout.LayoutParams progressLp = LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.MATCH_PARENT, Gravity.FILL, photos ? 0 : 12, 48 + (photos ? 8 : 12), photos ? 0 : 12, photos ? 0 : 12);
+            progressLp.topMargin += topLayoutPadding;
+            mediaPages[a].progressView.setLayoutParams(progressLp);
             if (sections) {
                 mediaPages[a].listView.setSections(false);
             } else {

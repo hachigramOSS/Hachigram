@@ -16,6 +16,12 @@ public class ChatListViewPaddingsAnimator {
     }
 
     private int currentAdditionalHeight;
+
+    // The list is laid out once before ChatActivity.updateChatListViewTopPadding first runs, with a
+    // zero top padding that was never meant to be shown. Compensating the scroll against that layout
+    // preserves a bogus position, so compensation only starts once a real top padding has been applied.
+    private boolean inu_appliedRealTopPadding;
+
     public void setPaddings(
         int paddingTopTarget,
         float paddingBottomAnimated, boolean allowScrollCompensation
@@ -41,7 +47,7 @@ public class ChatListViewPaddingsAnimator {
             final int dy = paddingTopOld - paddingTop;
 
 
-            if (allowScrollCompensation && dy != 0) {
+            if (allowScrollCompensation && dy != 0 && inu_appliedRealTopPadding) {
                 final boolean canScrollDown = recyclerView.canScrollVertically(1);
                 final boolean canScrollUp = recyclerView.canScrollVertically(-1);
                 if (dy < 0 && !canScrollDown || dy > 0 && !canScrollUp) {
@@ -63,6 +69,10 @@ public class ChatListViewPaddingsAnimator {
                     recyclerView.getPaddingRight(),
                     paddingBottom
             );
+
+            if (paddingTop != 0) {
+                inu_appliedRealTopPadding = true;
+            }
         }
     }
 

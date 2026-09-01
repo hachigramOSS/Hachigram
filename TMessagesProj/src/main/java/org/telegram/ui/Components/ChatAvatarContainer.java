@@ -1094,9 +1094,12 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
     }
 
     public void onDestroy() {
+        removeNotificationObservers();
         if (sharedMediaPreloader != null) {
             sharedMediaPreloader.onDestroy(parentFragment);
+            sharedMediaPreloader = null;
         }
+        parentFragment = null;
     }
 
     private void setTypingAnimation(boolean start) {
@@ -1607,18 +1610,22 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
     @Override
     protected void onDetachedFromWindow() {
         super.onDetachedFromWindow();
+        removeNotificationObservers();
+        if (emojiStatusDrawable != null) {
+            emojiStatusDrawable.detach();
+        }
+        if (botVerificationDrawable != null) {
+            botVerificationDrawable.detach();
+        }
+    }
+
+    private void removeNotificationObservers() {
         if (parentFragment != null) {
             NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.didUpdateConnectionState);
             NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.emojiLoaded);
             if (parentFragment.getChatMode() == ChatActivity.MODE_SAVED) {
                 NotificationCenter.getInstance(currentAccount).removeObserver(this, NotificationCenter.savedMessagesDialogsUpdate);
             }
-        }
-        if (emojiStatusDrawable != null) {
-            emojiStatusDrawable.detach();
-        }
-        if (botVerificationDrawable != null) {
-            botVerificationDrawable.detach();
         }
     }
 

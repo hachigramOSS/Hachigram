@@ -719,7 +719,6 @@ public class ThemeEditorView {
                     if (!isFullscreen) {
                         top += AndroidUtilities.statusBarHeight;
                         y += AndroidUtilities.statusBarHeight;
-                        height -= AndroidUtilities.statusBarHeight;
 
                         if (top + backgroundPaddingTop < AndroidUtilities.statusBarHeight * 2) {
                             int diff = Math.min(AndroidUtilities.statusBarHeight, AndroidUtilities.statusBarHeight * 2 - top - backgroundPaddingTop);

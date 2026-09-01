@@ -331,9 +331,6 @@ public class ReactionsEffectOverlay {
                     if (drawingCell instanceof ChatMessageCell) {
                         ChatMessageCell messageCell = (ChatMessageCell) drawingCell;
                         reactionButton = messageCell.getReactionButton(reaction);
-                        if (messageCell.drawPinnedBottom && !messageCell.shouldDrawTimeOnMedia()) {
-                            toY += AndroidUtilities.dp(2);
-                        }
                         toY += messageCell.getPaddingTop();
                     } else if (drawingCell instanceof ChatActionCell) {
                         reactionButton = ((ChatActionCell) drawingCell).getReactionButton(reaction);
@@ -656,7 +653,7 @@ public class ReactionsEffectOverlay {
                 } else if (animationType == ONLY_MOVE_ANIMATION) {
                     emojiImageView.setAnimatedReactionDrawable(new AnimatedEmojiDrawable(AnimatedEmojiDrawable.CACHE_TYPE_KEYBOARD, currentAccount, visibleReaction.documentId));
                 }
-                if (animationType == LONG_ANIMATION || animationType == SHORT_ANIMATION) {
+                if (animationType == LONG_ANIMATION || (animationType == SHORT_ANIMATION && LiteMode.isEnabled(LiteMode.FLAG_ANIMATED_EMOJI_CHAT))) {
                     AnimatedEmojiDrawable animatedEmojiDrawable = new AnimatedEmojiDrawable(AnimatedEmojiDrawable.CACHE_TYPE_KEYBOARD, currentAccount, visibleReaction.documentId);
                     int color;
                     if (messageObject != null) {
