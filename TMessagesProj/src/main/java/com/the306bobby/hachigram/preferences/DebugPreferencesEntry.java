@@ -67,7 +67,7 @@ public class DebugPreferencesEntry extends UniversalFragment {
 
     @Override
     protected CharSequence getTitle() {
-        return "Debug // WIP";
+        return "debug // wip";
     }
 
     @Override
@@ -78,49 +78,49 @@ public class DebugPreferencesEntry extends UniversalFragment {
 
     @Override
     protected void fillItems(ArrayList<UItem> items, UniversalAdapter adapter) {
-        items.add(UItem.asHeader("Misc"));
+        items.add(UItem.asHeader("misc"));
         if (!HachigramCoreConfig.isStandaloneStableBuild() && !HachigramCoreConfig.isPlayStoreBuild()) {
-            items.add(SettingsHelper.asSwitchCG(toastRpcRow, "Toast all RPC errors *", "You'll see RPC errors from Telegram's backend as toast messages.")
+            items.add(SettingsHelper.asSwitchCG(toastRpcRow, "toast all rpc errors *", "you'll see rpc errors from telegram's backend as toast messages.")
                     .setChecked(HachigramDebugConfig.INSTANCE.getShowRPCErrors())
             );
         }
-        items.add(SettingsHelper.asSwitchCG(oldTimeStyleRow, "Default time style in chats *", "Unlike iOS and TDesktop")
+        items.add(SettingsHelper.asSwitchCG(oldTimeStyleRow, "default time style in chats *", "unlike ios and tdesktop")
                 .setChecked(HachigramDebugConfig.INSTANCE.getOldTimeStyle())
         );
-        items.add(UItem.asButton(performanceClassRow, "Force performance class", SharedConfig.performanceClassName(SharedConfig.getDevicePerformanceClass())));
+        items.add(UItem.asButton(performanceClassRow, "force performance class", SharedConfig.performanceClassName(SharedConfig.getDevicePerformanceClass())));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
-            items.add(UItem.asButton(fixCallsNotifRow, "Fix calls notification *"));
+            items.add(UItem.asButton(fixCallsNotifRow, "fix calls notification *"));
         }
         items.add(UItem.asShadow(null));
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
             items.add(UItem.asHeader(getString(R.string.AP_Header_Appearance)));
-            items.add(SettingsHelper.asSwitchCG(newBlurRow, "New blur (GPU)")
+            items.add(SettingsHelper.asSwitchCG(newBlurRow, "new blur (gpu)")
                     .setChecked(SharedConfig.useNewBlur)
             );
             items.add(UItem.asShadow(null));
         }
 
         items.add(UItem.asHeader(getString(R.string.FilterChats)));
-        items.add(SettingsHelper.asSwitchCG(forceForumTabsRow, "Force Forum Tabs")
+        items.add(SettingsHelper.asSwitchCG(forceForumTabsRow, "force forum tabs")
                 .setChecked(SharedConfig.forceForumTabs)
         );
-        items.add(SettingsHelper.asSwitchCG(replacePunctuationRow, "Replace punctuation marks *", "Replace quotation marks and dashes like on TDesktop")
+        items.add(SettingsHelper.asSwitchCG(replacePunctuationRow, "replace punctuation marks *", "replace quotation marks and dashes like on tdesktop")
                 .setChecked(HachigramDebugConfig.INSTANCE.getReplacePunctuationMarks())
         );
-        items.add(SettingsHelper.asSwitchCG(editTextFixRow, "EditTextSugestionsFix *", "Emojis/formatting disappear when Samsung puts suggestions in edit")
+        items.add(SettingsHelper.asSwitchCG(editTextFixRow, "edittextsugestionsfix *", "emojis/formatting disappear when samsung puts suggestions in edit")
                 .setChecked(HachigramDebugConfig.INSTANCE.getEditTextSuggestionsFix())
         );
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-            items.add(UItem.asButton(audioSourceRow, "Microphone Audio Source *", getAudioSourceValue()));
+            items.add(UItem.asButton(audioSourceRow, "microphone audio source *", getAudioSourceValue()));
         }
-        items.add(SettingsHelper.asSwitchCG(sendMaxQualityRow, "Send videos at max quality *", "Max quality will be automatically selected when you send a video")
+        items.add(SettingsHelper.asSwitchCG(sendMaxQualityRow, "send videos at max quality *", "max quality will be automatically selected when you send a video")
                 .setChecked(HachigramDebugConfig.INSTANCE.getSendVideosAtMaxQuality())
         );
-        items.add(SettingsHelper.asSwitchCG(playGifAsVideoRow, "Play GIFs as Videos *")
+        items.add(SettingsHelper.asSwitchCG(playGifAsVideoRow, "play gifs as videos *")
                 .setChecked(HachigramDebugConfig.INSTANCE.getPlayGIFsAsVideos())
         );
-        items.add(SettingsHelper.asSwitchCG(hideTimestampRow, "Hide video timestamp *", "Saved progress for videos. Return exactly where you left off.")
+        items.add(SettingsHelper.asSwitchCG(hideTimestampRow, "hide video timestamp *", "saved progress for videos. return exactly where you left off.")
                 .setChecked(HachigramDebugConfig.INSTANCE.getHideVideoTimestamp())
         );
 
@@ -133,7 +133,7 @@ public class DebugPreferencesEntry extends UniversalFragment {
         items.add(UItem.asButton(importContactsRow, 0, getString(R.string.DebugMenuImportContacts)));
         items.add(UItem.asButton(reloadContactsRow, 0, getString(R.string.DebugMenuReloadContacts)));
         items.add(UItem.asButton(resetContactsRow, 0, getString(R.string.DebugMenuResetContacts)));
-        items.add(UItem.asShadow("* Hachigram's feature."));
+        items.add(UItem.asShadow("* hachigram's feature."));
         items.add(UItem.asShadow(null));
     }
 
@@ -212,13 +212,13 @@ public class DebugPreferencesEntry extends UniversalFragment {
 
     private void showPerformanceClassDialog(View view) {
         AlertDialog.Builder builder2 = new AlertDialog.Builder(getParentActivity(), getResourceProvider());
-        builder2.setTitle("Force performance class");
+        builder2.setTitle("force performance class");
         int currentClass = SharedConfig.getDevicePerformanceClass();
         int trueClass = SharedConfig.measureDevicePerformanceClass();
         builder2.setItems(new CharSequence[]{
-                AndroidUtilities.replaceTags((currentClass == SharedConfig.PERFORMANCE_CLASS_HIGH ? "**HIGH**" : "HIGH") + (trueClass == SharedConfig.PERFORMANCE_CLASS_HIGH ? " (measured)" : "")),
-                AndroidUtilities.replaceTags((currentClass == SharedConfig.PERFORMANCE_CLASS_AVERAGE ? "**AVERAGE**" : "AVERAGE") + (trueClass == SharedConfig.PERFORMANCE_CLASS_AVERAGE ? " (measured)" : "")),
-                AndroidUtilities.replaceTags((currentClass == SharedConfig.PERFORMANCE_CLASS_LOW ? "**LOW**" : "LOW") + (trueClass == SharedConfig.PERFORMANCE_CLASS_LOW ? " (measured)" : ""))
+                AndroidUtilities.replaceTags((currentClass == SharedConfig.PERFORMANCE_CLASS_HIGH ? "**high**" : "high") + (trueClass == SharedConfig.PERFORMANCE_CLASS_HIGH ? " (measured)" : "")),
+                AndroidUtilities.replaceTags((currentClass == SharedConfig.PERFORMANCE_CLASS_AVERAGE ? "**average**" : "average") + (trueClass == SharedConfig.PERFORMANCE_CLASS_AVERAGE ? " (measured)" : "")),
+                AndroidUtilities.replaceTags((currentClass == SharedConfig.PERFORMANCE_CLASS_LOW ? "**low**" : "low") + (trueClass == SharedConfig.PERFORMANCE_CLASS_LOW ? " (measured)" : ""))
         }, (dialog2, which2) -> {
             int newClass = 2 - which2;
             if (newClass == trueClass) {
@@ -245,40 +245,40 @@ public class DebugPreferencesEntry extends UniversalFragment {
         ArrayList<String> configStringKeys = new ArrayList<>();
         ArrayList<Integer> configValues = new ArrayList<>();
 
-        configStringKeys.add("DEFAULT");
+        configStringKeys.add("default");
         configValues.add(HachigramDebugConfig.AUDIO_SOURCE_DEFAULT);
 
-        configStringKeys.add("CAMCORDER");
+        configStringKeys.add("camcorder");
         configValues.add(HachigramDebugConfig.AUDIO_SOURCE_CAMCORDER);
 
-        configStringKeys.add("MIC");
+        configStringKeys.add("mic");
         configValues.add(HachigramDebugConfig.AUDIO_SOURCE_MIC);
 
-        configStringKeys.add("REMOTE_SUBMIX");
+        configStringKeys.add("remote_submix");
         configValues.add(HachigramDebugConfig.AUDIO_SOURCE_REMOTE_SUBMIX);
 
-        configStringKeys.add("UNPROCESSED");
+        configStringKeys.add("unprocessed");
         configValues.add(HachigramDebugConfig.AUDIO_SOURCE_UNPROCESSED);
 
-        configStringKeys.add("VOICE_CALL");
+        configStringKeys.add("voice_call");
         configValues.add(HachigramDebugConfig.AUDIO_SOURCE_VOICE_CALL);
 
-        configStringKeys.add("VOICE_COMMUNICATION");
+        configStringKeys.add("voice_communication");
         configValues.add(HachigramDebugConfig.AUDIO_SOURCE_VOICE_COMMUNICATION);
 
-        configStringKeys.add("VOICE_DOWNLINK");
+        configStringKeys.add("voice_downlink");
         configValues.add(HachigramDebugConfig.AUDIO_SOURCE_VOICE_DOWNLINK);
 
-        configStringKeys.add("VOICE_PERFORMANCE");
+        configStringKeys.add("voice_performance");
         configValues.add(HachigramDebugConfig.AUDIO_SOURCE_VOICE_PERFORMANCE);
 
-        configStringKeys.add("VOICE_RECOGNITION");
+        configStringKeys.add("voice_recognition");
         configValues.add(HachigramDebugConfig.AUDIO_SOURCE_VOICE_RECOGNITION);
 
-        configStringKeys.add("VOICE_UPLINK");
+        configStringKeys.add("voice_uplink");
         configValues.add(HachigramDebugConfig.AUDIO_SOURCE_VOICE_UPLINK);
 
-        PopupHelper.show(configStringKeys, "Microphone Audio Source *", configValues.indexOf(HachigramDebugConfig.INSTANCE.getAudioSource()), getContext(), i -> {
+        PopupHelper.show(configStringKeys, "microphone audio source *", configValues.indexOf(HachigramDebugConfig.INSTANCE.getAudioSource()), getContext(), i -> {
             HachigramDebugConfig.INSTANCE.setAudioSource(configValues.get(i));
             if (runnable != null) runnable.run();
         });
@@ -286,17 +286,17 @@ public class DebugPreferencesEntry extends UniversalFragment {
 
     private String getAudioSourceValue() {
         return switch (HachigramDebugConfig.INSTANCE.getAudioSource()) {
-            case HachigramDebugConfig.AUDIO_SOURCE_CAMCORDER -> "CAMCORDER";
-            case HachigramDebugConfig.AUDIO_SOURCE_MIC -> "MIC";
-            case HachigramDebugConfig.AUDIO_SOURCE_REMOTE_SUBMIX -> "REMOTE_SUBMIX";
-            case HachigramDebugConfig.AUDIO_SOURCE_UNPROCESSED -> "UNPROCESSED";
-            case HachigramDebugConfig.AUDIO_SOURCE_VOICE_CALL -> "VOICE_CALL";
-            case HachigramDebugConfig.AUDIO_SOURCE_VOICE_COMMUNICATION -> "VOICE_COMMUNICATION";
-            case HachigramDebugConfig.AUDIO_SOURCE_VOICE_DOWNLINK -> "VOICE_DOWNLINK";
-            case HachigramDebugConfig.AUDIO_SOURCE_VOICE_PERFORMANCE -> "VOICE_PERFORMANCE";
-            case HachigramDebugConfig.AUDIO_SOURCE_VOICE_RECOGNITION -> "VOICE_RECOGNITION";
-            case HachigramDebugConfig.AUDIO_SOURCE_VOICE_UPLINK -> "VOICE_UPLINK";
-            default -> "DEFAULT";
+            case HachigramDebugConfig.AUDIO_SOURCE_CAMCORDER -> "camcorder";
+            case HachigramDebugConfig.AUDIO_SOURCE_MIC -> "mic";
+            case HachigramDebugConfig.AUDIO_SOURCE_REMOTE_SUBMIX -> "remote_submix";
+            case HachigramDebugConfig.AUDIO_SOURCE_UNPROCESSED -> "unprocessed";
+            case HachigramDebugConfig.AUDIO_SOURCE_VOICE_CALL -> "voice_call";
+            case HachigramDebugConfig.AUDIO_SOURCE_VOICE_COMMUNICATION -> "voice_communication";
+            case HachigramDebugConfig.AUDIO_SOURCE_VOICE_DOWNLINK -> "voice_downlink";
+            case HachigramDebugConfig.AUDIO_SOURCE_VOICE_PERFORMANCE -> "voice_performance";
+            case HachigramDebugConfig.AUDIO_SOURCE_VOICE_RECOGNITION -> "voice_recognition";
+            case HachigramDebugConfig.AUDIO_SOURCE_VOICE_UPLINK -> "voice_uplink";
+            default -> "default";
         };
     }
 
