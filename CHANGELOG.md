@@ -3,6 +3,18 @@
 headings match the tag: `v0.<major>.<minor>[.<rc>]` for release candidates,
 `v<major>.<minor>[.<patch>]` for the real thing. the display name lives in `VERSION`.
 
+## v1.0.0
+
+first stable release. same build as rc3, which held up on device.
+
+cherrygram next is a fork of cherrygram, picked up from its last published source.
+it runs on telegram 12.10.1, installs alongside cherrygram rather than over it, and
+carries no anti-tamper sdk, no huawei services, no donation system, no hardcoded
+privileges for anyone's account, and no firebase beyond push.
+
+see the v0.1.0 entry for what changed at the fork, and the rc entries for what the
+release candidates fixed.
+
 ## v0.1.0.2
 
 firebase is now genuinely push-only, not just configured that way.
