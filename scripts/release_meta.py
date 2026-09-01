@@ -14,7 +14,7 @@ import re
 import sys
 from pathlib import Path
 
-PRODUCT = 'Cherrygram Next'
+PRODUCT = 'Hachigram'
 RC_TAG = re.compile(r'^v?0\.(\d+)\.(\d+)(?:\.(\d+))?$')
 FINAL_TAG = re.compile(r'^v?(\d+)\.(\d+)(?:\.(\d+))?$')
 HEADING = re.compile(r'^##\s+(\S+)')
