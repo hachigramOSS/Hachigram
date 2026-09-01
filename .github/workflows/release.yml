@@ -4,24 +4,40 @@ on:
   push:
     tags:
       - 'v*'
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag to release'
+        required: true
+
+permissions:
+  contents: write
 
 jobs:
   release:
-    runs-on: android
-    # Builds run on GitHub now. Set FORGEJO_BUILDS to true to bring them back here.
-    if: vars.FORGEJO_BUILDS == 'true'
-    # The runner has two cores, where this build starves the docker daemon and is
-    # killed. Releases are built elsewhere until that changes; set the repository
-    # variable CI_RELEASE_BUILDS to true to hand it back to the runner.
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
+          ref: ${{ github.event.inputs.tag || github.ref }}
           submodules: recursive
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Install NDK and CMake
+        run: |
+          yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" \
+            'ndk;27.2.12479018' 'cmake;3.22.1' >/dev/null
 
       - name: Release metadata
         id: meta
         run: |
-          TAG="${GITHUB_REF#refs/tags/}"
+          TAG="${{ github.event.inputs.tag || github.ref_name }}"
           echo "tag=$TAG" >> "$GITHUB_OUTPUT"
           # Fails if VERSION, the tag and APP_VERSION_NAME_CHERRY disagree.
           META=$(python3 scripts/release_meta.py "$TAG" --notes-out "$RUNNER_TEMP/notes.md")
@@ -52,8 +68,6 @@ jobs:
             [ -n "$APP_HASH" ] && echo "HACHIGRAM_APP_HASH=$APP_HASH"
           } > local.properties
 
-      # The standalone build type is the sideloaded one: minified, shrunk and
-      # carrying the in-app updater that reads this repository's releases.
       # Cloud Messaging only; the crashlytics plugin is not applied and Remote
       # Config is never initialised, so this file only enables push.
       - name: Restore Firebase config
@@ -83,31 +97,20 @@ jobs:
 
       - name: Verify signature
         run: |
+          BT=$(ls -d "$ANDROID_SDK_ROOT"/build-tools/* | sort -V | tail -1)
           for apk in $(find TMessagesProj_AppStandalone -name '*.apk'); do
             echo "== $apk"
-            "$ANDROID_SDK_ROOT/build-tools/36.0.0/apksigner" verify --print-certs "$apk" \
+            "$BT/apksigner" verify --print-certs "$apk" \
               | grep -E 'certificate DN|certificate SHA-256'
           done
 
       - name: Publish release
         env:
-          TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          API="${GITHUB_SERVER_URL}/api/v1/repos/${GITHUB_REPOSITORY}"
-          BODY=$(python3 -c 'import json,sys;print(json.dumps(open(sys.argv[1]).read()))' "$RUNNER_TEMP/notes.md")
-          PAYLOAD=$(printf '{"tag_name":"%s","name":"%s","body":%s,"draft":false,"prerelease":%s}' \
-            "${{ steps.meta.outputs.tag }}" "${{ steps.meta.outputs.name }}" "$BODY" "${{ steps.meta.outputs.prerelease }}")
-          ID=$(curl -sS -X POST "$API/releases" \
-            -H "Authorization: token $TOKEN" -H 'Content-Type: application/json' \
-            -d "$PAYLOAD" | python3 -c 'import json,sys;print(json.load(sys.stdin)["id"])')
-          echo "release id $ID"
-          for apk in $(find TMessagesProj_AppStandalone -name '*.apk'); do
-            echo "uploading $(basename "$apk")"
-            curl -sS -X POST "$API/releases/$ID/assets?name=$(basename "$apk")" \
-              -H "Authorization: token $TOKEN" \
-              -F "attachment=@$apk;type=application/vnd.android.package-archive" -o /dev/null
-          done
-
-      - name: Free build intermediates
-        if: always()
-        run: rm -rf TMessagesProj/.cxx TMessagesProj/build TMessagesProj_AppStandalone/build
+          FLAGS=""
+          [ "${{ steps.meta.outputs.prerelease }}" = "true" ] && FLAGS="--prerelease"
+          gh release create "${{ steps.meta.outputs.tag }}" $FLAGS \
+            --title "${{ steps.meta.outputs.name }}" \
+            --notes-file "$RUNNER_TEMP/notes.md" \
+            $(find TMessagesProj_AppStandalone -name '*.apk')

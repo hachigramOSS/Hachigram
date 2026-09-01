@@ -17,6 +17,8 @@ env:
 jobs:
   compile:
     runs-on: android
+    # Builds run on GitHub now. Set FORGEJO_BUILDS to true to bring them back here.
+    if: vars.FORGEJO_BUILDS == 'true'
     steps:
       - name: Toolchain
         run: |
@@ -47,13 +49,13 @@ jobs:
 
       - name: Configure
         env:
-          APP_ID: ${{ secrets.CHERRYGRAM_APP_ID }}
-          APP_HASH: ${{ secrets.CHERRYGRAM_APP_HASH }}
+          APP_ID: ${{ secrets.HACHIGRAM_APP_ID }}
+          APP_HASH: ${{ secrets.HACHIGRAM_APP_HASH }}
         run: |
           {
             echo "sdk.dir=$ANDROID_SDK_ROOT"
-            [ -n "$APP_ID" ] && echo "CHERRYGRAM_APP_ID=$APP_ID"
-            [ -n "$APP_HASH" ] && echo "CHERRYGRAM_APP_HASH=$APP_HASH"
+            [ -n "$APP_ID" ] && echo "HACHIGRAM_APP_ID=$APP_ID"
+            [ -n "$APP_HASH" ] && echo "HACHIGRAM_APP_HASH=$APP_HASH"
           } > local.properties
 
       - name: Compile
@@ -65,8 +67,9 @@ jobs:
 
   apk:
     runs-on: android
+    # Builds run on GitHub now. Set FORGEJO_BUILDS to true to bring them back here.
+    if: vars.FORGEJO_BUILDS == 'true'
     needs: compile
-    if: github.event_name == 'workflow_dispatch'
     steps:
       # The native build needs every submodule: some are compiled, others are
       # only included from, such as openh264's headers in the WebRTC code.
@@ -84,13 +87,13 @@ jobs:
 
       - name: Configure
         env:
-          APP_ID: ${{ secrets.CHERRYGRAM_APP_ID }}
-          APP_HASH: ${{ secrets.CHERRYGRAM_APP_HASH }}
+          APP_ID: ${{ secrets.HACHIGRAM_APP_ID }}
+          APP_HASH: ${{ secrets.HACHIGRAM_APP_HASH }}
         run: |
           {
             echo "sdk.dir=$ANDROID_SDK_ROOT"
-            [ -n "$APP_ID" ] && echo "CHERRYGRAM_APP_ID=$APP_ID"
-            [ -n "$APP_HASH" ] && echo "CHERRYGRAM_APP_HASH=$APP_HASH"
+            [ -n "$APP_ID" ] && echo "HACHIGRAM_APP_ID=$APP_ID"
+            [ -n "$APP_HASH" ] && echo "HACHIGRAM_APP_HASH=$APP_HASH"
           } > local.properties
 
       # A stable keystore keeps every runner-produced APK upgrade-compatible;
@@ -143,7 +146,7 @@ jobs:
 
       - uses: actions/upload-artifact@v4
         with:
-          name: cherrygram-next-debug
+          name: hachigram-debug
           path: TMessagesProj_App/build/outputs/apk/**/*.apk
           if-no-files-found: error
 

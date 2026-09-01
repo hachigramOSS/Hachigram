@@ -1,0 +1,46 @@
+name: Build
+
+# Forgejo reads .forgejo/workflows when that directory exists, so nothing here
+# runs on the mirror.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+concurrency:
+  group: build-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Configure
+        env:
+          APP_ID: ${{ secrets.HACHIGRAM_APP_ID }}
+          APP_HASH: ${{ secrets.HACHIGRAM_APP_HASH }}
+        run: |
+          {
+            echo "sdk.dir=$ANDROID_SDK_ROOT"
+            [ -n "$APP_ID" ] && echo "HACHIGRAM_APP_ID=$APP_ID"
+            [ -n "$APP_HASH" ] && echo "HACHIGRAM_APP_HASH=$APP_HASH"
+          } > local.properties
+
+      # Java and Kotlin only. The native libraries are the slow half of a build
+      # and nothing in this job depends on them.
+      - name: Compile
+        run: |
+          ./gradlew --no-daemon --console=plain --warning-mode=summary \
+            :TMessagesProj_AppStandalone:compileAfatDebugJavaWithJavac
