@@ -29,10 +29,36 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
-      - name: Install NDK and CMake
+      - name: Install NDK, CMake and ccache
         run: |
           yes | "$ANDROID_SDK_ROOT/cmdline-tools/latest/bin/sdkmanager" \
             'ndk;27.2.12479018' 'cmake;3.22.1' >/dev/null
+          sudo apt-get install -y ccache >/dev/null
+
+      # The native stack is built once per ABI and dominates the job. It only
+      # changes when a submodule or the cmake config does, so key on exactly that
+      # and nothing else -- a key that moves per commit would never hit.
+      - name: Native compiler cache key
+        id: ccache-key
+        run: |
+          { git submodule status | awk '{print $1, $2}'; \
+            find TMessagesProj/jni -name 'CMakeLists.txt' -exec sha256sum {} +; \
+          } | sha256sum | cut -c1-16 | sed 's/^/key=/' >> "$GITHUB_OUTPUT"
+
+      - uses: actions/cache@v4
+        with:
+          path: ~/.ccache
+          key: ccache-${{ runner.os }}-${{ steps.ccache-key.outputs.key }}
+          restore-keys: ccache-${{ runner.os }}-
+
+      - name: Configure ccache
+        run: |
+          ccache --set-config max_size=3G
+          # Object files land under a per-build .cxx path; without this the hash
+          # changes every run and nothing is ever reused.
+          ccache --set-config hash_dir=false
+          ccache --set-config compiler_check=content
+          ccache --zero-stats
 
       - name: Release metadata
         id: meta
@@ -89,11 +115,16 @@ jobs:
           KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
         run: |
           ./gradlew --no-daemon --console=plain --warning-mode=summary \
+            -PNATIVE_CCACHE=true \
             -PRELEASE_STORE_FILE=${{ steps.keystore.outputs.path }} \
             -PRELEASE_STORE_PASSWORD="$STORE_PASSWORD" \
             -PRELEASE_KEY_ALIAS="$KEY_ALIAS" \
             -PRELEASE_KEY_PASSWORD="$KEY_PASSWORD" \
             :TMessagesProj_AppStandalone:assembleAfatStandalone
+
+      - name: ccache stats
+        if: always()
+        run: ccache --show-stats
 
       - name: Verify signature
         run: |
