@@ -3,6 +3,40 @@
 headings match the tag: `v0.<major>.<minor>[.<rc>]` for release candidates,
 `v<major>.<minor>[.<patch>]` for the real thing. the display name lives in `VERSION`.
 
+## v0.1.0.1
+
+the interface reads in lowercase, 129 upstream bugfixes land, and two pieces of
+inherited breakage are gone.
+
+### changed
+
+- the whole interface reads in lowercase now, not just the strings this fork
+  ships. telegram serves most of its text from a language pack, so this happens
+  where strings are resolved rather than in the bundled xml, which means it holds
+  after the language pack syncs. there's a switch for it in appearance settings
+- hiding archived stories was locked to two hardcoded accounts in a premium or dev
+  build, and its labels were left in russian. it's available to everyone and reads
+  in english. that was the last hardcoded account check in the app
+
+### fixed
+
+- archiving a chat shows the undo button again. the toast without one is the
+  first-run hint, and the flag saying the hint had been shown was written
+  asynchronously, so it could be lost if the app was killed straight after and
+  every archive looked like the first
+- 129 bugfixes from [inugram](https://github.com/teidesu/inugram), MIT, keeping
+  their original authors. memory leaks, notification handling, media and camera
+  behaviour, scrolling and gestures. the patches that need inugram's own runtime,
+  and its features and debloat, are not here
+
+### build
+
+- the gradle wrapper is the official 8.13 one. the jar this repo inherited matched
+  no published gradle release, and github refused to run a build with it
+- every commit builds an installable arm64 apk you can grab from the run
+- the native build is cached between runs, so a release that doesn't move a
+  submodule doesn't recompile ffmpeg and friends
+
 ## v0.1.0
 
 hachigram's first build. an opinionated, fully open source fork of hachigram,
