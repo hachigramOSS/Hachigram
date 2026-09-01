@@ -338,8 +338,10 @@ object UiCase {
 
     /**
      * Telegram serves most strings from a langpack, so downcasing the bundled xml
-     * would only reach the strings the server never replaces. This runs at the
-     * point every string is resolved instead.
+     * would only reach the strings the server never replaces. This runs on the
+     * public getString accessors instead. Deliberately not on getStringInternal:
+     * the date patterns are read through that and handed to createFormatter,
+     * where MM (month) downcased to mm means minutes.
      */
     @JvmStatic
     fun apply(value: String?): String? {

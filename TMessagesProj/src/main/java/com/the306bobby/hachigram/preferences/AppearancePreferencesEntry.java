@@ -41,6 +41,7 @@ public class AppearancePreferencesEntry extends UniversalFragment {
     private final int iconPackRow = 4;
     private final int oneUISwitchesRow = 5;
     private final int disableDividersRow = 6;
+    private final int lowercaseUiRow = 10;
 
     private final int foldersRow = 7;
     private final int bottomTabsRow = 8;
@@ -79,6 +80,9 @@ public class AppearancePreferencesEntry extends UniversalFragment {
         items.add(SettingsHelper.asSwitchCG(disableDividersRow, getString(R.string.AP_DisableDividers))
                 .setChecked(HachigramAppearanceConfig.INSTANCE.getDisableDividers())
         );
+        items.add(SettingsHelper.asSwitchCG(lowercaseUiRow, getString(R.string.AP_LowercaseUi))
+                .setChecked(HachigramAppearanceConfig.INSTANCE.getLowercaseUi())
+        );
         items.add(UItem.asShadow(null));
 
         items.add(UItem.asHeader(getString(R.string.LocalMiscellaneousCache)));
@@ -104,6 +108,12 @@ public class AppearancePreferencesEntry extends UniversalFragment {
             HachigramAppearanceConfig.INSTANCE.setDrawSnowInActionBar(!HachigramAppearanceConfig.INSTANCE.getDrawSnowInActionBar());
             SettingsHelper.updateCheckState(view, HachigramAppearanceConfig.INSTANCE.getDrawSnowInActionBar());
 
+            CGBulletinCreator.INSTANCE.createRestartBulletin(this);
+        } else if (item.id == lowercaseUiRow) {
+            HachigramAppearanceConfig.INSTANCE.setLowercaseUi(!HachigramAppearanceConfig.INSTANCE.getLowercaseUi());
+            SettingsHelper.updateCheckState(view, HachigramAppearanceConfig.INSTANCE.getLowercaseUi());
+
+            // Views already built hold the old casing, and so do the cached strings.
             CGBulletinCreator.INSTANCE.createRestartBulletin(this);
         } else if (item.id == iconPackRow) {
             ArrayList<String> configStringKeys = new ArrayList<>();

@@ -1504,7 +1504,7 @@ public class LocaleController {
         if (value == null) {
             value = "LOC_ERR:" + key;
         }
-        return UiCase.apply(value);
+        return value;
     }
 
     public static String getServerString(String key) {
@@ -1529,19 +1529,19 @@ public class LocaleController {
     // deprecated: String key is no longer necessary
     @Deprecated
     public static String getString(String key, @StringRes int res) {
-        return getInstance().getStringInternal(key, res);
+        return UiCase.apply(getInstance().getStringInternal(key, res));
     }
 
     // deprecated: String key is no longer necessary
     @Deprecated
     public static String getString(String key, String fallback, int fallbackRes, int res) {
-        return getInstance().getStringInternal(key, fallback, fallbackRes, res);
+        return UiCase.apply(getInstance().getStringInternal(key, fallback, fallbackRes, res));
     }
 
     // deprecated: String key is no longer necessary
     @Deprecated
     public static String getString(String key, String fallback, int res) {
-        return getInstance().getStringInternal(key, fallback, 0, res);
+        return UiCase.apply(getInstance().getStringInternal(key, fallback, 0, res));
     }
 
     // deprecated: String key is no longer necessary

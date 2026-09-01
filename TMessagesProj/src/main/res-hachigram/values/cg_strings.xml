@@ -192,6 +192,7 @@
     <string name="AP_CenterTitle">center title</string>
     <string name="AP_HideSearchBar">hide search bar in chats</string>
     <string name="AP_DisableDividers">disable dividers</string>
+    <string name="AP_LowercaseUi">lowercase everything</string>
     <string name="AP_SystemFonts">system fonts</string>
 
     <string name="CP_Snowflakes_Header">snowflakes</string>
