@@ -7,7 +7,7 @@ picked up from the last source it published, brought up to current upstream
 [Telegram](https://github.com/DrKLO/Telegram), and stripped of everything that
 phoned home or answered to someone else.
 
-named after a shiba who is not Hachiko but would also wait.
+named after Hachiko, who kept showing up.
 
 ## what's different
 
