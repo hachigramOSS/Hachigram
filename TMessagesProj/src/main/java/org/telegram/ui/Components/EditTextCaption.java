@@ -1037,7 +1037,7 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
         return super.onTextContextMenuItem(id);
     }
 
-    //Cherrygram
+    //Hachigram
     public void makeSelectedCode() {
         AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setTitle(getString(R.string.CG_CreateCode));
@@ -1207,5 +1207,5 @@ public class EditTextCaption extends EditTextBoldCursor implements FloatingToolb
         }
         editText.setSelection(0, editText.getText().length());
     }
-    //Cherrygram
+    //Hachigram
 }

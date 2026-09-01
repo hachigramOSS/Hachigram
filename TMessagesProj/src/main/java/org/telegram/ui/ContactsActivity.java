@@ -116,7 +116,7 @@ import java.util.ArrayList;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
-import com.the306bobby.cherrygramnext.core.CGBiometricPrompt;
+import com.the306bobby.hachigram.core.CGBiometricPrompt;
 
 public class ContactsActivity extends BaseFragment implements FactorAnimator.Target, NotificationCenter.NotificationCenterDelegate, MainTabsActivity.TabFragmentDelegate, WindowAnimatedInsetsProvider.Listener {
     private final int ADDITIONAL_LIST_HEIGHT_DP = Build.VERSION.SDK_INT >= 31 ? 48 : 0;
@@ -1748,10 +1748,10 @@ public class ContactsActivity extends BaseFragment implements FactorAnimator.Tar
         animatorSearchFieldVisible.setValue(true, true);
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public FragmentSearchField getFragmentSearchField() {
         return searchField;
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

@@ -38,7 +38,7 @@ import java.util.Map;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 public class ChatThemeController extends BaseController {
 
@@ -374,17 +374,17 @@ public class ChatThemeController extends BaseController {
         if (dialogId >= 0) {
             TLRPC.UserFull userFull = getMessagesController().getUserFull(dialogId);
             if (userFull != null && userFull.wallpaper != null) {
-                if (CherrygramChatsConfig.INSTANCE.getCustomWallpapers() || userFull.wallpaper.creator) {
+                if (HachigramChatsConfig.INSTANCE.getCustomWallpapers() || userFull.wallpaper.creator) {
                     return userFull.wallpaper;
                 }
             }
         } else {
             TLRPC.ChatFull chatFull = getMessagesController().getChatFull(-dialogId);
-            if (chatFull != null && CherrygramChatsConfig.INSTANCE.getCustomWallpapers()) {
+            if (chatFull != null && HachigramChatsConfig.INSTANCE.getCustomWallpapers()) {
                 return chatFull.wallpaper;
             }
         }
-        String wallpaperString = CherrygramChatsConfig.INSTANCE.getCustomWallpapers() ?
+        String wallpaperString = HachigramChatsConfig.INSTANCE.getCustomWallpapers() ?
                 getEmojiSharedPreferences().getString("chatWallpaper_" + currentAccount + "_" + dialogId, null) : Theme.getActiveTheme().pathToWallpaper;
         if (wallpaperString != null) {
             SerializedData serializedData = new SerializedData(Utilities.hexToBytes(wallpaperString));

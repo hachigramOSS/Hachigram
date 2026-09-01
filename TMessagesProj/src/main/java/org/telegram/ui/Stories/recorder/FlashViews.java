@@ -339,7 +339,7 @@ public class FlashViews {
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private Path circlePath;
 
     private boolean forCameraX = false;
@@ -380,6 +380,6 @@ public class FlashViews {
         if (!cg) setScreenBrightness(-1f);
         flashTo(0f, 240, done);
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

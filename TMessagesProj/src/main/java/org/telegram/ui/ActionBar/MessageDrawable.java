@@ -30,7 +30,7 @@ import org.telegram.ui.Components.blur3.utils.NinePatchBuilder;
 import java.nio.ByteBuffer;
 import java.util.Arrays;
 
-import com.the306bobby.cherrygramnext.chats.ui.MessageMenuHelper;
+import com.the306bobby.hachigram.chats.ui.MessageMenuHelper;
 
 public class MessageDrawable extends Drawable {
 

@@ -343,17 +343,17 @@ import java.util.concurrent.atomic.AtomicReference;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper2;
-import com.the306bobby.cherrygramnext.core.CGBiometricPrompt;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.Extra;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
-import com.the306bobby.cherrygramnext.core.helpers.AppRestartHelper;
-import com.the306bobby.cherrygramnext.core.ui.mainTabs.MainTabsManager;
-import com.the306bobby.cherrygramnext.helpers.ProfileActivityHelper;
-import com.the306bobby.cherrygramnext.misc.Constants;
-import com.the306bobby.cherrygramnext.preferences.CherrygramPreferencesNavigator;
+import com.the306bobby.hachigram.chats.helpers.ChatsHelper2;
+import com.the306bobby.hachigram.core.CGBiometricPrompt;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.Extra;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
+import com.the306bobby.hachigram.core.helpers.AppRestartHelper;
+import com.the306bobby.hachigram.core.ui.mainTabs.MainTabsManager;
+import com.the306bobby.hachigram.helpers.ProfileActivityHelper;
+import com.the306bobby.hachigram.misc.Constants;
+import com.the306bobby.hachigram.preferences.HachigramPreferencesNavigator;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.core.reference.ReferenceList;
@@ -1258,7 +1258,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         private final Paint backgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 
         public void setBackgroundColorId(MessagesController.PeerColor peerColor, boolean animated) {
-            if (peerColor != null && CherrygramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
+            if (peerColor != null && HachigramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
                 hasColorById = true;
                 color1 = peerColor.getBgColor1(Theme.isCurrentThemeDark());
                 color2 = peerColor.getBgColor2(Theme.isCurrentThemeDark());
@@ -1320,7 +1320,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (!animated) {
                 emojiFullT.force(isCollectible);
             }
-            hasEmoji = (hasEmoji || emojiId != 0 && emojiId != -1) && (CherrygramAppearanceConfig.INSTANCE.getProfileBackgroundEmoji());
+            hasEmoji = (hasEmoji || emojiId != 0 && emojiId != -1) && (HachigramAppearanceConfig.INSTANCE.getProfileBackgroundEmoji());
             invalidate();
         }
 
@@ -3494,8 +3494,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         botVerificationDrawable[i].attach();
                     }
                 }
-                if (cherrygramStatusDrawable != null) {
-                    cherrygramStatusDrawable.attach();
+                if (hachigramStatusDrawable != null) {
+                    hachigramStatusDrawable.attach();
                 }
             }
 
@@ -3513,8 +3513,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         botVerificationDrawable[i].detach();
                     }
                 }
-                if (cherrygramStatusDrawable != null) {
-                    cherrygramStatusDrawable.detach();
+                if (hachigramStatusDrawable != null) {
+                    hachigramStatusDrawable.detach();
                 }
             }
         };
@@ -4379,9 +4379,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     FileLog.e(e);
                 }
             } else if (position == cgSettingsRow) {
-                CherrygramPreferencesNavigator.INSTANCE.createCherrySettings(this);
+                HachigramPreferencesNavigator.INSTANCE.createCherrySettings(this);
             } else if (position == versionRow) {
-                CherrygramPreferencesNavigator.INSTANCE.createDebug(this);
+                HachigramPreferencesNavigator.INSTANCE.createDebug(this);
             } else if (position == affiliateRow) {
                 TLRPC.User user = getMessagesController().getUser(userId);
                 if (userInfo != null && userInfo.starref_program != null) {
@@ -4729,7 +4729,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     try {
                         AndroidUtilities.addToClipboard("tg://user?id=" + userId);
                         BulletinFactory.of(ProfileActivity.this).createCopyBulletin(LocaleController.getString(R.string.LinkCopied)).show();
-                        if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                        if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception e) {
                         FileLog.e(e);
                     }
@@ -4739,7 +4739,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     try {
                         AndroidUtilities.addToClipboard("https://t.me/" + username);
                         BulletinFactory.of(ProfileActivity.this).createCopyBulletin(LocaleController.getString(R.string.LinkCopied)).show();
-                        if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
+                        if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception e) {
                         FileLog.e(e);
                     }
@@ -6474,8 +6474,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             showStatusButton.setBackgroundColor(ColorUtils.blendARGB(Theme.multAlpha(Theme.adaptHSV(actionBarBackgroundColor, +0.18f, -0.1f), 0.5f), 0x23ffffff, currentExpandAnimatorValue));
         }
 
-        nameTextView[1].setTextColor(peerColor != null && CherrygramAppearanceConfig.INSTANCE.getProfileBackgroundColor() ? Color.WHITE : ColorUtils.blendARGB(getThemedColor(Theme.key_profile_title), Color.WHITE, currentExpandAnimatorValue));
-        actionBar.setItemsColor(peerColor != null && CherrygramAppearanceConfig.INSTANCE.getProfileBackgroundColor() ? Color.WHITE : ColorUtils.blendARGB(getThemedColor(Theme.key_actionBarDefaultIcon), Color.WHITE, value), false);
+        nameTextView[1].setTextColor(peerColor != null && HachigramAppearanceConfig.INSTANCE.getProfileBackgroundColor() ? Color.WHITE : ColorUtils.blendARGB(getThemedColor(Theme.key_profile_title), Color.WHITE, currentExpandAnimatorValue));
+        actionBar.setItemsColor(peerColor != null && HachigramAppearanceConfig.INSTANCE.getProfileBackgroundColor() ? Color.WHITE : ColorUtils.blendARGB(getThemedColor(Theme.key_actionBarDefaultIcon), Color.WHITE, value), false);
         actionBar.setMenuOffsetSuppressed(true);
 
         avatarImage.setForegroundAlpha(value);
@@ -10748,7 +10748,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 numberRow = rowCount++;
                 setUsernameRow = rowCount++;
 
-                if (CherrygramAppearanceConfig.INSTANCE.getShowIDDC()) {
+                if (HachigramAppearanceConfig.INSTANCE.getShowIDDC()) {
                     idDcRow = rowCount++;
                 }
 
@@ -10831,7 +10831,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     unofficialSecurityRiskDividerRow = rowCount++;
                 }
 
-                if (CherrygramAppearanceConfig.INSTANCE.getProfileChannelPreview() && (userInfo != null && (userInfo.flags2 & 64) != 0 && (profileChannelMessageFetcher == null || !profileChannelMessageFetcher.loaded || !profileChannelMessageFetcher.messageObjects.isEmpty()))) {
+                if (HachigramAppearanceConfig.INSTANCE.getProfileChannelPreview() && (userInfo != null && (userInfo.flags2 & 64) != 0 && (profileChannelMessageFetcher == null || !profileChannelMessageFetcher.loaded || !profileChannelMessageFetcher.messageObjects.isEmpty()))) {
                     final TLRPC.Chat channel = getMessagesController().getChat(userInfo.personal_channel_id);
                     if (channel != null && (ChatObject.isPublic(channel) || !ChatObject.isNotInChat(channel))) {
                         channelRow = rowCount++;
@@ -10849,18 +10849,18 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     usernameRow = rowCount++;
                 }
 
-                if (CherrygramAppearanceConfig.INSTANCE.getShowIDDC()) {
+                if (HachigramAppearanceConfig.INSTANCE.getShowIDDC()) {
                     idDcRow = rowCount++;
                 }
 
                 if (userInfo != null) {
-                    if (userInfo.birthday != null && CherrygramAppearanceConfig.INSTANCE.getProfileBirthDatePreview()) {
+                    if (userInfo.birthday != null && HachigramAppearanceConfig.INSTANCE.getProfileBirthDatePreview()) {
                         birthdayRow = rowCount++;
                     }
-                    if (userInfo.business_work_hours != null && CherrygramAppearanceConfig.INSTANCE.getProfileBusinessPreview()) {
+                    if (userInfo.business_work_hours != null && HachigramAppearanceConfig.INSTANCE.getProfileBusinessPreview()) {
                         bizHoursRow = rowCount++;
                     }
-                    if (userInfo.business_location != null && CherrygramAppearanceConfig.INSTANCE.getProfileBusinessPreview()) {
+                    if (userInfo.business_location != null && HachigramAppearanceConfig.INSTANCE.getProfileBusinessPreview()) {
                         bizLocationRow = rowCount++;
                     }
                     if (userInfo.note != null) {
@@ -11020,7 +11020,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             }
 
-            if (CherrygramAppearanceConfig.INSTANCE.getShowIDDC()) {
+            if (HachigramAppearanceConfig.INSTANCE.getShowIDDC()) {
                 idDcRow = rowCount++;
             }
 
@@ -11265,7 +11265,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     }
 
     private Drawable getEmojiStatusDrawable(TLRPC.EmojiStatus emojiStatus, boolean switchable, boolean animated, int a) {
-        if (CherrygramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) return null;
+        if (HachigramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) return null;
         if (emojiStatusDrawable[a] == null) {
             emojiStatusDrawable[a] = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(nameTextView[a], AndroidUtilities.dp(24), a == 0 ? AnimatedEmojiDrawable.CACHE_TYPE_EMOJI_STATUS : AnimatedEmojiDrawable.CACHE_TYPE_KEYBOARD);
             if (fragmentViewAttached) {
@@ -11313,7 +11313,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     public void updateEmojiStatusDrawableColor(float progress) {
         for (int a = 0; a < 2; ++a) {
             final int fromColor;
-            if (peerColor != null && a == 1 && CherrygramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
+            if (peerColor != null && a == 1 && HachigramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
                 fromColor = ColorUtils.blendARGB(peerColor.getStoryColor1(Theme.isCurrentThemeDark()), 0xFFFFFFFF, 0.25f);
             } else {
                 fromColor = AndroidUtilities.getOffsetColor(getThemedColor(Theme.key_profile_verifiedBackground), getThemedColor(Theme.key_player_actionBarTitle), mediaHeaderAnimationProgress, 1.0f);
@@ -11325,8 +11325,8 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             if (botVerificationDrawable[a] != null) {
                 botVerificationDrawable[a].setColor(ColorUtils.blendARGB(ColorUtils.blendARGB(fromColor, 0x99ffffff, progress), getThemedColor(Theme.key_player_actionBarTitle), mediaHeaderAnimationProgress));
             }
-            if (cherrygramStatusDrawable != null) {
-                cherrygramStatusDrawable.setColor(color);
+            if (hachigramStatusDrawable != null) {
+                hachigramStatusDrawable.setColor(color);
             }
             if (a == 1) {
                 animatedStatusView.setColor(color);
@@ -11520,7 +11520,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (userInfo != null && userInfo.stars_rating != null && userInfo.stars_rating.stars < 0) {
                         newString2 = getString(R.string.StarRatingLevelNegative).toLowerCase(Locale.ROOT);
                     } else {
-                        if (CherrygramCoreConfig.isDevBuild() || CherrygramCoreConfig.isStandalonePremiumBuild()) {
+                        if (HachigramCoreConfig.isDevBuild() || HachigramCoreConfig.isStandalonePremiumBuild()) {
                             newString2 = LocaleController.formatUserStatus(currentAccount, user, isOnline, shortStatus ? new boolean[1] : null);
                         } else {
                             newString2 = LocaleController.getString(R.string.Online);
@@ -11541,7 +11541,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 }
             } else {
                 isOnline[0] = false;
-                String tgPremium = getMessagesController().isPremiumUser(user) && CherrygramAppearanceConfig.INSTANCE.getDisablePremiumStatuses() ? " | TG Premium" : "";
+                String tgPremium = getMessagesController().isPremiumUser(user) && HachigramAppearanceConfig.INSTANCE.getDisablePremiumStatuses() ? " | TG Premium" : "";
                 newString2 = LocaleController.formatUserStatus(currentAccount, user, isOnline, shortStatus ? new boolean[1] : null) + tgPremium;
                 hiddenStatusButton = user != null && !isOnline[0] && !getUserConfig().isPremium() && user.status != null && (user.status instanceof TLRPC.TL_userStatusRecently || user.status instanceof TLRPC.TL_userStatusLastMonth || user.status instanceof TLRPC.TL_userStatusLastWeek) && user.status.by_me;
                 if (onlineTextView[1] != null && !mediaHeaderVisible) {
@@ -11622,7 +11622,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         rightIconIsPremium = false;
                         nameTextView[a].setRightDrawable(getEmojiStatusDrawable(user.emoji_status, false, false, a));
                         nameTextViewRightDrawableContentDescription = LocaleController.getString(R.string.AccDescrPremium);
-                    } else if (getMessagesController().isPremiumUser(user) && !CherrygramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) {
+                    } else if (getMessagesController().isPremiumUser(user) && !HachigramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) {
                         rightIconIsStatus = false;
                         rightIconIsPremium = true;
                         nameTextView[a].setRightDrawable(getEmojiStatusDrawable(null, false, false, a));
@@ -11643,7 +11643,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                         rightIconIsStatus = true;
                         rightIconIsPremium = false;
                         nameTextView[a].setRightDrawable(getEmojiStatusDrawable(user.emoji_status, true, true, a));
-                    } else if (getMessagesController().isPremiumUser(user) && !CherrygramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) {
+                    } else if (getMessagesController().isPremiumUser(user) && !HachigramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) {
                         rightIconIsStatus = false;
                         rightIconIsPremium = true;
                         nameTextView[a].setRightDrawable(getEmojiStatusDrawable(null, true, true, a));
@@ -11734,7 +11734,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (userInfo != null && userInfo.stars_rating != null && userInfo.stars_rating.stars < 0) {
                     onlineTextView[3].setText(newString2 = getString(R.string.StarRatingLevelNegative).toLowerCase(Locale.ROOT));
                 } else {
-                    if (CherrygramCoreConfig.isDevBuild() || CherrygramCoreConfig.isStandalonePremiumBuild()) {
+                    if (HachigramCoreConfig.isDevBuild() || HachigramCoreConfig.isStandalonePremiumBuild()) {
                         onlineTextView[3].setText(LocaleController.formatUserStatus(currentAccount, user, isOnline, shortStatus ? new boolean[1] : null));
                     } else {
                         onlineTextView[3].setText(LocaleController.getString(R.string.Online));
@@ -11784,9 +11784,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             peerColor = MessagesController.PeerColor.fromCollectible(chat.emoji_status);
             if (peerColor == null) {
                 int colorId = ChatObject.getProfileColorId(chat);
-                if (chat.id == Constants.Cherrygram_Channel || chat.id == Constants.Cherrygram_APKs) {
+                if (chat.id == Constants.Hachigram_Channel) {
                     colorId = Constants.PROFILE_BACKGROUND_COLOR_ID_RED;
-                } else if (chat.id == Constants.Cherrygram_Support || chat.id == Constants.Cherrygram_Beta) {
+                } else if (chat.id == Constants.Hachigram_Support) {
                     colorId = Constants.PROFILE_BACKGROUND_COLOR_ID_GREEN_BLUE;
                 }
                 MessagesController.PeerColors peerColors = MessagesController.getInstance(currentAccount).profilePeerColors;
@@ -11796,9 +11796,9 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 updatedPeerColor();
             }
             if (topView != null) {
-                if (chat.id == Constants.Cherrygram_Channel || chat.id == Constants.Cherrygram_APKs) {
+                if (chat.id == Constants.Hachigram_Channel) {
                     topView.setBackgroundEmojiId(Constants.CHERRY_EMOJI_ID, true, true);
-                } else if (chat.id == Constants.Cherrygram_Support || chat.id == Constants.Cherrygram_Beta) {
+                } else if (chat.id == Constants.Hachigram_Support) {
                     topView.setBackgroundEmojiId(Constants.CHERRY_EMOJI_ID_BRA, true, true);
                 }else {
                     topView.setBackgroundEmojiId(ChatObject.getProfileEmojiId(chat), chat != null && chat.emoji_status instanceof TLRPC.TL_emojiStatusCollectible, true);
@@ -11991,10 +11991,10 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     }
                 }
 
-                if (chat.id == Constants.Cherrygram_Channel || chat.id == Constants.Cherrygram_APKs) {
+                if (chat.id == Constants.Hachigram_Channel) {
                     nameTextView[a].setRightDrawable(getEmojiStatusDrawable(Constants.CHERRY_EMOJI_ID, false, true, 18, a));
                     nameTextView[a].setRightDrawableOutside(true);
-                } else if (chat.id == Constants.Cherrygram_Support || chat.id == Constants.Cherrygram_Beta) {
+                } else if (chat.id == Constants.Hachigram_Support) {
                     nameTextView[a].setRightDrawable(getEmojiStatusDrawable(Constants.CHERRY_EMOJI_ID_BRA, false, true, 18, a));
                     nameTextView[a].setRightDrawableOutside(true);
                 }
@@ -12145,7 +12145,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             showStatusButton.setBackgroundColor(ColorUtils.blendARGB(Theme.multAlpha(Theme.adaptHSV(actionBarBackgroundColor, +0.18f, -0.1f), 0.5f), 0x23ffffff, currentExpandAnimatorValue));
         }
         if (actionBar != null) {
-            actionBar.setItemsColor(ColorUtils.blendARGB(peerColor != null && CherrygramAppearanceConfig.INSTANCE.getProfileBackgroundColor() ? Color.WHITE : getThemedColor(Theme.key_actionBarDefaultIcon), getThemedColor(Theme.key_actionBarActionModeDefaultIcon), mediaHeaderAnimationProgress), false);
+            actionBar.setItemsColor(ColorUtils.blendARGB(peerColor != null && HachigramAppearanceConfig.INSTANCE.getProfileBackgroundColor() ? Color.WHITE : getThemedColor(Theme.key_actionBarDefaultIcon), getThemedColor(Theme.key_actionBarActionModeDefaultIcon), mediaHeaderAnimationProgress), false);
             actionBar.setItemsBackgroundColor(ColorUtils.blendARGB(peerColor != null ? Theme.ACTION_BAR_WHITE_SELECTOR_COLOR : peerColor != null ? 0x20ffffff : getThemedColor(Theme.key_avatar_actionBarSelectorBlue), getThemedColor(Theme.key_actionBarActionModeDefaultSelector), mediaHeaderAnimationProgress), false);
         }
         if (verifiedDrawable[1] != null) {
@@ -12159,7 +12159,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             verifiedCheckDrawable[1].setColorFilter(AndroidUtilities.getOffsetColor(color1, color2, mediaHeaderAnimationProgress, 1.0f), PorterDuff.Mode.MULTIPLY);
         }
         if (nameTextView[1] != null) {
-            nameTextView[1].setTextColor(ColorUtils.blendARGB(ColorUtils.blendARGB(peerColor != null && CherrygramAppearanceConfig.INSTANCE.getProfileBackgroundColor() ? Color.WHITE : getThemedColor(Theme.key_profile_title), getThemedColor(Theme.key_player_actionBarTitle), mediaHeaderAnimationProgress), Color.WHITE, currentExpandAnimatorValue));
+            nameTextView[1].setTextColor(ColorUtils.blendARGB(ColorUtils.blendARGB(peerColor != null && HachigramAppearanceConfig.INSTANCE.getProfileBackgroundColor() ? Color.WHITE : getThemedColor(Theme.key_profile_title), getThemedColor(Theme.key_player_actionBarTitle), mediaHeaderAnimationProgress), Color.WHITE, currentExpandAnimatorValue));
         }
         if (autoDeletePopupWrapper != null && autoDeletePopupWrapper.textView != null) {
             autoDeletePopupWrapper.textView.invalidate();
@@ -12221,7 +12221,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
 
     private int applyPeerColor(int color, boolean actionBar, Boolean online) {
         if (!actionBar && isSettings()) return color;
-        if (peerColor != null && CherrygramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
+        if (peerColor != null && HachigramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
             if (!actionBar) {
                 int index = adaptedColors.indexOfKey(color);
                 if (index < 0) {
@@ -15830,7 +15830,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             int color1 = getThemedColor(Theme.key_profile_actionBackground);
             int color2 = getThemedColor(Theme.key_profile_actionPressedBackground);
             int iconColor = getThemedColor(Theme.key_profile_actionIcon);
-            if (peerColor != null && Theme.hasHue(color1) && CherrygramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
+            if (peerColor != null && Theme.hasHue(color1) && HachigramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
                 color1 = Theme.adaptHSV(peerColor.getBgColor1(false), +.05f, -.04f);
                 color2 = applyPeerColor2(color2);
                 iconColor = Color.WHITE;
@@ -16069,7 +16069,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
             color = getThemedColor(Theme.key_actionBarActionModeDefault);
         } else if (mediaHeaderVisible) {
             color = getThemedColor(Theme.key_windowBackgroundWhite);
-        } else if (peerColor != null && CherrygramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
+        } else if (peerColor != null && HachigramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
             color = peerColor.getBgColor2(Theme.isCurrentThemeDark());
         } else {
             color = getThemedColor(Theme.key_actionBarDefault);
@@ -16870,7 +16870,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private TLRPC.TL_emojiStatusCollectible collectibleStatus;
 
     public void setCollectibleGiftStatus(TLRPC.TL_emojiStatusCollectible status) {
-        if (CherrygramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) return;
+        if (HachigramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) return;
         if (avatarContainer2 == null) return;
         if (collectibleStatus == status) return;
         if (collectibleStatus != null && status != null && collectibleStatus.collectible_id == status.collectible_id)
@@ -16882,7 +16882,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         if (status != null && !TextUtils.isEmpty(status.slug)) {
             collectibleHintVisible = null;
             collectibleHint = new HintView2(getContext(), HintView2.DIRECTION_BOTTOM);
-            if (CherrygramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
+            if (HachigramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
                 collectibleHintBackgroundColor = Theme.blendOver(status.center_color | 0xFF000000, Theme.multAlpha(status.pattern_color | 0xFF000000, .5f));
                 collectibleHint.setFlicker(.66f, Theme.multAlpha(status.text_color | 0xFF000000, 0.5f));
             } else {
@@ -17256,7 +17256,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
         listView.smoothScrollToPosition(0);
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private int idDcRow;
     private StringBuilder userDcLine;
 
@@ -17264,24 +17264,24 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
     private int cgSettingsRow;
     private int cgShadowRow;
 
-    public AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable cherrygramStatusDrawable;
+    public AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable hachigramStatusDrawable;
     public Drawable getEmojiStatusDrawable(long document_id, boolean animated, boolean showParticles, int size, int a) {
-        if (cherrygramStatusDrawable == null) {
-            cherrygramStatusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(nameTextView[a], AndroidUtilities.dp(size), AnimatedEmojiDrawable.CACHE_TYPE_EMOJI_STATUS);
+        if (hachigramStatusDrawable == null) {
+            hachigramStatusDrawable = new AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable(nameTextView[a], AndroidUtilities.dp(size), AnimatedEmojiDrawable.CACHE_TYPE_EMOJI_STATUS);
             if (fragmentViewAttached) {
-                cherrygramStatusDrawable.attach();
+                hachigramStatusDrawable.attach();
             }
         }
         if (a == 1) {
             emojiStatusGiftId = null;
         }
-        cherrygramStatusDrawable.set(document_id, animated);
-        cherrygramStatusDrawable.setParticles(showParticles, animated);
+        hachigramStatusDrawable.set(document_id, animated);
+        hachigramStatusDrawable.setParticles(showParticles, animated);
 
         updateEmojiStatusDrawableColor();
-        return cherrygramStatusDrawable;
+        return hachigramStatusDrawable;
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
     private final class TextView2 extends TextView implements Theme.Colorable {
         public TextView2(@NonNull Context context) {

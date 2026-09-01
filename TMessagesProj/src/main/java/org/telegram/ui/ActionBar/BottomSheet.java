@@ -82,7 +82,7 @@ import org.telegram.ui.LaunchActivity;
 
 import java.util.ArrayList;
 
-import com.the306bobby.cherrygramnext.camera.CameraXView;
+import com.the306bobby.hachigram.camera.CameraXView;
 
 public class BottomSheet extends Dialog implements BaseFragment.AttachedSheet {
     private final static boolean AVOID_SYSTEM_CUTOUT_FULLSCREEN = false;

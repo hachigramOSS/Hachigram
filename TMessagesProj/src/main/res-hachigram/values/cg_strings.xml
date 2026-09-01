@@ -1,0 +1,498 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- by t.me/arsLan-->
+    <string name="CG_AppName" translatable="false">Hachigram</string>
+    <string name="CG_FollowChannelTitle">subscribe to the official channel</string>
+    <string name="CG_FollowChannelInfo">join the channel to stay up to date with all the news and features of Hachigram!</string>
+    <string name="CG_DoNotRemindAgain">don\'t remind again</string>
+
+    <!--Telegram screens-->
+    <string name="CG_SwitchedToAccount">switched to **%1$s**</string>
+
+    <string name="CG_JoinedDate">You joined **%1$s** **%2$s**</string>
+    <string name="CG_CreatedDate">**%1$s** was created **%2$s**</string>
+    <string name="CG_RegistrationDate">**%1$s** joined Telegram **%2$s**</string>
+    <string name="CG_RegistrationDateNewer">later than %s</string>
+    <string name="CG_RegistrationDateOlder">older than %s</string>
+    <string name="CG_RegistrationDateApproximately">approximately %s</string>
+    <string name="CG_RegistrationDateFailed">failed to get registration date.</string>
+    <!--Sign in screen-->
+    <string name="CG_QRLoginTitle">QR login</string>
+    <string name="CG_QRLoginMessage">scan the QR code with another device to log in.</string>
+    <!--Sign in screen-->
+
+    <!--Last seen status-->
+    <string name="CG_LastSeenNow">last seen just now</string>
+
+    <string name="CG_LastSeenMinutes_one">last seen %1$d minute ago</string>
+    <string name="CG_LastSeenMinutes_few">last seen %1$d minutes ago</string>
+    <string name="CG_LastSeenMinutes_many">last seen %1$d minutes ago</string>
+    <string name="CG_LastSeenMinutes_other">last seen %1$d minutes ago</string>
+
+    <string name="CG_LastSeenHours_one">last seen %1$d hour ago</string>
+    <string name="CG_LastSeenHours_few">last seen %1$d hours ago</string>
+    <string name="CG_LastSeenHours_many">last seen %1$d hours ago</string>
+    <string name="CG_LastSeenHours_other">last seen %1$d hours ago</string>
+    <!--Last seen status-->
+
+    <!--Typing status-->
+    <string name="CG_AndMoreTypingGroup_one">%1$s and %2$d more</string>
+    <string name="CG_AndMoreTypingGroup_other">%1$s and %2$d more</string>
+    <!--Typing status-->
+
+    <!--Telegram Folders Settings-->
+    <string name="CG_FoldersTypeTitles">only titles</string>
+    <string name="CG_FoldersTypeIcons">only icons</string>
+    <string name="CG_FoldersTypeIconsTitles">icons with titles</string>
+    <string name="CG_ChooseFolderIcon">choose an icon</string>
+    <string name="CP_NewTabs_NoCounter">hide counter in tabs</string>
+    <string name="CG_SwipeToUnarchive">swipe left to unarchive</string>
+    <!--Telegram Folders Settings-->
+
+    <!--Telegram Passkeys Settings-->
+    <string name="CG_PasskeyLogin">passkey login</string>
+    <string name="CG_PasskeyInfo2">this feature only works with password managers that allow the user to manage trust settings for privileged apps, such as **bitwarden** and **KeePassDX**.</string>
+    <string name="CG_PasskeyUnsupportedTitle">unsupported password manager</string>
+    <string name="CG_PasskeyUnsupportedMessage">try other password managers like **bitwarden** or **KeePassDX**.</string>
+    <string name="CG_PasskeyNoCredentialAvailable">no viable credential is available.</string>
+    <!--Telegram Passkeys Settings-->
+
+    <!--Chats screen-->
+    <string name="CG_JumpToBeginning">to the beginning</string>
+    <string name="CG_DeleteAllFromSelf">delete own messages</string>
+    <string name="CG_DeleteAllFromSelfAlert">warning! this will **delete all messages from you** in this chat for **all** participants.</string>
+    <string name="CG_DeleteAllFromSelfAlertBefore">warning! this will **delete all messages from you before %s** in this chat for **all** participants.</string>
+    <string name="CG_DeleteAllFromSelfBefore">before...</string>
+    <string name="CG_DeleteAllFromSelfAdmin">with admin rights</string>
+    <string name="CG_DeleteAllFromSelfDone">all of your messages have been deleted</string>
+
+    <string name="CG_ClearFromCache">clear from cache</string>
+    <string name="CG_ClearedFromCache">cleared from cache</string>
+    <string name="CG_ToSaved">save</string>
+
+    <string name="CG_CreateMention">create mention</string>
+    <string name="CG_CreateCode">create code</string>
+    <string name="CG_CreateCodeLanguage">language</string>
+
+    <string name="CG_FwdMenu_Authorship">sender name</string>
+    <string name="CG_FwdMenu_Captions">captions</string>
+    <string name="CG_FwdMenu_Notify">notify</string>
+
+    <string name="CG_Without_Authorship">without authorship</string>
+    <string name="CG_Without_Caption">without caption</string>
+
+    <string name="CG_CopyTitle">copy title</string>
+    <string name="CG_CopyCallback">copy callback data</string>
+    <string name="CG_CopyInlineQuery">copy inline query</string>
+    <string name="CG_CopyID">copy user ID</string>
+
+    <!--Location screen-->
+    <string name="CG_LocationPermission">Hachigram needs access to your location so you can share it with your friends. You will now be asked to allow your location to be used (while the app is open).</string>
+    <string name="CG_LocationPermission_Desc">however, if you want your location to be available to your friends while Hachigram is closed and in the background, then go to the \"live location\" feature. until you agree to use the live location feature, your location will not be available in the background.</string>
+    <string name="CG_Copy_Coordinates">coordinates</string>
+    <!--Location screen-->
+
+    <!--Search filter-->
+    <string name="CG_SearchFilter">filter search results</string>
+    <string name="CG_SearchFilter_None">none</string>
+    <string name="CG_SearchFilter_Photos">photos</string>
+    <string name="CG_SearchFilter_Videos">videos</string>
+    <string name="CG_SearchFilter_VoiceMessages">voice messages</string>
+    <string name="CG_SearchFilter_VideoMessages">video messages</string>
+    <string name="CG_SearchFilter_Files">files/documents</string>
+    <string name="CG_SearchFilter_Music">music</string>
+    <string name="CG_SearchFilter_GIFs">GIFs</string>
+    <string name="CG_SearchFilter_Geolocation">geolocation</string>
+    <string name="CG_SearchFilter_Contacts">contacts</string>
+    <string name="CG_SearchFilter_MyMentions">my mentions</string>
+    <!--Search filter-->
+    <!--Chats screen-->
+
+    <!--Misc-->
+
+    <string name="CG_SortByDate">sort by message date</string>
+    <string name="CG_SortByUnread">sort by unread first</string>
+
+    <string name="CG_UnknownCherrySettingsOption">there is no such cherry settings option.</string>
+    <string name="CG_Restart">restart app</string>
+    <string name="CG_RestartToApply">restart app to apply changes</string>
+    <string name="CG_PushService">Hachigram push service.</string>
+    <string name="CG_Kaboom">this feature can be accessed without the Hachigram password, through the system settings. this feature completely erases all your local (Hachigram\'s) data. it can be used in emergency situations.</string>
+    <string name="CG_AppCrashed">something went wrong</string>
+    <string name="CG_AppCrashedDesc">Hachigram has stopped working. please send logs to the developers so they can fix this bug as soon as possible.</string>
+    <string name="CG_CopyReportDetails">copy report details</string>
+    <string name="CG_ReportDetailsCopied">report details copied to clipboard.</string>
+    <string name="CG_TranslationLanguage">translation language</string>
+    <string name="CG_CopyPhoto">copy photo</string>
+    <string name="CG_CopyPhotoAsSticker">copy photo as sticker</string>
+    <string name="CG_SendPhotoAsSticker">send as sticker</string>
+    <string name="CG_PhotoCopied">photo copied to clipboard.</string>
+    <string name="CG_SaveSticker">save sticker</string>
+    <string name="CG_StickerSavedHint">sticker saved to downloads</string>
+    <string name="CG_CopySetId">copy set ID</string>
+    <string name="CG_ExportSettings">export settings</string>
+    <string name="CG_ImportSettings">import settings</string>
+    <string name="CG_ImportSettingsAlert">overwrite the settings\? importing settings from unknown sources may result in the app not working.</string>
+    <string name="CG_OpenStickerPack">tap to get the sticker</string>
+    <string name="CG_OpenEmojiPack">tap to get the emoji</string>
+
+    <string name="CG_ReplyContainsEmojiPack">this reply contains **%s** emoji</string>
+    <string name="CG_GetEmojiPack">get emoji</string>
+    <string name="CG_ProfileBackground">apply profile background</string>
+    <string name="CG_MessageContainsCustomReactions_one">reactions contain custom emoji \nfrom %1$d pack.</string>
+    <string name="CG_MessageContainsCustomReactions_other">reactions contain custom emojis \nfrom %1$d packs.</string>
+
+    <string name="CG_Sleep">sleep timer</string>
+    <string name="CG_Sleep_Timer">sleep timer is set to **%s**</string>
+    <string name="CG_Sleep_Disabled">sleep timer is disabled</string>
+    <string name="CG_Sleep_Permission">please allow Hachigram to schedule exact alarms so that the sleep timer can work properly.</string>
+    <!--Misc-->
+    <!--Telegram screens-->
+
+    <!--Hachigram screens-->
+
+    <!--Hachigram Preferences-->
+    <string name="CGP_AdvancedSettings">Hachigram preferences</string>
+    <string name="CGP_About_Desc">an experimental Telegram app modification. tap here to read the list of features.</string>
+    <string name="CGP_Header_About">about Hachigram</string>
+    <string name="CGP_Header_About_Desc">updates, source code and more</string>
+    <string name="CGP_Links">links</string>
+    <string name="CGP_ToChannel">official channel</string>
+    <string name="CGP_ToChat">official chat</string>
+    <string name="CGP_Source">source code</string>
+    <string name="CGP_Crowdin">help with translation</string>
+    <string name="CGP_Header_Categories">categories</string>
+    <!--Hachigram Preferences-->
+
+    <!--General Preferences-->
+    <string name="AP_Header_General">general</string>
+    <string name="CG_ResidentNotification">show a resident notification</string>
+    <!--General Preferences-->
+
+    <!--Appearance Preferences-->
+    <string name="AP_Header_Appearance">appearance</string>
+    <string name="AP_Header">header</string>
+    <string name="AP_IconReplacements">icon pack</string>
+    <string name="AP_Old_Notification_Icon">default notification icon (Telegram)</string>
+    <string name="AP_Tablet_Mode">tablet mode</string>
+    <string name="AP_ChangeIcon_Cherry_NY">new year</string>
+    <string name="AP_ChangeIcon_Dark">dark</string>
+    <string name="AP_ChangeIcon_White">white</string>
+    <string name="AP_ChangeIcon_Bra" translatable="false">Bra</string>
+    <string name="AP_ChangeIcon_Laguna">laguna</string>
+    <string name="AP_ChangeIcon_Green">green</string>
+    <string name="AP_ChangeIcon_Lavanda">lavanda</string>
+    <string name="AP_ChangeIcon_Violet_Sunset" translatable="false">Violet Sunset</string>
+    <string name="AP_ChangeIcon_Sunset">sunset</string>
+    <string name="AP_ChangeIcon_Sunrise">sunrise</string>
+    <string name="AP_IconReplacement_Solar">Solar icons by @design480</string>
+    <string name="AP_OneUI_Switch_Style">OneUI switch style</string>
+    <string name="AP_SystemEmoji">system emoji</string>
+    <string name="AP_ShowPencilIcon">pencil icon for edited Messages</string>
+    <string name="AP_CenterTitle">center title</string>
+    <string name="AP_HideSearchBar">hide search bar in chats</string>
+    <string name="AP_DisableDividers">disable dividers</string>
+    <string name="AP_SystemFonts">system fonts</string>
+
+    <string name="CP_Snowflakes_Header">snowflakes</string>
+
+    <string name="CP_ProfileReplyBackground">Messages and profiles</string>
+    <string name="CP_CustomizeProfile">customize profile</string>
+    <string name="CP_ProfileChannelPreview">personal channel</string>
+    <string name="CP_ProfileBirthDatePreview">date of birth</string>
+    <string name="CP_ProfileBusinessPreview">business hours and location</string>
+    <string name="CP_ProfileBackgroundColor">background in profile</string>
+    <string name="CP_ProfileBackgroundEmoji">emoji in profile background</string>
+    <string name="CP_CustomizeMessage">customize a message</string>
+    <string name="CP_ReplyBackground">background in replies</string>
+    <string name="CP_ReplyCustomColors">custom colors in replies and links preview</string>
+    <string name="CP_ReplyBackgroundEmoji">emoji in replies and links preview</string>
+    <string name="CP_HideStories">hide stories (locally)</string>
+    <string name="CP_HideStories_Desc">stories will disappear from your chats list and from profiles.</string>
+    <string name="CP_ArchiveStories">archive stories</string>
+    <string name="CP_ArchiveStories_Desc">stories will be automatically archived and moved to your archive.</string>
+    <string name="CP_CustomWallpapers">custom background in chats</string>
+    <string name="CP_CustomWallpapers_Desc">configure custom wallpapers in chats/groups/channels set by premium users/boosted channels</string>
+    <string name="CP_DisableReactionsOverlay">disable reactions overlay</string>
+    <string name="CP_DisableReactionsOverlay_Desc">this will disable popup overlay with available reactions</string>
+    <string name="CP_DisableReactionAnim">disable reaction animation</string>
+    <string name="CP_DisableReactionAnim_Desc">(when reacting to a message)</string>
+    <string name="CP_DisablePremiumStatuses">disable premium statuses</string>
+    <string name="CP_DisablePremiumStatuses_Desc">this will disable premium statuses everywhere, except drawer</string>
+    <string name="CP_DisablePremStickAnim">disable taps on premium stickers</string>
+    <string name="CP_DisablePremStickAnim_Desc">nothing will happen if you tap on premium sticker</string>
+    <string name="CP_DisablePremStickAutoPlay">disable premium stickers auto-play</string>
+    <string name="CP_DisablePremStickAutoPlay_Desc">Premium stickers animation will not be played automatically (feature will not work if you disabled taps on premium stickers)</string>
+
+    <string name="CP_Filters_Header">folders</string>
+    <string name="AP_FoldersAtBottom">show folders at the bottom</string>
+    <string name="AP_FolderNameInHeader">folder name instead of \"Hachigram\"</string>
+    <string name="AP_FolderNameInHeader_Desc">this will change \"Hachigram\" in action bar to your folder\'s name (useful if you have only icons instead of folder names)</string>
+    <string name="CP_NewTabs_RemoveAllChats">hide \"all chats\" tab</string>
+    <string name="AP_Tab_Style">tab style</string>
+    <string name="AP_Tab_Style_Stroke">add stroke</string>
+
+    <string name="CP_MainTabs_Header">bottom tabs organizer</string>
+    <string name="CP_MainTabs_Layout">tabs</string>
+    <string name="CP_MainTabs_ShowTabs">show tabs</string>
+    <string name="CP_MainTabs_OpenSettings">open settings by swipe</string>
+    <string name="CP_MainTabs_OpenSettings_Desc">swipe from left to right on the tabs to open the settings, similar to a drawer when tabs are disabled.</string>
+    <string name="CP_MainTabs_Layout_Desc">tap to enable/disable, hold and drag to reorder.</string>
+    <string name="CP_MainTabs_DoubleTap_Desc">double-tap a chat tab to open "Saved Messages". double-tap the profile tab (or settings if the profile tab is hidden) to switch accounts.</string>
+    <string name="CP_MainTabs_ShowTabsTitle">show tabs titles</string>
+    <string name="CP_MainTabs_ForceOpenChats">always search in chats</string>
+    <string name="CP_MainTabs_ForceOpenChats_Desc">when enabled, the search button always opens chat search. when disabled, it opens context search for the current screen (e.g., settings or contacts).</string>
+
+    <string name="AP_HideUserPhone_Show">tap to show</string>
+    <string name="AP_HideUserPhone_Copy">hold to copy</string>
+    <string name="AP_MutualContacts_Description">this is a mutual contact.</string>
+    <string name="AP_ShowID">show ID and DC in profile</string>
+    <!--Appearance Preferences-->
+
+    <!--Chats Preferences-->
+    <string name="CP_AutoQuoteReplies">quote replies</string>
+    <string name="CP_AutoQuoteReplies_Desc">send a quote with the text of the entire message instead of a normal reply. does not work in topics.</string>
+    <string name="CP_TimeOnStick">hide time on stickers in chat</string>
+
+    <string name="CP_ChatMenuShortcuts">chat menu shortcuts</string>
+    <string name="CP_AdminActions">admin shortcuts</string>
+
+    <string name="CP_MessageMenu">message menu</string>
+    <string name="CP_MessageMenuItems">message menu items</string>
+    <string name="CP_BlurMessageMenu">iOS-styled message menu</string>
+    <string name="CP_BlurMessageMenu_Desc">applies a blurred background to the message menu and displays the reaction panel above the message, similar to Telegram on iOS.</string>
+    <string name="CP_MessageMenuUnifiedScroll">unified scroll</string>
+    <string name="CP_MessageMenuUnifiedScroll_Desc">menu and message content will be displayed on a single, continuous sheet, utilizing a unified scroll instead of two separate scrolling areas.</string>
+    <string name="CP_MessageMenuAutoscroll">message autoscroll</string>
+    <string name="CP_MessageMenuAutoscroll_Desc">automatically scrolls the message menu content to the bottom on opening, similar to Telegram on iOS.</string>
+    <string name="CP_MessageMenuFixedHeight">comfortable message menu height</string>
+    <string name="CP_MessageMenuFixedHeight_Desc">the message menu will occupy half of the screen area for easier interaction.</string>
+    <string name="CP_BlurMessageMenuItems">blur menu items</string>
+    <string name="CP_BlurMessageMenuItems_Desc">blurs the menu items for a more authentic iOS look.</string>
+    <string name="CP_MessageMenuNativeBlur">native blur</string>
+    <string name="CP_MessageMenuNativeBlur_Desc">Android\'s built-in blur system will be used for the message menu background: smooth, live, and with minimal impact on performance.</string>
+    <string name="CP_MessageMenuCompactLayout">compact menu layout</string>
+    <string name="CP_MessageMenuCompactLayout_Desc">displays primary message actions in a compact layout at the bottom of the menu.</string>
+    <string name="CP_MessageMenuCompactLayout_Dot">A dot next to the button indicates it has a long-press action.</string>
+
+    <string name="CP_UnreadBadgeOnBackButton">show unread chats counter</string>
+    <string name="CP_UnreadBadgeOnBackButton_Desc">enable unread chats counter on back button in opened chat</string>
+    <string name="CP_Slider_RecentEmojisAndStickers">recent emojis and stickers counter</string>
+    <string name="CP_DeleteForAll">use \"delete for all\" by default</string>
+    <string name="CP_DeleteForAll_Desc">checkbox will be automatically checked while deleting messages.</string>
+    <string name="CP_ForwardMsgDate">show forwarded message date</string>
+    <string name="CP_ShowSeconds">format time with seconds</string>
+    <string name="CP_ShowSeconds_Desc" translatable="false">12:34 -> 12:34:56</string>
+    <string name="CP_FormatterDay24HSec" translatable="false">HH:mm:ss</string>
+    <string name="CP_FormatterDay12HSec" translatable="false">h:mm:ss a</string>
+    <string name="CP_LeftBottomButtonAction">left button action</string>
+    <string name="CP_DoubleTapAction">double tap action</string>
+    <string name="CG_MsgSlideAction">action on message swipe</string>
+    <string name="CP_DisableSwipeToNext">disable transition to the next channel</string>
+    <string name="CP_DisableSwipeToNext_Desc">disable switching to the next channel when scrolling through any channel</string>
+    <string name="CP_HideMuteUnmuteButton">hide bottom bar in channels</string>
+    <string name="CP_HideKbdOnScroll">scroll intensity to hide keyboard</string>
+    <string name="CP_HideSendAsChannel">hide \"send as channel\"</string>
+    <string name="CP_HideSendAsChannelDesc">You can access the menu by long-pressing the emoji/stickers/GIFs button</string>
+
+    <string name="CP_GeminiAI_Header" translatable="false">Gemini AI</string>
+    <string name="CP_GeminiAI_API_Key">Gemini API key</string>
+    <string name="CP_GeminiAI_API_Key_Desc">visit <![CDATA[<a href="https://aistudio.google.com/apikey">https://aistudio.google.com</a>]]> to obtain the API key.</string>
+    <string name="CP_GeminiAI_Model">Gemini model code</string>
+    <string name="CP_GeminiAI_Model_Desc">visit <![CDATA[<a href="https://ai.google.dev/gemini-api/docs/models/gemini#model-variations">https://ai.google.dev/gemini-api/docs/models/gemini</a>]]> to get the list of available models.</string>
+    <string name="CP_GeminiAI_Model_Selector">Gemini models list</string>
+    <string name="CP_GeminiAI_Model_Selector_Desc">if you have a valid API key, tap here to choose a model and fill the field automatically.</string>
+    <string name="CP_GeminiAI_Sample">sample:</string>
+    <string name="CP_GeminiAI_Instruction">to use the Gemini,
+        you need to fill in all the values on this screen.
+        \n\nafter that, open any chat, type a message and hold down the send message button.
+        \n\nmoreover, you can reply to a message using AI as well. to do this, tap on any text message in the chat.
+    </string>
+    <string name="CP_GeminiAI_System_Prompt">system prompt</string>
+    <string name="CP_GeminiAI_System_Prompt_Desc">the system prompt defines Gemini\'s style and behavior. You can edit the text to control the format of responses.</string>
+    <string name="CP_GeminiAI_Temperature">temperature</string>
+    <string name="CP_GeminiAI_Temperature_Desc">control the creativity of the text. low values make the text more predictable and focused, high values - more random and original.</string>
+    <string name="CP_GeminiAI_ExtractText">extract text (OCR)</string>
+    <string name="CP_GeminiAI_Summarize">summarize</string>
+    <string name="CP_GeminiAI_VoiceTranscriptionProvider">voice transcription provider</string>
+
+    <string name="CP_Header_Record">media</string>
+    <string name="CP_Messages_Size">Messages bubble size</string>
+
+    <string name="CP_Message_Filtering">message filtering</string>
+    <string name="CP_Message_Filtering_Filter">enable filter</string>
+    <string name="CP_Message_Filtering_Filter_Desc">when the filter is enabled, selected words in incoming messages will automatically be hidden under a spoiler effect, making them unreadable until revealed.</string>
+    <string name="CP_Message_Filtering_Field">enter words to filter</string>
+    <string name="CP_Message_Filtering_Field_Desc">separate words with a comma, space, or line break. use parentheses to group multiple words into a phrase. case insensitive.
+        \nexample: word, another, (multiple words here).
+    </string>
+    <string name="CP_Message_Filtering_Translit">translit detection</string>
+    <string name="CP_Message_Filtering_Translit_Desc">when enabled, the filter will also detect words written in transliteration (for example, \"test\" will be recognized as \"тест\").
+        this helps to catch and hide messages under a spoiler even if cyrillic letters are replaced with latin ones. may slightly increase device CPU load.
+    </string>
+    <string name="CP_Message_Filtering_Exact_Words">exact word match</string>
+    <string name="CP_Message_Filtering_Exact_Words_Desc">when enabled, only words that fully match those in the filter list will be hidden.
+        if a word appears in a different form (with prefixes, endings, or inside other words), it will not be hidden.
+    </string>
+    <string name="CP_Message_Filtering_Exclusions">exclusions</string>
+    <string name="CP_Message_Filtering_Exclude_Destination">to update exclusions</string>
+    <string name="CP_Message_Filtering_Exclude_Sure">will be excluded</string>
+    <string name="CP_Message_Filtering_Entities">link entity filter</string>
+    <string name="CP_Message_Filtering_EntitiesDesc">when enabled, this option extends filtering to links (entities) contained in messages. the system will scan the URLs for any of your configured filter keywords.
+        if a match is found inside the link, the entire message will be automatically hidden under a spoiler, regardless of whether the keyword appears in the visible text or not.
+        \n\nthis helps protect against disguised spam, hidden advertising, or phishing domains that could otherwise bypass regular text-based filtering.
+    </string>
+    <string name="CP_Message_Filtering_FilterBlocked">filter messages from blocked users</string>
+    <string name="CP_Message_Filtering_HideBlocked">hide messages from blocked users</string>
+    <string name="CP_Message_Filtering_HideBlockedDesc">when enabled, all messages and forwarded messages from blocked users will automatically be hidden under a spoiler.</string>
+    <string name="CP_Message_Filtering_HideAll">entire message spoiler</string>
+    <string name="CP_Message_Filtering_HideAllDesc">hides the entire message text and media under a spoiler if it contains a filtered word.</string>
+    <string name="CP_Message_Filtering_Collapse">collapse messages</string>
+    <string name="CP_Message_Filtering_Collapse_Desc">when enabled, messages will automatically be collapsed. You can expand them by tapping on the message.</string>
+    <string name="CP_Message_Filtering_Transparent">message transparency</string>
+    <string name="CP_Message_Filtering_Transparent_Desc">filtered messages become transparent so you can easily tell them apart.</string>
+
+    <string name="CP_Slider_MediaAmplifier">photos and videos</string>
+    <string name="CP_Slider_MediaAmplifier_Hint">does not work with albums (grouped media)</string>
+    <string name="CP_LargeVoiceMessages">adaptive audio message length</string>
+    <string name="CP_LargeVoiceMessages_Desc">the audio message bubble length will depend on the recording duration and automatically adjust to the screen width.</string>
+
+    <string name="CP_PlayVideo">Play video with volume button press</string>
+    <string name="CP_PlayVideo_Desc">when you press the volume button, any video on the screen in chat will be played</string>
+    <string name="CP_AutoPauseVideo">auto pause video</string>
+    <string name="CP_AutoPauseVideo_Desc">when locking the screen or switching to the background</string>
+    <string name="CP_DisableVibration">disable vibration</string>
+    <string name="CP_VideoSeekDuration">double-tap to seek video (seconds)</string>
+
+    <string name="CP_VibrateInChats">in-chat vibration</string>
+    <string name="CP_VibrateInChats_Desc">make a short vibration when you receive a message in chats</string>
+    <string name="CP_SilenceNonContacts">silence non-contacts</string>
+    <string name="CP_SilenceNonContacts_Desc">if enabled, notifications with sound will come only from contacts. You can add a person to your contacts even without a phone number, do it in their profile</string>
+    <!--Chats Preferences-->
+
+    <!--Camera Preferences-->
+    <string name="CP_Category_Camera">camera</string>
+    <string name="CP_CameraType">camera type</string>
+    <string name="CP_Camera2Desc">all features that are hidden when camera2 is turned on will not work with camera2 enabled.</string>
+    <string name="CP_CameraStabilisation">camera stabilisation</string>
+    <string name="CP_CameraUW">start from UW</string>
+    <string name="CP_CameraUW_Desc">recording of video messages will start from ultra wide camera (if your device\'s API supports it)</string>
+    <string name="CP_CameraDualCamera">dual camera</string>
+    <string name="CP_CameraDualCamera_Desc">captures video message on both cameras for faster switching between cameras while recording. uses more battery.</string>
+    <string name="CP_DefaultCameraDesc">use the Telegram\'s built-in camera.</string>
+    <string name="CP_CameraXDesc">CameraX is only supported on <![CDATA[<a href="https://developer.android.com/training/camerax/devices">selected devices</a>]]>, effects and lenses support depends on your manufacturer.</string>
+    <string name="CP_CameraQuality">camera quality</string>
+    <string name="CP_CameraTypeSystem">system</string>
+    <string name="CP_SystemCameraDesc">access directly the system camera (not applicable for video messages).</string>
+
+    <string name="CP_CameraAspectRatio">camera aspect ratio</string>
+    <string name="CP_CenterCameraControlButtons">center control buttons</string>
+    <string name="CP_CenterCameraControlButtons_Desc">center switch camera and flashlight buttons.</string>
+    <string name="CP_RearCam">use rear camera</string>
+    <string name="CP_RearCam_Desc">instead of front camera for video messages</string>
+    <string name="CP_DisableCam">camera button at bottom</string>
+    <string name="CP_DisableCam_Desc">the camera button will appear next to the gallery button. \ntap to open Telegram camera, hold to launch the system camera.</string>
+
+    <string name="CP_Header_Videomessages">video messages</string>
+    <string name="CP_ExposureSliderPosition">exposure slider position</string>
+    <string name="CP_ZoomSliderPosition_Bottom">bottom</string>
+    <string name="CP_ZoomSliderPosition_Right">right</string>
+    <string name="CP_ZoomSliderPosition_Left">left</string>
+    <string name="CP_Exposure">exposure</string>
+    <string name="CP_Brightness">brightness</string>
+    <string name="CP_Flash_Hint">hold the flash button to adjust the color and brightness of the flash.</string>
+    <string name="CP_Flash_Hint_Rear">hold the flash button to adjust the brightness of the flash.</string>
+    <!--Camera Preferences-->
+
+    <!--Experimental Preferences-->
+    <string name="EP_Category_Experimental">experimental</string>
+    <string name="EP_NavigationAnimation">navigation animation</string>
+    <string name="EP_NavigationAnimationSpring" translatable="false">Spring</string>
+    <string name="EP_NavigationAnimationBezier">classic</string>
+    <string name="EP_NavigationAnimationCrossfading">crossfading effect</string>
+    <string name="CG_PredictiveBackAnimation">predictive-back navigation</string>
+    <string name="EP_PhotosSize">send large photos (2560px)</string>
+    <string name="EP_CustomChat">custom chat for Saved Messages</string>
+    <string name="EP_CustomChat_Desc">You can choose any other chat/group/channel to forward messages there (button in action bar, message menu, double tap or on message swipe)</string>
+    <string name="EP_CustomChat_Selected_Title">instead of</string>
+    <string name="EP_Network">network</string>
+    <string name="EP_DownloadSpeedBoost">download speed boost</string>
+    <string name="EP_DownloadSpeedBoostExtreme">extreme</string>
+    <string name="EP_UploadloadSpeedBoost">upload speed boost</string>
+    <string name="EP_SlowNetworkMode">slow network mode</string>
+    <!--Experimental Preferences-->
+
+    <!--Security Preferences-->
+    <string name="SP_Header_Privacy">privacy</string>
+    <string name="SP_NoProxyPromo">don\'t show proxy sponsor</string>
+    <string name="SP_GoogleAnalytics" translatable="false">Google Analytics</string>
+    <string name="SP_GoogleAnalytics_Desc">by enabling this, all application crashes and statistics will be reported to \"console.firebase.google.com\" for further review by the developer.</string>
+
+    <string name="SP_AskBioToOpenChats">ask for biometrics to open chats</string>
+    <string name="SP_AskBioToOpenChats_Desc">system password (fingerprint, face id, PIN or pattern) will be required to access selected type of chats.</string>
+
+    <string name="SP_LockedChats">locked chats</string>
+    <string name="SP_LockedChats_Lock_Destination">to update the locked list</string>
+    <string name="SP_LockedChats_Lock_Destination_Sure">will be locked</string>
+    <string name="SP_HideArchive">hide archive from chats list</string>
+    <string name="SP_HideArchive_Desc">the archive will be masked as Hachigram channel. \nYou will be able to open archive from drawer or by long tap on search button.</string>
+
+    <string name="SP_AskPin">require password</string>
+    <string name="SP_DoNotAskPin">don\'t require password</string>
+
+    <string name="SP_AskPinBeforeDelete">require biometrics to delete chats</string>
+    <string name="SP_AskPinBeforeDelete_Desc">if you want to delete a chat or clear history, biometric confirmation will be required. passcode and biometric confirmation in system need to be enabled.</string>
+
+    <string name="SP_AllowUseSystemPasscode">allow use system PIN/pattern</string>
+    <string name="SP_AllowUseSystemPasscode_Desc">\"cancel\" button on the fingerprint confirmation dialog will be replaced by \"pin/pattern\" button and you will be able to use your system password to unlock Hachigram.</string>
+    <string name="SP_TestFingerprint">test fingerprint</string>
+    <string name="SP_TestFingerprint_Desc">if fingerprint authentication is already enabled and you do not see the features, try pressing the \"test fingerprint\" button to resolve the issue.</string>
+    <string name="SP_BiometricUnavailable_Test_Fixed">fingerprint has been detected successfully!</string>
+    <string name="SP_BiometricUnavailable_Test_Wrong_Desc">try to reboot your device or check system settings.</string>
+
+    <string name="SP_DeleteAccount">delete Telegram account</string>
+    <!--Security Preferences-->
+
+    <!--Updates Preferences-->
+    <string name="UP_Category_Updates">updates</string>
+    <string name="UP_TapToCheckUpdates">tap here to get info about updates</string>
+    <string name="UP_LastCheck">last check</string>
+    <string name="UP_CurrentVersion">current version</string>
+    <string name="UP_BuildType">build type</string>
+    <string name="UP_BTRelease">stable</string>
+    <string name="UP_BTBeta">beta</string>
+    <string name="UP_InstallBetas">install beta versions</string>
+    <string name="UP_Auto_OTA">check on launch</string>
+    <string name="UP_ClearUpdatesCache">clear updates cache</string>
+    <string name="UP_ClearedUpdatesCache">cleared %1$s of cache.</string>
+    <string name="UP_NothingToClear">nothing to clear.</string>
+    <string name="UP_CheckForUpdates">check for updates</string>
+    <string name="UP_Not_Found">Hachigram is up to date.</string>
+    <string name="UP_UpdateAvailable">update available!</string>
+    <string name="UP_Version">version</string>
+    <string name="UP_Changelog">changelog:</string>
+    <string name="UP_ChangelogRead">tap to read</string>
+    <string name="UP_Download">download</string>
+    <!--Updates Preferences-->
+
+    <!--Donations-->
+    <string name="DP_EnjoyingUs">enjoying Hachigram?</string>
+    <string name="DP_RateUs">rate us on Google Play!</string>
+
+
+
+
+
+
+
+    <string name="DP_CameraCutoutHeader">branded screenshots</string>
+    <string name="DP_CameraCutout">show Hachigram logo</string>
+    <string name="DP_CameraCutoutDesc">You can show the Hachigram logo under your camera — it will appear in screenshots.
+    \nif the logo **displays correctly and stays within your camera area**, please keep this option enabled.
+    \nit helps promote the app and support the project — I would really appreciate it! ❤️</string>
+
+
+    <!--Donations-->
+    <!--Hachigram screens-->
+
+</resources>

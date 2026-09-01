@@ -60,7 +60,7 @@ import java.util.ArrayList;
 
 import me.vkryl.core.BitwiseUtils;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
 
 public class UniversalAdapter extends AdapterWithDiffUtils {
 
@@ -795,7 +795,7 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
                     }
                     cell3 = btn;
                 }
-                if (!CherrygramAppearanceConfig.INSTANCE.getDisableDividers()) {
+                if (!HachigramAppearanceConfig.INSTANCE.getDisableDividers()) {
                     final boolean prev = prevItem != null && !isShadow(prevItem.viewType);
                     final boolean next = nextItem != null && !isShadow(nextItem.viewType);
                     if (listView.hasSections()) {
@@ -1262,11 +1262,11 @@ public class UniversalAdapter extends AdapterWithDiffUtils {
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public static final int VIEW_TYPE_TEXT_DETAIL_SETTINGS = 100;
     public static final int VIEW_TYPE_SPACE_CG = 101;
     public static final int VIEW_TYPE_CUSTOM_WITH_BACKGROUND = 102;
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
     public static class SpaceView extends View {
 

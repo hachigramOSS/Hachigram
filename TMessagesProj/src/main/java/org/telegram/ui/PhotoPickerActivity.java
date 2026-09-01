@@ -103,7 +103,7 @@ import org.telegram.ui.Components.StickerEmptyView;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 public class PhotoPickerActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1156,7 +1156,7 @@ public class PhotoPickerActivity extends BaseFragment implements NotificationCen
                 view.getLocationInWindow(location);
                 sendPopupWindow.showAtLocation(view, Gravity.LEFT | Gravity.TOP, location[0] + view.getMeasuredWidth() - sendPopupLayout.getMeasuredWidth() + AndroidUtilities.dp(8), location[1] - sendPopupLayout.getMeasuredHeight() - AndroidUtilities.dp(2));
                 sendPopupWindow.dimBehind();
-                if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                     try {
                         view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception ignored) {}

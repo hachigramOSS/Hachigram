@@ -1,34 +1,43 @@
-# 🍒 Cherrygram
+# Hachigram
 
-Cherrygram is a third-party Telegram client with not many but useful modifications.
+an opinionated, fully open-source Telegram client for Android.
 
-This is an unofficial fork of the original [Telegram App for Android](https://github.com/DrKLO/Telegram).
+Hachigram is a fork of [Cherrygram](https://github.com/arsLan4k1390/Cherrygram),
+picked up from the last source it published, brought up to current upstream
+[Telegram](https://github.com/DrKLO/Telegram), and stripped of everything that
+phoned home or answered to someone else.
 
-This repo contains the official source code for [Telegram App for Android](https://play.google.com/store/apps/details?id=org.telegram.messenger).
+named after a shiba who is not Hachiko but would also wait.
 
-## Current Maintainers
+## what's different
 
-- [arsLan4k1390](https://github.com/arsLan4k1390)
-- You? :)
+- no anti-tamper sdk, no huawei services, no donation system
+- no hardcoded privileges for anyone's account
+- firebase does push and nothing else. no analytics, no crash reporting, no remote
+  config, so nothing changes the app's behaviour from a server
+- everything that used to be locked behind donating is just available
+- builds from a clean clone, which the upstream project did not
 
-## Contributors
+## install
 
-- [arsLan4k1390](https://github.com/arsLan4k1390)
+Grab an APK from
+[releases](https://git.306bobbyandroid.download/306bobby/Hachigram/releases).
+`arm64-v8a` for anything modern, `armeabi-v7a` for older 32-bit devices, or the
+universal build if you are unsure.
 
+It installs alongside other Telegram clients rather than replacing them.
 
-## Discussion
+## privacy
 
-Join the [Cherrygram official channel](https://t.me/cherrygram)
+[what these builds do and do not send](https://the306bobby.com/hachigram/privacy).
+short version: nothing phones home. push notifications go through firebase because
+it costs far less battery than holding our own connection, and the payload is
+encrypted so google cannot read it.
 
-Join the [Cherrygram official group](https://t.me/CherrygramSupport)
+## licence
 
-
-## API, Protocol documentation
-
-Telegram API manuals: https://core.telegram.org/api
-
-MTproto protocol manuals: https://core.telegram.org/mtproto
-
+GPLv2, inherited from Telegram. Cherrygram's copyright notices are kept in the
+files that came from it, as the licence requires.
 
 ## Versioning and releases
 
@@ -54,7 +63,7 @@ You will require Android Studio 2025.1.4, Android NDK 27.2.12479018 and Android 
 1. Clone the source code **with its submodules** — upstream Telegram now vendors ffmpeg,
    libvpx, dav1d, opus, openh264, libyuv, tlottie and jlatexmath as git submodules:
    ```bash
-   git clone --recursive --shallow-submodules <your-fork-url> Cherrygram-Next
+   git clone --recursive --shallow-submodules <your-fork-url> Hachigram
    ```
    If you already cloned without `--recursive`:
    ```bash
@@ -65,13 +74,15 @@ You will require Android Studio 2025.1.4, Android NDK 27.2.12479018 and Android 
 3. Go to https://console.firebase.google.com/, create android apps matching your application ID,
    enable Firebase Messaging and download `google-services.json` into the `TMessagesProj` folder.
 4. Open the project in Android Studio (note that it should be opened, NOT imported).
-5. Fill out values in `TMessagesProj/src/main/java/com/the306bobby/cherrygramnext/Extra.kt` – each variable
+5. Fill out values in `TMessagesProj/src/main/java/com/the306bobby/hachigram/Extra.kt` – each variable
    contains a link explaining where to get the required data. Register your own `api_id`/`api_hash`
    at https://my.telegram.org; do not reuse another client's.
 6. You are ready to compile.
 
 
-## Thanks to:
+## thanks to
+- [Cherrygram](https://github.com/arsLan4k1390/Cherrygram), which this is a fork of
+- [inugram](https://github.com/teidesu/inugram), whose patches this carries
 - [Catogram](https://github.com/Catogram/Catogram) and [Nekogram](https://gitlab.com/Nekogram/Nekogram)
 - [exteraGram](https://github.com/exteraSquad/exteraGram) and [OwlGram](https://github.com/OwlGramDev/OwlGram)
 - [Telegraher](https://github.com/nikitasius/Telegraher) and [Telegram Monet](https://github.com/c3r5b8/Telegram-Monet)

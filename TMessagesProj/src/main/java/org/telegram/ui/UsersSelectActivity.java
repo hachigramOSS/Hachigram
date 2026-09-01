@@ -1665,7 +1665,7 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         return themeDescriptions;
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public final static int TYPE_LOCKED_CHATS = 1390;
     public final static int TYPE_FILTER_EXCLUDED_CHATS = 1391;
 
@@ -1680,6 +1680,6 @@ public class UsersSelectActivity extends BaseFragment implements NotificationCen
         allowSelf = true;
         return this;
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

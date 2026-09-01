@@ -29,7 +29,7 @@ import org.telegram.ui.Components.glass.GlassTabView;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.ListAnimator;
@@ -62,7 +62,7 @@ public class MainTabsLayout extends AnimatedLinearLayout {
         int width = MeasureSpec.getSize(widthMeasureSpec);
         final int height = MeasureSpec.getSize(heightMeasureSpec);
         final int tabHeight = height - getPaddingTop() - getPaddingBottom();
-        final int tabWidth = dp(CherrygramAppearanceConfig.INSTANCE.getShowMainTabsTitle() ? 24 : 12);
+        final int tabWidth = dp(HachigramAppearanceConfig.INSTANCE.getShowMainTabsTitle() ? 24 : 12);
 
         if (maxWidthPx > 0 && width > maxWidthPx) {
             width = maxWidthPx;

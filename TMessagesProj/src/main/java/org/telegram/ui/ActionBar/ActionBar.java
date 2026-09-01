@@ -80,9 +80,9 @@ import java.util.ArrayList;
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
 import me.vkryl.android.animator.ReplaceAnimator;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.helpers.ui.FontHelper;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.helpers.ui.FontHelper;
 
 public class ActionBar extends FrameLayout implements FactorAnimator.Target, Theme.Colorable {
 
@@ -425,7 +425,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
                     }
                 }
 
-                if (/*Theme.canStartHolidayAnimation() ||*/ CherrygramAppearanceConfig.INSTANCE.getDrawSnowInActionBar()) {
+                if (/*Theme.canStartHolidayAnimation() ||*/ HachigramAppearanceConfig.INSTANCE.getDrawSnowInActionBar()) {
                     if (snowflakesEffect == null) {
                         snowflakesEffect = new SnowflakesEffect(0);
                     }
@@ -551,7 +551,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         }
     }
 
-    private boolean isCenterTitle = CherrygramAppearanceConfig.INSTANCE.getCenterTitle();
+    private boolean isCenterTitle = HachigramAppearanceConfig.INSTANCE.getCenterTitle();
 
     public void centerTitle() {
         isCenterTitle = true;
@@ -2552,7 +2552,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private CounterView countLayout;
 
     public class UnreadImageView extends ImageView {
@@ -2582,7 +2582,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
         }
 
         public void checkUnreadView(int count) {
-            if (!CherrygramChatsConfig.INSTANCE.getUnreadBadgeOnBackButton()) return;
+            if (!HachigramChatsConfig.INSTANCE.getUnreadBadgeOnBackButton()) return;
             if (countLayout == null) {
                 createUnreadView(count);
             } else {
@@ -2618,6 +2618,6 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
     public int getItemsColor() {
         return itemsColor;
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

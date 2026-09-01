@@ -32,8 +32,8 @@ import org.telegram.ui.Components.chat.buttons.ChatActivityBlurredRoundButton;
 import me.vkryl.android.AnimatorUtils;
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
-import com.the306bobby.cherrygramnext.core.helpers.CGResourcesHelper;
+import com.the306bobby.hachigram.core.configs.HachigramMessagesConfig;
+import com.the306bobby.hachigram.core.helpers.CGResourcesHelper;
 
 @SuppressLint("ViewConstructor")
 public class ChatActivityActionsButtonsLayout extends LinearLayout {
@@ -64,8 +64,8 @@ public class ChatActivityActionsButtonsLayout extends LinearLayout {
         int replyButtonIcon = CGResourcesHelper.INSTANCE.getLeftButtonDrawable(noForwards);
         String replyButtonText = CGResourcesHelper.INSTANCE.getLeftButtonText(noForwards);
 
-        addTextView(replyButton, replyButtonText, replyButtonIcon, CherrygramMessagesConfig.INSTANCE.getLeftBottomButton() != CherrygramMessagesConfig.LEFT_BUTTON_REPLY);
-        addTextView(forwardButton, LocaleController.getString(R.string.Forward), R.drawable.input_forward, CherrygramMessagesConfig.INSTANCE.getLeftBottomButton() == CherrygramMessagesConfig.LEFT_BUTTON_REPLY);
+        addTextView(replyButton, replyButtonText, replyButtonIcon, HachigramMessagesConfig.INSTANCE.getLeftBottomButton() != HachigramMessagesConfig.LEFT_BUTTON_REPLY);
+        addTextView(forwardButton, LocaleController.getString(R.string.Forward), R.drawable.input_forward, HachigramMessagesConfig.INSTANCE.getLeftBottomButton() == HachigramMessagesConfig.LEFT_BUTTON_REPLY);
 
         setOrientation(HORIZONTAL);
         setClipChildren(false);
@@ -96,7 +96,7 @@ public class ChatActivityActionsButtonsLayout extends LinearLayout {
         forwardButton.setTextColor(Theme.getColor(Theme.key_glass_defaultText, resourcesProvider));
         forwardButton.setTypeface(AndroidUtilities.bold());
 
-        if (button == replyButton && CherrygramMessagesConfig.INSTANCE.getLeftBottomButton() != CherrygramMessagesConfig.LEFT_BUTTON_REPLY) {
+        if (button == replyButton && HachigramMessagesConfig.INSTANCE.getLeftBottomButton() != HachigramMessagesConfig.LEFT_BUTTON_REPLY) {
             forwardButton.setSingleLine(true);
             forwardButton.setEllipsize(TextUtils.TruncateAt.MARQUEE);
             forwardButton.setMarqueeRepeatLimit(-1);
@@ -193,7 +193,7 @@ public class ChatActivityActionsButtonsLayout extends LinearLayout {
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private boolean noForwards;
 
     public void setNoForwards(boolean b) {
@@ -228,6 +228,6 @@ public class ChatActivityActionsButtonsLayout extends LinearLayout {
         holder.textView.invalidate();
         holder.button.invalidate();
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

@@ -1,0 +1,171 @@
+/**
+ * This is the source code of Hachigram for Android.
+ * It is a fork of Cherrygram, licensed under GNU GPL v. 2 or later.
+ * You should have received a copy of the license in this archive (see LICENSE).
+ * Please, be respectful and credit the original author if you use this code.
+ *
+ * Copyright github.com/arsLan4k1390, 2022-2026.
+ * Copyright github.com/306bobby-android, 2026.
+ */
+
+package com.the306bobby.hachigram.core.configs
+
+import android.app.Activity
+import android.content.SharedPreferences
+import android.os.Build
+import com.google.firebase.FirebaseApp
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.launch
+import org.telegram.messenger.ApplicationLoader
+import org.telegram.messenger.LocaleController.getString
+import org.telegram.messenger.MessagesController
+import org.telegram.messenger.R
+import org.telegram.messenger.UserConfig
+import com.the306bobby.hachigram.misc.Constants
+import com.the306bobby.hachigram.preferences.boolean
+import com.the306bobby.hachigram.preferences.float
+import com.the306bobby.hachigram.preferences.int
+import com.the306bobby.hachigram.preferences.long
+import com.the306bobby.hachigram.preferences.string
+import androidx.core.content.edit
+
+object HachigramCoreConfig: CoroutineScope by CoroutineScope(
+    context = SupervisorJob() + Dispatchers.Default
+) {
+
+    private val sharedPreferences: SharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE)
+
+    fun putBoolean(key: String, value: Boolean) {
+        val preferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE)
+        preferences.edit {
+            putBoolean(key, value)
+        }
+    }
+
+    fun putStringForUserPrefs(key: String, value: String) {
+        val preferences = MessagesController.getMainSettings(UserConfig.selectedAccount)
+        preferences.edit {
+            putString(key, value)
+        }
+    }
+
+    /** General start */
+    /** Animations start */
+    const val ANIMATION_SPRING = 0
+    const val ANIMATION_CLASSIC = 1
+    var springAnimation by sharedPreferences.int("CG_SpringAnimation", ANIMATION_SPRING)
+
+    var actionbarCrossfade by sharedPreferences.boolean("CG_ActionbarCrossfade", true)
+    var predictiveBack by sharedPreferences.boolean("CG_PredictiveBack", false)
+    /** Animations finish */
+
+    /** Notifications start */
+    var silenceNonContacts by sharedPreferences.boolean("CP_SilenceNonContacts", false)
+    var oldNotificationIcon by sharedPreferences.boolean("AP_Old_Notification_Icon", false)
+    var residentNotification by sharedPreferences.boolean("CG_ResidentNotification", Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM && !ApplicationLoader.checkPlayServices())
+    /** Notifications finish */
+
+    /** Stories start */
+    var hideStories by sharedPreferences.boolean("CP_HideStories", false)
+    var archiveStoriesFromUsers by sharedPreferences.boolean("CP_ArchiveStoriesFromUsers", false)
+    var archiveStoriesFromChannels by sharedPreferences.boolean("CP_ArchiveStoriesFromChannels", false)
+    /** Stories finish */
+
+    /** Miscellaneous start */
+    var noRounding by sharedPreferences.boolean("CP_NoRounding1", true)
+    var systemEmoji by sharedPreferences.boolean("AP_SystemEmoji", false)
+    var systemFonts by sharedPreferences.boolean("AP_SystemFonts", true)
+
+    const val EDGE_MODE_ENABLE = 0
+    const val EDGE_MODE_DISABLE = 1
+    const val EDGE_MODE_AUTO = 2
+    var edgeToEdgeMode by sharedPreferences.int("CP_EdgeToEdge", EDGE_MODE_AUTO)
+
+    const val TABLET_MODE_ENABLE = 0
+    const val TABLET_MODE_DISABLE = 1
+    const val TABLET_MODE_AUTO = 2
+    var tabletMode by sharedPreferences.int("AP_Tablet_Mode", TABLET_MODE_AUTO)
+    /** Miscellaneous finish */
+
+    /** Network start */
+    const val BOOST_NONE = 0
+    const val BOOST_AVERAGE = 1
+    const val BOOST_EXTREME = 2
+    var downloadSpeedBoost by sharedPreferences.int("EP_DownloadSpeedBoost", BOOST_NONE)
+
+    var uploadSpeedBoost by sharedPreferences.boolean("EP_UploadSpeedBoost", false)
+    var slowNetworkMode by sharedPreferences.boolean("EP_SlowNetworkMode", false)
+    /** Network finish */
+
+    /** OTA start */
+    var installBetas by sharedPreferences.boolean("CG_Install_Beta_Ver", isStandaloneBetaBuild())
+    var autoOTA by sharedPreferences.boolean("CG_Check_Auto_OTA", isStandaloneStableBuild() || isStandaloneBetaBuild() || isDevBuild())
+    var lastUpdateCheckTime by sharedPreferences.long("CG_LastUpdateCheckTime", 0)
+    var updateScheduleTimestamp by sharedPreferences.long("CG_UpdateScheduleTimestamp", 0)
+    var forceFound by sharedPreferences.boolean("CG_ForceFound", false)
+
+    var updatesNewUI by sharedPreferences.boolean("CG_UpdatesNewUI_Redesign", false)
+    var updateVersionName by sharedPreferences.string("CG_UpdateVersionName", "idk")
+    var updateSize by sharedPreferences.string("CG_UpdateSize", "0")
+    var updateIsDownloading by sharedPreferences.boolean("CG_UpdateIsDownloading", false)
+    var updateDownloadingProgress by sharedPreferences.float("CG_NewUpdateDownloadingProgress", 0f)
+    var updateAvailable by sharedPreferences.boolean("CG_UpdateAvailable", false)
+    /** OTA finish */
+
+    /** Misc start */
+    var cgBrandedScreenshots by sharedPreferences.boolean("DP_BrandedScreenshots", false)
+    var sleepTimer by sharedPreferences.boolean("CG_Sleep_Timer", false)
+    var showNotifications by sharedPreferences.boolean("CG_ShowNotifications", true)
+    /** Misc finish */
+
+    /** Hachigram build types start */
+    @JvmStatic
+    fun isStandaloneStableBuild(): Boolean {
+        return ApplicationLoader.isStandaloneBuild() && !isDevBuild() && !isStandalonePremiumBuild() && !isStandaloneBetaBuild()
+    }
+
+    @JvmStatic
+    fun isStandaloneBetaBuild(): Boolean {
+        return false
+    }
+
+    @JvmStatic
+    fun isDevBuild(): Boolean {
+        return false
+    }
+
+    @JvmStatic
+    fun isStandalonePremiumBuild(): Boolean {
+        return false
+    }
+
+    @JvmStatic
+    fun isPlayStoreBuild(): Boolean {
+        return !ApplicationLoader.isStandaloneBuild()
+    }
+    /** Hachigram build types finish */
+
+    /** Migration start */
+    private fun migratePreferences() {
+        if (HachigramAppearanceConfig.showIDDC_old >= HachigramAppearanceConfig.ID_DC) {
+            HachigramAppearanceConfig.showIDDC_old = 1
+            HachigramAppearanceConfig.showIDDC = true
+        }
+    }
+    /** Migration finish */
+
+    fun init() {
+        launch {
+            // Firebase is initialised for Cloud Messaging only. Remote Config would let
+            // a server change how the app behaves, so it is left uninitialised.
+            if (ApplicationLoader.checkPlayServices()) {
+                FirebaseApp.initializeApp(ApplicationLoader.applicationContext)
+            }
+
+            migratePreferences()
+        }
+    }
+
+}

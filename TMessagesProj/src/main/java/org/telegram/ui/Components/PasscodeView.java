@@ -75,8 +75,8 @@ import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.CGBiometricPrompt;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.CGBiometricPrompt;
 
 public class PasscodeView extends FrameLayout implements NotificationCenter.NotificationCenterDelegate {
     private final static float BACKGROUND_SPRING_STIFFNESS = 300f;
@@ -161,7 +161,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 return;
             }
             try {
-                if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                     performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                 }
             } catch (Exception e) {
@@ -286,7 +286,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                 return false;
             }
             try {
-                if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                     performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                 }
             } catch (Exception e) {
@@ -1346,7 +1346,7 @@ public class PasscodeView extends FrameLayout implements NotificationCenter.Noti
                     imageView.getAnimatedDrawable().setCustomEndFrame(37);
                     imageView.playAnimation();
                     showPin(true);
-                    if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                    if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                         AndroidUtilities.runOnUIThread(() -> {
                             try {
                                 imageView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);

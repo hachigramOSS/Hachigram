@@ -238,8 +238,8 @@ import java.util.concurrent.atomic.AtomicReference;
 
 import org.telegram.ui.iv.Latex;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper2;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.chats.helpers.ChatsHelper2;
 
 public class ArticleViewer extends IArticleViewer implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1439,7 +1439,7 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
             if (checkingForLongPress && windowView != null) {
                 checkingForLongPress = false;
                 if (pressedLink != null) {
-                    if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                    if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                         try {
                             windowView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                         } catch (Exception ignored) {}
@@ -1456,13 +1456,13 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
                     } else {
                         textSelectionHelper.trySelect(pressedLinkOwnerView);
                     }
-                    if (textSelectionHelper.isInSelectionMode() && !CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                    if (textSelectionHelper.isInSelectionMode() && !HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                         try {
                             windowView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                         } catch (Exception ignored) {}
                     }
                 } else if (pressedLinkOwnerLayout != null && pressedLinkOwnerView != null) {
-                    if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                    if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                         try {
                             windowView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                         } catch (Exception ignored) {}

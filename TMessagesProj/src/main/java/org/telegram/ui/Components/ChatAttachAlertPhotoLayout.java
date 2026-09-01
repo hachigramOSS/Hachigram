@@ -126,16 +126,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.the306bobby.cherrygramnext.camera.BaseCameraView;
-import com.the306bobby.cherrygramnext.camera.CameraXController;
-import com.the306bobby.cherrygramnext.camera.CameraXUtils;
-import com.the306bobby.cherrygramnext.camera.CameraXView;
-import com.the306bobby.cherrygramnext.camera.EffectSelectorView;
-import com.the306bobby.cherrygramnext.camera.LockAnimationView;
-import com.the306bobby.cherrygramnext.camera.SlideControlView;
-import com.the306bobby.cherrygramnext.core.PermissionsUtils;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCameraConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
+import com.the306bobby.hachigram.camera.BaseCameraView;
+import com.the306bobby.hachigram.camera.CameraXController;
+import com.the306bobby.hachigram.camera.CameraXUtils;
+import com.the306bobby.hachigram.camera.CameraXView;
+import com.the306bobby.hachigram.camera.EffectSelectorView;
+import com.the306bobby.hachigram.camera.LockAnimationView;
+import com.the306bobby.hachigram.camera.SlideControlView;
+import com.the306bobby.hachigram.core.PermissionsUtils;
+import com.the306bobby.hachigram.core.configs.HachigramCameraConfig;
+import com.the306bobby.hachigram.core.configs.HachigramMessagesConfig;
 
 @SuppressLint("ViewConstructor")
 public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayout implements NotificationCenter.NotificationCenterDelegate {
@@ -144,7 +144,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
     private static final int VIEW_TYPE_AVATAR_CONSTRUCTOR = 4;
     private static final int SHOW_FAST_SCROLL_MIN_COUNT = 30;
     private final boolean needCamera;
-    private final boolean disableAttachCamera = CherrygramCameraConfig.INSTANCE.getDisableAttachCamera();
+    private final boolean disableAttachCamera = HachigramCameraConfig.INSTANCE.getDisableAttachCamera();
 
     private RecyclerListView cameraPhotoRecyclerView;
     private LinearLayoutManager cameraPhotoLayoutManager;
@@ -1256,7 +1256,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             showZoomControls(true, true);
         });
 
-        /** Cherrygram start */
+        /** Hachigram start */
         lockAnimationView = new LockAnimationView(context);
         lockAnimationView.setVisibility(GONE);
         lockAnimationView.setAlpha(0.0f);
@@ -1291,7 +1291,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                 ((CameraXView) cameraView).setExposureCompensation(ev);
             }
         });
-        /** Cherrygram finish */
+        /** Hachigram finish */
 
         shutterButton = new ShutterButton(context);
         cameraPanel.addView(shutterButton, LayoutHelper.createFrame(84, 84, Gravity.CENTER));
@@ -2634,7 +2634,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         if (fragment == null || fragment.getParentActivity() == null) {
             return;
         }
-        if (!SharedConfig.inappCamera || CherrygramCameraConfig.INSTANCE.getCameraType() == CherrygramCameraConfig.SYSTEM_CAMERA) {
+        if (!SharedConfig.inappCamera || HachigramCameraConfig.INSTANCE.getCameraType() == HachigramCameraConfig.SYSTEM_CAMERA) {
             deviceHasGoodCamera = false;
         } else {
             if (Build.VERSION.SDK_INT >= 23) {
@@ -2910,7 +2910,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
                         }
                         if (cameraOpened) {
                             if (cameraView != null && !cameraView.isFrontface()) {
-                                zoomControlView.setSliderValue(CherrygramCameraConfig.INSTANCE.getStartFromUltraWideCam() ? 0F : 0.5F, true);
+                                zoomControlView.setSliderValue(HachigramCameraConfig.INSTANCE.getStartFromUltraWideCam() ? 0F : 0.5F, true);
                             }
                             lockAnimationView.setVisibility(VISIBLE);
                             lockAnimationView.setAlpha(0.0f);
@@ -3596,7 +3596,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             return;
         }
         if (id == sticker) {
-            CherrygramMessagesConfig.INSTANCE.setPhotoAsSticker(true);
+            HachigramMessagesConfig.INSTANCE.setPhotoAsSticker(true);
             if (parentAlert.editingMessageObject == null && parentAlert.baseFragment instanceof ChatActivity && ((ChatActivity) parentAlert.baseFragment).isInScheduleMode()) {
                 AlertsCreator.createScheduleDatePickerDialog(getContext(), ((ChatActivity) parentAlert.baseFragment).getDialogId(), (notify, scheduleDate, scheduleRepeatPeriod) -> {
                     parentAlert.delegate.didPressedButton(9, true, notify, scheduleDate, scheduleRepeatPeriod, 0, parentAlert.isCaptionAbove(), false, 0);
@@ -5376,7 +5376,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private final SlideControlView evControlView;
     private final SlideControlView zoomControlView;
 
@@ -5397,7 +5397,7 @@ public class ChatAttachAlertPhotoLayout extends ChatAttachAlert.AttachAlertLayou
             parentAlert.selectedMenuItem.hideSubItem(sticker);
         }
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
     public boolean hasLivePhotos() {
         if (selectedPhotos.isEmpty()) return false;

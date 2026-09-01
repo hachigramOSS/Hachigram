@@ -88,7 +88,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 public class ManageLinksActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -665,7 +665,7 @@ public class ManageLinksActivity extends BaseFragment implements NotificationCen
             if ((position >= linksStartRow && position < linksEndRow) || (position >= revokedLinksStartRow && position < revokedLinksEndRow)) {
                 LinkCell cell = (LinkCell) view;
                 cell.optionsView.callOnClick();
-                if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                     try {
                         view.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception ignored) {}

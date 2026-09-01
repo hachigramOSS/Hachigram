@@ -94,7 +94,7 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.the306bobby.cherrygramnext.core.helpers.CGResourcesHelper;
+import com.the306bobby.hachigram.core.helpers.CGResourcesHelper;
 
 public class ChatUsersActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 

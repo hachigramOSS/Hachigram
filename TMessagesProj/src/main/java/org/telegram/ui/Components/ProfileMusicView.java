@@ -38,8 +38,8 @@ import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ProfileActivity;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.ui.MD3ListAdapter;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.core.ui.MD3ListAdapter;
 
 public class ProfileMusicView extends View {
 
@@ -97,7 +97,7 @@ public class ProfileMusicView extends View {
     private boolean withShadows;
 
     public void setColor(MessagesController.PeerColor peerColor) {
-        if (!CherrygramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) peerColor = null;
+        if (!HachigramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) peerColor = null;
         int color1, color2;
         if (peerColor == null) {
             color1 = color2 = Theme.getColor(Theme.key_actionBarDefault, resourcesProvider);

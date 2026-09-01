@@ -258,13 +258,13 @@ import java.util.Locale;
 import java.util.Stack;
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.the306bobby.cherrygramnext.chats.filters.MessagesFilterHelper;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramDebugConfig;
-import com.the306bobby.cherrygramnext.core.helpers.CGResourcesHelper;
-import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper;
+import com.the306bobby.hachigram.chats.filters.MessagesFilterHelper;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramMessagesConfig;
+import com.the306bobby.hachigram.core.configs.HachigramDebugConfig;
+import com.the306bobby.hachigram.core.helpers.CGResourcesHelper;
+import com.the306bobby.hachigram.chats.helpers.ChatsHelper;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
@@ -9705,7 +9705,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                         }
                     }
 
-                    float modifier = CherrygramMessagesConfig.INSTANCE.getSlider_stickerAmplifier() / 100f;
+                    float modifier = HachigramMessagesConfig.INSTANCE.getSlider_stickerAmplifier() / 100f;
                     photoWidth = (int) (photoWidth * modifier);
                     photoHeight = (int) (photoHeight * modifier);
                     maxWidth = (int) (maxWidth * modifier);
@@ -9869,9 +9869,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
                     float modifier;
                     if (messageObject.type == MessageObject.TYPE_GIF) {
-                        modifier = CherrygramMessagesConfig.INSTANCE.getSlider_gifsAmplifier() / 100f;
+                        modifier = HachigramMessagesConfig.INSTANCE.getSlider_gifsAmplifier() / 100f;
                     } else {
-                        modifier = CherrygramMessagesConfig.INSTANCE.getSlider_mediaAmplifier() / 100f;
+                        modifier = HachigramMessagesConfig.INSTANCE.getSlider_mediaAmplifier() / 100f;
                     }
                     photoWidth = (int) (photoWidth * modifier);
                     photoHeight = (int) (photoHeight * modifier);
@@ -11567,7 +11567,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         }
 
         int maxVote = 0;
-        if (!animatePollAnswer && pollVoteInProgress && vibrateOnPollVote && !CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+        if (!animatePollAnswer && pollVoteInProgress && vibrateOnPollVote && !HachigramChatsConfig.INSTANCE.getDisableVibration()) {
             try {
                 performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
             } catch (Exception ignored) {}
@@ -12838,7 +12838,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             if (!hasLinkPreview) {
                 String timeString = AndroidUtilities.formatLongDuration((int) duration);
                 int w = (int) Math.ceil(Theme.chat_audioTimePaint.measureText(timeString));
-                if (CherrygramMessagesConfig.INSTANCE.getLargerVoiceMessagesLayout()) {
+                if (HachigramMessagesConfig.INSTANCE.getLargerVoiceMessagesLayout()) {
                     int extra = 0;
                     if (duration >= 180) {
                         extra = dp(120);
@@ -18560,7 +18560,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             timeString = AppGlobalConfig.getInstance(currentAccount).messagePrimaryEditedDate.get() ?
                 LocaleController.formatPmEditedDate(currentMessagesGroup != null ? currentMessagesGroup.getMaxEditDate() : messageObject.messageOwner.edit_date) :
                 ChatsHelper.createEditedString(currentMessageObject);
-        } else if (CherrygramMessagesConfig.INSTANCE.getMsgForwardDate() && (currentMessageObject.isSaved && currentMessageObject.messageOwner.fwd_from != null && (currentMessageObject.messageOwner.fwd_from.date != 0 || currentMessageObject.messageOwner.fwd_from.saved_date != 0))) {
+        } else if (HachigramMessagesConfig.INSTANCE.getMsgForwardDate() && (currentMessageObject.isSaved && currentMessageObject.messageOwner.fwd_from != null && (currentMessageObject.messageOwner.fwd_from.date != 0 || currentMessageObject.messageOwner.fwd_from.saved_date != 0))) {
             int date = currentMessageObject.messageOwner.fwd_from.saved_date;
             if (date == 0) {
                 date = currentMessageObject.messageOwner.fwd_from.date;
@@ -18622,7 +18622,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             if (!messageObject.isMusic() && messageObject.messageOwner.forwards > 0 && ChatsHelper.forwardsDrawable != null) {
                 timeTextWidth = timeWidth += ChatsHelper.forwardsDrawable.getIntrinsicWidth();
             }
-            if (edited && CherrygramMessagesConfig.INSTANCE.getShowPencilIcon() && ChatsHelper.editedDrawable != null) {
+            if (edited && HachigramMessagesConfig.INSTANCE.getShowPencilIcon() && ChatsHelper.editedDrawable != null) {
                 timeTextWidth = timeWidth += ChatsHelper.editedDrawable.getIntrinsicWidth();
             }
         }
@@ -19236,7 +19236,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     }
 
                     forwardedNameWidth = getMaxNameWidth();
-                    if (CherrygramMessagesConfig.INSTANCE.getMsgForwardDate() && !currentMessageObject.isSaved) {
+                    if (HachigramMessagesConfig.INSTANCE.getMsgForwardDate() && !currentMessageObject.isSaved) {
                         forwardedString = String.format("➥ %s", CGResourcesHelper.INSTANCE.createDateAndTime(messageObject.messageOwner.fwd_from.date));
                     } else {
                         forwardedString = getForwardedMessageText(messageObject);
@@ -19889,7 +19889,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     }
 
     private Object getAuthorStatus() {
-        if (CherrygramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) return null;
+        if (HachigramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) return null;
         if (currentUser != null) {
             Long emojiStatusId = UserObject.getEmojiStatusDocumentId(currentUser);
             if (emojiStatusId != null) {
@@ -20421,7 +20421,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if ((!autoPlayingMedia || !MediaController.getInstance().isPlayingMessageAndReadyToDraw(currentMessageObject) || isRoundVideo) && !transitionParams.animateBackgroundBoundsInner && !(currentMessageObject != null && currentMessageObject.preview)) {
             drawOverlays(canvas);
         }
-        if ((drawTime || !mediaBackground) && !forceNotDrawTime && !transitionParams.animateBackgroundBoundsInner && !(enterTransitionInProgress && !currentMessageObject.isVoice()) && (!currentMessageObject.isQuickReply() || currentMessageObject.isSendError()) && (!currentMessageObject.isAnyKindOfSticker() || !CherrygramMessagesConfig.INSTANCE.getHideStickerTime())) {
+        if ((drawTime || !mediaBackground) && !forceNotDrawTime && !transitionParams.animateBackgroundBoundsInner && !(enterTransitionInProgress && !currentMessageObject.isVoice()) && (!currentMessageObject.isQuickReply() || currentMessageObject.isSendError()) && (!currentMessageObject.isAnyKindOfSticker() || !HachigramMessagesConfig.INSTANCE.getHideStickerTime())) {
             drawTime(canvas, 1f, false);
         }
 
@@ -22926,7 +22926,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                 // draw reply background
                 leftRad = bottomRad; // line redesign
                 replyLine.setLoading(loading);
-                replyLine.drawBackground(canvas, replySelectorRect, leftRad, rightRad, bottomRad, alpha, isReplyQuote, currentMessageObject.shouldDrawWithoutBackground() || !CherrygramAppearanceConfig.INSTANCE.getReplyBackground());
+                replyLine.drawBackground(canvas, replySelectorRect, leftRad, rightRad, bottomRad, alpha, isReplyQuote, currentMessageObject.shouldDrawWithoutBackground() || !HachigramAppearanceConfig.INSTANCE.getReplyBackground());
 
                 if (replySelector == null) {
                     replySelector = Theme.createRadSelectorDrawable(replySelectorColor = rippleColor, 0, 0);
@@ -29499,7 +29499,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     public void drawVideoTimestamps(Canvas canvas, int color) {
         if (currentMessageObject == null || currentMessageObject.isLivePhoto() || controlsAlpha <= 0 || !photoImage.getVisible()) return;
-        if (CherrygramDebugConfig.INSTANCE.getHideVideoTimestamp()) return;
+        if (HachigramDebugConfig.INSTANCE.getHideVideoTimestamp()) return;
         float progress;
         if (!currentMessageObject.openedInViewer && currentMessageObject.getVideoStartsTimestamp() != -1) {
             progress = currentMessageObject.getVideoStartsTimestamp() / (float) currentMessageObject.getDuration();
@@ -29591,9 +29591,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     private TL_stars.StarGift instantViewTypeIsGiftAuction;
 
-        /** Cherrygram start */
+        /** Hachigram start */
     private boolean shouldMakeMessageTransparent() {
-        return CherrygramMessagesConfig.INSTANCE.getMsgFilterTransparentMsg() && getMessageObject().shouldBlockMessage();
+        return HachigramMessagesConfig.INSTANCE.getMsgFilterTransparentMsg() && getMessageObject().shouldBlockMessage();
     }
 
     public void setCurrentMessagesGroup(MessageObject.GroupedMessages group) {
@@ -29622,7 +29622,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     public void stopProgressUpdater() {
         AndroidUtilities.cancelRunOnUIThread(progressUpdater);
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
     
     

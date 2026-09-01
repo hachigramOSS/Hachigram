@@ -216,7 +216,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.the306bobby.cherrygramnext.helpers.QrHelper;
+import com.the306bobby.hachigram.helpers.QrHelper;
 
 @SuppressLint("HardwareIds")
 public class LoginActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
@@ -2453,7 +2453,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 return false;
             });
 
-            /** Cherrygram start */
+            /** Hachigram start */
             ButtonsBox buttonsBox = new ButtonsBox(context);
 
             ButtonWithCounterView proxyButton = new ButtonWithCounterView(context, getResourceProvider()) {
@@ -2499,7 +2499,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             buttonsBox.addView(qrButton);
 
             addView(buttonsBox, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, 58, Gravity.FILL_HORIZONTAL | Gravity.BOTTOM, 22, 15, 22, 14));
-            /** Cherrygram finish */
+            /** Hachigram finish */
 
 
             int bottomMargin = 72;
@@ -3590,7 +3590,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
             }
         }
 
-        /** Cherrygram start */
+        /** Hachigram start */
         private class ButtonsBox extends FrameLayout {
 
             private Paint paint = new Paint();
@@ -3833,7 +3833,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
                 needShowAlert(LocaleController.getString(R.string.AppName), errorText);
             }
         }
-        /** Cherrygram finish */
+        /** Hachigram finish */
     }
 
     private HashSet<String> getUserPhoneNumbers() {
@@ -10672,7 +10672,7 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
         parentLayout = null;
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     @Override
     public int getNavigationBarColor() {
         return getThemedColor(Theme.key_windowBackgroundWhite);
@@ -10688,6 +10688,6 @@ public class LoginActivity extends BaseFragment implements NotificationCenter.No
     public boolean isActionBarCrossfadeEnabled() {
         return false;
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

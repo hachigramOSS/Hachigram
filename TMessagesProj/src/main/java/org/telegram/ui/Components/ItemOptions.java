@@ -86,7 +86,7 @@ import org.telegram.ui.Stories.recorder.HintView2;
 import java.lang.ref.WeakReference;
 import java.util.HashSet;
 
-import com.the306bobby.cherrygramnext.chats.ui.WindowBlurHelper;
+import com.the306bobby.hachigram.chats.ui.WindowBlurHelper;
 
 public class ItemOptions {
 
@@ -2036,11 +2036,11 @@ public class ItemOptions {
                     }
                 });
 
-                /** Cherrygram start */
+                /** Hachigram start */
                 if (fragment != null && fragment.getParentActivity() != null && fragment.getParentActivity().getWindow() != null) {
                     WindowBlurHelper.hideStatusBar(fragment.getParentActivity().getWindow(), true);
                 }
-                /** Cherrygram finish */
+                /** Hachigram finish */
             }
         }
 
@@ -2297,7 +2297,7 @@ public class ItemOptions {
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private boolean fullyRounded = false;
 
     public static ItemOptions makeOptions(@NonNull ViewGroup container, @Nullable Theme.ResourcesProvider resourcesProvider, @NonNull View scrimView, boolean swipeback, boolean shownFromBottom, boolean useScrollView, boolean fullyRounded) {
@@ -2345,6 +2345,6 @@ public class ItemOptions {
         return this;
     }
 
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

@@ -241,12 +241,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.GZIPOutputStream;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
-import com.the306bobby.cherrygramnext.core.helpers.CGResourcesHelper;
-import com.the306bobby.cherrygramnext.helpers.ui.FontHelper;
-import com.the306bobby.cherrygramnext.core.PermissionsUtils;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
+import com.the306bobby.hachigram.core.helpers.CGResourcesHelper;
+import com.the306bobby.hachigram.helpers.ui.FontHelper;
+import com.the306bobby.hachigram.core.PermissionsUtils;
 
 import me.vkryl.core.BitwiseUtils;
 
@@ -2404,7 +2404,7 @@ public class AndroidUtilities {
     public static Typeface getTypeface(String assetPath) {
         return typefaceCache.computeIfAbsent(assetPath, path -> {
             try {
-                if (CherrygramCoreConfig.INSTANCE.getSystemFonts()) {
+                if (HachigramCoreConfig.INSTANCE.getSystemFonts()) {
                     return FontHelper.createTypeface(path);
                 }
                 return FontHelper.createTypefaceFromAsset(path);
@@ -2443,7 +2443,7 @@ public class AndroidUtilities {
     }
 
     public static int getShadowHeight() {
-        if (CherrygramAppearanceConfig.INSTANCE.getDisableDividers()) {
+        if (HachigramAppearanceConfig.INSTANCE.getDisableDividers()) {
             return 0;
         } else if (density >= 4.0f) {
             return 3;
@@ -2943,8 +2943,8 @@ public class AndroidUtilities {
     }
 
     public static boolean isTabletForce() {
-        if (CherrygramCoreConfig.INSTANCE.getTabletMode() != CherrygramCoreConfig.TABLET_MODE_AUTO) {
-            return CherrygramCoreConfig.INSTANCE.getTabletMode() == CherrygramCoreConfig.TABLET_MODE_ENABLE;
+        if (HachigramCoreConfig.INSTANCE.getTabletMode() != HachigramCoreConfig.TABLET_MODE_AUTO) {
+            return HachigramCoreConfig.INSTANCE.getTabletMode() == HachigramCoreConfig.TABLET_MODE_ENABLE;
         }
         return ApplicationLoader.applicationContext != null && ApplicationLoader.applicationContext.getResources().getBoolean(R.bool.isTablet);
     }
@@ -3017,7 +3017,7 @@ public class AndroidUtilities {
     }
 
     public static int getPhotoSize(boolean highQuality) {
-        if (CherrygramChatsConfig.INSTANCE.getLargePhotos() || highQuality) {
+        if (HachigramChatsConfig.INSTANCE.getLargePhotos() || highQuality) {
             if (highQualityPhotoSize == null) {
                 highQualityPhotoSize = 2560;
             }

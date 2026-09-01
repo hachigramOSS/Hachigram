@@ -67,8 +67,8 @@ import org.telegram.ui.LaunchActivity;
 import java.io.File;
 import java.util.Collections;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
 
 public class StoriesUtilities {
 
@@ -192,7 +192,7 @@ public class StoriesUtilities {
             params.inc = false;
         }
         params.showProgress = showProgress;
-        if (CherrygramCoreConfig.INSTANCE.getHideStories() || params.currentState == STATE_EMPTY && params.progressToSate == 1f) {
+        if (HachigramCoreConfig.INSTANCE.getHideStories() || params.currentState == STATE_EMPTY && params.progressToSate == 1f) {
             avatarImage.setImageCoords(params.originalAvatarRect);
             canvas.save();
             canvas.scale(scale, scale, params.originalAvatarRect.centerX(), params.originalAvatarRect.centerY());
@@ -1293,7 +1293,7 @@ public class StoriesUtilities {
         }
 
         public boolean checkOnTouchEvent(MotionEvent event, View view) {
-            if (CherrygramCoreConfig.INSTANCE.getHideStories()) return false;
+            if (HachigramCoreConfig.INSTANCE.getHideStories()) return false;
             child = view;
             StoriesController storiesController = MessagesController.getInstance(UserConfig.selectedAccount).getStoriesController();
             if (event.getAction() == MotionEvent.ACTION_DOWN && originalAvatarRect.contains(event.getX(), event.getY())) {
@@ -1581,7 +1581,7 @@ public class StoriesUtilities {
         }
 
         public void setColor(MessagesController.PeerColor peerColor, boolean animated) {
-            if (peerColor != null && CherrygramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
+            if (peerColor != null && HachigramAppearanceConfig.INSTANCE.getProfileBackgroundColor()) {
                 setColors(
                     peerColor.getStoryColor1(Theme.isCurrentThemeDark()),
                     peerColor.getStoryColor2(Theme.isCurrentThemeDark()),

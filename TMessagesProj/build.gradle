@@ -84,7 +84,7 @@ dependencies {
     implementation 'com.google.android.play:integrity:1.3.0'
     implementation 'com.google.android.gms:play-services-safetynet:18.0.1'
 
-    //Cherrygram
+    //Hachigram
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.10.2'
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.10.2'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.21.1'
@@ -160,7 +160,7 @@ android {
                 'src/main/res',
                 'src/main/res-solar',
                 'src/main/res-tabs',
-                'src/main/res-cherrygram'
+                'src/main/res-hachigram'
         ]
     }
 
@@ -195,9 +195,9 @@ android {
         buildConfigField "String", "BUILD_SOURCE_CODE_VERSION", "\"${sourceCodeVersion}\""
         buildConfigField "String", "GIT_COMMIT_HASH", "\"${getGitHash()}\""
 
-        buildConfigField "int", "CG_APP_ID", getPropOr("CHERRYGRAM_APP_ID", "12345678")
-        buildConfigField "String", "CG_APP_HASH", "\"" + getPropOr("CHERRYGRAM_APP_HASH", "abcdefg") + "\""
-        buildConfigField "String", "CG_SMS_HASH", "\"" + getPropOr("CHERRYGRAM_SMS_HASH", "") + "\""
+        buildConfigField "int", "CG_APP_ID", getPropOr("HACHIGRAM_APP_ID", "12345678")
+        buildConfigField "String", "CG_APP_HASH", "\"" + getPropOr("HACHIGRAM_APP_HASH", "abcdefg") + "\""
+        buildConfigField "String", "CG_SMS_HASH", "\"" + getPropOr("HACHIGRAM_SMS_HASH", "") + "\""
     }
 
     buildTypes {

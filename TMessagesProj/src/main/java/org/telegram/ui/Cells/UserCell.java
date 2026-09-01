@@ -68,10 +68,10 @@ import org.telegram.ui.ProfileActivity;
 import org.telegram.ui.Stories.StoriesListPlaceProvider;
 import org.telegram.ui.Stories.StoriesUtilities;
 
-import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper2;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramDebugConfig;
-import com.the306bobby.cherrygramnext.core.helpers.CGResourcesHelper;
+import com.the306bobby.hachigram.chats.helpers.ChatsHelper2;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramDebugConfig;
+import com.the306bobby.hachigram.core.helpers.CGResourcesHelper;
 
 public class UserCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, Theme.Colorable {
 
@@ -727,7 +727,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
             botVerification.setColor(Theme.getColor(Theme.key_chats_verifiedBackground, resourcesProvider));
             nameTextView.setLeftDrawable(botVerification);
         }
-        if (currentUser != null && MessagesController.getInstance(currentAccount).isPremiumUser(currentUser) && !MessagesController.getInstance(currentAccount).premiumFeaturesBlocked() && !CherrygramAppearanceConfig.INSTANCE.getDisablePremiumStatuses() && !addEditButton) {
+        if (currentUser != null && MessagesController.getInstance(currentAccount).isPremiumUser(currentUser) && !MessagesController.getInstance(currentAccount).premiumFeaturesBlocked() && !HachigramAppearanceConfig.INSTANCE.getDisablePremiumStatuses() && !addEditButton) {
             if (DialogObject.getEmojiStatusDocumentId(currentUser.emoji_status) != 0) {
                 emojiStatus.set(DialogObject.getEmojiStatusDocumentId(currentUser.emoji_status), false);
                 emojiStatus.setColor(Theme.getColor(Theme.key_chats_verifiedBackground, resourcesProvider));
@@ -774,7 +774,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                     statusTextView.setText(getString(R.string.Online));
                 } else {
                     statusTextView.setTextColor(statusColor);
-                    statusTextView.setText(CherrygramDebugConfig.INSTANCE.getOldTimeStyle() ? LocaleController.formatUserStatus(currentAccount, currentUser) : LocaleController.formatUserStatusIOS(currentAccount, currentUser));                }
+                    statusTextView.setText(HachigramDebugConfig.INSTANCE.getOldTimeStyle() ? LocaleController.formatUserStatus(currentAccount, currentUser) : LocaleController.formatUserStatusIOS(currentAccount, currentUser));                }
             }
         }
 
@@ -972,7 +972,7 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private ImageView mutualView;
 
     private final boolean addEditButton;
@@ -1031,6 +1031,6 @@ public class UserCell extends FrameLayout implements NotificationCenter.Notifica
                 .setBlur(true)
                 .show();
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

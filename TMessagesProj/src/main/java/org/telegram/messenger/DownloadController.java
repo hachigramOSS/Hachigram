@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Locale;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
+import com.the306bobby.hachigram.core.configs.HachigramMessagesConfig;
 
 public class DownloadController extends BaseController implements NotificationCenter.NotificationCenterDelegate {
 
@@ -882,7 +882,7 @@ public class DownloadController extends BaseController implements NotificationCe
             return canPreloadStories() ? 2 : 0;
         }
 
-        if (CherrygramMessagesConfig.INSTANCE.getEnableMsgFilters()) {
+        if (HachigramMessagesConfig.INSTANCE.getEnableMsgFilters()) {
             MessageObject messageObject = new MessageObject(currentAccount, message, false, false);
             if (messageObject.shouldBlockMessage()) {
                 return 0;
@@ -1840,9 +1840,9 @@ public class DownloadController extends BaseController implements NotificationCe
         return preset.preloadStories;
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private boolean checkCanDownloadMedia(TLRPC.Message message, MessageObject messageObject) {
-        if (CherrygramMessagesConfig.INSTANCE.getEnableMsgFilters()) {
+        if (HachigramMessagesConfig.INSTANCE.getEnableMsgFilters()) {
             if (messageObject == null) {
                 messageObject = new MessageObject(currentAccount, message, false, false);
             }
@@ -1851,6 +1851,6 @@ public class DownloadController extends BaseController implements NotificationCe
 
         return true;
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

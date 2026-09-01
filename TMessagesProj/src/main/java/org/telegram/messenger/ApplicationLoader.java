@@ -53,8 +53,8 @@ import java.util.Locale;
 import kotlin.coroutines.Continuation;
 import kotlin.coroutines.CoroutineContext;
 import kotlin.coroutines.EmptyCoroutineContext;
-import com.the306bobby.cherrygramnext.camera.CameraXUtils;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.hachigram.camera.CameraXUtils;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
 
 public class ApplicationLoader extends Application {
 
@@ -172,7 +172,7 @@ public class ApplicationLoader extends Application {
         } catch (Exception e) {
             FileLog.e(e);
         }
-        return new File("/data/data/com.the306bobby.cherrygramnext/files");
+        return new File("/data/data/com.the306bobby.hachigram/files");
     }
 
     public static File getFilesDirFixed(String child) {
@@ -212,7 +212,7 @@ public class ApplicationLoader extends Application {
 
                     }
 
-                    boolean isSlow = CherrygramCoreConfig.INSTANCE.getSlowNetworkMode();
+                    boolean isSlow = HachigramCoreConfig.INSTANCE.getSlowNetworkMode();
                     for (int a = 0; a < UserConfig.MAX_ACCOUNT_COUNT; a++) {
                         ConnectionsManager.getInstance(a).checkConnection();
                         FileLoader.getInstance(a).onNetworkChanged(isSlow);
@@ -247,7 +247,7 @@ public class ApplicationLoader extends Application {
         SharedConfig.loadConfig();
         hasPlayServices = checkPlayServices();
         CameraXUtils.loadCameraXSizes();
-        /*if (!CherrygramCoreConfig.isPlayStoreBuild()) {
+        /*if (!HachigramCoreConfig.isPlayStoreBuild()) {
             Continuation<Object> suspendResult = new Continuation<>() {
                 @NonNull
                 @Override
@@ -384,7 +384,7 @@ public class ApplicationLoader extends Application {
         }
         if (enabled) {
             try {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM && CherrygramCoreConfig.INSTANCE.getResidentNotification()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O && Build.VERSION.SDK_INT < Build.VERSION_CODES.VANILLA_ICE_CREAM && HachigramCoreConfig.INSTANCE.getResidentNotification()) {
                     applicationContext.startForegroundService(new Intent(applicationContext, NotificationsService.class));
                 } else {
                     applicationContext.startService(new Intent(applicationContext, NotificationsService.class));

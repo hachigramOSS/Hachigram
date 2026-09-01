@@ -3158,7 +3158,7 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         listView.setClipToPadding(false);
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private static final int kaboom_id = 1390;
 
     private boolean isInKaboomMode;
@@ -3278,6 +3278,6 @@ public class CacheControlActivity extends BaseFragment implements NotificationCe
         }
 
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

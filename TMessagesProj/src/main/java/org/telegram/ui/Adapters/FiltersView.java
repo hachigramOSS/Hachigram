@@ -53,7 +53,7 @@ import java.util.Locale;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
 
 public class FiltersView extends RecyclerListView {
 
@@ -593,7 +593,7 @@ public class FiltersView extends RecyclerListView {
         return false;
     }
 
-    public boolean drawDivider = !CherrygramAppearanceConfig.INSTANCE.getDisableDividers();
+    public boolean drawDivider = !HachigramAppearanceConfig.INSTANCE.getDisableDividers();
 
     @Override
     public void onDraw(Canvas c) {

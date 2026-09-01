@@ -55,7 +55,7 @@ import org.telegram.ui.ChatBackgroundDrawable;
 
 import java.util.ArrayList;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 public class SizeNotifierFrameLayout extends FrameLayout implements Theme.Colorable {
 
@@ -557,7 +557,7 @@ public class SizeNotifierFrameLayout extends FrameLayout implements Theme.Colora
     }
 
     private void checkSnowflake(Canvas canvas) {
-        if (backgroundView != null && CherrygramChatsConfig.INSTANCE.getDrawSnowInChat() /*Theme.canStartHolidayAnimation() && LiteMode.isEnabled(LiteMode.FLAG_CHAT_BACKGROUND)*/) {
+        if (backgroundView != null && HachigramChatsConfig.INSTANCE.getDrawSnowInChat() /*Theme.canStartHolidayAnimation() && LiteMode.isEnabled(LiteMode.FLAG_CHAT_BACKGROUND)*/) {
             if (snowflakesEffect == null) {
                 snowflakesEffect = new SnowflakesEffect(1);
                 snowflakesEffect.setForcedColor(0xFFFFFFFF);

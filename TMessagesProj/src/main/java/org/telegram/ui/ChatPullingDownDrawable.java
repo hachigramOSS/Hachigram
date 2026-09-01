@@ -44,7 +44,7 @@ import org.telegram.ui.Components.StaticLayoutEx;
 
 import java.util.ArrayList;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 public class ChatPullingDownDrawable implements NotificationCenter.NotificationCenterDelegate {
 
@@ -330,7 +330,7 @@ public class ChatPullingDownDrawable implements NotificationCenter.NotificationC
         if ((progress >= 1f && lastProgress < 1f) || (progress < 1f && lastProgress == 1f)) {
             long time = System.currentTimeMillis();
             if (time - lastHapticTime > 100) {
-                if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                     try {
                         parent.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception ignored) {}

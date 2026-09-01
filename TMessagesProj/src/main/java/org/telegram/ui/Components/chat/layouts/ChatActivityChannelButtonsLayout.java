@@ -40,10 +40,10 @@ public class ChatActivityChannelButtonsLayout extends FrameLayout implements Fac
     public static final int BUTTON_DIRECT = 2;
     public static final int BUTTON_GIGA_GROUP_INFO = 3;
     public static final int BUTTON_RECENT_ACTIONS_INFO = 4;
-    /** Cherrygram start */
+    /** Hachigram start */
     public static final int BUTTON_MUTE = 5;
     public static final int BUTTON_UNMUTE = 6;
-    /** Cherrygram finish */
+    /** Hachigram finish */
     private static final int BUTTONS_COUNT = 7;
 
     private final ButtonHolder[] buttonHolders = new ButtonHolder[BUTTONS_COUNT];
@@ -60,12 +60,12 @@ public class ChatActivityChannelButtonsLayout extends FrameLayout implements Fac
         R.drawable.input_message,
         R.drawable.msg_help,
         R.drawable.msg_help,
-        /** Cherrygram start */
+        /** Hachigram start */
         R.drawable.msg_mute,
         R.drawable.msg_unmute
-        /** Cherrygram finish */
+        /** Hachigram finish */
     };
-    /** Cherrygram start */
+    /** Hachigram start */
     private static final int[] buttonsOrderLeft = new int[] {
         BUTTON_GIFT,
         BUTTON_DIRECT,
@@ -76,7 +76,7 @@ public class ChatActivityChannelButtonsLayout extends FrameLayout implements Fac
     private static final int[] buttonsOrderRight = new int[] {
         BUTTON_SEARCH
     };
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
     private final Theme.ResourcesProvider resourcesProvider;
     private final BlurredBackgroundDrawableViewFactory blurredBackgroundDrawableViewFactory;

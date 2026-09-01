@@ -51,7 +51,7 @@ import org.telegram.ui.Stories.recorder.HintView2;
 
 import java.util.ArrayList;
 
-import com.the306bobby.cherrygramnext.helpers.ui.MonetHelper;
+import com.the306bobby.hachigram.helpers.ui.MonetHelper;
 
 public class TextCell extends FrameLayout {
 
@@ -995,7 +995,7 @@ public class TextCell extends FrameLayout {
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public void setCheckBoxIcon(int icon) {
         if (checkBox != null) checkBox.setIcon(icon);
     }
@@ -1020,6 +1020,6 @@ public class TextCell extends FrameLayout {
             if (valueImageView != null) valueImageView.setAlpha(value ? 1.0f : 0.5f);
         }
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

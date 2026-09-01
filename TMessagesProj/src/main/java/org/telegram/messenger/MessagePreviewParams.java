@@ -20,8 +20,8 @@ import org.telegram.ui.Components.MessagePreviewView;
 
 import java.util.ArrayList;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramMessagesConfig;
 
 public class MessagePreviewParams {
 
@@ -181,8 +181,8 @@ public class MessagePreviewParams {
     public boolean isSecret;
     public boolean multipleUsers;
 
-    public boolean hideForwardSendersName = CherrygramChatsConfig.INSTANCE.getNoAuthorship();
-    public boolean hideCaption = CherrygramChatsConfig.INSTANCE.getNoCaptions();
+    public boolean hideForwardSendersName = HachigramChatsConfig.INSTANCE.getNoAuthorship();
+    public boolean hideCaption = HachigramChatsConfig.INSTANCE.getNoCaptions();
     public boolean willSeeSenders;
 
     public boolean singleLink;
@@ -502,7 +502,7 @@ public class MessagePreviewParams {
             }
             if (header != null) {
                 message.fwd_from = header;
-                if (CherrygramMessagesConfig.INSTANCE.getMsgForwardDate() && !messageObject.isForwarded()) {
+                if (HachigramMessagesConfig.INSTANCE.getMsgForwardDate() && !messageObject.isForwarded()) {
                     message.fwd_from.date = messageObject.messageOwner.date;
                 }
                 message.flags |= TLRPC.MESSAGE_FLAG_FWD;

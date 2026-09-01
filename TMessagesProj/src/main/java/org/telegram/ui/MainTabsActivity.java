@@ -88,14 +88,14 @@ import java.util.List;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
-import com.the306bobby.cherrygramnext.chats.CGChatMenuInjector;
-import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper2;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramPrivacyConfig;
-import com.the306bobby.cherrygramnext.core.ui.CGBulletinCreator;
-import com.the306bobby.cherrygramnext.core.ui.mainTabs.MainTabsManager;
-import com.the306bobby.cherrygramnext.preferences.CherrygramPreferencesNavigator;
+import com.the306bobby.hachigram.chats.CGChatMenuInjector;
+import com.the306bobby.hachigram.chats.helpers.ChatsHelper2;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
+import com.the306bobby.hachigram.core.configs.HachigramPrivacyConfig;
+import com.the306bobby.hachigram.core.ui.CGBulletinCreator;
+import com.the306bobby.hachigram.core.ui.mainTabs.MainTabsManager;
+import com.the306bobby.hachigram.preferences.HachigramPreferencesNavigator;
 
 public class MainTabsActivity extends ViewPagerActivity implements NotificationCenter.NotificationCenterDelegate, FactorAnimator.Target {
 
@@ -407,8 +407,8 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         tabsViewWrapper.setOnClickListener(v -> {});
         tabsViewWrapper.setClipToPadding(false);
 
-        /** Cherrygram start */
-        if (CherrygramAppearanceConfig.INSTANCE.getShowSearchInTabs()) {
+        /** Hachigram start */
+        if (HachigramAppearanceConfig.INSTANCE.getShowSearchInTabs()) {
             tabsContainer = new LinearLayout(context);
             tabsContainer.setOrientation(LinearLayout.HORIZONTAL);
             tabsContainer.setGravity(Gravity.CENTER_VERTICAL | Gravity.CENTER_HORIZONTAL);
@@ -441,7 +441,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         } else {
             tabsViewWrapper.addView(tabsView, LayoutHelper.createFrame(328 + DialogsActivity.MAIN_TABS_MARGIN * 2, DialogsActivity.MAIN_TABS_HEIGHT_WITH_MARGINS, Gravity.BOTTOM | Gravity.CENTER_HORIZONTAL));
         }
-        /** Cherrygram finish */
+        /** Hachigram finish */
 
         contentView.addView(tabsViewWrapper, LayoutHelper.createFrame(LayoutHelper.MATCH_PARENT, LayoutHelper.WRAP_CONTENT, Gravity.BOTTOM));
 
@@ -463,7 +463,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
             return;
         }
 
-        if (CherrygramAppearanceConfig.INSTANCE.getTabsNoUnread()) return;
+        if (HachigramAppearanceConfig.INSTANCE.getTabsNoUnread()) return;
 
         final int unreadCount = MessagesStorage.getInstance(currentAccount).getMainUnreadCount();
         /*if (unreadCount > 0) {
@@ -740,10 +740,10 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
             }
         }
 
-        /** Cherrygram start */
+        /** Hachigram start */
         o.addGap();
-        o.add(R.drawable.tabs_reorder, getString(R.string.CP_MainTabs_Header), () -> CherrygramPreferencesNavigator.INSTANCE.createTabs(this));
-        /** Cherrygram finish */
+        o.add(R.drawable.tabs_reorder, getString(R.string.CP_MainTabs_Header), () -> HachigramPreferencesNavigator.INSTANCE.createTabs(this));
+        /** Hachigram finish */
 
         // o.addGap();
         // o.add(R.drawable.msg_leave, getString(R.string.LogOut), true, () -> presentFragment(new LogoutActivity()));
@@ -988,13 +988,13 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
     private boolean canScrollInternal(MotionEvent ev, boolean forward) {
         final BaseFragment fragment = getCurrentVisibleFragment();
 
-        if (CherrygramAppearanceConfig.INSTANCE.getShowMainTabs()) {
+        if (HachigramAppearanceConfig.INSTANCE.getShowMainTabs()) {
             if (fragment instanceof TabFragmentDelegate) {
                 final TabFragmentDelegate delegate = (TabFragmentDelegate) fragment;
                 return delegate.canParentTabsSlide(ev, forward);
             }
         } else {
-            if (CherrygramAppearanceConfig.INSTANCE.getOpenSettingsBySwipe()) {
+            if (HachigramAppearanceConfig.INSTANCE.getOpenSettingsBySwipe()) {
 
                 if (fragment instanceof SettingsActivity) {
                     return forward;
@@ -1096,7 +1096,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
             }
         } else if (id == NotificationCenter.fileLoadProgressChanged) {
             if (updateLayout != null) {
-                updateLayout.updateFileProgress(CherrygramCoreConfig.INSTANCE.getUpdateDownloadingProgress());
+                updateLayout.updateFileProgress(HachigramCoreConfig.INSTANCE.getUpdateDownloadingProgress());
             }
         } else if (id == NotificationCenter.appUpdateAvailable) {
             if (updateLayout != null && LaunchActivity.instance != null) {
@@ -1164,9 +1164,9 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         Bulletin.removeDelegate(this);
         Bulletin.removeDelegate(contentView);
 
-        /** Cherrygram start */
+        /** Hachigram start */
         NotificationCenter.getGlobalInstance().removeObserver(this, NotificationCenter.cgTabsUpdated);
-        /** Cherrygram finish */
+        /** Hachigram finish */
 
         if (observersGroup != null) {
             observersGroup.removeAllObservers();
@@ -1221,14 +1221,14 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         final float scale = lerp(0.85f, 1f, factor);
 
         tabsViewWrapper.setTranslationY(lerp(hiddenY, normalY, factor));
-        /** Cherrygram start */
+        /** Hachigram start */
         finalTabsView.setScaleX(scale);
         finalTabsView.setScaleY(scale);
         finalTabsView.setClickable(factor > 1);
         finalTabsView.setEnabled(factor > 1);
         finalTabsView.setAlpha(factor);
         finalTabsView.setVisibility(factor > 0 ? View.VISIBLE : View.GONE);
-        /** Cherrygram finish */
+        /** Hachigram finish */
     }
 
     private void checkUi_callTabVisible(boolean callTabsVisible, boolean animated) {
@@ -1366,11 +1366,11 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
     }
 
     private void blur3_updateColors() {
-        /** Cherrygram start */
+        /** Hachigram start */
         if (iBlur3SourceColor == null || tabsViewBackground == null || fadeView == null || tabsView == null || tabs == null) {
             return;
         }
-        /** Cherrygram finish */
+        /** Hachigram finish */
         blur3_updateFadeColors();
         if (tabsViewBackground != null) {
             tabsViewBackground.updateColors();
@@ -1396,7 +1396,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private LinearLayout tabsContainer;
     private GlassTabView searchButton;
     private BlurredBackgroundDrawable searchButtonBackground;
@@ -1562,7 +1562,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
                 }
 
                 Bundle args = new Bundle();
-                args.putBoolean("hasMainTabs", CherrygramAppearanceConfig.INSTANCE.getShowMainTabs());
+                args.putBoolean("hasMainTabs", HachigramAppearanceConfig.INSTANCE.getShowMainTabs());
                 dialogsActivity = new DialogsActivity(args);
                 dialogsActivity.setMainTabsActivityController(new MainTabsActivityControllerImpl());
                 return dialogsActivity;
@@ -1619,7 +1619,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
     }
 
     private void onSearchButtonClick() {
-        if (CherrygramAppearanceConfig.INSTANCE.getMainTabsForceOpenChats()) {
+        if (HachigramAppearanceConfig.INSTANCE.getMainTabsForceOpenChats()) {
             openSearchChats();
             return;
         }
@@ -1654,7 +1654,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
     public void processLongClick(View button) {
         ItemOptions o = ItemOptions.makeOptions(this, button);
         o.addIf(
-                !CherrygramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList(),
+                !HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList(),
                 R.drawable.msg_archive,
                 getString(R.string.ArchivedChats),
                 () -> CGChatMenuInjector.INSTANCE.openArchivedChats(this)
@@ -1663,7 +1663,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
         o.add(R.drawable.msg_saved, getString(R.string.SavedMessages), () -> presentFragment(ChatActivity.of(ChatsHelper2.INSTANCE.getCustomChatID())));
 
         o.addGap();
-        o.add(R.drawable.tabs_reorder, getString(R.string.CP_MainTabs_Header), () -> CherrygramPreferencesNavigator.INSTANCE.createTabs(this));
+        o.add(R.drawable.tabs_reorder, getString(R.string.CP_MainTabs_Header), () -> HachigramPreferencesNavigator.INSTANCE.createTabs(this));
 
         o.setBlur(true);
         o.translate(0, -dp(4));
@@ -1673,7 +1673,7 @@ public class MainTabsActivity extends ViewPagerActivity implements NotificationC
 
         o.show();
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
     @Override
     public EdgeToEdgeSupportMode getEdgeToEdgeSupportMode() {

@@ -118,12 +118,12 @@ public abstract class UniversalFragment extends BaseFragment {
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private boolean isMD3Enabled = false;
 
     public void setMD3(boolean set) {
         this.isMD3Enabled = set;
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

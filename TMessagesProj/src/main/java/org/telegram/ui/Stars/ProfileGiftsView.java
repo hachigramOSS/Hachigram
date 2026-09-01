@@ -39,7 +39,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
 
 public class ProfileGiftsView extends View implements NotificationCenter.NotificationCenterDelegate {
 
@@ -259,7 +259,7 @@ public class ProfileGiftsView extends View implements NotificationCenter.Notific
     public int maxCount;
 
     public void update() {
-        if (CherrygramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) return;
+        if (HachigramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) return;
 
         if (!MessagesController.getInstance(currentAccount).enableGiftsInProfile) {
             return;

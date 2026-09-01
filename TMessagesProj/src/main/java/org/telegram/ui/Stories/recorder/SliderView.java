@@ -322,7 +322,7 @@ public class SliderView extends View {
         return who == text || who == text2 || super.verifyDrawable(who);
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public static final int TYPE_EXPOSURE_CG = 10;
     public static final int TYPE_WARMTH_CG = 11;
     public static final int TYPE_BRIGHTNESS_CG = 12;
@@ -333,6 +333,6 @@ public class SliderView extends View {
         }
         return ColorUtils.blendARGB(0xFF999999, 0xffffffff, Utilities.clamp((warmth - .5f) / .5f, 1, 0));
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

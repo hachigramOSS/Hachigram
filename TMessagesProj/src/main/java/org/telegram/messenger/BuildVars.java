@@ -12,9 +12,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Build;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
-import com.the306bobby.cherrygramnext.Extra;
-import com.the306bobby.cherrygramnext.misc.Constants;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
+import com.the306bobby.hachigram.Extra;
+import com.the306bobby.hachigram.misc.Constants;
 
 import com.android.billingclient.api.ProductDetails;
 
@@ -39,7 +39,7 @@ public class BuildVars {
     public static String GOOGLE_AUTH_CLIENT_ID = "119732785963-ooptebss6v859a1ojsqn05j6oejon5ug.apps.googleusercontent.com";
 
     // You can use this flag to disable Google Play Billing (If you're making fork and want it to be in Google Play)
-    public static boolean IS_BILLING_UNAVAILABLE = CherrygramCoreConfig.isPlayStoreBuild();
+    public static boolean IS_BILLING_UNAVAILABLE = HachigramCoreConfig.isPlayStoreBuild();
 
     // works only on official app ids, disable on your forks
     public static boolean SUPPORTS_PASSKEYS = Build.VERSION.SDK_INT >= 34;
@@ -90,7 +90,7 @@ public class BuildVars {
             betaApp = ApplicationLoader.applicationContext != null && "org.telegram.messenger.beta".equals(ApplicationLoader.applicationContext.getPackageName());
         }
         return betaApp;*/
-        return CherrygramCoreConfig.isStandaloneBetaBuild();
+        return HachigramCoreConfig.isStandaloneBetaBuild();
     }
 
 

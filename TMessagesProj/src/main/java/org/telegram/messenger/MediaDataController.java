@@ -111,10 +111,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.the306bobby.cherrygramnext.chats.helpers.ChatsPasswordHelper;
-import com.the306bobby.cherrygramnext.chats.filters.MessagesFilterHelper;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper2;
+import com.the306bobby.hachigram.chats.helpers.ChatsPasswordHelper;
+import com.the306bobby.hachigram.chats.filters.MessagesFilterHelper;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.chats.helpers.ChatsHelper2;
 
 @SuppressWarnings("unchecked")
 public class MediaDataController extends BaseController {
@@ -135,7 +135,7 @@ public class MediaDataController extends BaseController {
             SPOILER_PATTERN = Pattern.compile("\\|\\|(.+?)\\|\\|"),
             STRIKE_PATTERN = Pattern.compile("~~(.+?)~~");
 
-    public static String SHORTCUT_CATEGORY = "com.the306bobby.cherrygramnext.SHORTCUT_SHARE";
+    public static String SHORTCUT_CATEGORY = "com.the306bobby.hachigram.SHORTCUT_SHARE";
 
     private static volatile MediaDataController[] Instance = new MediaDataController[UserConfig.MAX_ACCOUNT_COUNT];
     private static final Object[] lockObjects = new Object[UserConfig.MAX_ACCOUNT_COUNT];
@@ -918,7 +918,7 @@ public class MediaDataController extends BaseController {
         if (type == TYPE_PREMIUM_STICKERS) {
             return new ArrayList<>(recentStickers[type]);
         }
-        ArrayList<TLRPC.Document> result = new ArrayList<>(arrayList.subList(0, Math.min(arrayList.size(), CherrygramChatsConfig.INSTANCE.getSlider_RecentStickersAmplifier() + 1)));
+        ArrayList<TLRPC.Document> result = new ArrayList<>(arrayList.subList(0, Math.min(arrayList.size(), HachigramChatsConfig.INSTANCE.getSlider_RecentStickersAmplifier() + 1)));
         if (firstEmpty && !result.isEmpty() && !StickersAlert.DISABLE_STICKER_EDITOR) {
             result.add(0, new TLRPC.TL_documentEmpty());
         }
@@ -1025,7 +1025,7 @@ public class MediaDataController extends BaseController {
                 });
             }
 //            maxCount = getMessagesController().maxRecentStickersCount;
-            maxCount = CherrygramChatsConfig.INSTANCE.getSlider_RecentStickersAmplifier() + 1;
+            maxCount = HachigramChatsConfig.INSTANCE.getSlider_RecentStickersAmplifier() + 1;
         }
         if (recentStickers[type].size() > maxCount || remove) {
             TLRPC.Document old = remove ? document : recentStickers[type].remove(recentStickers[type].size() - 1);
@@ -2103,7 +2103,7 @@ public class MediaDataController extends BaseController {
                             maxCount = UserConfig.getInstance(currentAccount).isPremium() ? getMessagesController().stickersFavedLimitPremium : getMessagesController().stickersFavedLimitDefault;
                         } else {
 //                            maxCount = getMessagesController().maxRecentStickersCount;
-                            maxCount = CherrygramChatsConfig.INSTANCE.getSlider_RecentStickersAmplifier() + 1;
+                            maxCount = HachigramChatsConfig.INSTANCE.getSlider_RecentStickersAmplifier() + 1;
                         }
                     }
                     database.beginTransaction();

@@ -219,7 +219,7 @@ import java.util.Locale;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 
-import com.the306bobby.cherrygramnext.misc.Constants;
+import com.the306bobby.hachigram.misc.Constants;
 
 public class PeerStoriesView extends SizeNotifierFrameLayout implements NotificationCenter.NotificationCenterDelegate {
 

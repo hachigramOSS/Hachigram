@@ -178,8 +178,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
-import com.the306bobby.cherrygramnext.core.CGBiometricPrompt;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
+import com.the306bobby.hachigram.core.CGBiometricPrompt;
+import com.the306bobby.hachigram.core.configs.HachigramMessagesConfig;
 
 import me.vkryl.core.BitwiseUtils;
 
@@ -2731,12 +2731,12 @@ public class AlertsCreator {
                 }
             } else if (clear) {
                 cell[0].setText(LocaleController.formatString(R.string.ClearHistoryOptionAlso, UserObject.getFirstName(user)), "", false, false);
-//                deleteForAll[0] = CherrygramMessagesConfig.INSTANCE.getDeleteForAll(); //Clear history
-//                cell[0].setText(LocaleController.formatString("ClearHistoryOptionAlso", R.string.ClearHistoryOptionAlso, UserObject.getFirstName(user)), "", CherrygramMessagesConfig.INSTANCE.getDeleteForAll(), false);
+//                deleteForAll[0] = HachigramMessagesConfig.INSTANCE.getDeleteForAll(); //Clear history
+//                cell[0].setText(LocaleController.formatString("ClearHistoryOptionAlso", R.string.ClearHistoryOptionAlso, UserObject.getFirstName(user)), "", HachigramMessagesConfig.INSTANCE.getDeleteForAll(), false);
             } else {
                 cell[0].setText(LocaleController.formatString("DeleteMessagesOptionAlso", R.string.DeleteMessagesOptionAlso, UserObject.getFirstName(user)), "", false, false);
-//                deleteForAll[0] = CherrygramMessagesConfig.INSTANCE.getDeleteForAll(); //Delete chat
-//                cell[0].setText(LocaleController.formatString("DeleteMessagesOptionAlso", R.string.DeleteMessagesOptionAlso, UserObject.getFirstName(user)), "", CherrygramMessagesConfig.INSTANCE.getDeleteForAll(), false);
+//                deleteForAll[0] = HachigramMessagesConfig.INSTANCE.getDeleteForAll(); //Delete chat
+//                cell[0].setText(LocaleController.formatString("DeleteMessagesOptionAlso", R.string.DeleteMessagesOptionAlso, UserObject.getFirstName(user)), "", HachigramMessagesConfig.INSTANCE.getDeleteForAll(), false);
             }
             cell[0].setMultiline(true);
             cell[0].setPadding(LocaleController.isRTL ? dp(16) : dp(8), dp(10), LocaleController.isRTL ? dp(8) : dp(16), dp(10));
@@ -7943,7 +7943,7 @@ public class AlertsCreator {
             }
         }
 
-        final boolean[] deleteForAll = {CherrygramMessagesConfig.INSTANCE.getDeleteForAll()};
+        final boolean[] deleteForAll = {HachigramMessagesConfig.INSTANCE.getDeleteForAll()};
         boolean canRevokeInbox = user != null && MessagesController.getInstance(currentAccount).canRevokePmInbox;
         int revokeTimeLimit;
         if (user != null) {
@@ -8138,10 +8138,10 @@ public class AlertsCreator {
                 CheckBoxCell cell = new CheckBoxCell(activity, 1, resourcesProvider);
                 cell.setBackgroundDrawable(Theme.getSelectorDrawable(false));
                 if (canDeleteInbox) {
-//                    deleteForAll[0] = CherrygramMessagesConfig.INSTANCE.getDeleteForAll();
-                    cell.setText(LocaleController.formatString("DeleteMessagesOptionAlso", R.string.DeleteMessagesOptionAlso, UserObject.getFirstName(user)), "", CherrygramMessagesConfig.INSTANCE.getDeleteForAll(), false); //Personal messages
+//                    deleteForAll[0] = HachigramMessagesConfig.INSTANCE.getDeleteForAll();
+                    cell.setText(LocaleController.formatString("DeleteMessagesOptionAlso", R.string.DeleteMessagesOptionAlso, UserObject.getFirstName(user)), "", HachigramMessagesConfig.INSTANCE.getDeleteForAll(), false); //Personal messages
                 } else if (chat != null && (hasNotOut || myMessagesCount == count)) {
-                    cell.setText(LocaleController.getString(R.string.DeleteForAll), "", CherrygramMessagesConfig.INSTANCE.getDeleteForAll(), false); //legacy groups
+                    cell.setText(LocaleController.getString(R.string.DeleteForAll), "", HachigramMessagesConfig.INSTANCE.getDeleteForAll(), false); //legacy groups
                 } else {
                     cell.setText(LocaleController.getString(R.string.DeleteMessagesOption), "", false, false);
                 }

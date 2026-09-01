@@ -67,9 +67,9 @@ import org.telegram.ui.Stories.StoriesUtilities;
 import org.telegram.ui.TopicsFragment;
 import org.telegram.ui.community.CommunityArrowDrawable;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramDebugConfig;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramDebugConfig;
 
 import java.util.concurrent.atomic.AtomicReference;
 
@@ -81,7 +81,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
     private static final int ANIMATOR_ID_TIME_ITEM_VISIBLE = 0;
     private final BoolAnimator animatorTimeVisible = new BoolAnimator(ANIMATOR_ID_TIME_ITEM_VISIBLE, this, CubicBezierInterpolator.EASE_OUT_QUINT, 320);
 
-    private boolean centerChatTitle = CherrygramChatsConfig.INSTANCE.getCenterChatTitle();
+    private boolean centerChatTitle = HachigramChatsConfig.INSTANCE.getCenterChatTitle();
     public boolean allowDrawStories;
     private Integer storiesForceState;
     private int avatarSizeInDp = 42;
@@ -296,7 +296,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
         titleTextView.setLeftDrawableTopPadding(-dp(1.3f));
         titleTextView.setCanHideRightDrawable(false);
         titleTextView.setRightDrawableOutside(!centerChatTitle);
-        boolean hasEmoji = !CherrygramAppearanceConfig.INSTANCE.getDisablePremiumStatuses() && parentFragment != null &&
+        boolean hasEmoji = !HachigramAppearanceConfig.INSTANCE.getDisablePremiumStatuses() && parentFragment != null &&
                 (
                         parentFragment.getCurrentUser() != null && parentFragment.getCurrentUser().premium || parentFragment.getCurrentUser() != null && DialogObject.getEmojiStatusDocumentId(parentFragment.getCurrentUser().emoji_status) != 0
                         || parentFragment.getCurrentChat() != null && DialogObject.getEmojiStatusDocumentId(parentFragment.getCurrentChat().emoji_status) != 0
@@ -408,12 +408,12 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
         pressed = false;
         bounce.setPressed(false);
         if (canSearch()) {
-            if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+            if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                 try {
                     performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                 } catch (Exception ignore) {}
             }
-            CherrygramChatsConfig.INSTANCE.setMessagesSearchFilter(CherrygramChatsConfig.FILTER_NONE);
+            HachigramChatsConfig.INSTANCE.setMessagesSearchFilter(HachigramChatsConfig.FILTER_NONE);
             openSearch();
         }
     };
@@ -982,12 +982,12 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
         return getBotVerificationDrawable(icon, animated, false);
     }
 
-    public AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable getBotVerificationDrawable(long icon, boolean animated, boolean cherrygram) {
+    public AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable getBotVerificationDrawable(long icon, boolean animated, boolean hachigram) {
         if (icon == 0) {
             return null;
         }
         botVerificationDrawable.set(icon, animated);
-        botVerificationDrawable.setColor(getThemedColor(cherrygram ? Theme.key_cgGradient2 : Theme.key_profile_verifiedBackground));
+        botVerificationDrawable.setColor(getThemedColor(hachigram ? Theme.key_cgGradient2 : Theme.key_profile_verifiedBackground));
         botVerificationDrawable.offset(0, dp(1));
         return botVerificationDrawable;
     }
@@ -1027,7 +1027,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
             rightDrawableIsScamOrVerified = false;
             rightDrawable2ContentDescription = null;
         }
-        if ((premium || DialogObject.getEmojiStatusDocumentId(emojiStatus) != 0) && !CherrygramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) {
+        if ((premium || DialogObject.getEmojiStatusDocumentId(emojiStatus) != 0) && !HachigramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) {
             if (titleTextView.getRightDrawable() instanceof AnimatedEmojiDrawable.WrapSizeDrawable &&
                     ((AnimatedEmojiDrawable.WrapSizeDrawable) titleTextView.getRightDrawable()).getDrawable() instanceof AnimatedEmojiDrawable) {
                 ((AnimatedEmojiDrawable) ((AnimatedEmojiDrawable.WrapSizeDrawable) titleTextView.getRightDrawable()).getDrawable()).removeView(titleTextView);
@@ -1301,7 +1301,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
                     newStatus = getString(R.string.Bot);
                 } else {
                     isOnline[0] = false;
-                    newStatus = CherrygramDebugConfig.INSTANCE.getOldTimeStyle() ? LocaleController.formatUserStatus(currentAccount, user, isOnline, allowShorterStatus ? statusMadeShorter : null) : LocaleController.formatUserStatusIOS(currentAccount, user, isOnline, allowShorterStatus ? statusMadeShorter : null);
+                    newStatus = HachigramDebugConfig.INSTANCE.getOldTimeStyle() ? LocaleController.formatUserStatus(currentAccount, user, isOnline, allowShorterStatus ? statusMadeShorter : null) : LocaleController.formatUserStatusIOS(currentAccount, user, isOnline, allowShorterStatus ? statusMadeShorter : null);
                     useOnlineColor = isOnline[0];
                 }
                 newSubtitle = newStatus;

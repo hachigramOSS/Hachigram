@@ -64,7 +64,7 @@ import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 public class ThemesHorizontalListCell extends RecyclerListView implements NotificationCenter.NotificationCenterDelegate {
 
@@ -199,7 +199,7 @@ public class ThemesHorizontalListCell extends RecyclerListView implements Notifi
                     if (action == MotionEvent.ACTION_DOWN) {
                         pressed = true;
                     } else {
-                        if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                        if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                             try {
                                 performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                             } catch (Exception ignored) {}

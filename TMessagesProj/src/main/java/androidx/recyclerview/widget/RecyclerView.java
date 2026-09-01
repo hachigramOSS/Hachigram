@@ -97,8 +97,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.VibrateUtil;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.VibrateUtil;
 
 /**
  * A flexible view for providing a limited window into a large data set.
@@ -7085,7 +7085,7 @@ public class RecyclerView extends ViewGroup implements ScrollingView,
             try {
                 TraceCompat.beginSection(TRACE_CREATE_VIEW_TAG);
                 final VH holder = onCreateViewHolder(parent, viewType);
-                if (CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                if (HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                     VibrateUtil.INSTANCE.disableHapticFeedback(holder.itemView);
                 }
                 if (holder.itemView.getParent() != null) {

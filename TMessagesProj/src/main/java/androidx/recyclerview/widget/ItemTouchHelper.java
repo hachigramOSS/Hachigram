@@ -44,7 +44,7 @@ import org.telegram.messenger.AndroidUtilities;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 /**
  * This is a utility class to add swipe to dismiss and drag & drop support to RecyclerView.
@@ -694,7 +694,7 @@ public class ItemTouchHelper extends RecyclerView.ItemDecoration
             mSelected = selected;
 
             if (actionState == ACTION_STATE_DRAG) {
-                if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                     try {
                         mSelected.itemView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception ignore) {}

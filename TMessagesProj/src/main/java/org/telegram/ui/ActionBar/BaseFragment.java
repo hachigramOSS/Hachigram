@@ -69,15 +69,15 @@ import org.telegram.ui.bots.BotWebViewAttachedSheet;
 
 import java.util.ArrayList;
 
-import com.the306bobby.cherrygramnext.chats.ui.MessageMenuHelper;
-import com.the306bobby.cherrygramnext.chats.helpers.ChatActivityHelper;
-import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper;
-import com.the306bobby.cherrygramnext.chats.helpers.ChatsPasswordHelper;
-import com.the306bobby.cherrygramnext.chats.helpers.MessageHelper;
-import com.the306bobby.cherrygramnext.core.VibrateUtil;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
-import com.the306bobby.cherrygramnext.helpers.ProfileActivityHelper;
+import com.the306bobby.hachigram.chats.ui.MessageMenuHelper;
+import com.the306bobby.hachigram.chats.helpers.ChatActivityHelper;
+import com.the306bobby.hachigram.chats.helpers.ChatsHelper;
+import com.the306bobby.hachigram.chats.helpers.ChatsPasswordHelper;
+import com.the306bobby.hachigram.chats.helpers.MessageHelper;
+import com.the306bobby.hachigram.core.VibrateUtil;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
+import com.the306bobby.hachigram.helpers.ProfileActivityHelper;
 
 public abstract class BaseFragment {
 
@@ -317,7 +317,7 @@ public abstract class BaseFragment {
     }
 
     public boolean isActionBarCrossfadeEnabled() {
-        if (CherrygramCoreConfig.INSTANCE.getSpringAnimation() == CherrygramCoreConfig.ANIMATION_SPRING) {
+        if (HachigramCoreConfig.INSTANCE.getSpringAnimation() == HachigramCoreConfig.ANIMATION_SPRING) {
             if (getLastStoryViewer() != null && getLastStoryViewer().attachedToParent()) {
                 return false;
             }
@@ -385,7 +385,7 @@ public abstract class BaseFragment {
     public void setParentFragment(BaseFragment fragment) {
         setParentLayout(fragment.parentLayout);
         fragmentView = createView(parentLayout.getView().getContext());
-        if (fragmentView != null && CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+        if (fragmentView != null && HachigramChatsConfig.INSTANCE.getDisableVibration()) {
             VibrateUtil.INSTANCE.disableHapticFeedback(fragmentView);
         }
     }
@@ -1446,7 +1446,7 @@ public abstract class BaseFragment {
         public boolean occupyNavigationBar;
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public MessageHelper getMessageHelper() {
         return MessageHelper.getInstance(currentAccount);
     }
@@ -1470,7 +1470,7 @@ public abstract class BaseFragment {
     public ProfileActivityHelper getProfileActivityHelper() {
         return ProfileActivityHelper.getInstance(currentAccount);
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
     public EdgeToEdgeSupportMode getEdgeToEdgeSupportMode() {
         return isSupportEdgeToEdge() ?
@@ -1481,7 +1481,7 @@ public abstract class BaseFragment {
     @Deprecated
     public boolean isSupportEdgeToEdge() {
         // warn: overridden method must return a constant
-        return false; // CherrygramExtras.isEdgeToEdgeSupported()
+        return false; // HachigramExtras.isEdgeToEdgeSupported()
     }
 
     public boolean drawEdgeNavigationBar() {

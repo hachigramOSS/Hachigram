@@ -100,12 +100,12 @@ import java.util.Map;
 import java.util.concurrent.CountDownLatch;
 import java.util.function.Consumer;
 
-import com.the306bobby.cherrygramnext.chats.helpers.ChatsPasswordHelper;
-import com.the306bobby.cherrygramnext.chats.filters.MessagesFilterHelper;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.VibrateUtil;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
-import com.the306bobby.cherrygramnext.core.helpers.CGResourcesHelper;
+import com.the306bobby.hachigram.chats.helpers.ChatsPasswordHelper;
+import com.the306bobby.hachigram.chats.filters.MessagesFilterHelper;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.VibrateUtil;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
+import com.the306bobby.hachigram.core.helpers.CGResourcesHelper;
 
 public class NotificationsController extends BaseController implements NotificationCenter.NotificationCenterDelegate {
 
@@ -1192,17 +1192,17 @@ public class NotificationsController extends BaseController implements Notificat
                 long topicId = MessageObject.getTopicId(currentAccount, messageObject.messageOwner, getMessagesController().isForum(messageObject));
                 if (dialogId == openedDialogId && ApplicationLoader.isScreenOn && !messageObject.isStoryReactionPush && !messageObject.isOauthPush) {
                     if (!isFcm) {
-                        if (CherrygramChatsConfig.INSTANCE.getNotificationSound() != CherrygramChatsConfig.NOTIF_SOUND_DISABLE) {
+                        if (HachigramChatsConfig.INSTANCE.getNotificationSound() != HachigramChatsConfig.NOTIF_SOUND_DISABLE) {
                             playInChatSound();
                         }
-                        if (!CherrygramChatsConfig.INSTANCE.getDisableVibration() && CherrygramChatsConfig.INSTANCE.getVibrateInChats() != CherrygramChatsConfig.VIBRATION_DISABLE) {
-                            if (CherrygramChatsConfig.INSTANCE.getVibrateInChats() == CherrygramChatsConfig.VIBRATION_CLICK) {
+                        if (!HachigramChatsConfig.INSTANCE.getDisableVibration() && HachigramChatsConfig.INSTANCE.getVibrateInChats() != HachigramChatsConfig.VIBRATION_DISABLE) {
+                            if (HachigramChatsConfig.INSTANCE.getVibrateInChats() == HachigramChatsConfig.VIBRATION_CLICK) {
                                 VibrateUtil.INSTANCE.makeClickVibration();
-                            } else if (CherrygramChatsConfig.INSTANCE.getVibrateInChats() == CherrygramChatsConfig.VIBRATION_WAVE_FORM) {
+                            } else if (HachigramChatsConfig.INSTANCE.getVibrateInChats() == HachigramChatsConfig.VIBRATION_WAVE_FORM) {
                                 VibrateUtil.INSTANCE.makeWaveVibration();
-                            } else if (CherrygramChatsConfig.INSTANCE.getVibrateInChats() == CherrygramChatsConfig.VIBRATION_KEYBOARD_TAP) {
+                            } else if (HachigramChatsConfig.INSTANCE.getVibrateInChats() == HachigramChatsConfig.VIBRATION_KEYBOARD_TAP) {
                                 VibrateUtil.INSTANCE.vibrate(HapticFeedbackConstants.KEYBOARD_TAP);
-                            } else if (CherrygramChatsConfig.INSTANCE.getVibrateInChats() == CherrygramChatsConfig.VIBRATION_LONG) {
+                            } else if (HachigramChatsConfig.INSTANCE.getVibrateInChats() == HachigramChatsConfig.VIBRATION_LONG) {
                                 VibrateUtil.INSTANCE.vibrate();
                             }
                         }
@@ -3391,7 +3391,7 @@ public class NotificationsController extends BaseController implements Notificat
                     }
                     if (soundIn == 0 && !soundInLoaded) {
                         soundInLoaded = true;
-                        int sound = CherrygramChatsConfig.INSTANCE.getNotificationSound() == CherrygramChatsConfig.NOTIF_SOUND_IOS ? R.raw.sound_in_ios : R.raw.sound_in;
+                        int sound = HachigramChatsConfig.INSTANCE.getNotificationSound() == HachigramChatsConfig.NOTIF_SOUND_IOS ? R.raw.sound_in_ios : R.raw.sound_in;
                         soundIn = soundPool.load(ApplicationLoader.applicationContext, sound, 1);
                     }
                     if (soundIn != 0) {
@@ -4389,7 +4389,7 @@ public class NotificationsController extends BaseController implements Notificat
                 notifyDisabled = true;
             }
 
-            if (CherrygramCoreConfig.INSTANCE.getSilenceNonContacts() && getContactsController().contactsDict.get(userId) == null) {
+            if (HachigramCoreConfig.INSTANCE.getSilenceNonContacts() && getContactsController().contactsDict.get(userId) == null) {
                 notifyDisabled = true;
             }
 

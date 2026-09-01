@@ -59,7 +59,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper;
+import com.the306bobby.hachigram.chats.helpers.ChatsHelper;
 
 public final class BulletinFactory {
 
@@ -1639,7 +1639,7 @@ public final class BulletinFactory {
         public Runnable onAction;
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public Bulletin createEmojiBulletin2(TLRPC.Document document, CharSequence text, CharSequence button, MessageObject selectedObject, Runnable onButtonClick) {
         final Bulletin.LottieLayout layout = new Bulletin.LottieLayout(getContext(), resourcesProvider);
         if (MessageObject.isTextColorEmoji(document)) {
@@ -1725,6 +1725,6 @@ public final class BulletinFactory {
             return createEmojiBulletin2(document, message, LocaleController.getString(R.string.ApplyTheme), selectedObject, () -> ChatsHelper.getInstance(UserConfig.selectedAccount).applyReplyBackground(selectedObject, fragment));
         }
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

@@ -63,7 +63,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import com.the306bobby.cherrygramnext.core.PermissionsUtils;
+import com.the306bobby.hachigram.core.PermissionsUtils;
 
 public class ImageUpdater implements NotificationCenter.NotificationCenterDelegate, PhotoCropActivity.PhotoEditActivityDelegate {
     private final static int ID_TAKE_PHOTO = 0,

@@ -131,10 +131,10 @@ import java.util.TimerTask;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CountDownLatch;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.chats.AudioEnhance;
-import com.the306bobby.cherrygramnext.core.PermissionsUtils;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.chats.AudioEnhance;
+import com.the306bobby.hachigram.core.PermissionsUtils;
+import com.the306bobby.hachigram.core.configs.HachigramMessagesConfig;
 
 public class MediaController implements AudioManager.OnAudioFocusChangeListener, NotificationCenter.NotificationCenterDelegate, SensorEventListener {
 
@@ -515,9 +515,9 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         public Boolean highQuality;
         public boolean isHighQuality() {
             if (highQuality == null)
-                /** Cherrygram start */
-                return SharedConfig.photoHighQualityDefault || CherrygramChatsConfig.INSTANCE.getLargePhotos() && !CherrygramMessagesConfig.INSTANCE.getPhotoAsSticker();
-                /** Cherrygram finish */
+                /** Hachigram start */
+                return SharedConfig.photoHighQualityDefault || HachigramChatsConfig.INSTANCE.getLargePhotos() && !HachigramMessagesConfig.INSTANCE.getPhotoAsSticker();
+                /** Hachigram finish */
             return highQuality;
         }
 
@@ -4707,7 +4707,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
         manualRecording = manual;
         requestRecordAudioFocus(true);
 
-        if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+        if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
             try {
                 feedbackView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
             } catch (Exception ignore) {}
@@ -4993,7 +4993,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
             if (send == 0) {
                 stopRecordingInternal(0, false, 0, false, 0);
             }
-            if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+            if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                 try {
                     feedbackView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                 } catch (Exception ignore) {}

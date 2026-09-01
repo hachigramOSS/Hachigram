@@ -35,7 +35,7 @@ import org.telegram.ui.Components.RecyclerListView;
 import java.util.ArrayList;
 import java.util.Objects;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 public class ArchiveSettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 
@@ -116,8 +116,8 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
                 ((TextCheckCell) view).setChecked(settings.archive_and_mute_new_noncontact_peers);
                 changed = true;
             } else if (item.id == 10) {
-                CherrygramChatsConfig.INSTANCE.setUnarchiveOnSwipe(!CherrygramChatsConfig.INSTANCE.getUnarchiveOnSwipe());
-                ((TextCheckCell) view).setChecked(CherrygramChatsConfig.INSTANCE.getUnarchiveOnSwipe());
+                HachigramChatsConfig.INSTANCE.setUnarchiveOnSwipe(!HachigramChatsConfig.INSTANCE.getUnarchiveOnSwipe());
+                ((TextCheckCell) view).setChecked(HachigramChatsConfig.INSTANCE.getUnarchiveOnSwipe());
                 changed = true;
             }
         });
@@ -235,7 +235,7 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
                     checked = settings.archive_and_mute_new_noncontact_peers;
                     cell.setCheckBoxIcon(getUserConfig().isPremium() || getMessagesController().autoarchiveAvailable ? 0 : R.drawable.permission_locked);
                 } else if (item.id == 10) {
-                    checked = CherrygramChatsConfig.INSTANCE.getUnarchiveOnSwipe();
+                    checked = HachigramChatsConfig.INSTANCE.getUnarchiveOnSwipe();
                     cell.setCheckBoxIcon(0);
                 } else {
                     return;
@@ -304,7 +304,7 @@ public class ArchiveSettingsActivity extends BaseFragment implements Notificatio
                     } else if (item.id == 7) {
                         ((TextCheckCell) child).setChecked(settings.archive_and_mute_new_noncontact_peers);
                     } else if (item.id == 10) {
-                        ((TextCheckCell) child).setChecked(CherrygramChatsConfig.INSTANCE.getUnarchiveOnSwipe());
+                        ((TextCheckCell) child).setChecked(HachigramChatsConfig.INSTANCE.getUnarchiveOnSwipe());
                     }
                 }
             }

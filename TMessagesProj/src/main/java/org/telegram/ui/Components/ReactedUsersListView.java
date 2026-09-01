@@ -35,7 +35,7 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.List;
 
-import com.the306bobby.cherrygramnext.chats.ui.MessageMenuHelper;
+import com.the306bobby.hachigram.chats.ui.MessageMenuHelper;
 
 public class ReactedUsersListView extends FrameLayout {
 

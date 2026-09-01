@@ -458,7 +458,7 @@ public class PasskeysActivity extends BaseFragment {
         listView.setClipToPadding(false);
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private static String getBitwardenUrl() {
         if (ApplicationLoader.checkPlayServices()) {
             return "https://play.google.com/store/apps/details?id=com.x8bit.bitwarden";
@@ -474,6 +474,6 @@ public class PasskeysActivity extends BaseFragment {
             return "https://github.com/Kunzisoft/KeePassDX";
         }
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

@@ -131,8 +131,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import com.the306bobby.cherrygramnext.core.helpers.SleepHelper;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.hachigram.core.helpers.SleepHelper;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
 
 public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate, DownloadController.FileDownloadProgressListener {
 
@@ -777,11 +777,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         repeatButton.setShowSubmenuByMove(false);
         repeatButton.setAdditionalYOffset(-dp(166));
         repeatButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), 1, dp(18)));
-        /** Cherrygram start */
+        /** Hachigram start */
         if (messageObject != null && !messageObject.isVoice()) {
             bottomView.addView(repeatButton, LayoutHelper.createFrame(48, 48, Gravity.LEFT | Gravity.TOP));
         }
-        /** Cherrygram finish */
+        /** Hachigram finish */
         repeatButton.setOnClickListener(v -> {
             updateSubMenu();
             repeatButton.toggleSubMenu();
@@ -967,11 +967,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         prevButton.setLayerColor("Triangle 4", iconColor);
         prevButton.setLayerColor("Rectangle 4", iconColor);
         prevButton.setBackgroundDrawable(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), 1, dp(22)));
-        /** Cherrygram start */
+        /** Hachigram start */
         if (messageObject != null && !messageObject.isVoice()) {
             bottomView.addView(prevButton, LayoutHelper.createFrame(48, 48, Gravity.LEFT | Gravity.TOP));
         }
-        /** Cherrygram finish */
+        /** Hachigram finish */
         prevButton.setContentDescription(LocaleController.getString(R.string.AccDescrPrevious));
 
         buttons[2] = playButton = new ImageView(context);
@@ -1091,11 +1091,11 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         nextButton.setLayerColor("Rectangle 4", iconColor);
         nextButton.setRotation(180f);
         nextButton.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), 1, dp(22)));
-        /** Cherrygram start */
+        /** Hachigram start */
         if (messageObject != null && !messageObject.isVoice()) {
             bottomView.addView(nextButton, LayoutHelper.createFrame(48, 48, Gravity.LEFT | Gravity.TOP));
         }
-        /** Cherrygram finish */
+        /** Hachigram finish */
         nextButton.setContentDescription(LocaleController.getString(R.string.Next));
 
         buttons[4] = optionsButton = new ActionBarMenuItem(context, null, 0, iconColor, false, resourcesProvider);
@@ -1759,10 +1759,10 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     }
                 }
             }, false);
-        /** Cherrygram start */
+        /** Hachigram start */
         } else if (id == 1390) {
             setSleepTimer();
-        /** Cherrygram finish */
+        /** Hachigram finish */
         } else if (id == 8) {
             new SelectAudioAlert(getContext(), true, null, audio -> {
                 if (audio == null || savedMusicList == null) return;
@@ -2908,7 +2908,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         }
 
         final ItemOptions o = ItemOptions.makeOptions(container, resourcesProvider, v, true);
-        /** Cherrygram start */
+        /** Hachigram start */
         if (isMyList() || noforwards) {
             o.add(R.drawable.alarm_sleep_solar, getString(R.string.CG_Sleep), () -> {
                 o.dismiss();
@@ -2916,7 +2916,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
             });
             o.addGap();
         }
-        /** Cherrygram finish */
+        /** Hachigram finish */
         ItemOptions o2 = buildSaveOptions(o, messageObject);
         if (!isMyList()) {
             o.addIf(!noforwards, R.drawable.msg_stories_save, getString(R.string.AudioSaveTo), () -> o.openSwipeback(o2));
@@ -3657,7 +3657,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
         rightPaddingAnimator.start();
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private ButtonWithCounterView sleepTimerButton;
 
     private void setSleepTimer() {
@@ -3763,7 +3763,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                 );
             }
 
-            CherrygramCoreConfig.INSTANCE.setSleepTimer(true);
+            HachigramCoreConfig.INSTANCE.setSleepTimer(true);
 
             String formattedTime;
             if (seconds < 3600) {
@@ -3778,14 +3778,14 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     .createSimpleBulletin(R.raw.done, AndroidUtilities.replaceTags(LocaleController.formatString(R.string.CG_Sleep_Timer, formattedTime)))
                     .show();
         } else {
-            if (CherrygramCoreConfig.INSTANCE.getSleepTimer()) {
+            if (HachigramCoreConfig.INSTANCE.getSleepTimer()) {
                 BulletinFactory.of((FrameLayout) containerView, resourcesProvider)
                         .createSimpleBulletin(R.raw.done, getString(R.string.CG_Sleep_Disabled))
                         .show();
             }
-            CherrygramCoreConfig.INSTANCE.setSleepTimer(false);
+            HachigramCoreConfig.INSTANCE.setSleepTimer(false);
         }
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

@@ -175,10 +175,10 @@ import java.util.List;
 import me.vkryl.core.BitwiseUtils;
 import me.vkryl.core.reference.ReferenceList;
 
-import com.the306bobby.cherrygramnext.chats.CGMessageMenuInjector;
-import com.the306bobby.cherrygramnext.chats.JsonBottomSheet;
-import com.the306bobby.cherrygramnext.chats.helpers.ChatActivityHelper;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.chats.CGMessageMenuInjector;
+import com.the306bobby.hachigram.chats.JsonBottomSheet;
+import com.the306bobby.hachigram.chats.helpers.ChatActivityHelper;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 public class ChannelAdminLogActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
 

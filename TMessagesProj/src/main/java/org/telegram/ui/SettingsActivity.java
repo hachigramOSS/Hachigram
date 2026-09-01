@@ -150,12 +150,12 @@ import java.util.Set;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.ui.CGBulletinCreator;
-import com.the306bobby.cherrygramnext.core.ui.StarsBadgeDrawable;
-import com.the306bobby.cherrygramnext.helpers.ui.MonetHelper;
-import com.the306bobby.cherrygramnext.preferences.CherrygramPreferencesNavigator;
-import com.the306bobby.cherrygramnext.preferences.helpers.TelegramSettingsHelper;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.core.ui.CGBulletinCreator;
+import com.the306bobby.hachigram.core.ui.StarsBadgeDrawable;
+import com.the306bobby.hachigram.helpers.ui.MonetHelper;
+import com.the306bobby.hachigram.preferences.HachigramPreferencesNavigator;
+import com.the306bobby.hachigram.preferences.helpers.TelegramSettingsHelper;
 
 public class SettingsActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate, ImageUpdater.ImageUpdaterDelegate, MainTabsActivity.TabFragmentDelegate, FactorAnimator.Target {
 
@@ -346,9 +346,9 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
         otherItem = menu.addItem(1, R.drawable.ic_ab_other);
         otherItem.setContentDescription(getString(R.string.AccDescrMoreOptions));
-        /** Cherrygram start */
+        /** Hachigram start */
         otherItem.setOnClickListener(view -> telegramSettingsHelper.showItemOptions(otherItem));
-        /** Cherrygram finish */
+        /** Hachigram finish */
         otherItem.addSubItem(2, R.drawable.msg_leave, getString(R.string.LogOut));
 
         search = new ProfileActivity.SearchAdapter(this, context) {
@@ -494,7 +494,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         versionView.setGravity(Gravity.CENTER);
         versionView.setBackground(Theme.createSelectorDrawable(getThemedColor(Theme.key_listSelector), Theme.RIPPLE_MASK_ALL));
         versionView.setOnClickListener(v -> {
-            CherrygramPreferencesNavigator.INSTANCE.createDebug(SettingsActivity.this);
+            HachigramPreferencesNavigator.INSTANCE.createDebug(SettingsActivity.this);
             /*versionViewPressCount++;
             if (versionViewPressCount < 2 && !BuildVars.DEBUG_PRIVATE_VERSION) {
                 try {
@@ -854,7 +854,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         telegramSettingsHelper.handleOnClick(item);
         switch (item.id) {
             case 1:
-                /** Cherrygram start */
+                /** Hachigram start */
                 if (telegramSettingsHelper.showMyProfile()) {
                     Bundle args = new Bundle();
                     args.putLong("user_id", UserConfig.getInstance(currentAccount).getClientUserId());
@@ -864,7 +864,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
                 } else {
                     presentSettingFragment(new UserInfoActivity());
                 }
-                /** Cherrygram finish */
+                /** Hachigram finish */
                 break;
             case 2:
                 presentSettingFragment(new ThemeActivity(ThemeActivity.THEME_TYPE_BASIC));
@@ -1440,7 +1440,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
             }
         }
 
-        /** Cherrygram start */
+        /** Hachigram start */
         private Runnable onArrowClick;
         private final ImageView arrowView;
         private final ImageView starsBadgeView;
@@ -1529,11 +1529,11 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         }
 
         private void checkArrowState() {
-            final float rotation = CherrygramAppearanceConfig.INSTANCE.getShowAccounts() ? 180.0f : 0.0f;
+            final float rotation = HachigramAppearanceConfig.INSTANCE.getShowAccounts() ? 180.0f : 0.0f;
             arrowView.animate().rotation(rotation).setDuration(220).setInterpolator(CubicBezierInterpolator.EASE_OUT).start();
-            arrowView.setContentDescription(CherrygramAppearanceConfig.INSTANCE.getShowAccounts() ? getString(R.string.AccDescrHideAccounts) : getString(R.string.AccDescrShowAccounts));
+            arrowView.setContentDescription(HachigramAppearanceConfig.INSTANCE.getShowAccounts() ? getString(R.string.AccDescrHideAccounts) : getString(R.string.AccDescrShowAccounts));
         }
-        /** Cherrygram finish */
+        /** Hachigram finish */
 
     }
 
@@ -2303,10 +2303,10 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         return isSwipeBackEnabled(ev);
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public TelegramSettingsHelper telegramSettingsHelper;
 
     private boolean hidePhoneNumber = true;
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

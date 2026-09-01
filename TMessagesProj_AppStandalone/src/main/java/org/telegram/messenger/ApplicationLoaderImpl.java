@@ -34,9 +34,9 @@ import org.telegram.ui.SMSSubscribeSheet;
 
 import java.io.File;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
-import com.the306bobby.cherrygramnext.core.updater.UpdaterBottomSheet;
-import com.the306bobby.cherrygramnext.core.updater.UpdaterUtils;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
+import com.the306bobby.hachigram.core.updater.UpdaterBottomSheet;
+import com.the306bobby.hachigram.core.updater.UpdaterUtils;
 
 public class ApplicationLoaderImpl extends ApplicationLoader {
     @Override
@@ -116,7 +116,7 @@ public class ApplicationLoaderImpl extends ApplicationLoader {
 
     @Override
     public IUpdateLayout takeUpdateLayout(Activity activity, ViewGroup sideMenuContainer) {
-        if (CherrygramCoreConfig.INSTANCE.getUpdatesNewUI()) {
+        if (HachigramCoreConfig.INSTANCE.getUpdatesNewUI()) {
             return new UpdateLayout(activity, sideMenuContainer);
         } else {
             return null;

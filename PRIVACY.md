@@ -1,8 +1,8 @@
-# Privacy Policy — Cherrygram Next
+# Privacy Policy — Hachigram
 
 _Last updated: 2026-08-31_
 
-Cherrygram Next is an open-source Telegram client for Android. It is a fork of
+Hachigram is an open-source Telegram client for Android. It is a fork of
 Cherrygram, which is itself a fork of the official Telegram app.
 
 ## What we collect
@@ -13,7 +13,7 @@ crash reporting and no telemetry of any kind. There are no ads and no trackers.
 Published builds use Firebase for **push notifications only**. Firebase Analytics
 is off by default, the Crashlytics plugin is not applied, and Firebase Remote
 Config is never initialised, so none of them can report anything or change how the
-app behaves. The anti-tamper SDK that upstream Cherrygram bundled has been removed
+app behaves. The anti-tamper SDK that upstream Hachigram bundled has been removed
 entirely.
 
 ## Where your data does go
@@ -26,7 +26,7 @@ changes that, and none of it passes through us.
 **Update checks.** The app asks `git.306bobbyandroid.download` for the latest
 release. That server sees your IP address and the request, as any web server
 would. By default this happens automatically, at most once an hour while you are
-using the app, and you can turn it off in Cherrygram settings. Nothing about your
+using the app, and you can turn it off in Hachigram settings. Nothing about your
 account or your messages is sent; it is a plain request for the release list.
 
 **Push notifications.** Published builds receive notifications through Firebase
@@ -69,4 +69,4 @@ Material changes will appear in the commit log.
 
 ## Contact
 
-Source and issues: <https://git.306bobbyandroid.download/306bobby/Cherrygram-Next>
+Source and issues: <https://git.306bobbyandroid.download/306bobby/Hachigram>

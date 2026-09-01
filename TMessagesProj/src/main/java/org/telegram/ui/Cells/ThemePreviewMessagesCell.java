@@ -44,7 +44,7 @@ import org.telegram.ui.Components.Reactions.ReactionsEffectOverlay;
 import org.telegram.ui.Components.Reactions.ReactionsLayoutInBubble;
 import org.telegram.ui.Stories.recorder.StoryEntry;
 
-import com.the306bobby.cherrygramnext.misc.Constants;
+import com.the306bobby.hachigram.misc.Constants;
 
 public class ThemePreviewMessagesCell extends LinearLayout {
 

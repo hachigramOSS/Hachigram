@@ -59,8 +59,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
 
 public class LocaleController {
 
@@ -86,7 +86,7 @@ public class LocaleController {
                         lang = "en";
                     }
                     lang = lang.toLowerCase();
-                    if (CherrygramAppearanceConfig.INSTANCE.getShowSeconds()) {
+                    if (HachigramAppearanceConfig.INSTANCE.getShowSeconds()) {
                         formatterDay = createFormatter(lang.toLowerCase().equals("ar") || lang.toLowerCase().equals("ko") ? locale : Locale.US, is24HourFormat ? getStringInternal("formatterDay24HSec", R.string.CP_FormatterDay24HSec) : getStringInternal("formatterDay12HSec", R.string.CP_FormatterDay12HSec), is24HourFormat ? "HH:mm:ss" : "h:mm:ss a");
                     } else {
                         formatterDay = createFormatter(lang.toLowerCase().equals("ar") || lang.toLowerCase().equals("ko") ? locale : Locale.US, is24HourFormat ? getStringInternal("formatterDay24H", R.string.formatterDay24H) : getStringInternal("formatterDay12H", R.string.formatterDay12H), is24HourFormat ? "HH:mm" : "h:mm a");
@@ -2990,7 +2990,7 @@ public class LocaleController {
     }
 
     public static String formatShortNumber(int number, int[] rounded) {
-        if (CherrygramCoreConfig.INSTANCE.getNoRounding()) {
+        if (HachigramCoreConfig.INSTANCE.getNoRounding()) {
             if (rounded != null) {
                 rounded[0] = number;
             }
@@ -4572,7 +4572,7 @@ public class LocaleController {
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public static String formatDateOnlineIOS(long date, boolean[] madeShorter) {
         try {
             date *= 1000;
@@ -4667,5 +4667,5 @@ public class LocaleController {
             }
         }
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 }

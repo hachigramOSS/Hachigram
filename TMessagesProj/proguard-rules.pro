@@ -130,19 +130,19 @@
 -keepclassmembernames,allowshrinking class org.telegram.ui.Cells.* { <fields>; }
 -keepclassmembernames,allowshrinking class org.telegram.ui.Components.* { <fields>; }
 
-# Keep Cherrygram fields name
+# Keep Hachigram fields name
 -keep class com.fasterxml.jackson.**{ *; }
 
 -keepclassmembers class org.telegram.tgnet.** {
     <fields>;
 }
 
--keepnames class com.the306bobby.cherrygramnext.chats.gemini.GeminiErrorDTO.* { <fields>; }
--keep class com.the306bobby.cherrygramnext.chats.gemini.GeminiErrorDTO.** {*;}
--keep class com.the306bobby.cherrygramnext.chats.gemini.GeminiErrorDTO$ErrorResponse {*;}
--keep class com.the306bobby.cherrygramnext.chats.gemini.GeminiErrorDTO$ErrorDetail {*;}
--keep class com.the306bobby.cherrygramnext.chats.gemini.GeminiErrorDTO$ErrorDetails{*;}
--keep class com.the306bobby.cherrygramnext.chats.gemini.GeminiErrorDTO$Metadata {*;}
+-keepnames class com.the306bobby.hachigram.chats.gemini.GeminiErrorDTO.* { <fields>; }
+-keep class com.the306bobby.hachigram.chats.gemini.GeminiErrorDTO.** {*;}
+-keep class com.the306bobby.hachigram.chats.gemini.GeminiErrorDTO$ErrorResponse {*;}
+-keep class com.the306bobby.hachigram.chats.gemini.GeminiErrorDTO$ErrorDetail {*;}
+-keep class com.the306bobby.hachigram.chats.gemini.GeminiErrorDTO$ErrorDetails{*;}
+-keep class com.the306bobby.hachigram.chats.gemini.GeminiErrorDTO$Metadata {*;}
 
 # Keep all class member names of CameraX
 -keep class androidx.camera.extensions.** { *; }

@@ -95,15 +95,15 @@ import javax.microedition.khronos.egl.EGLContext;
 import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.camera.BaseCameraView;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCameraConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.camera.BaseCameraView;
+import com.the306bobby.hachigram.core.configs.HachigramCameraConfig;
 
 @SuppressLint("NewApi")
 public class CameraView extends BaseCameraView implements TextureView.SurfaceTextureListener, CameraController.ICameraView, CameraController.ErrorCallback  {
 
     public boolean WRITE_TO_FILE_IN_BACKGROUND = false;
-    private boolean largePhotos = CherrygramChatsConfig.INSTANCE.getLargePhotos();
+    private boolean largePhotos = HachigramChatsConfig.INSTANCE.getLargePhotos();
 
     public boolean isStory;
     public boolean recordHevc;
@@ -125,7 +125,7 @@ public class CameraView extends BaseCameraView implements TextureView.SurfaceTex
     private int focusAreaSize;
     private Drawable thumbDrawable;
 
-    private final boolean useCamera2 = CherrygramCameraConfig.INSTANCE.getCameraType() == CherrygramCameraConfig.CAMERA_2;
+    private final boolean useCamera2 = HachigramCameraConfig.INSTANCE.getCameraType() == HachigramCameraConfig.CAMERA_2;
     private final CameraSessionWrapper[] cameraSession = new CameraSessionWrapper[2];
     private CameraSessionWrapper cameraSessionRecording;
 
@@ -764,7 +764,7 @@ public class CameraView extends BaseCameraView implements TextureView.SurfaceTex
             photoMaxHeight = wantedHeight = 720;
 
         } else {
-            if (CherrygramCameraConfig.INSTANCE.getCameraAspectRatio() == CherrygramCameraConfig.Camera1to1 && !isStory) {
+            if (HachigramCameraConfig.INSTANCE.getCameraAspectRatio() == HachigramCameraConfig.Camera1to1 && !isStory) {
                 aspectRatio = new Size(1, 1);
                 wantedWidth = 1080;
                 wantedHeight = 1080;
@@ -780,7 +780,7 @@ public class CameraView extends BaseCameraView implements TextureView.SurfaceTex
                     photoMaxHeight = 1080;
                 }
 
-            } else if (CherrygramCameraConfig.INSTANCE.getCameraAspectRatio() == CherrygramCameraConfig.Camera4to3 && !isStory) {
+            } else if (HachigramCameraConfig.INSTANCE.getCameraAspectRatio() == HachigramCameraConfig.Camera4to3 && !isStory) {
                 aspectRatio = new Size(4, 3);
                 wantedWidth = 1280;
                 wantedHeight = 960;
@@ -796,7 +796,7 @@ public class CameraView extends BaseCameraView implements TextureView.SurfaceTex
                     photoMaxHeight = 1440;
                 }
 
-            } else if (CherrygramCameraConfig.INSTANCE.getCameraAspectRatio() == CherrygramCameraConfig.Camera16to9 && !isStory) {
+            } else if (HachigramCameraConfig.INSTANCE.getCameraAspectRatio() == HachigramCameraConfig.Camera16to9 && !isStory) {
                 aspectRatio = new Size(16, 9);
                 wantedWidth = 1280;
                 wantedHeight = 720;

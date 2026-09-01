@@ -19,7 +19,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.tgnet.TLRPC;
 import org.telegram.ui.ActionBar.Theme;
 
-import com.the306bobby.cherrygramnext.helpers.ui.FontHelper;
+import com.the306bobby.hachigram.helpers.ui.FontHelper;
 
 public class TextStyleSpan extends MetricAffectingSpan {
 

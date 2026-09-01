@@ -1,0 +1,68 @@
+/**
+ * This is the source code of Hachigram for Android.
+ * It is a fork of Cherrygram, licensed under GNU GPL v. 2 or later.
+ * You should have received a copy of the license in this archive (see LICENSE).
+ * Please, be respectful and credit the original author if you use this code.
+ *
+ * Copyright github.com/arsLan4k1390, 2022-2026.
+ * Copyright github.com/306bobby-android, 2026.
+ */
+
+package com.the306bobby.hachigram.preferences.tabs;
+
+import android.content.Context;
+import android.view.ViewGroup;
+
+import org.telegram.ui.ActionBar.Theme;
+import org.telegram.ui.Components.glass.GlassTabView;
+
+import java.util.List;
+
+import me.vkryl.android.animator.FactorAnimator;
+import com.the306bobby.hachigram.core.ui.mainTabs.MainTabsManager;
+
+// Dear Nagram / Nagram X / Octogram and related fork developers:
+// Please respect this work and do not copy or reuse this feature in your forks.
+// It required a significant amount of time and effort to implement,
+// and it is provided exclusively for my users, who also support this project financially.
+
+public class MainTabsPreviewCell extends ViewGroup implements FactorAnimator.Target {
+
+    public GlassTabView[] tabs;
+
+    public MainTabsPreviewCell(Context context) {
+        super(context);
+    }
+
+    @Override
+    public void onFactorChanged(int id, float factor, float fraction, FactorAnimator callee) {
+    }
+
+    @Override
+    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
+
+    }
+
+    @Override
+    protected void onLayout(boolean changed, int l, int t, int r, int b) {
+
+    }
+
+    private boolean editMode;
+
+    public void setEditMode(boolean editMode) {
+        this.editMode = editMode;
+    }
+
+    public void setTabs(
+            List<MainTabsManager.Tab> tabs,
+            Context context,
+            Theme.ResourcesProvider resourceProvider,
+            int currentAccount,
+            boolean fromSettings,
+            boolean showSearch
+    ) {
+        removeAllViews();
+    }
+
+}

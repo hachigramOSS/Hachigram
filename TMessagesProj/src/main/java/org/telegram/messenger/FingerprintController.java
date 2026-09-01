@@ -17,7 +17,7 @@ import java.util.Locale;
 
 import javax.crypto.Cipher;
 
-import com.the306bobby.cherrygramnext.core.CGBiometricPrompt;
+import com.the306bobby.hachigram.core.CGBiometricPrompt;
 
 @RequiresApi(api = Build.VERSION_CODES.M)
 public class FingerprintController {

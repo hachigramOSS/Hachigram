@@ -43,9 +43,9 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Objects;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
-import com.the306bobby.cherrygramnext.helpers.ui.FontHelper;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
+import com.the306bobby.hachigram.helpers.ui.FontHelper;
 
 public class Emoji {
 
@@ -404,7 +404,7 @@ public class Emoji {
                 b = getBounds();
             }
 
-            if (CherrygramCoreConfig.INSTANCE.getSystemEmoji()) {
+            if (HachigramCoreConfig.INSTANCE.getSystemEmoji()) {
                 String emoji = fixEmoji(EmojiData.data[info.page][info.emojiIndex]);
                 textPaint.setTypeface(FontHelper.getSystemEmojiTypeface());
                 textPaint.setTextSize(b.height() * 0.8f);
@@ -975,7 +975,7 @@ public class Emoji {
         if (count == null) {
             count = 0;
         }
-        if (count == 0 && emojiUseHistory.size() >= CherrygramChatsConfig.INSTANCE.getSlider_RecentEmojisAmplifier()) {
+        if (count == 0 && emojiUseHistory.size() >= HachigramChatsConfig.INSTANCE.getSlider_RecentEmojisAmplifier()) {
             String emoji = recentEmoji.get(recentEmoji.size() - 1);
             emojiUseHistory.remove(emoji);
             recentEmoji.set(recentEmoji.size() - 1, code);
@@ -1012,7 +1012,7 @@ public class Emoji {
             }
             return 0;
         });
-        while (recentEmoji.size() > CherrygramChatsConfig.INSTANCE.getSlider_RecentEmojisAmplifier()) {
+        while (recentEmoji.size() > HachigramChatsConfig.INSTANCE.getSlider_RecentEmojisAmplifier()) {
             recentEmoji.remove(recentEmoji.size() - 1);
         }
     }

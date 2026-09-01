@@ -1866,7 +1866,7 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
         MessagesController.getGlobalMainSettings().edit().remove("translate_to_language").apply();
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private boolean noForwards;
 
     private void processCopyText(TLRPC.InputPeer peer) {
@@ -1887,5 +1887,5 @@ public class TranslateAlert2 extends BottomSheet implements NotificationCenter.N
                     .show();
         }
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 }

@@ -56,7 +56,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
 
 public class ProfileStoriesView extends View implements NotificationCenter.NotificationCenterDelegate {
 
@@ -203,7 +203,7 @@ public class ProfileStoriesView extends View implements NotificationCenter.Notif
     }
 
     private void updateStories(boolean animated, boolean asUpdate) {
-        if (CherrygramCoreConfig.INSTANCE.getHideStories()) return;
+        if (HachigramCoreConfig.INSTANCE.getHideStories()) return;
         if (isTopic) {
             return;
         }

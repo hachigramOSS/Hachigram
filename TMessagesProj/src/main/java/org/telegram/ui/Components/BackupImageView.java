@@ -465,11 +465,11 @@ public class BackupImageView extends View {
         return who == imageReceiver.getDrawable() || who == imageReceiver.getImageDrawable() || super.verifyDrawable(who);
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public void setForUserOrChat(TLObject object, AvatarDrawable avatarDrawable, boolean big) {
         imageReceiver.setForUserOrChat(object, avatarDrawable, null, false, 0, big);
         onNewImageSet();
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

@@ -2639,7 +2639,7 @@ public class StarsIntroActivity extends GradientHeaderActivity implements Notifi
         private FireworksOverlay fireworksOverlay;
         private Runnable whenPurchased;
         private TLRPC.InputPeer purposePeer;
-        private boolean canBuy = true; // Cherrygram: not final & defaults to true, constructor may early-return via safe stars
+        private boolean canBuy = true; // Hachigram: not final & defaults to true, constructor may early-return via safe stars
 
         @Override
         public void didReceivedNotification(int id, int account, Object... args) {

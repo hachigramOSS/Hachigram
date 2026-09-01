@@ -271,10 +271,10 @@ public class UnreadCounterTextView extends View {
         invalidate();
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public CharSequence getText() {
         return lastText;
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

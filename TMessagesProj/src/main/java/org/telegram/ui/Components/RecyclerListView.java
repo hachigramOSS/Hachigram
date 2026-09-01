@@ -95,8 +95,8 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.ui.MD3ListAdapter;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.ui.MD3ListAdapter;
 
 @SuppressWarnings("JavaReflectionMemberAccess")
 public class RecyclerListView extends RecyclerView implements IBlur3Capture {
@@ -1186,7 +1186,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                     View child = currentChildView;
                     if (onItemLongClickListener != null) {
                         if (onItemLongClickListener.onItemClick(currentChildView, currentChildPosition)) {
-                            if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                            if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                                 try {
                                     child.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                                 } catch (Exception ignored) {}
@@ -1195,7 +1195,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
                         }
                     } else {
                         if (onItemLongClickListenerExtended.onItemClick(currentChildView, currentChildPosition, event.getX() - currentChildView.getX(), event.getY() - currentChildView.getY())) {
-                            if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                            if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                                 try {
                                     child.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                                 } catch (Exception ignored) {}

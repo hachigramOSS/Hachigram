@@ -147,11 +147,11 @@ import java.util.Objects;
 import java.util.Stack;
 
 import me.vkryl.android.animator.BoolAnimator;
-import com.the306bobby.cherrygramnext.chats.filters.MessagesFilterHelper;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramPrivacyConfig;
-import com.the306bobby.cherrygramnext.misc.Constants;
+import com.the306bobby.hachigram.chats.filters.MessagesFilterHelper;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramPrivacyConfig;
+import com.the306bobby.hachigram.misc.Constants;
 
 public class DialogCell extends BaseCell implements StoriesListPlaceProvider.AvatarOverlaysView, Theme.Colorable {
 
@@ -1493,7 +1493,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         } else if (chat.fake) {
                             drawScam = 2;
                             Theme.dialogs_fakeDrawable.checkText();
-                        } else if (DialogObject.getEmojiStatusDocumentId(chat.emoji_status) != 0 && !CherrygramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) {
+                        } else if (DialogObject.getEmojiStatusDocumentId(chat.emoji_status) != 0 && !HachigramAppearanceConfig.INSTANCE.getDisablePremiumStatuses()) {
                             drawPremium = true;
                             nameLayoutEllipsizeByGradient = true;
                             emojiStatus.center = LocaleController.isRTL;
@@ -1515,7 +1515,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                             drawVerified = !forbidVerified && user.verified;
                             drawBotVerified = !forbidVerified && !UserObject.isUserSelf(user) && user.bot_verification_icon != 0;
                         }
-                        drawPremium = MessagesController.getInstance(currentAccount).isPremiumUser(user) && UserConfig.getInstance(currentAccount).clientUserId != user.id && user.id != 0 && !CherrygramAppearanceConfig.INSTANCE.getDisablePremiumStatuses();
+                        drawPremium = MessagesController.getInstance(currentAccount).isPremiumUser(user) && UserConfig.getInstance(currentAccount).clientUserId != user.id && user.id != 0 && !HachigramAppearanceConfig.INSTANCE.getDisablePremiumStatuses();
                         if (drawPremium) {
                             Long emojiStatusId = UserObject.getEmojiStatusDocumentId(user);
                             emojiStatus.center = LocaleController.isRTL;
@@ -1668,7 +1668,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                         if (currentDialogCommunityId != 0) {
                             messageString = formatCommunityDialogNames();
                         } else if (currentDialogFolderId != 0) {
-                            if (CherrygramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
+                            if (HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
                                 messageString = getString(R.string.CG_FollowChannelInfo);
                             } else {
                                 messageString = formatArchivedDialogNames();
@@ -1771,7 +1771,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                             messageString = formatCommunityDialogNames();
                         } else if (!useForceThreeLines && !SharedConfig.useThreeLinesLayout && currentDialogFolderId != 0) {
                             checkMessage = false;
-                            if (CherrygramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
+                            if (HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
                                 messageString = getString(R.string.CG_FollowChannelInfo);
                             } else {
                                 messageString = formatArchivedDialogNames();
@@ -2219,7 +2219,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             if (titleOverride != null) {
                 nameString = titleOverride;
             } else if (currentDialogFolderId != 0) {
-                if (CherrygramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
+                if (HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
                     nameString = getString(R.string.CG_AppName) + " \uD83C\uDF52";
                 } else {
                     nameString = getString(R.string.ArchivedChats);
@@ -2767,7 +2767,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 }
             }
             if ((useForceThreeLines || SharedConfig.useThreeLinesLayout) && !hasTags() && currentDialogFolderId != 0 && currentDialogFolderDialogsCount > 1) {
-                if (CherrygramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
+                if (HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
                     messageStringFinal = getString(R.string.CG_AppName) + " \uD83C\uDF52";
                 } else {
                     messageStringFinal = messageNameString;
@@ -3253,7 +3253,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             }
 
             if (customDialog.id == 1390) {
-                chat = MessagesController.getInstance(currentAccount).getChat(Constants.Cherrygram_Channel);
+                chat = MessagesController.getInstance(currentAccount).getChat(Constants.Hachigram_Channel);
                 avatarImage.setForUserOrChat(chat, avatarDrawable);
             }
             for (int i = 0; i < thumbImage.length; ++i) {
@@ -3527,10 +3527,10 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             }
 
             if (currentDialogFolderId != 0) {
-                if (CherrygramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
+                if (HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
                     dialogMuted = true;
                     drawUnmute = false;
-                    dialogId = Constants.Cherrygram_Channel;
+                    dialogId = Constants.Hachigram_Channel;
                 } else {
                     dialogMuted = false;
                     drawUnmute = false;
@@ -3585,7 +3585,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             drawCommunityAvatar = !insideCommunityList && ChatObject.isCommunity(chat) && isDialogCell;
 
             if (currentDialogFolderId != 0) {
-                if (CherrygramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
+                if (HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
                     Theme.dialogs_archiveAvatarDrawable.setCallback(this);
                     avatarDrawable.setAvatarType(AvatarDrawable.AVATAR_TYPE_EBLAN);
                     avatarImage.setImage(null, null, avatarDrawable, null, user, 0);
@@ -3796,7 +3796,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         if (isSliding && !swipeCanceled) {
             boolean prevValue = drawRevealBackground;
             drawRevealBackground = Math.abs(translationX) >= getMeasuredWidth() * 0.45f;
-            if (prevValue != drawRevealBackground && archiveHidden == SharedConfig.archiveHidden && !CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+            if (prevValue != drawRevealBackground && archiveHidden == SharedConfig.archiveHidden && !HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                 try {
                     performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                 } catch (Exception ignore) {}
@@ -4760,8 +4760,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 avatarImage.draw(canvas);
             } else {
                 storyParams.drawHiddenStoriesAsSegments = (isShareToStoryCell || currentDialogFolderId != 0) &&
-                        !CherrygramPrivacyConfig.INSTANCE.getAskBiometricsToOpenArchive() &&
-                        !CherrygramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList();
+                        !HachigramPrivacyConfig.INSTANCE.getAskBiometricsToOpenArchive() &&
+                        !HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList();
                 int s = storyParams.forceState;
                 if (isShareToStoryCell) {
                     storyParams.forceState = StoriesUtilities.STATE_HAS_UNREAD;
@@ -6555,8 +6555,8 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private boolean isSearchView = false;
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

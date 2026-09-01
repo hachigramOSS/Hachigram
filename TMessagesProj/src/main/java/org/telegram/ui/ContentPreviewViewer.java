@@ -115,9 +115,9 @@ import java.util.List;
 
 import me.vkryl.core.reference.ReferenceList;
 
-import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
+import com.the306bobby.hachigram.chats.helpers.ChatsHelper;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramMessagesConfig;
 
 public class ContentPreviewViewer {
 
@@ -911,7 +911,7 @@ public class ContentPreviewViewer {
                 }
                 popupWindow.showAtLocation(containerView, 0, (int) ((containerView.getMeasuredWidth() - previewMenu.getMeasuredWidth()) / 2f), y);
 
-                if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                     try {
                         containerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                     } catch (Exception ignored) {}
@@ -1143,7 +1143,7 @@ public class ContentPreviewViewer {
                     } else if (actions.get(which) == 11) {
                         delegate.addCaptionToGif(currentDocument != null ? currentDocument : inlineResult, parentObject, true, 0, 0);
                     } else if (actions.get(which) == 1391) {
-                        CherrygramMessagesConfig.INSTANCE.setGifSpoilers(true);
+                        HachigramMessagesConfig.INSTANCE.setGifSpoilers(true);
                         delegate.sendGif(currentDocument != null ? currentDocument : inlineResult, parentObject, true, 0, 0);
                     }
                     dismissPopupWindow();
@@ -1189,7 +1189,7 @@ public class ContentPreviewViewer {
                 y += AndroidUtilities.dp(24) - moveY;
                 popupWindow.showAtLocation(containerView, 0, (int) ((containerView.getMeasuredWidth() - previewMenu.getMeasuredWidth()) / 2f), y);
 
-                if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                     try {
                         containerView.performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                     } catch (Exception ignored) {}

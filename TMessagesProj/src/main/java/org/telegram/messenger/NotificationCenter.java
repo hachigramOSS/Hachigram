@@ -973,12 +973,12 @@ public class NotificationCenter {
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public static final int onUpdateLoginToken = totalEvents++;
     public static final int cgTabsUpdated = totalEvents++;
     public static final int cgDestroyCameraX = totalEvents++;
     public static final int cgUpdateSearchFiledVisibility = totalEvents++;
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
     public int getObserversSize() {
         int totalSize = 0;

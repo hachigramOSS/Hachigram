@@ -91,7 +91,7 @@ import javax.microedition.khronos.egl.EGLDisplay;
 import javax.microedition.khronos.egl.EGLSurface;
 import javax.microedition.khronos.opengles.GL10;
 
-import com.the306bobby.cherrygramnext.core.helpers.CGResourcesHelper;
+import com.the306bobby.hachigram.core.helpers.CGResourcesHelper;
 
 public class IntroActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     private final static int ICON_WIDTH_DP = 200, ICON_HEIGHT_DP = 150;
@@ -795,7 +795,7 @@ public class IntroActivity extends BaseFragment implements NotificationCenter.No
             loadTexture(R.drawable.intro_tg_plane, 21);
             loadTexture(v -> {
                 Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-                paint.setColor(ThemeColors.CHERRYGRAM_COLOR); // It's logo color, it should not be colored by the theme
+                paint.setColor(ThemeColors.HACHIGRAM_COLOR); // It's logo color, it should not be colored by the theme
                 int size = dp(ICON_HEIGHT_DP);
                 Bitmap bm = Bitmap.createBitmap(size, size, Bitmap.Config.ARGB_8888);
                 Canvas c = new Canvas(bm);

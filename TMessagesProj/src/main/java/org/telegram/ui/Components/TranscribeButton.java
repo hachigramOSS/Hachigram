@@ -55,10 +55,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-import com.the306bobby.cherrygramnext.chats.gemini.GeminiButtonsLayout;
-import com.the306bobby.cherrygramnext.chats.gemini.GeminiResultsBottomSheet;
-import com.the306bobby.cherrygramnext.chats.gemini.GeminiSDKImplementation;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
+import com.the306bobby.hachigram.chats.gemini.GeminiButtonsLayout;
+import com.the306bobby.hachigram.chats.gemini.GeminiResultsBottomSheet;
+import com.the306bobby.hachigram.chats.gemini.GeminiSDKImplementation;
+import com.the306bobby.hachigram.core.configs.HachigramMessagesConfig;
 
 public class TranscribeButton {
 
@@ -899,9 +899,9 @@ public class TranscribeButton {
         return mc.transcribeAudioTrialCooldownUntil != 0 && cc.getCurrentTime() <= mc.transcribeAudioTrialCooldownUntil && mc.transcribeAudioTrialCurrentNumber <= 0;
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public static boolean useGeminiTranscription() {
-        return GeminiButtonsLayout.geminiButtonsVisible() && CherrygramMessagesConfig.INSTANCE.getVoiceTranscriptionProvider() == CherrygramMessagesConfig.TRANSCRIPTION_PROVIDER_GEMINI;
+        return GeminiButtonsLayout.geminiButtonsVisible() && HachigramMessagesConfig.INSTANCE.getVoiceTranscriptionProvider() == HachigramMessagesConfig.TRANSCRIPTION_PROVIDER_GEMINI;
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 }

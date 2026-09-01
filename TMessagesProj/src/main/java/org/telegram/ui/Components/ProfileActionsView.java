@@ -1256,7 +1256,7 @@ public class ProfileActionsView extends View {
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public static final int KEY_OPEN_CHANNEL = 1390;
     public static final int KEY_QR_BUTTON = 1391;
 
@@ -1265,7 +1265,7 @@ public class ProfileActionsView extends View {
         action.key = KEY_QR_BUTTON;
         actions.add(action);
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
     private AccessibilityNodeProvider accessibilityNodeProvider;
     @Override

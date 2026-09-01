@@ -58,7 +58,7 @@ import org.telegram.ui.Stories.recorder.HintView2;
 
 import java.util.ArrayList;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
 
 public class ViewPagerFixed extends FrameLayout {
 
@@ -2043,7 +2043,7 @@ public class ViewPagerFixed extends FrameLayout {
                             indicatorX = (int) AndroidUtilities.lerp(lastDrawnIndicatorX, indicatorX, indicatorProgress2);
                             indicatorWidth = (int) AndroidUtilities.lerp(lastDrawnIndicatorW, indicatorWidth, indicatorProgress2);
                         }
-                        if (CherrygramAppearanceConfig.INSTANCE.getTabStyleStroke()) {
+                        if (HachigramAppearanceConfig.INSTANCE.getTabStyleStroke()) {
                             selectorDrawable.setStroke(AndroidUtilities.dp(1), Theme.getColor(activeTextColorKey, resourcesProvider));
                             selectorDrawable.setColor(ColorUtils.setAlphaComponent(Theme.getColor(tabLineColorKey), 50));
                         }
@@ -2055,7 +2055,7 @@ public class ViewPagerFixed extends FrameLayout {
                                 (int) (indicatorX - dp(TAB_INTERNAL_PADDING) - add), y,
                                 (int) (indicatorX + indicatorWidth + dp(TAB_INTERNAL_PADDING) + add),
                                 y + dp(28));
-                            if (!CherrygramAppearanceConfig.INSTANCE.getTabStyleStroke()) selectorDrawable.setAlpha(31);
+                            if (!HachigramAppearanceConfig.INSTANCE.getTabStyleStroke()) selectorDrawable.setAlpha(31);
                             selectorDrawable.draw(canvas);
                         } else {
                             selectorDrawable.setBounds(indicatorX, (int) (height - AndroidUtilities.dpr(4) + hideProgress * AndroidUtilities.dpr(4)), indicatorX + indicatorWidth, (int) (height + hideProgress * AndroidUtilities.dpr(4)));

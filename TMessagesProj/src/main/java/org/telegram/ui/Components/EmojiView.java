@@ -167,7 +167,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
@@ -2639,7 +2639,7 @@ public class EmojiView extends FrameLayout implements
                 } else if (event.getAction() == MotionEvent.ACTION_CANCEL || event.getAction() == MotionEvent.ACTION_UP) {
                     backspacePressed = false;
                     if (!backspaceOnce) {
-                        if (delegate != null && delegate.onBackspace() && !CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                        if (delegate != null && delegate.onBackspace() && !HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                             try {
                                 backspaceButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                             } catch (Exception ignore) {}
@@ -2650,7 +2650,7 @@ public class EmojiView extends FrameLayout implements
                 return true;
             }
         };
-        backspaceButton.setHapticFeedbackEnabled(!CherrygramChatsConfig.INSTANCE.getDisableVibration());
+        backspaceButton.setHapticFeedbackEnabled(!HachigramChatsConfig.INSTANCE.getDisableVibration());
         backspaceButton.setImageResource(R.drawable.smiles_tab_clear);
         backspaceButton.setColorFilter(new PorterDuffColorFilter(glassDesign ? getGlassIconColor(0.6f) : getThemedColor(Theme.key_chat_emojiPanelBackspace), PorterDuff.Mode.MULTIPLY));
         backspaceButton.setScaleType(ImageView.ScaleType.CENTER);
@@ -5490,7 +5490,7 @@ public class EmojiView extends FrameLayout implements
             if (!backspacePressed) {
                 return;
             }
-            if (delegate != null && delegate.onBackspace() && !CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+            if (delegate != null && delegate.onBackspace() && !HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                 try {
                     backspaceButton.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP);
                 } catch (Exception ignore) {}
@@ -8473,7 +8473,7 @@ public class EmojiView extends FrameLayout implements
                 if (!query.equals(lastSearchEmojiString)) {
                     return;
                 }
-                /** Cherrygram start */
+                /** Hachigram start */
                 if (SharedConfig.suggestAnimatedEmoji || UserConfig.getInstance(currentAccount).isPremium()) {
                     AnimatedEmojiDrawable.getDocumentFetcher(currentAccount).putDocuments(emojis);
                     for (TLRPC.Document emoji : emojis) {
@@ -8483,7 +8483,7 @@ public class EmojiView extends FrameLayout implements
                         searchResult.add(keywordResult);
                     }
                 }
-                /** Cherrygram finish */
+                /** Hachigram finish */
                 finish.run();
             }, next);
         }

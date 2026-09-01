@@ -18,7 +18,7 @@ import org.telegram.ui.Charts.view_data.LineViewData;
 import org.telegram.ui.Charts.view_data.PieLegendView;
 import org.telegram.ui.Charts.view_data.TransitionParams;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 public class PieChartView extends StackLinearChartView<PieChartViewData> {
 
@@ -384,7 +384,7 @@ public class PieChartView extends StackLinearChartView<PieChartViewData> {
 
             pieLegendView.setTranslationX(xl);
             pieLegendView.setTranslationY(yl);
-            if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+            if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                 AndroidUtilities.vibrateCursor(this);
             }
         }

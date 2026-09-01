@@ -75,7 +75,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Objects;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
 
 public class VideoAds {
 
@@ -251,11 +251,11 @@ public class VideoAds {
         final TLRPC.TL_sponsoredMessage ad = ads.get(0);
 
         boolean hide;
-        if (CherrygramCoreConfig.isStandalonePremiumBuild()) {
+        if (HachigramCoreConfig.isStandalonePremiumBuild()) {
             hide = true;
         } else {
             int num = Utilities.random.nextInt(2);
-            hide = num == 1 && (ApplicationLoader.isStandaloneBuild() || CherrygramCoreConfig.isDevBuild());
+            hide = num == 1 && (ApplicationLoader.isStandaloneBuild() || HachigramCoreConfig.isDevBuild());
         }
         if (UserConfig.getInstance(currentAccount).isPremium()) hide = false;
 

@@ -30,7 +30,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Stories.recorder.HintView2;
 import org.telegram.ui.TopicsFragment;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramPrivacyConfig;
+import com.the306bobby.hachigram.core.configs.HachigramPrivacyConfig;
 
 public class PullForegroundDrawable {
 
@@ -41,9 +41,9 @@ public class PullForegroundDrawable {
     public final static long minPullingTime = 200L;
     public int scrollDy;
 
-    private int backgroundColorKey = CherrygramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList() ? Theme.key_cgGradient1 : Theme.key_chats_archivePullDownBackground;
-    private int backgroundActiveColorKey = CherrygramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList() ? Theme.key_cgGradient2 : Theme.key_chats_archivePullDownBackgroundActive;
-    private int avatarBackgroundColorKey = CherrygramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList() ? Theme.key_cgGradient2 : Theme.key_avatar_backgroundArchivedHidden;
+    private int backgroundColorKey = HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList() ? Theme.key_cgGradient1 : Theme.key_chats_archivePullDownBackground;
+    private int backgroundActiveColorKey = HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList() ? Theme.key_cgGradient2 : Theme.key_chats_archivePullDownBackgroundActive;
+    private int avatarBackgroundColorKey = HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList() ? Theme.key_cgGradient2 : Theme.key_avatar_backgroundArchivedHidden;
     private boolean changeAvatarColor = true;
 
     private final Paint paintSecondary = new Paint(Paint.ANTI_ALIAS_FLAG);

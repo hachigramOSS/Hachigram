@@ -174,8 +174,8 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Objects;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramPrivacyConfig;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
+import com.the306bobby.hachigram.core.configs.HachigramPrivacyConfig;
 
 @SuppressWarnings("unchecked")
 public class SharedMediaLayout extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, DialogCell.DialogCellDelegate {
@@ -3997,7 +3997,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     private MediaPage getMediaPage(int type) {
-        if (type == TAB_ARCHIVED_STORIES && CherrygramPrivacyConfig.INSTANCE.getHideArchivedStories()) {
+        if (type == TAB_ARCHIVED_STORIES && HachigramPrivacyConfig.INSTANCE.getHideArchivedStories()) {
             return null;
         }
         for (int i = 0; i < mediaPages.length; i++) {
@@ -10497,7 +10497,7 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
     }
 
     public int getStoriesCount(int tab) {
-        if (tab == TAB_ARCHIVED_STORIES && CherrygramPrivacyConfig.INSTANCE.getHideArchivedStories()) {
+        if (tab == TAB_ARCHIVED_STORIES && HachigramPrivacyConfig.INSTANCE.getHideArchivedStories()) {
             return 0;
         }
         if (isAnyStoryPageType(tab)) {
@@ -12647,9 +12647,9 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private boolean showStoriesCG() {
-        return isSelf() || !CherrygramCoreConfig.INSTANCE.getHideStories();
+        return isSelf() || !HachigramCoreConfig.INSTANCE.getHideStories();
     }
 
     private void showDirectShare(TLRPC.Chat chat) {
@@ -12695,5 +12695,5 @@ public class SharedMediaLayout extends FrameLayout implements NotificationCenter
         }
         closeActionMode();
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 }

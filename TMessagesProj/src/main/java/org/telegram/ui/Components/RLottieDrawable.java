@@ -56,7 +56,7 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 public class RLottieDrawable extends BitmapDrawable implements Animatable, BitmapsCache.Cacheable {
 
@@ -1148,7 +1148,7 @@ public class RLottieDrawable extends BitmapDrawable implements Animatable, Bitma
     private void performVibration() {
         if (vibrationPattern != null && allowVibration) {
             Integer force = vibrationPattern.get(currentFrame - 1);
-            if (force != null && !CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+            if (force != null && !HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                 try {
                     Activity activity = LaunchActivity.instance;
                     if (activity == null) activity = BubbleActivity.instance;

@@ -391,10 +391,10 @@ public class ProfileStoriesCollectionTabs extends BlurredFrameLayout implements 
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public void onStoriesOrGiftsSelected(boolean showTabs) {
         if (!showTabs) return;
         setVisibility(!collections.collections.isEmpty(), false, true);
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 }

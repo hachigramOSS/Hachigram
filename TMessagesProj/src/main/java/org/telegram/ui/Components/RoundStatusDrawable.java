@@ -16,7 +16,7 @@ import org.telegram.messenger.AndroidUtilities;
 import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.ChatActivity;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 public class RoundStatusDrawable extends StatusDrawable {
 
@@ -125,9 +125,9 @@ public class RoundStatusDrawable extends StatusDrawable {
         return AndroidUtilities.dp(10);
     }
 
-    /** Cherrygram start */
-    private boolean centerChatTitle = CherrygramChatsConfig.INSTANCE.getCenterChatTitle();
+    /** Hachigram start */
+    private boolean centerChatTitle = HachigramChatsConfig.INSTANCE.getCenterChatTitle();
     private ChatActivity chatActivity;
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

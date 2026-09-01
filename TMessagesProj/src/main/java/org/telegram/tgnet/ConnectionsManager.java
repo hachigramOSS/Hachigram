@@ -67,9 +67,9 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramDebugConfig;
-import com.the306bobby.cherrygramnext.core.helpers.ErrorDatabaseHelper;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
+import com.the306bobby.hachigram.core.configs.HachigramDebugConfig;
+import com.the306bobby.hachigram.core.helpers.ErrorDatabaseHelper;
 
 import javax.net.ssl.SSLException;
 
@@ -422,7 +422,7 @@ public class ConnectionsManager extends BaseController {
                         if (BuildVars.LOGS_ENABLED && error.code != -2000) {
                             FileLog.e(object + " got error " + error.code + " " + error.text);
                         }
-                        if (CherrygramDebugConfig.INSTANCE.getShowRPCErrors() && !CherrygramCoreConfig.isStandaloneStableBuild() && !CherrygramCoreConfig.isPlayStoreBuild()) {
+                        if (HachigramDebugConfig.INSTANCE.getShowRPCErrors() && !HachigramCoreConfig.isStandaloneStableBuild() && !HachigramCoreConfig.isPlayStoreBuild()) {
                             ErrorDatabaseHelper.INSTANCE.showErrorToast(object, errorText);
                         }
                     }
@@ -616,7 +616,7 @@ public class ConnectionsManager extends BaseController {
             FileLog.d("selected ip strategy " + selectedStrategy);
         }
         native_setIpStrategy(currentAccount, selectedStrategy);
-        native_setNetworkAvailable(currentAccount, ApplicationLoader.isNetworkOnline(), ApplicationLoader.getCurrentNetworkType(), CherrygramCoreConfig.INSTANCE.getSlowNetworkMode());
+        native_setNetworkAvailable(currentAccount, ApplicationLoader.isNetworkOnline(), ApplicationLoader.getCurrentNetworkType(), HachigramCoreConfig.INSTANCE.getSlowNetworkMode());
     }
 
     public void setPushConnectionEnabled(boolean value) {

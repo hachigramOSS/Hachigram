@@ -281,17 +281,17 @@ import java.util.concurrent.ConcurrentHashMap;
 import kotlin.coroutines.Continuation;
 import kotlin.coroutines.CoroutineContext;
 import kotlin.coroutines.EmptyCoroutineContext;
-import com.the306bobby.cherrygramnext.chats.CGChatMenuInjector;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.CGBiometricPrompt;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramPrivacyConfig;
-import com.the306bobby.cherrygramnext.core.ui.folders.FoldersHelper;
-import com.the306bobby.cherrygramnext.misc.Constants;
-import com.the306bobby.cherrygramnext.core.crashlytics.CrashReportBottomSheet;
-import com.the306bobby.cherrygramnext.core.crashlytics.Crashlytics;
+import com.the306bobby.hachigram.chats.CGChatMenuInjector;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.CGBiometricPrompt;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
+import com.the306bobby.hachigram.core.configs.HachigramMessagesConfig;
+import com.the306bobby.hachigram.core.configs.HachigramPrivacyConfig;
+import com.the306bobby.hachigram.core.ui.folders.FoldersHelper;
+import com.the306bobby.hachigram.misc.Constants;
+import com.the306bobby.hachigram.core.crashlytics.CrashReportBottomSheet;
+import com.the306bobby.hachigram.core.crashlytics.Crashlytics;
 
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
@@ -1375,7 +1375,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             ) && (
                             initialDialogsType == DIALOGS_TYPE_FORWARD ||
                                     SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_FOLDERS ||
-                                    SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_ARCHIVE && CherrygramChatsConfig.INSTANCE.getUnarchiveOnSwipe() &&
+                                    SharedConfig.getChatSwipeAction(currentAccount) == SwipeGestureSettingsView.SWIPE_GESTURE_ARCHIVE && HachigramChatsConfig.INSTANCE.getUnarchiveOnSwipe() &&
                                             viewPages[0] != null && (viewPages[0].dialogsAdapter.getDialogsType() == 7 || viewPages[0].dialogsAdapter.getDialogsType() == 8))
             ) {
                 if (ev != null) {
@@ -2281,7 +2281,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 }
                                 if (!canShowHiddenArchive) {
                                     canShowHiddenArchive = true;
-                                    if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                                    if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                                         try {
                                             performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                                         } catch (Exception ignored) {}
@@ -2480,7 +2480,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     }
                     swipeFolderBack = false;
                     swipingFolder = (canSwipeBack && !DialogObject.isFolderDialogId(dialogCell.getDialogId())) || (SharedConfig.archiveHidden && DialogObject.isFolderDialogId(dialogCell.getDialogId()));
-                    if (folderId == 1 && !CherrygramChatsConfig.INSTANCE.getUnarchiveOnSwipe()) {
+                    if (folderId == 1 && !HachigramChatsConfig.INSTANCE.getUnarchiveOnSwipe()) {
                         dialogCell.setSliding(false);
                     } else {
                         dialogCell.setSliding(true);
@@ -2858,7 +2858,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     public boolean onFragmentCreate() {
         super.onFragmentCreate();
 
-        if (CherrygramMessagesConfig.INSTANCE.getEnableMsgFilters() && CherrygramMessagesConfig.INSTANCE.getMsgFiltersHideFromBlocked()) {
+        if (HachigramMessagesConfig.INSTANCE.getEnableMsgFilters() && HachigramMessagesConfig.INSTANCE.getMsgFiltersHideFromBlocked()) {
             getMessagesController().getBlockedPeers(false);
         }
 
@@ -2898,7 +2898,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             allowBots = arguments.getBoolean("allowBots", true);
             closeFragment = arguments.getBoolean("closeFragment", true);
             allowGlobalSearch = arguments.getBoolean("allowGlobalSearch", true);
-            if (CherrygramAppearanceConfig.INSTANCE.getShowMainTabs()) {
+            if (HachigramAppearanceConfig.INSTANCE.getShowMainTabs()) {
                 hasMainTabs = arguments.getBoolean("hasMainTabs", false);
             } else {
                 hasMainTabs = false;
@@ -3015,8 +3015,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
 
         BirthdayController.getInstance(currentAccount).check();
-        additionNavigationBarHeight = hasMainTabs || foldersAtBottom && !CherrygramAppearanceConfig.INSTANCE.getShowMainTabs() ? dp(MAIN_TABS_HEIGHT_WITH_MARGINS) : 0;
-        additionFloatingButtonOffset = hasMainTabs || foldersAtBottom && !CherrygramAppearanceConfig.INSTANCE.getShowMainTabs() ? dp(DialogsActivity.MAIN_TABS_HEIGHT + DialogsActivity.MAIN_TABS_MARGIN) : 0;
+        additionNavigationBarHeight = hasMainTabs || foldersAtBottom && !HachigramAppearanceConfig.INSTANCE.getShowMainTabs() ? dp(MAIN_TABS_HEIGHT_WITH_MARGINS) : 0;
+        additionFloatingButtonOffset = hasMainTabs || foldersAtBottom && !HachigramAppearanceConfig.INSTANCE.getShowMainTabs() ? dp(DialogsActivity.MAIN_TABS_HEIGHT + DialogsActivity.MAIN_TABS_MARGIN) : 0;
 
         return true;
     }
@@ -3573,7 +3573,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             }
         }
         if (
-                CherrygramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()
+                HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()
                 && (searchItem != null || fragmentSearchField != null && fragmentSearchField.editText != null)
                 && !isArchive() && initialDialogsType != DIALOGS_TYPE_FORWARD
         ) {
@@ -3729,7 +3729,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
                 @Override
                 public int getTabCounter(int tabId) {
-                    if (initialDialogsType == DIALOGS_TYPE_FORWARD || CherrygramAppearanceConfig.INSTANCE.getTabsNoUnread()) {
+                    if (initialDialogsType == DIALOGS_TYPE_FORWARD || HachigramAppearanceConfig.INSTANCE.getTabsNoUnread()) {
                         return 0;
                     }
                     if (tabId == filterTabsView.getDefaultTabId()) {
@@ -3886,8 +3886,8 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                                 showDeleteAlert(dialogFilter);
                             })
                             .addGap()
-                            .add(CherrygramChatsConfig.INSTANCE.getSortByUnread() ? R.drawable.dialogs_sort_by_time_solar : R.drawable.dialogs_sort_by_unread_solar, CherrygramChatsConfig.INSTANCE.getSortByUnread() ? getString(R.string.CG_SortByDate) : getString(R.string.CG_SortByUnread), () -> {
-                                CherrygramChatsConfig.INSTANCE.setSortByUnread(!CherrygramChatsConfig.INSTANCE.getSortByUnread());
+                            .add(HachigramChatsConfig.INSTANCE.getSortByUnread() ? R.drawable.dialogs_sort_by_time_solar : R.drawable.dialogs_sort_by_unread_solar, HachigramChatsConfig.INSTANCE.getSortByUnread() ? getString(R.string.CG_SortByDate) : getString(R.string.CG_SortByUnread), () -> {
+                                HachigramChatsConfig.INSTANCE.setSortByUnread(!HachigramChatsConfig.INSTANCE.getSortByUnread());
                                 dialogsLoaded[currentAccount] = false;
                                 loadDialogs(getAccountInstance());
                                 getMessagesController().loadPinnedDialogs(folderId, 0, null);
@@ -3914,7 +3914,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 @Override
                 public void onTabSelected(FilterTabsView.Tab tab, boolean forward, boolean animated) {
                     if (actionBar != null) {
-                        if (CherrygramAppearanceConfig.INSTANCE.getFolderNameInHeader()) {
+                        if (HachigramAppearanceConfig.INSTANCE.getFolderNameInHeader()) {
                             if (dialogStoriesCell != null) {
                                 dialogStoriesCell.setTitleOverlayText(tab.isDefault ? actionBarDefaultTitle : tab.realTitle, tab.isDefault && statusDrawable != null);
                             }
@@ -4377,7 +4377,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                             if (canShowHiddenArchive != canShowInternal) {
                                 canShowHiddenArchive = canShowInternal;
                                 if (viewPage.archivePullViewState == ARCHIVE_ITEM_STATE_HIDDEN) {
-                                    if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                                    if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                                         try {
                                             viewPage.listView.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                                         } catch (Exception ignored) {}
@@ -4843,7 +4843,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 }
                 delegate.didSelectDialogs(DialogsActivity.this, topicKeys, null, false, notify, scheduleDate, scheduleRepeatPeriod, null);
             } else {
-                if (CherrygramCoreConfig.isDevBuild() && FoldersHelper.INSTANCE.moveFoldersToBottom() && !CherrygramAppearanceConfig.INSTANCE.getShowMainTabs()) {
+                if (HachigramCoreConfig.isDevBuild() && FoldersHelper.INSTANCE.moveFoldersToBottom() && !HachigramAppearanceConfig.INSTANCE.getShowMainTabs()) {
                     search("", true);
                     if (getFragmentSearchField() != null) {
                         getFragmentSearchField().editText.requestFocus();
@@ -5758,7 +5758,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
         ViewCompat.setOnApplyWindowInsetsListener(fragmentView, this::onApplyWindowInsets);
 
-        if (Build.VERSION.SDK_INT >= 24 && CherrygramPrivacyConfig.INSTANCE.getReTgCheck()) {
+        if (Build.VERSION.SDK_INT >= 24 && HachigramPrivacyConfig.INSTANCE.getReTgCheck()) {
             Continuation<Object> suspendResult = new Continuation<>() {
                 @NonNull
                 @Override
@@ -7007,13 +7007,13 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 filterTabsView.removeTabs();
                 for (int a = 0, N = filters.size(); a < N; a++) {
                     if (filters.get(a).isDefault()) {
-                        if (!CherrygramAppearanceConfig.INSTANCE.getTabsHideAllChats()) filterTabsView.addTab(a, 0, LocaleController.getString(R.string.FilterAllChats), null, false, true, filters.get(a).locked, filters.get(a).emoticon);
+                        if (!HachigramAppearanceConfig.INSTANCE.getTabsHideAllChats()) filterTabsView.addTab(a, 0, LocaleController.getString(R.string.FilterAllChats), null, false, true, filters.get(a).locked, filters.get(a).emoticon);
                     } else {
                         final MessagesController.DialogFilter filter = filters.get(a);
                         filterTabsView.addTab(a, filter.localId, filter.name, filter.entities, filter.title_noanimate, false, filters.get(a).locked, filter.emoticon);
                     }
                 }
-                if (CherrygramAppearanceConfig.INSTANCE.getTabsHideAllChats() && stableId <= 0) {
+                if (HachigramAppearanceConfig.INSTANCE.getTabsHideAllChats() && stableId <= 0) {
                     id = filterTabsView.getFirstTabId();
                     updateCurrentTab = true;
                     viewPages[0].selectedType = id;
@@ -7087,7 +7087,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 filterTabsView.resetTabId();
 
                 if (actionBar != null && !actionBarDefaultTitle.equals(actionBar.getTitle())) {
-                    if (CherrygramAppearanceConfig.INSTANCE.getFolderNameInHeader()) {
+                    if (HachigramAppearanceConfig.INSTANCE.getFolderNameInHeader()) {
                         actionBar.setTitleAnimatedX(actionBarDefaultTitle, statusDrawable, false, 250, true);
                     } else {
                         actionBar.setTitle(actionBarDefaultTitle, statusDrawable, true);
@@ -8028,7 +8028,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 TLRPC.Dialog dialog = (TLRPC.Dialog) object;
                 folderId = dialog.folder_id;
                 if (dialog instanceof TLRPC.TL_dialogFolder) {
-                    if (CherrygramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
+                    if (HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
                         getMessagesController().openByUserName(Constants.CG_CHANNEL_USERNAME, this, 1);
                     } else {
                         if (actionBar.isActionModeShowed(null)) {
@@ -9051,7 +9051,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    public boolean storiesEnabled = !CherrygramCoreConfig.INSTANCE.getHideStories();
+    public boolean storiesEnabled = !HachigramCoreConfig.INSTANCE.getHideStories();
     private void updateStoriesPosting() {
         final boolean storiesEnabled = getMessagesController().storiesEnabled();
         if (this.storiesEnabled != storiesEnabled) {
@@ -9070,7 +9070,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             floatingButton3.setImageResource(R.drawable.floating_check);
             floatingButton3.setContentDescription(LocaleController.getString(R.string.Done));
         } else {
-            if (CherrygramCoreConfig.isDevBuild() && FoldersHelper.INSTANCE.moveFoldersToBottom() && !CherrygramAppearanceConfig.INSTANCE.getShowMainTabs()) {
+            if (HachigramCoreConfig.isDevBuild() && FoldersHelper.INSTANCE.moveFoldersToBottom() && !HachigramAppearanceConfig.INSTANCE.getShowMainTabs()) {
                 floatingButton3.setImageResource(R.drawable.msg_search_filled_solar);
                 floatingButton3.setContentDescription(LocaleController.getString(R.string.Search));
             } else {
@@ -12876,7 +12876,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (SharedConfig.getDevicePerformanceClass() <= SharedConfig.PERFORMANCE_CLASS_LOW && !BuildVars.DEBUG_PRIVATE_VERSION) {
             return;
         }
-        if (isSlideBackTransition && slideBackTransitionAnimator == null && CherrygramCoreConfig.INSTANCE.getSpringAnimation() == CherrygramCoreConfig.ANIMATION_CLASSIC) {
+        if (isSlideBackTransition && slideBackTransitionAnimator == null && HachigramCoreConfig.INSTANCE.getSpringAnimation() == HachigramCoreConfig.ANIMATION_CLASSIC) {
             setSlideTransitionProgress(progress);
         }
     }
@@ -13005,7 +13005,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     public void updateStoriesVisibility(boolean animated) {
-        if (CherrygramCoreConfig.INSTANCE.getHideStories()) return;
+        if (HachigramCoreConfig.INSTANCE.getHideStories()) return;
         if (dialogStoriesCell == null || storiesVisibilityAnimator != null || rightSlidingDialogContainer != null && rightSlidingDialogContainer.hasFragment() || searchIsShowed || actionBar == null || actionBar.isActionModeShowed() || onlySelect) {
             return;
         }
@@ -14301,7 +14301,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private void checkUi_mainTabsVisible() {
-        final boolean mainTabsVisible = CherrygramAppearanceConfig.INSTANCE.getShowMainTabs() && !searching && (blurredView == null || blurredView.getBackground() == null || blurredView.getAlpha() < 0.01f || blurredView.getVisibility() == View.GONE);
+        final boolean mainTabsVisible = HachigramAppearanceConfig.INSTANCE.getShowMainTabs() && !searching && (blurredView == null || blurredView.getBackground() == null || blurredView.getAlpha() < 0.01f || blurredView.getVisibility() == View.GONE);
         if (mainTabsActivityController != null) {
             mainTabsActivityController.setTabsVisible(mainTabsVisible);
         }
@@ -14631,7 +14631,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private CharSequence actionBarDefaultTitle;
 
     private final boolean foldersAtBottom = FoldersHelper.INSTANCE.moveFoldersToBottom();
@@ -14670,7 +14670,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private boolean shouldHideHomeSearchField() {
-        return CherrygramAppearanceConfig.INSTANCE.getHideSearchFiled()
+        return HachigramAppearanceConfig.INSTANCE.getHideSearchFiled()
                 /*&& initialDialogsType == DIALOGS_TYPE_DEFAULT
                 && !onlySelect
                 && folderId == 0*/
@@ -14678,7 +14678,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     }
 
     private boolean shouldShowSearchIcon() {
-        return !CherrygramAppearanceConfig.INSTANCE.getShowSearchInTabs() || !CherrygramAppearanceConfig.INSTANCE.getShowMainTabs() || (initialDialogsType == DIALOGS_TYPE_FORWARD || folderId == 1);
+        return !HachigramAppearanceConfig.INSTANCE.getShowSearchInTabs() || !HachigramAppearanceConfig.INSTANCE.getShowMainTabs() || (initialDialogsType == DIALOGS_TYPE_FORWARD || folderId == 1);
     }
 
     private int getSearchFieldReservedHeight() {
@@ -14689,7 +14689,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
     public boolean isActionBarCrossfadeEnabled() {
         return super.isActionBarCrossfadeEnabled() && actionBar.getTranslationY() == 0 && !rightSlidingDialogContainer.isOpenned;
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
     public LinearLayout accountView(int account, boolean selected) {
         final LinearLayout btn = new LinearLayout(getContext());

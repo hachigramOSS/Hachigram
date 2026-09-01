@@ -86,8 +86,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicBoolean;
 
-import com.the306bobby.cherrygramnext.core.VibrateUtil;
-import com.the306bobby.cherrygramnext.core.CGBiometricPrompt;
+import com.the306bobby.hachigram.core.VibrateUtil;
+import com.the306bobby.hachigram.core.CGBiometricPrompt;
 
 public class PasscodeActivity extends BaseFragment implements NotificationCenter.NotificationCenterDelegate {
     public final static int TYPE_MANAGE_CODE_SETTINGS = 0,

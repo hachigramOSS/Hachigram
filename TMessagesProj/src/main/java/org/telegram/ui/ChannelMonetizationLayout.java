@@ -105,7 +105,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Locale;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
 
 public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implements NestedScrollingParent3 {
 
@@ -178,7 +178,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
     ) {
         super(context);
 
-        this.tonRevenueAvailable = CherrygramCoreConfig.isDevBuild() || tonRevenueAvailable;
+        this.tonRevenueAvailable = HachigramCoreConfig.isDevBuild() || tonRevenueAvailable;
         this.starsRevenueAvailable = starsRevenueAvailable;
 
         DecimalFormatSymbols symbols = new DecimalFormatSymbols(Locale.US);
@@ -246,7 +246,7 @@ public class ChannelMonetizationLayout extends SizeNotifierFrameLayout implement
         balanceButton = new ButtonWithCounterView(context, resourcesProvider).setRound();
         balanceButton.setEnabled(MessagesController.getInstance(currentAccount).channelRevenueWithdrawalEnabled);
         balanceButton.setText(getString(R.string.MonetizationWithdraw), false);
-        if (!CherrygramCoreConfig.isDevBuild()) balanceButton.setVisibility(View.GONE);
+        if (!HachigramCoreConfig.isDevBuild()) balanceButton.setVisibility(View.GONE);
         balanceButton.setOnClickListener(v -> {
             if (!v.isEnabled() || balanceButton.isLoading() || ChannelMonetizationLayout.this.starsBalanceButton != null && ChannelMonetizationLayout.this.starsBalanceButton.isLoading()) {
                 return;

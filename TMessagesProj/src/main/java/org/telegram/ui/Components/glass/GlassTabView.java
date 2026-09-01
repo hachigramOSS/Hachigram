@@ -52,8 +52,8 @@ import org.telegram.ui.MainTabsLayout;
 import me.vkryl.android.AnimatorUtils;
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.core.ui.folders.FoldersHelper;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.core.ui.folders.FoldersHelper;
 
 public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, FactorAnimator.Target {
     private final TextView textView;
@@ -405,7 +405,7 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
         GlassTabView tab = new GlassTabView(context);
         tab.resourcesProvider = resourcesProvider;
         tab.tabAnimation = tabAnimation;
-        if (CherrygramAppearanceConfig.INSTANCE.getShowMainTabsTitle()) {
+        if (HachigramAppearanceConfig.INSTANCE.getShowMainTabsTitle()) {
             tab.textView.setText(LocaleController.getString(stringRes));
             tab.checkPlayAnimation(false);
             tab.imageView.setLayoutParams(LayoutHelper.createFrame(24, 24, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 4, 0, 0));
@@ -425,7 +425,7 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
 
     public static GlassTabView createAvatar(Context context, Theme.ResourcesProvider resourcesProvider, int currentAccount, @StringRes int stringRes) {
         GlassTabView tab = new GlassTabView(context);
-        if (CherrygramAppearanceConfig.INSTANCE.getShowMainTabsTitle()) {
+        if (HachigramAppearanceConfig.INSTANCE.getShowMainTabsTitle()) {
             tab.textView.setText(LocaleController.getString(stringRes));
         } else {
             tab.textView.setVisibility(View.GONE);
@@ -440,7 +440,7 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
         backupImageView.setRoundRadius(dp(11));
         tab.backupImageView = backupImageView;
 
-        if (CherrygramAppearanceConfig.INSTANCE.getShowMainTabsTitle()) {
+        if (HachigramAppearanceConfig.INSTANCE.getShowMainTabsTitle()) {
             tab.addView(backupImageView, LayoutHelper.createFrame(22, 22, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 5, 0, 0));
         } else {
             tab.addView(backupImageView, LayoutHelper.createFrame(22, 22, Gravity.CENTER, 0, 0, 0, 0));
@@ -694,7 +694,7 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
 
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private final boolean foldersAtBottom = FoldersHelper.INSTANCE.moveFoldersToBottom();
 
     public static GlassTabView createStaticTab(Context context, Theme.ResourcesProvider resourcesProvider, @DrawableRes int iconRes, @StringRes int stringRes) {
@@ -703,7 +703,7 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
 
         tab.imageView.setImageResource(iconRes);
 
-        if (CherrygramAppearanceConfig.INSTANCE.getShowMainTabsTitle()) {
+        if (HachigramAppearanceConfig.INSTANCE.getShowMainTabsTitle()) {
             tab.textView.setText(LocaleController.getString(stringRes));
             tab.textView.setVisibility(View.VISIBLE);
             tab.imageView.setLayoutParams(LayoutHelper.createFrame(24, 24, Gravity.CENTER_HORIZONTAL | Gravity.TOP, 0, 4, 0, 0));
@@ -762,6 +762,6 @@ public class GlassTabView extends FrameLayout implements MainTabsLayout.Tab, Fac
 //        setSelected(enabled, true);
         invalidate();
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

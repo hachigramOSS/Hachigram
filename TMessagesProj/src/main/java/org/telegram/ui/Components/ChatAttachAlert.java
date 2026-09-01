@@ -191,10 +191,10 @@ import me.vkryl.android.animator.ListAnimator;
 import me.vkryl.android.animator.ReplaceAnimator;
 import me.vkryl.core.BitwiseUtils;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
-import com.the306bobby.cherrygramnext.core.PermissionsUtils;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCameraConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
+import com.the306bobby.hachigram.core.PermissionsUtils;
+import com.the306bobby.hachigram.core.configs.HachigramCameraConfig;
 
 public class ChatAttachAlert extends BottomSheet implements NotificationCenter.NotificationCenterDelegate, BottomSheet.BottomSheetDelegateInterface, FactorAnimator.Target {
 
@@ -2784,7 +2784,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                     if (!photosEnabled && !videosEnabled && checkCanRemoveRestrictionsByBoosts()) {
                         return;
                     }
-                    if (CherrygramCameraConfig.INSTANCE.getCameraType() != CherrygramCameraConfig.SYSTEM_CAMERA) {
+                    if (HachigramCameraConfig.INSTANCE.getCameraType() != HachigramCameraConfig.SYSTEM_CAMERA) {
                         if (currentAttachLayout != null && currentAttachLayout != photoLayout) showLayout(photoLayout);
                         openCameraLayout();
                     } else {
@@ -2830,7 +2830,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                         restrictedLayout = new ChatAttachRestrictedLayout(6, this, getContext(), resourcesProvider);
                         showLayout(restrictedLayout);
                     } else {
-                        if (CherrygramCoreConfig.isPlayStoreBuild()) {
+                        if (HachigramCoreConfig.isPlayStoreBuild()) {
                             boolean locationDenied = Build.VERSION.SDK_INT >= 23 && AndroidUtilities.findActivity(getContext()) != null && AndroidUtilities.findActivity(getContext()).checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED;
                             if (locationDenied) {
                                 createLocationRequiredDialog(getContext(), AndroidUtilities.findActivity(getContext()),
@@ -4060,7 +4060,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
 
             messageSendPreview.show();
 
-            if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+            if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                 try {
                     view.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                 } catch (Exception ignored) {}
@@ -4725,7 +4725,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             int width = Math.max(nextAttachLayout.getWidth(), currentAttachLayout.getWidth());
             if (nextAttachLayout instanceof ChatAttachAlertPhotoLayoutPreview) {
                 nextAttachLayout.setTranslationX(width);
-                if (currentAttachLayout instanceof ChatAttachAlertPhotoLayout && !CherrygramCameraConfig.INSTANCE.getDisableAttachCamera()) {
+                if (currentAttachLayout instanceof ChatAttachAlertPhotoLayout && !HachigramCameraConfig.INSTANCE.getDisableAttachCamera()) {
                     ChatAttachAlertPhotoLayout photoLayout = (ChatAttachAlertPhotoLayout) currentAttachLayout;
                     if (photoLayout.cameraView != null) {
                         photoLayout.cameraView.setVisibility(View.INVISIBLE);
@@ -4733,7 +4733,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 }
             } else {
                 currentAttachLayout.setTranslationX(-width);
-                if (nextAttachLayout == photoLayout && !CherrygramCameraConfig.INSTANCE.getDisableAttachCamera()) {
+                if (nextAttachLayout == photoLayout && !HachigramCameraConfig.INSTANCE.getDisableAttachCamera()) {
                     ChatAttachAlertPhotoLayout photoLayout = (ChatAttachAlertPhotoLayout) nextAttachLayout;
                     if (photoLayout.cameraView != null) {
                         photoLayout.cameraView.setVisibility(View.VISIBLE);
@@ -6720,7 +6720,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 }
             } else if (!(baseFragment instanceof ChatActivity)) {
                 galleryButton = buttonsCount++;
-                if (CherrygramCameraConfig.INSTANCE.getDisableAttachCamera()) cameraButton = buttonsCount++;
+                if (HachigramCameraConfig.INSTANCE.getDisableAttachCamera()) cameraButton = buttonsCount++;
                 documentButton = buttonsCount++;
                 if (allowEnterCaption) {
                     musicButton = buttonsCount++;
@@ -6733,7 +6733,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 } else {
                     if (editType == EDITMEDIA_TYPE_PHOTOVIDEO) {
                         galleryButton = buttonsCount++;
-                        if (CherrygramCameraConfig.INSTANCE.getDisableAttachCamera()) cameraButton = buttonsCount++;
+                        if (HachigramCameraConfig.INSTANCE.getDisableAttachCamera()) cameraButton = buttonsCount++;
                     }
                     if (editType == EDITMEDIA_TYPE_FILE) {
                         documentButton = buttonsCount++;
@@ -6747,7 +6747,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
                 TLRPC.Chat chat = baseFragment instanceof ChatActivity ? ((ChatActivity) baseFragment).getCurrentChat() : null;
                 final boolean paidUser = user != null && ((ChatActivity) baseFragment).getMessagesController().getSendPaidMessagesStars(user.id) > 0;
                 galleryButton = buttonsCount++;
-                if (CherrygramCameraConfig.INSTANCE.getDisableAttachCamera()) cameraButton = buttonsCount++;
+                if (HachigramCameraConfig.INSTANCE.getDisableAttachCamera()) cameraButton = buttonsCount++;
                 if ((photosEnabled || videosEnabled) && !paidUser && (chat == null || !ChatObject.isMonoForum(chat))) {
                     if (baseFragment instanceof ChatActivity && !((ChatActivity) baseFragment).isInScheduleMode() && !((ChatActivity) baseFragment).isSecretChat() && ((ChatActivity) baseFragment).getChatMode() != ChatActivity.MODE_QUICK_REPLIES) {
                         ChatActivity chatActivity = (ChatActivity) baseFragment;
@@ -7357,7 +7357,7 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private void openCameraLayout() {
         if (!photosEnabled && !videosEnabled) {
             showLayout(restrictedLayout = new ChatAttachRestrictedLayout(1, this, getContext(), resourcesProvider));
@@ -7376,6 +7376,6 @@ public class ChatAttachAlert extends BottomSheet implements NotificationCenter.N
             });
         }
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

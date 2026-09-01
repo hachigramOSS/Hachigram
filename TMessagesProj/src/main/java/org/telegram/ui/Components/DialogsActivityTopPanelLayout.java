@@ -20,7 +20,7 @@ import org.telegram.ui.ActionBar.Theme;
 import org.telegram.ui.Components.blur3.drawable.BlurredBackgroundDrawable;
 
 import me.vkryl.android.animator.ListAnimator;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
 
 public class DialogsActivityTopPanelLayout extends AnimatedLinearLayout {
     private final GradientDrawable fadeDrawable;

@@ -21,7 +21,7 @@ import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -49,7 +49,7 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
             if (checkingForLongPress && getParent() != null && currentPressCount == pressCount) {
                 checkingForLongPress = false;
                 if (onLongPress()) {
-                    if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                    if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                         try {
                             performHapticFeedback(HapticFeedbackConstants.LONG_PRESS);
                         } catch (Exception ignore) {}
@@ -71,7 +71,7 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
         super(context);
         setWillNotDraw(false);
         setFocusable(true);
-        setHapticFeedbackEnabled(!CherrygramChatsConfig.INSTANCE.getDisableVibration());
+        setHapticFeedbackEnabled(!HachigramChatsConfig.INSTANCE.getDisableVibration());
     }
 
     public static void setDrawableBounds(Drawable drawable, int x, int y) {
@@ -173,7 +173,7 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private void applyRippleIfNeeded() { // Huawei tablets crash, tnx to ChatGPT for help || java.lang.IllegalStateException: Cannot start this animator on a detached view!
         Drawable background = getBackground();
         if (!(background instanceof RippleDrawableSafe)) {
@@ -209,6 +209,6 @@ public abstract class BaseCell extends ViewGroup implements SizeNotifierFrameLay
         super.onAttachedToWindow();
         if (AndroidUtilities.isTablet()) applyRippleIfNeeded();
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

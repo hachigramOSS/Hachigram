@@ -98,7 +98,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.List;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramDebugConfig;
+import com.the306bobby.hachigram.core.configs.HachigramDebugConfig;
 
 public class SendGiftSheet extends BottomSheetWithRecyclerListView implements NotificationCenter.NotificationCenterDelegate, GiftAuctionController.OnAuctionUpdateListener {
 
@@ -368,7 +368,7 @@ public class SendGiftSheet extends BottomSheetWithRecyclerListView implements No
 
             }
         };
-        if (CherrygramDebugConfig.INSTANCE.getEditTextSuggestionsFix()) messageEdit.editTextEmoji.getEditText().addTextChangedListener(new EditTextSuggestionsFix());
+        if (HachigramDebugConfig.INSTANCE.getEditTextSuggestionsFix()) messageEdit.editTextEmoji.getEditText().addTextChangedListener(new EditTextSuggestionsFix());
         messageEdit.editTextEmoji.allowEmojisForNonPremium(true);
         messageEdit.setShowLimitWhenNear(50);
         setEditTextEmoji(messageEdit.editTextEmoji);

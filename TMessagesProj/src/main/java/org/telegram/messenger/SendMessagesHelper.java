@@ -129,10 +129,10 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import com.the306bobby.cherrygramnext.chats.helpers.ChatsHelper;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramDebugConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramMessagesConfig;
+import com.the306bobby.hachigram.chats.helpers.ChatsHelper;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramDebugConfig;
+import com.the306bobby.hachigram.core.configs.HachigramMessagesConfig;
 
 public class SendMessagesHelper extends BaseController implements NotificationCenter.NotificationCenterDelegate {
 
@@ -2030,7 +2030,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     }
                     SendMessageParams sendMessageParams = SendMessageParams.of((TLRPC.TL_document) finalDocument, videoEditedInfo, null, peer, replyToMsg, replyToTopMsg, null, null, null, null, notify, scheduleDate, scheduleRepeatPeriod, 0, parentObject, sendAnimationData, false);
                     sendMessageParams.replyToStoryItem = storyItem;
-                    sendMessageParams.hasMediaSpoilers = CherrygramMessagesConfig.INSTANCE.getGifSpoilers();
+                    sendMessageParams.hasMediaSpoilers = HachigramMessagesConfig.INSTANCE.getGifSpoilers();
                     sendMessageParams.replyQuote = quote;
                     sendMessageParams.sendMessageChatArguments = sendMessageChatArguments;
                     sendMessageParams.payStars = stars;
@@ -2039,7 +2039,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                     sendMessageParams.caption = caption != null ? caption.toString() : null;
                     sendMessageParams.invert_media = invertMedia;
                     sendMessage(sendMessageParams);
-                    CherrygramMessagesConfig.INSTANCE.setGifSpoilers(false);
+                    HachigramMessagesConfig.INSTANCE.setGifSpoilers(false);
                 });
             });
         } else {
@@ -2292,7 +2292,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                                 newMsg.fwd_from.flags |= 8;
                             }
                         }
-                        if (CherrygramMessagesConfig.INSTANCE.getMsgForwardDate() && !msgObj.isForwarded()) {
+                        if (HachigramMessagesConfig.INSTANCE.getMsgForwardDate() && !msgObj.isForwarded()) {
                             newMsg.fwd_from.date = msgObj.messageOwner.date;
                         }
                         newMsg.date = msgObj.messageOwner.date;
@@ -4334,7 +4334,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             caption = "";
         }
 
-        if (CherrygramChatsConfig.INSTANCE.getAutoQuoteReplies() && replyToMsg != null) {
+        if (HachigramChatsConfig.INSTANCE.getAutoQuoteReplies() && replyToMsg != null) {
             boolean isComments = replyToMsg.messageOwner.fwd_from != null && replyToMsg.messageOwner.fwd_from.channel_post != 0;
             boolean isTopic = ChatsHelper.getInstance(currentAccount).isTopic(replyToMsg);
 
@@ -9208,7 +9208,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     public TLRPC.TL_photo generatePhotoSizes(String path, Uri imageUri) {
-        return generatePhotoSizes(null, path, imageUri, CherrygramChatsConfig.INSTANCE.getLargePhotos());
+        return generatePhotoSizes(null, path, imageUri, HachigramChatsConfig.INSTANCE.getLargePhotos());
     }
 
     public TLRPC.TL_photo generatePhotoSizes(TLRPC.TL_photo photo, String path, Uri imageUri, boolean highQuality) {
@@ -10661,7 +10661,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         } catch (Exception e) {
             FileLog.e(e);
         }
-        return CherrygramMessagesConfig.INSTANCE.getPhotoAsSticker() || bmOptions.outWidth < 800 && bmOptions.outHeight < 800;
+        return HachigramMessagesConfig.INSTANCE.getPhotoAsSticker() || bmOptions.outWidth < 800 && bmOptions.outHeight < 800;
     }
 
     @UiThread
@@ -10737,7 +10737,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                 workers = new HashMap<>();
                 for (int a = 0; a < count; a++) {
                     final SendingMediaInfo info = media.get(a);
-                    info.highQuality = CherrygramChatsConfig.INSTANCE.getLargePhotos() && !CherrygramMessagesConfig.INSTANCE.getPhotoAsSticker();
+                    info.highQuality = HachigramChatsConfig.INSTANCE.getLargePhotos() && !HachigramMessagesConfig.INSTANCE.getPhotoAsSticker();
                     if (info.searchImage == null && !info.isVideo && info.videoEditedInfo == null) {
                         if (info.originalPhotoEntry != null && info.highQuality) {
                             info.originalPhotoEntry.rebuildPhoto(true);
@@ -11562,7 +11562,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
             if (BuildVars.LOGS_ENABLED) {
                 FileLog.d("total send time = " + (System.currentTimeMillis() - beginTime));
             }
-            CherrygramMessagesConfig.INSTANCE.setPhotoAsSticker(false);
+            HachigramMessagesConfig.INSTANCE.setPhotoAsSticker(false);
         });
     }
 
@@ -11820,7 +11820,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         int compressionsCount;
 
         float maxSize = Math.max(videoEditedInfo.originalWidth, videoEditedInfo.originalHeight);
-        if (CherrygramDebugConfig.INSTANCE.getSendVideosAtMaxQuality()) {
+        if (HachigramDebugConfig.INSTANCE.getSendVideosAtMaxQuality()) {
             if (maxSize > 3840) {
                 compressionsCount = 7;
             } else if (maxSize > 2560) {
@@ -11855,9 +11855,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         }
         boolean needCompress = false;
         if (new File(videoPath).length() < 1024L * 1024L * 1000L) {
-            if (selectedCompression != compressionsCount || Math.max(videoEditedInfo.originalWidth, videoEditedInfo.originalHeight) > (CherrygramDebugConfig.INSTANCE.getSendVideosAtMaxQuality() ? 3840 : 1280)) {
+            if (selectedCompression != compressionsCount || Math.max(videoEditedInfo.originalWidth, videoEditedInfo.originalHeight) > (HachigramDebugConfig.INSTANCE.getSendVideosAtMaxQuality() ? 3840 : 1280)) {
                 needCompress = true;
-                if (CherrygramDebugConfig.INSTANCE.getSendVideosAtMaxQuality()) {
+                if (HachigramDebugConfig.INSTANCE.getSendVideosAtMaxQuality()) {
                     maxSize = switch (selectedCompression) {
                         case 1 -> 480.0f;
                         case 2 -> 854.0f;

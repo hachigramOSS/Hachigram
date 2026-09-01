@@ -1,0 +1,89 @@
+/**
+ * This is the source code of Hachigram for Android.
+ * It is a fork of Cherrygram, licensed under GNU GPL v. 2 or later.
+ * You should have received a copy of the license in this archive (see LICENSE).
+ * Please, be respectful and credit the original author if you use this code.
+ *
+ * Copyright github.com/arsLan4k1390, 2022-2026.
+ * Copyright github.com/306bobby-android, 2026.
+ */
+
+package com.the306bobby.hachigram.core.configs
+
+import android.app.Activity
+import android.content.SharedPreferences
+import org.telegram.messenger.ApplicationLoader
+import org.telegram.messenger.SharedConfig
+import com.the306bobby.hachigram.camera.CameraXUtils
+import com.the306bobby.hachigram.preferences.boolean
+import com.the306bobby.hachigram.preferences.float
+import com.the306bobby.hachigram.preferences.int
+import java.util.Calendar
+
+object HachigramCameraConfig {
+
+    private val sharedPreferences: SharedPreferences = ApplicationLoader.applicationContext.getSharedPreferences("mainconfig", Activity.MODE_PRIVATE)
+
+    /** Camera type start */
+    const val TELEGRAM_CAMERA = 0
+    const val CAMERA_X = 1
+    const val CAMERA_2 = 2
+    const val SYSTEM_CAMERA = 3
+    var cameraType by sharedPreferences.int("CP_CameraType", TELEGRAM_CAMERA)
+    /** Camera type finish */
+
+    /** Camera start */
+    var disableAttachCamera by sharedPreferences.boolean("CP_DisableAttachCam", true)
+    var useDualCamera by sharedPreferences.boolean("CP_UseDualCameraX", false)
+
+    const val Camera16to9 = 0
+    const val Camera4to3 = 1
+    const val Camera1to1 = 2
+    const val CameraAspectDefault = 3
+    var cameraAspectRatio by sharedPreferences.int("CP_CameraAspectRatio", Camera4to3)
+    /** Camera finish */
+
+    /** Videomessages start */
+    var cameraResolution by sharedPreferences.int("CP_CameraResolution", -1)
+    var startFromUltraWideCam by sharedPreferences.boolean("CP_StartFromUltraWideCam", true)
+
+    /** CameraX FPS start */
+    const val CameraXFpsRangeDefault = 0
+    const val CameraXFpsRange25to30 = 1
+    const val CameraXFpsRange30to30 = 2
+    const val CameraXFpsRange30to60 = 3
+    const val CameraXFpsRange60to60 = 4
+    var cameraXFpsRange by sharedPreferences.int("CP_CameraXFpsRangeValueF",
+        if (SharedConfig.getDevicePerformanceClass() >= SharedConfig.PERFORMANCE_CLASS_AVERAGE) CameraXFpsRange25to30 else CameraXFpsRangeDefault)
+    /** CameraX FPS finish */
+
+    var cameraStabilisation by sharedPreferences.boolean("CP_CameraStabilisation", false)
+    var centerCameraControlButtons by sharedPreferences.boolean("CP_CenterCameraControlButtons", true)
+
+    const val EXPOSURE_SLIDER_NONE = 0
+    const val EXPOSURE_SLIDER_BOTTOM = 1
+    const val EXPOSURE_SLIDER_RIGHT = 2
+    const val EXPOSURE_SLIDER_LEFT = 3
+    var exposureSlider by sharedPreferences.int("CP_ExposureSlider", EXPOSURE_SLIDER_RIGHT)
+
+    var rearCam by sharedPreferences.boolean("CP_RearCam", false)
+
+    var videoMessagesResolution by sharedPreferences.int("CG_Round_Video_Resolution", 512)
+    var videoMessagesFlashWarmthIntensity by sharedPreferences.float("CG_Round_Flash_Warmth_Intensity", 0.50f)
+    var videoMessagesFlashIntensity by sharedPreferences.float("CG_Round_Flash_Intensity", 1f)
+    var videoMessagesRearFlashIntensity by sharedPreferences.float("CG_Round_Rear_Flash_Intensity", 1f)
+    var videoMessagesHintCount by sharedPreferences.int("CG_Round_Flash_Hint_Count", 0)
+
+    fun checkVideoMessagesHint() {
+        try {
+            val calendar = Calendar.getInstance()
+            val dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH)
+
+            if (dayOfMonth == 1) {
+                videoMessagesHintCount = 0
+            }
+        } catch (_: Exception) {}
+    }
+    /** Videomessages finish */
+
+}

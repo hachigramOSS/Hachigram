@@ -54,7 +54,7 @@ import java.util.ArrayList;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.ThreadPoolExecutor;
 
-import com.the306bobby.cherrygramnext.helpers.network.StickersManager;
+import com.the306bobby.hachigram.helpers.network.StickersManager;
 
 public final class AnimatedFileDrawable extends BitmapDrawable implements Animatable, BitmapsCache.Cacheable {
 
@@ -517,7 +517,7 @@ public final class AnimatedFileDrawable extends BitmapDrawable implements Animat
             if (document != null) {
                 if (StickersManager.INSTANCE.isStickerSetToBlock(document)) {
                     StickersManager.INSTANCE.copyStickerFromAssets();
-                    path = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), "stickers/cherrygram.webm");
+                    path = new File(ApplicationLoader.applicationContext.getExternalFilesDir(null), "stickers/hachigram.webm");
                 }
             }
         }

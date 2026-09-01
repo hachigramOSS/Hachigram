@@ -31,7 +31,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.ZipException;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
 
 public class FileLoadOperation {
 
@@ -288,11 +288,11 @@ public class FileLoadOperation {
     }
 
     private void updateParams() {
-        if ((CherrygramCoreConfig.INSTANCE.getDownloadSpeedBoost() == CherrygramCoreConfig.BOOST_AVERAGE || preloadPrefixSize > 0 || MessagesController.getInstance(currentAccount).getfileExperimentalParams) && !forceSmallChunk) {
+        if ((HachigramCoreConfig.INSTANCE.getDownloadSpeedBoost() == HachigramCoreConfig.BOOST_AVERAGE || preloadPrefixSize > 0 || MessagesController.getInstance(currentAccount).getfileExperimentalParams) && !forceSmallChunk) {
             downloadChunkSizeBig = 1024 * 512;
             maxDownloadRequests = 8;
             maxDownloadRequestsBig = 8;
-        } else if (CherrygramCoreConfig.INSTANCE.getDownloadSpeedBoost() == CherrygramCoreConfig.BOOST_EXTREME) {
+        } else if (HachigramCoreConfig.INSTANCE.getDownloadSpeedBoost() == HachigramCoreConfig.BOOST_EXTREME) {
             downloadChunkSizeBig = 1024 * 1024;
             maxDownloadRequests = 12;
             maxDownloadRequestsBig = 12;

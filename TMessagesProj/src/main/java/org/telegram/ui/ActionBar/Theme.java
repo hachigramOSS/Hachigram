@@ -147,9 +147,9 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CountDownLatch;
 
-import com.the306bobby.cherrygramnext.chats.ui.MessageMenuHelper;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramAppearanceConfig;
-import com.the306bobby.cherrygramnext.helpers.ui.MonetHelper;
+import com.the306bobby.hachigram.chats.ui.MessageMenuHelper;
+import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
+import com.the306bobby.hachigram.helpers.ui.MonetHelper;
 
 public class Theme {
 
@@ -2556,7 +2556,7 @@ public class Theme {
 
     public static int colorsCount;
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public static final int key_alwaysBlack = colorsCount++;
     public static final int key_alwaysWhite = colorsCount++;
     public static final int key_alwaysGray = colorsCount++;
@@ -2564,7 +2564,7 @@ public class Theme {
     public static final int key_cgGradient1 = colorsCount++;
     public static final int key_cgGradient2 = colorsCount++;
     public static Drawable chat_attachCameraButton;
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
     public static final int key_wallpaperFileOffset = colorsCount++;
     public static final int key_dialogBackground = colorsCount++;
@@ -4582,7 +4582,7 @@ public class Theme {
                 canStartHolidayAnimation = false;
             }
             if (dialogs_holidayDrawable == null) {
-                if ((monthOfYear == 11 && dayOfMonth >= (BuildVars.DEBUG_PRIVATE_VERSION ? 29 : 31) && dayOfMonth <= 31 || monthOfYear == 0 && dayOfMonth == 1) || CherrygramAppearanceConfig.INSTANCE.getDrawSnowInActionBar()) {
+                if ((monthOfYear == 11 && dayOfMonth >= (BuildVars.DEBUG_PRIVATE_VERSION ? 29 : 31) && dayOfMonth <= 31 || monthOfYear == 0 && dayOfMonth == 1) || HachigramAppearanceConfig.INSTANCE.getDrawSnowInActionBar()) {
                     dialogs_holidayDrawable = ApplicationLoader.applicationContext.getResources().getDrawable(R.drawable.newyear);
                     dialogs_holidayDrawableOffsetX = -dp(3);
                     dialogs_holidayDrawableOffsetY = -dp(-7);
@@ -9105,7 +9105,7 @@ public class Theme {
                 return animatingColors.valueAt(index);
             }
         }
-        if (CherrygramAppearanceConfig.INSTANCE.getDisableDividers() && key_divider == key) {
+        if (HachigramAppearanceConfig.INSTANCE.getDisableDividers() && key_divider == key) {
             return 0x00ffffff;
         }
         if (serviceBitmapShader != null && (key_chat_serviceText == key || key_chat_serviceLink == key || key_chat_serviceIcon == key
@@ -10268,7 +10268,7 @@ public class Theme {
         DEBUG_GREEN_STROKE.setStyle(Paint.Style.STROKE);
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public static TextPaint dialogs_countTextPaintCherry;
 
     public static void createCommonDialogResourcesCherry(Context context) {
@@ -10279,6 +10279,6 @@ public class Theme {
 
         dialogs_countTextPaintCherry.setTextSize(dp(13));
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

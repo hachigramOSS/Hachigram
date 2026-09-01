@@ -366,7 +366,7 @@ public class SessionBottomSheet extends BottomSheet {
             colorKey = Theme.key_avatar_backgroundCyan;
             colorKey2 = Theme.key_avatar_background2Cyan;
         } else if (platform.contains("android")) {
-            if (session.app_name.contains("Cherrygram")) {
+            if (session.app_name.contains("Hachigram")) {
                 animation = false;
                 iconId = R.drawable.cg_logo_notch;
                 colorKey = 0x00000000;
@@ -388,7 +388,7 @@ public class SessionBottomSheet extends BottomSheet {
             }
         }
 
-        if (!(session.app_name.contains("Cherrygram"))) {
+        if (!(session.app_name.contains("Hachigram"))) {
             imageView.setBackground(Theme.createCircleDrawable(dp(42), Theme.getColor(colorKey)));
 //            imageView.setBackground(new SessionCell.CircleGradientDrawable(AndroidUtilities.dp(42), Theme.getColor(colorKey), Theme.getColor(colorKey2)));
         }
@@ -396,7 +396,7 @@ public class SessionBottomSheet extends BottomSheet {
             int[] colors = new int[]{0x000000, Theme.getColor(colorKey)};
             imageView.setAnimation(iconId, 50, 50, colors);
         } else {
-            if (session.app_name.contains("Cherrygram")) {
+            if (session.app_name.contains("Hachigram")) {
                 Drawable iconDrawable = ContextCompat.getDrawable(getContext(), !Theme.isCurrentThemeDay() ? R.drawable.cg_logo_notch_white : R.drawable.cg_logo_notch);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(70), dp(70));
                 params.topMargin = dp(15);

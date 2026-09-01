@@ -781,10 +781,10 @@ public class AvatarDrawable extends Drawable {
         this.roundRadius = roundRadius;
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     boolean ignorePaintAlpha = false;
     public void setIgnorePaintAlpha(boolean ignorePaintAlpha) {
         this.ignorePaintAlpha = ignorePaintAlpha;
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 }

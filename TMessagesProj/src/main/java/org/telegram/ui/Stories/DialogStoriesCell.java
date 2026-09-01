@@ -101,7 +101,7 @@ import java.util.Objects;
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
 import me.vkryl.android.animator.ReplaceAnimator;
-import com.the306bobby.cherrygramnext.helpers.ui.FontHelper;
+import com.the306bobby.hachigram.helpers.ui.FontHelper;
 
 @SuppressLint("ViewConstructor")
 public class DialogStoriesCell extends FrameLayout implements NotificationCenter.NotificationCenterDelegate, FactorAnimator.Target {
@@ -2231,7 +2231,7 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     public void setTitleOverlayText(CharSequence titleOverlayText, boolean showEmojiStatus) {
         if (titleOverlayText != null) {
             hasOverlayText = true;
@@ -2254,6 +2254,6 @@ public class DialogStoriesCell extends FrameLayout implements NotificationCenter
 
         animatorHasTitleText.setValue(hasOverlayText, true);
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

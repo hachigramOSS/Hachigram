@@ -658,7 +658,7 @@ public class TableView extends TableLayout {
         }
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private boolean isCherryRow = false;
     public TableRowFullContent addFullRow(CharSequence text, boolean bold, boolean center, int textSize, boolean filled) {
         SpoilersTextView textView = new SpoilersTextView(getContext());
@@ -685,6 +685,6 @@ public class TableView extends TableLayout {
         addView(row);
         return cell;
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 }

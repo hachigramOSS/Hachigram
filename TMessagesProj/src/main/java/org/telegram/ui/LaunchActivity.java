@@ -255,16 +255,16 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramCoreConfig;
-import com.the306bobby.cherrygramnext.core.CGBiometricPrompt;
-import com.the306bobby.cherrygramnext.core.configs.CherrygramPrivacyConfig;
-import com.the306bobby.cherrygramnext.core.helpers.DeeplinkHelper;
-import com.the306bobby.cherrygramnext.misc.CherrygramExtras;
-import com.the306bobby.cherrygramnext.misc.LogoOverlayView;
-import com.the306bobby.cherrygramnext.helpers.ui.MonetHelper;
-import com.the306bobby.cherrygramnext.core.icons.CGUIResources;
-import com.the306bobby.cherrygramnext.core.crashlytics.Crashlytics;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
+import com.the306bobby.hachigram.core.CGBiometricPrompt;
+import com.the306bobby.hachigram.core.configs.HachigramPrivacyConfig;
+import com.the306bobby.hachigram.core.helpers.DeeplinkHelper;
+import com.the306bobby.hachigram.misc.HachigramExtras;
+import com.the306bobby.hachigram.misc.LogoOverlayView;
+import com.the306bobby.hachigram.helpers.ui.MonetHelper;
+import com.the306bobby.hachigram.core.icons.CGUIResources;
+import com.the306bobby.hachigram.core.crashlytics.Crashlytics;
 
 public class LaunchActivity extends BasePermissionsActivity implements INavigationLayout.INavigationLayoutDelegate, NotificationCenter.NotificationCenterDelegate, DialogsActivity.DialogsActivityDelegate, IPipActivity {
     public final static String EXTRA_FORCE_NOT_INTERNAL_APPS = "force_not_internal_apps";
@@ -467,7 +467,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         setContentView(frameLayout);
         rootAnimatedInsetsListener = new WindowAnimatedInsetsProvider(frameLayout);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && CherrygramCoreConfig.INSTANCE.getCgBrandedScreenshots()) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P && HachigramCoreConfig.INSTANCE.getCgBrandedScreenshots()) {
             getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
             getWindow().getAttributes().layoutInDisplayCutoutMode = android.view.WindowManager.LayoutParams.LAYOUT_IN_DISPLAY_CUTOUT_MODE_SHORT_EDGES;
             ((ViewGroup) (getWindow().getDecorView())).addView(new LogoOverlayView(this));
@@ -749,7 +749,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         BackupAgent.requestBackup();
 
         RestrictedLanguagesSelectActivity.checkRestrictedLanguages(false);
-        if (Build.VERSION.SDK_INT >= 34 && CherrygramCoreConfig.INSTANCE.getPredictiveBack()) {
+        if (Build.VERSION.SDK_INT >= 34 && HachigramCoreConfig.INSTANCE.getPredictiveBack()) {
             if (onBackAnimationCallback == null) {
                 onBackAnimationCallback =  new OnBackAnimationCallback() {
                     private AnimationNotificationsLocker locker = new AnimationNotificationsLocker();
@@ -2897,9 +2897,9 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             NotificationCenter.getInstance(intentAccount[0]).postNotificationName(NotificationCenter.closeChats);
                                             push_user_id = userId;
                                             String mimeType = cursor.getString(cursor.getColumnIndex(ContactsContract.Data.MIMETYPE));
-                                            if (TextUtils.equals(mimeType, "vnd.android.cursor.item/vnd.com.the306bobby.cherrygramnext.android.call")) {
+                                            if (TextUtils.equals(mimeType, "vnd.android.cursor.item/vnd.com.the306bobby.hachigram.android.call")) {
                                                 audioCallUser = true;
-                                            } else if (TextUtils.equals(mimeType, "vnd.android.cursor.item/vnd.com.the306bobby.cherrygramnext.android.call.video")) {
+                                            } else if (TextUtils.equals(mimeType, "vnd.android.cursor.item/vnd.com.the306bobby.hachigram.android.call.video")) {
                                                 videoCallUser = true;
                                             }
                                         }
@@ -7139,7 +7139,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
             showUpdateActivity(UserConfig.selectedAccount, SharedConfig.pendingAppUpdate, true);
         }
         checkAppUpdate(false, null);*/
-        if (CherrygramCoreConfig.INSTANCE.getAutoOTA()) {
+        if (HachigramCoreConfig.INSTANCE.getAutoOTA()) {
             checkCgUpdates(getSafeLastFragment(), null, false);
         }
 
@@ -8557,7 +8557,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                         showVoiceChatTooltip(mute ? UndoView.ACTION_VOIP_SOUND_MUTED : UndoView.ACTION_VOIP_SOUND_UNMUTED);
                     }
                 }
-            } else if (CherrygramChatsConfig.INSTANCE.getPlayVideoOnVolume() && (!mainFragmentsStack.isEmpty() && (!PhotoViewer.hasInstance() || !PhotoViewer.getInstance().isVisible()) && event.getRepeatCount() == 0)) {
+            } else if (HachigramChatsConfig.INSTANCE.getPlayVideoOnVolume() && (!mainFragmentsStack.isEmpty() && (!PhotoViewer.hasInstance() || !PhotoViewer.getInstance().isVisible()) && event.getRepeatCount() == 0)) {
                 BaseFragment fragment = mainFragmentsStack.get(mainFragmentsStack.size() - 1);
                 if (fragment instanceof ChatActivity && !BaseFragment.hasSheets(fragment)) {
                     if (((ChatActivity) fragment).maybePlayVisibleVideo()) {
@@ -9256,7 +9256,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
         return pipActivityController;
     }
 
-    /** Cherrygram start */
+    /** Hachigram start */
     private CGUIResources res = null;
     private AssetManager assetManager = null;
 
@@ -9298,15 +9298,15 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
     }
 
     private void processFeats() {
-        CherrygramCoreConfig.INSTANCE.setUpdateAvailable(false);
-        if (CherrygramCoreConfig.INSTANCE.getAutoOTA()) {
+        HachigramCoreConfig.INSTANCE.setUpdateAvailable(false);
+        if (HachigramCoreConfig.INSTANCE.getAutoOTA()) {
             checkCgUpdates(getSafeLastFragment(), null, false);
         }
-        if (!CherrygramCoreConfig.isPlayStoreBuild()) CherrygramExtras.INSTANCE.checkChannelFollow(this, currentAccount);
-        CherrygramChatsConfig.INSTANCE.init();
-        CherrygramCoreConfig.INSTANCE.init();
+        if (!HachigramCoreConfig.isPlayStoreBuild()) HachigramExtras.INSTANCE.checkChannelFollow(this, currentAccount);
+        HachigramChatsConfig.INSTANCE.init();
+        HachigramCoreConfig.INSTANCE.init();
     }
-    /** Cherrygram finish */
+    /** Hachigram finish */
 
 
     private int reasonsToHideMainContent = 0;

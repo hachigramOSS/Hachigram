@@ -40,7 +40,7 @@ import org.telegram.ui.GroupCallActivity;
 
 import static android.view.WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE;
 
-import com.the306bobby.cherrygramnext.core.configs.CherrygramChatsConfig;
+import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 
 public class GroupCallPip implements NotificationCenter.NotificationCenterDelegate {
 
@@ -132,7 +132,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
                             return;
                         }
                         AndroidUtilities.runOnUIThread(micRunnable, 90);
-                        if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                        if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                             try {
                                 performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                             } catch (Exception ignore) {}
@@ -260,7 +260,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
                         if (pressed) {
                             if (VoIPService.getSharedInstance() != null) {
                                 VoIPService.getSharedInstance().setMicMute(true, false, false);
-                                if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                                if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                                     try {
                                         performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                                     } catch (Exception ignored) {}
@@ -899,7 +899,7 @@ public class GroupCallPip implements NotificationCenter.NotificationCenterDelega
                 iconView.playAnimation();
             }
             if (prepare) {
-                if (!CherrygramChatsConfig.INSTANCE.getDisableVibration()) {
+                if (!HachigramChatsConfig.INSTANCE.getDisableVibration()) {
                     try {
                         button.performHapticFeedback(HapticFeedbackConstants.KEYBOARD_TAP, HapticFeedbackConstants.FLAG_IGNORE_GLOBAL_SETTING);
                     } catch (Exception ignored) {}
