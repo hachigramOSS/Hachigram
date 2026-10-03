@@ -51,6 +51,7 @@ public class MaskPaintView extends FrameLayout {
     private final RenderView renderView;
     private Bitmap bitmapToEdit;
     private int orientation;
+    private boolean inu_hasDrawn;
 
     private boolean inBubbleMode;
 
@@ -105,6 +106,7 @@ public class MaskPaintView extends FrameLayout {
 
             @Override
             public void onFinishedDrawing(boolean moved) {
+                inu_hasDrawn = true;
                 undoStore.getDelegate().historyChanged();
                 weightChooserView.setViewHidden(false);
                 onDrawn();
@@ -174,6 +176,10 @@ public class MaskPaintView extends FrameLayout {
 
     protected void onRenderViewAlphaUpdate(ValueAnimator animation) {
 
+    }
+
+    public boolean inu_hasChanges() {
+        return inu_hasDrawn;
     }
 
     public boolean canUndo() {

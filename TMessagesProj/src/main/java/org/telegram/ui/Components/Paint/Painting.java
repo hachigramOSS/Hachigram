@@ -547,7 +547,8 @@ public class Painting {
 
             GLES20.glViewport(0, 0, (int) size.width, (int) size.height);
 
-            Shader shader = shaders.get(brush.getShaderName(Brush.PAINT_TYPE_COMPOSITE));
+            final boolean inu_masking = masking && (brush instanceof Brush.Radial || brush instanceof Brush.Eraser);
+            Shader shader = shaders.get(brush.getShaderName(Brush.PAINT_TYPE_COMPOSITE) + (inu_masking ? "_masking" : ""));
             if (shader == null) {
                 return null;
             }
@@ -565,6 +566,13 @@ public class Painting {
 
             GLES20.glActiveTexture(GLES20.GL_TEXTURE1);
             GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, getPaintTexture());
+
+            if (inu_masking) {
+                GLES20.glUniform1i(shader.getUniform("otexture"), 2);
+                GLES20.glUniform1f(shader.getUniform("preview"), 0);
+                GLES20.glActiveTexture(GLES20.GL_TEXTURE2);
+                GLES20.glBindTexture(GLES20.GL_TEXTURE_2D, originalBitmapTexture.texture());
+            }
 
             Object lock = null;
             if (brush instanceof Brush.Blurer) {
