@@ -18322,9 +18322,6 @@ public class ChatActivity extends BaseFragment implements
         ArrayList<ChatMessageCell> drawCaptionAfter = new ArrayList<>();
         ArrayList<ChatMessageCell> drawReactionsAfter = new ArrayList<>();
 
-        Paint backgroundPaint;
-        int backgroundColor;
-
         @Override
         protected boolean invalidateOptimized() {
             return true;
@@ -19279,16 +19276,6 @@ public class ChatActivity extends BaseFragment implements
                 }
             }
 
-            if (fixedKeyboardHeight > 0 && keyboardHeight < AndroidUtilities.dp(20)) {
-                int color = getThemedColor(Theme.key_windowBackgroundWhite);
-                if (backgroundPaint == null) {
-                    backgroundPaint = new Paint();
-                }
-                if (backgroundColor != color) {
-                    backgroundPaint.setColor(backgroundColor = color);
-                }
-                canvas.drawRect(0,getMeasuredHeight() - fixedKeyboardHeight, getMeasuredWidth(), getMeasuredHeight(), backgroundPaint);
-            }
             if (pullingDownDrawable != null && pullingDownDrawable.needDrawBottomPanel()) {
                 int top, bottom;
                 top = (int) chatInputViewsContainer.getInputBubbleTop();
