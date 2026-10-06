@@ -209,11 +209,11 @@ public class AvatarPreviewer {
         }
 
         public static Data of(TLRPC.User user, TLRPC.UserFull userFull, MenuItem... menuItems) {
-            ImageLocation imageLocation = ImageLocation.getForUserOrChat(userFull.user, ImageLocation.TYPE_BIG);
+            ImageLocation imageLocation = ImageLocation.getForUserOrChat(user, ImageLocation.TYPE_BIG);
             if (imageLocation == null && userFull.profile_photo != null) {
                 imageLocation = ImageLocation.getForPhoto(FileLoader.getClosestPhotoSizeWithSize(userFull.profile_photo.sizes, 500), userFull.profile_photo);
             }
-            final ImageLocation thumbImageLocation = ImageLocation.getForUserOrChat(userFull.user, ImageLocation.TYPE_SMALL);
+            final ImageLocation thumbImageLocation = ImageLocation.getForUserOrChat(user, ImageLocation.TYPE_SMALL);
             final String thumbFilter = thumbImageLocation != null && thumbImageLocation.photoSize instanceof TLRPC.TL_photoStrippedSize ? "b" : null;
             final ImageLocation videoLocation;
             final String videoFileName;
@@ -227,7 +227,7 @@ public class AvatarPreviewer {
                 videoFileName = null;
             }
             final String videoFilter = videoLocation != null && videoLocation.imageType == FileLoader.IMAGE_TYPE_ANIMATION ? ImageLoader.AUTOPLAY_FILTER : null;
-            return new Data(imageLocation, thumbImageLocation, videoLocation, null, thumbFilter, videoFilter, videoFileName, thumb, userFull.user, menuItems, null);
+            return new Data(imageLocation, thumbImageLocation, videoLocation, null, thumbFilter, videoFilter, videoFileName, thumb, "avatar_" + user.id, menuItems, null);
         }
 
         public static Data of(TLRPC.Chat chat, int classGuid, MenuItem... menuItems) {
@@ -254,7 +254,7 @@ public class AvatarPreviewer {
                 videoFileName = null;
             }
             final String videoFilter = videoLocation != null && videoLocation.imageType == FileLoader.IMAGE_TYPE_ANIMATION ? ImageLoader.AUTOPLAY_FILTER : null;
-            return new Data(imageLocation, thumbImageLocation, videoLocation, null, thumbFilter, videoFilter, videoFileName, thumb, chat, menuItems, null);
+            return new Data(imageLocation, thumbImageLocation, videoLocation, null, thumbFilter, videoFilter, videoFileName, thumb, "avatar_" + (-chat.id), menuItems, null);
         }
 
         private final ImageLocation imageLocation;
