@@ -17073,6 +17073,9 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
                         if (currentThumb != null) {
                             imageReceiver.setOrientation(currentThumb.orientation, false);
                         }
+                    } else if (currentThumb != null && imageReceiver == centerImage) {
+                        imageReceiver.setImageBitmap(new BitmapDrawable(currentThumb.bitmap));
+                        imageReceiver.setOrientation(currentThumb.orientation, false);
                     } else {
                         imageReceiver.setImageBitmap(parentActivity.getResources().getDrawable(R.drawable.photoview_placeholder));
                     }
