@@ -9785,15 +9785,7 @@ public class ArticleViewer extends IArticleViewer implements NotificationCenter.
             tableLayout.setStriped(currentBlock.striped);
             tableLayout.setRtl(adapter != null && adapter.isRtl);
 
-            int maxCols = 0;
-
-            if (!currentBlock.rows.isEmpty()) {
-                TL_iv.pageTableRow row = currentBlock.rows.get(0);
-                for (int c = 0, size2 = row.cells.size(); c < size2; c++) {
-                    TL_iv.pageTableCell cell = row.cells.get(c);
-                    maxCols += (cell.colspan != 0 ? cell.colspan : 1);
-                }
-            }
+            int maxCols = TableLayout.inu_sanitizeSpans(currentBlock.rows);
 
             for (int r = 0, size = currentBlock.rows.size(); r < size; r++) {
                 TL_iv.pageTableRow row = currentBlock.rows.get(r);

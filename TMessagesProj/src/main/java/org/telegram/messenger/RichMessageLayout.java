@@ -4286,14 +4286,7 @@ public class RichMessageLayout {
             }
             tableLayout.setMinimumCellHeight(dp(block.compact ? 18 : 36));
 
-            int maxCols = 0;
-            if (!block.rows.isEmpty()) {
-                final TL_iv.pageTableRow row0 = block.rows.get(0);
-                for (int c = 0; c < row0.cells.size(); ++c) {
-                    final TL_iv.pageTableCell cell = row0.cells.get(c);
-                    maxCols += (cell.colspan != 0 ? cell.colspan : 1);
-                }
-            }
+            int maxCols = TableLayout.inu_sanitizeSpans(block.rows);
             for (int r = 0; r < block.rows.size(); ++r) {
                 final TL_iv.pageTableRow row = block.rows.get(r);
                 int cols = 0;

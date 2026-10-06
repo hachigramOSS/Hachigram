@@ -413,6 +413,23 @@ public class TableLayout extends View {
 
     private ArrayList<Child> childrens = new ArrayList<>();
 
+    // html caps colspan at 1000
+    private static final int inu_MAX_COLSPAN = 1000;
+
+    public static int inu_sanitizeSpans(ArrayList<TL_iv.pageTableRow> rows) {
+        int columns = 0;
+        for (int r = 0; r < rows.size(); r++) {
+            int cols = 0;
+            for (TL_iv.pageTableCell cell : rows.get(r).cells) {
+                cell.colspan = Math.max(1, Math.min(cell.colspan, inu_MAX_COLSPAN));
+                cell.rowspan = Math.max(1, Math.min(cell.rowspan, rows.size() - r));
+                cols += cell.colspan;
+            }
+            columns = Math.max(columns, cols);
+        }
+        return columns;
+    }
+
     public void addChild(int x, int y, int colspan, int rowspan) {
         Child child = new Child(childrens.size());
         LayoutParams layoutParams = new LayoutParams();
