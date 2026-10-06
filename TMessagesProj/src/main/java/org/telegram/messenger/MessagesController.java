@@ -16464,6 +16464,7 @@ public class MessagesController extends BaseController implements NotificationCe
             }
             if (updateState == 0) {
                 processUpdates(updates, true);
+                channelPts = channelsPts.get(channelId);
                 anyProceed = true;
                 if (a >= updatesQueue.size()) break;
                 updatesQueue.remove(a);
