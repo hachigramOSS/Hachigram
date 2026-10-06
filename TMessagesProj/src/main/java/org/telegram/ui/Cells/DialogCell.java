@@ -1685,7 +1685,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                     } else {
                         CharSequence mess;
                         if (draftMessage != null && draftMessage.rich_message != null) {
-                            mess = MessageObject.formatRichMessage(draftMessage.rich_message, false, false, 150);
+                            mess = AnimatedEmojiSpan.cloneSpans(MessageObject.formatRichMessage(draftMessage.rich_message, false, false, 150), -1, Theme.dialogs_messagePaint[paintIndex].getFontMetricsInt());
                         } else if (draftVoice) {
                             mess = getString(R.string.AttachAudio);
                         } else if (draftMessage != null) {
@@ -6104,7 +6104,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                 final TL_iv.PageBlock block = message.messageOwner.rich_message.blocks.get(0);
                 accentColor = MessageObject.isBlueBlock(block);
             }
-            stringBuilder = formatInternal(messageFormatType, message.messageText, messageNameString);
+            stringBuilder = formatInternal(messageFormatType, AnimatedEmojiSpan.cloneSpans(message.messageText, -1, Theme.dialogs_messagePaint[paintIndex].getFontMetricsInt()), messageNameString);
             if (accentColor && !isForumCell()) {
                 try {
                     stringBuilder.setSpan(new ForegroundColorSpanThemable(Theme.key_chats_actionMessage, resourcesProvider), hasNameInMessage ? messageNameString.length() + 2 : 0, stringBuilder.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);

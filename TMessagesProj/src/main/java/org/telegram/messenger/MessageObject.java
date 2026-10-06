@@ -108,6 +108,7 @@ import org.telegram.ui.Stars.StarsController;
 import org.telegram.ui.Stars.StarsIntroActivity;
 import org.telegram.ui.Stories.StoriesController;
 import org.telegram.ui.Wallet.GramWallet;
+import org.telegram.ui.iv.RichTextStyle;
 import org.telegram.ui.community.CommunityUtils;
 import org.telegram.ui.web.BotWebViewContainer;
 import org.telegram.utils.code.highlight.CodeHighlighting;
@@ -6679,6 +6680,15 @@ public class MessageObject {
                     return out;
                 }
             }
+        } else if (text instanceof TL_iv.textCustomEmoji) {
+            final TL_iv.textCustomEmoji customEmoji = (TL_iv.textCustomEmoji) text;
+            out.append(TextUtils.isEmpty(customEmoji.alt) ? "😀" : customEmoji.alt);
+            out.setSpan(new AnimatedEmojiSpan(customEmoji.document_id, null), start, out.length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        } else if (text instanceof TL_iv.textDiff) {
+            final TL_iv.textDiff diff = (TL_iv.textDiff) text;
+            formatRichText(RichTextStyle.isEmpty(diff.text) ? diff.old_text : diff.text, isOut, photoViewer, maxLength, out, flags);
+        } else if (text.text != null) {
+            formatRichText(text.text, isOut, photoViewer, maxLength, out, flags);
         }
         if (out.length() > start && flags != 0) {
             final TextStyleSpan.TextStyleRun run = new TextStyleSpan.TextStyleRun();
