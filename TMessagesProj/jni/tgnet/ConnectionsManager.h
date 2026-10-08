@@ -176,6 +176,7 @@ private:
     int32_t nextSleepTimeout = CONNECTION_BACKGROUND_KEEP_TIME;
     int64_t lastPauseTime = 0;
     int64_t lastMonotonicPauseTime = 0;
+    int64_t inu_backgroundPauseTime = 0;
     int32_t lastSystemPauseTime = 0;
     ConnectionState connectionState = ConnectionStateConnecting;
     std::unique_ptr<ByteArray> movingAuthorization;
