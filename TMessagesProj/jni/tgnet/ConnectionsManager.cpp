@@ -988,6 +988,13 @@ void ConnectionsManager::onConnectionDataReceived(Connection *connection, Native
             if (processedStatus == 2) {
                 if (object == nullptr) {
                     connection->recreateSession();
+                    for (auto & runningRequest : runningRequests) {
+                        Request *request = runningRequest.get();
+                        Datacenter *requestDatacenter = getDatacenterWithId(request->datacenterId);
+                        if (request->connectionType & connection->getConnectionType() && requestDatacenter != nullptr && requestDatacenter->getDatacenterId() == datacenter->getDatacenterId()) {
+                            request->clear(true);
+                        }
+                    }
                     connection->reconnect();
                     return;
                 } else {
@@ -1179,6 +1186,13 @@ void ConnectionsManager::processServerResponse(TLObject *message, int64_t messag
             if (processedStatus == 2) {
                 if (innerMessage->unparsedBody != nullptr) {
                     connection->recreateSession();
+                    for (auto & runningRequest : runningRequests) {
+                        Request *request = runningRequest.get();
+                        Datacenter *requestDatacenter = getDatacenterWithId(request->datacenterId);
+                        if (request->connectionType & connection->getConnectionType() && requestDatacenter != nullptr && requestDatacenter->getDatacenterId() == datacenter->getDatacenterId()) {
+                            request->clear(true);
+                        }
+                    }
                     connection->reconnect();
                     return;
                 }
@@ -1617,7 +1631,7 @@ void ConnectionsManager::processServerResponse(TLObject *message, int64_t messag
                 }
 
                 if (realId != 0) {
-                    auto time = (int64_t) (messageId / 4294967296.0 * 1000);
+                    auto time = (int64_t) (realId / 4294967296.0 * 1000);
                     int64_t currentTime = getCurrentTimeMillis();
                     timeDifference = (int32_t) ((time - currentTime) / 1000 - currentPingTime / 2);
                 }
