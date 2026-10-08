@@ -23679,7 +23679,18 @@ public class ChatActivity extends BaseFragment implements
                 messagesDict[0].put(newMsgId, obj);
                 obj.messageOwner.id = newMsgId;
                 obj.messageOwner.send_state = MessageObject.MESSAGE_SEND_STATE_SENT;
-                obj.forceUpdate = mediaUpdated || inu_fwdBecameHidden;
+                boolean inu_textUpdated = false;
+                if (newMsgObj != null && !TextUtils.isEmpty(newMsgObj.message)) {
+                    if (obj.type == MessageObject.TYPE_TEXT || obj.type == MessageObject.TYPE_EMOJIS) {
+                        obj.applyNewText();
+                        inu_textUpdated = true;
+                    } else if (obj.caption != null) {
+                        obj.caption = null;
+                        obj.generateCaption();
+                        inu_textUpdated = true;
+                    }
+                }
+                obj.forceUpdate = mediaUpdated || inu_fwdBecameHidden || inu_textUpdated;
                 obj.onWidgetMessageSent(msgId);
                 addReplyMessageOwner(obj, msgId);
                 if (args.length >= 6) {
