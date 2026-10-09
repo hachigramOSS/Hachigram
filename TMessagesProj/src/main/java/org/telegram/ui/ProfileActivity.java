@@ -15449,7 +15449,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 ArrayList<SearchResult> results = new ArrayList<>();
                 ArrayList<MessagesController.FaqSearchResult> faqResults = new ArrayList<>();
                 ArrayList<CharSequence> names = new ArrayList<>();
-                String[] searchArgs = text.split(" ");
+                String[] searchArgs = text.toLowerCase(Locale.ROOT).split(" ");
                 String[] translitArgs = new String[searchArgs.length];
                 for (int a = 0; a < searchArgs.length; a++) {
                     translitArgs[a] = LocaleController.getInstance().getTranslitString(searchArgs[a]);
@@ -15463,7 +15463,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                     if (result == null) {
                         continue;
                     }
-                    String title = " " + result.searchTitle.toLowerCase();
+                    String title = " " + result.searchTitle.toLowerCase(Locale.ROOT);
                     SpannableStringBuilder stringBuilder = null;
                     for (int i = 0; i < searchArgs.length; i++) {
                         if (searchArgs[i].length() != 0) {
@@ -15503,7 +15503,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 if (faqWebPage != null) {
                     for (int a = 0, N = faqSearchArray.size(); a < N; a++) {
                         MessagesController.FaqSearchResult result = faqSearchArray.get(a);
-                        String title = " " + result.title.toLowerCase();
+                        String title = " " + result.title.toLowerCase(Locale.ROOT);
                         SpannableStringBuilder stringBuilder = null;
                         for (int i = 0; i < searchArgs.length; i++) {
                             if (searchArgs[i].length() != 0) {
