@@ -57,7 +57,7 @@ public class ExtendedGridLayoutManager extends GridLayoutManager {
         firstRowMax = 0;
 
         final int itemsCount = getFlowItemCount();
-        lastSpanCount = itemsCount;
+        lastSpanCount = getSpanCount();
         if (itemsCount == 0) {
             return;
         }
