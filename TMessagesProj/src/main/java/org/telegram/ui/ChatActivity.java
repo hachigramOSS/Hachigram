@@ -18415,7 +18415,8 @@ public class ChatActivity extends BaseFragment implements
         @Override
         public void addView(View child, int index, ViewGroup.LayoutParams params) {
             if (chatActivityEnterView != null && child == chatActivityEnterView.botCommandsMenuContainer) {
-                final int indexToAdd = chatActivityFadeView != null ? indexOfChild(chatActivityFadeView) : -1;
+                final int topicsTabsIndex = indexOfChild(topicsTabs);
+                final int indexToAdd = topicsTabsIndex >= 0 ? topicsTabsIndex + 1 : chatActivityFadeView != null ? indexOfChild(chatActivityFadeView) : -1;
                 super.addView(child, indexToAdd >= 0 ? indexToAdd : index, params);
             } else {
                 super.addView(child, index, params);
