@@ -205,6 +205,8 @@ public class StickerSetNameCell extends FrameLayout {
         editView.setVisibility(View.VISIBLE);
         editView.setText(LocaleController.getString(R.string.EditPack));
         editView.setOnClickListener(whenClickedEdit);
+        editView.setOnLongClickListener(null);
+        editView.setLongClickable(false);
     }
 
     public void setHeaderOnClick(View.OnClickListener listener) {
@@ -224,6 +226,10 @@ public class StickerSetNameCell extends FrameLayout {
 
     public void setOnIconClickListener(OnClickListener onIconClickListener) {
         buttonView.setOnClickListener(onIconClickListener);
+    }
+
+    @Override
+    protected void dispatchSetPressed(boolean pressed) {
     }
 
     @Override
