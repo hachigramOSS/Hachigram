@@ -3145,6 +3145,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
     @Override
     public void setTitleOverlayText(String title, int titleId, Runnable action) {
+        if (rightSlidingDialogContainer != null && rightSlidingDialogContainer.hasFragment()) {
+            return;
+        }
         super.setTitleOverlayText(title, titleId, action);
         if (actionBar != null && selectAnimatedEmojiDialog != null && selectAnimatedEmojiDialog.getContentView() instanceof SelectAnimatedEmojiDialog) {
             SimpleTextView textView = actionBar.getTitleTextView();
@@ -5570,6 +5573,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 updateFilterTabs(false, true);
                 checkUi_searchFieldHint();
                 updateDialogsHint();
+                if (!hasFragment() && getParentLayout() != null) {
+                    getParentLayout().updateTitleOverlay();
+                }
             }
 
             @Override
