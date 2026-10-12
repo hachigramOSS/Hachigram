@@ -2478,6 +2478,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
                         newMsg.flags = TLRPC.MESSAGE_FLAG_FWD;
                     }
                     if (peer == myId && newMsg.fwd_from != null) {
+                        newMsg.fwd_from.saved_out = true;
                         newMsg.fwd_from.flags |= 16;
                         newMsg.fwd_from.saved_from_msg_id = msgObj.getId();
                         newMsg.fwd_from.saved_from_peer = msgObj.messageOwner.peer_id;
