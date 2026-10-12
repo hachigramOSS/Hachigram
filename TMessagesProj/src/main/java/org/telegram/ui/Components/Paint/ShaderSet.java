@@ -59,6 +59,14 @@ public class ShaderSet {
         "   gl_FragColor = texture2D(texture, varTexcoord.st, 0.0);" +
         "   gl_FragColor.rgb *= gl_FragColor.a;" +
         "}";
+    private static final String PAINT_UNPREMULTIPLY_FSH =
+        "precision highp float;" +
+        "varying vec2 varTexcoord;" +
+        "uniform sampler2D texture;" +
+        "void main (void) {" +
+        "   vec4 color = texture2D(texture, varTexcoord.st, 0.0);" +
+        "   gl_FragColor = color.a > 0.0 ? vec4(color.rgb / color.a, color.a) : vec4(0.0);" +
+        "}";
     // The editable texture holds absolute alpha, not a mask relative to the PNG's alpha.
     // Android uploads premultiplied RGB, so change its alpha exactly once.
     private static final String inu_MASKING_COLOR_FSH =
@@ -404,6 +412,13 @@ public class ShaderSet {
         shader.put(ATTRIBUTES, new String[]{"inPosition", "inTexcoord"});
         shader.put(UNIFORMS, new String[]{"mvpMatrix", "texture", "alpha"});
         result.put("blit", Collections.unmodifiableMap(shader));
+
+        shader = new HashMap<>();
+        shader.put(VERTEX, PAINT_BLIT_VSH);
+        shader.put(FRAGMENT, PAINT_UNPREMULTIPLY_FSH);
+        shader.put(ATTRIBUTES, new String[]{"inPosition", "inTexcoord"});
+        shader.put(UNIFORMS, new String[]{"mvpMatrix", "texture"});
+        result.put("unpremultiply", Collections.unmodifiableMap(shader));
 
         shader = new HashMap<>();
         shader.put(VERTEX, PAINT_BLIT_VSH);
