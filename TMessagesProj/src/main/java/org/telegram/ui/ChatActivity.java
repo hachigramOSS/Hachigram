@@ -28004,6 +28004,15 @@ public class ChatActivity extends BaseFragment implements
                         messageObject.messageOwner.attachPath = old.messageOwner.attachPath;
                         messageObject.attachPathExists = old.attachPathExists;
                         messageObject.mediaExists = old.mediaExists;
+                        if (messageObject.messageOwner.voiceTranscription == null && old.messageOwner.voiceTranscription != null) {
+                            messageObject.messageOwner.voiceTranscription = old.messageOwner.voiceTranscription;
+                            messageObject.messageOwner.voiceTranscriptionOpen = old.messageOwner.voiceTranscriptionOpen;
+                            messageObject.messageOwner.voiceTranscriptionRated = old.messageOwner.voiceTranscriptionRated;
+                            messageObject.messageOwner.voiceTranscriptionFinal = old.messageOwner.voiceTranscriptionFinal;
+                            messageObject.messageOwner.voiceTranscriptionForce = old.messageOwner.voiceTranscriptionForce;
+                            messageObject.messageOwner.voiceTranscriptionId = old.messageOwner.voiceTranscriptionId;
+                            messageObject.messageOwner.translatedVoiceTranscription = old.messageOwner.translatedVoiceTranscription;
+                        }
                     } else {
                         messageObject.checkMediaExistance();
                     }
