@@ -7217,6 +7217,23 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         }
         showFiltersHint();
         if (viewPages != null) {
+            boolean filtersReselected = false;
+            ArrayList<MessagesController.DialogFilter> filters = getMessagesController().getDialogFilters();
+            for (int a = viewPages.length - 1; a >= 0; a--) {
+                ViewPage page = viewPages[a];
+                if (page.dialogsType != DIALOGS_TYPE_FOLDER1 && page.dialogsType != DIALOGS_TYPE_FOLDER2 || page.selectedType < 0 || page.selectedType >= filters.size()) {
+                    continue;
+                }
+                MessagesController.DialogFilter filter = filters.get(page.selectedType);
+                int slot = page.dialogsType - DIALOGS_TYPE_FOLDER1;
+                if (!filter.isDefault() && getMessagesController().selectedDialogFilter[slot] != filter) {
+                    getMessagesController().selectDialogFilter(filter, slot);
+                    filtersReselected = true;
+                }
+            }
+            if (filtersReselected) {
+                reloadViewPageDialogs(viewPages[0], false);
+            }
             for (int a = 0; a < viewPages.length; a++) {
                 if (viewPages[a].dialogsType == 0 && viewPages[a].archivePullViewState == ARCHIVE_ITEM_STATE_HIDDEN && viewPages[a].layoutManager.findFirstVisibleItemPosition() == 0 && hasHiddenArchive()) {
                     viewPages[a].layoutManager.scrollToPositionWithOffset(1, (int) scrollYOffset);
