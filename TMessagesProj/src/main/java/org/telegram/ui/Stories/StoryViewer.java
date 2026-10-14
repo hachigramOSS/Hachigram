@@ -1909,9 +1909,17 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
 
     @Override
     public boolean showDialog(Dialog dialog) {
+        return inu_showDialog(dialog, null);
+    }
+
+    @Override
+    public boolean inu_showDialog(Dialog dialog, Dialog.OnDismissListener onDismissListener) {
         try {
             currentDialog = dialog;
             dialog.setOnDismissListener(dialog1 -> {
+                if (onDismissListener != null) {
+                    onDismissListener.onDismiss(dialog1);
+                }
                 if (dialog1 == currentDialog) {
                     currentDialog = null;
                     updatePlayingMode();

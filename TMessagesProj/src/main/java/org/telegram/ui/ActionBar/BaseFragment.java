@@ -135,6 +135,9 @@ public abstract class BaseFragment {
 
         public boolean onAttachedBackPressed();
         public boolean showDialog(Dialog dialog);
+        default boolean inu_showDialog(Dialog dialog, Dialog.OnDismissListener onDismissListener) {
+            return showDialog(dialog);
+        }
 
         public void setKeyboardHeightFromParent(int keyboardHeight);
 
@@ -982,7 +985,7 @@ public abstract class BaseFragment {
         if (sheetsStack != null) {
             for (int i = sheetsStack.size() - 1; i >= 0; --i) {
                 if (sheetsStack.get(i).isShown()) {
-                    if (sheetsStack.get(i).showDialog(dialog)) {
+                    if (sheetsStack.get(i).inu_showDialog(dialog, onDismissListener)) {
                         return dialog;
                     }
                 }
