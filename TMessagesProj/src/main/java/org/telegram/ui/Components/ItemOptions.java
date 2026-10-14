@@ -2185,6 +2185,12 @@ public class ItemOptions {
         }
 
         @Override
+        public boolean onTouchEvent(MotionEvent event) {
+            // the popup window takes input a frame or more after showAtLocation
+            return dimView == this;
+        }
+
+        @Override
         protected void onSizeChanged(int w, int h, int oldw, int oldh) {
             super.onSizeChanged(w, h, oldw, oldh);
             Blur3Utils.checkBitmapSourceMatrixScale(scrimBlur3SourceBitmap, DimView.this);
