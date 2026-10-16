@@ -18223,6 +18223,33 @@ public class MessagesStorage extends BaseController {
         });
     }
 
+    public void inu_loadDialogFromCache(long did) {
+        storageQueue.postRunnable(() -> {
+            try {
+                ArrayList<Long> usersToLoad = new ArrayList<>();
+                ArrayList<Long> chatsToLoad = new ArrayList<>();
+                ArrayList<Integer> encryptedToLoad = new ArrayList<>();
+                TLRPC.messages_Dialogs dialogs = loadDialogsByIds(String.valueOf(did), usersToLoad, chatsToLoad, encryptedToLoad);
+                if (dialogs.dialogs.isEmpty()) {
+                    return;
+                }
+                ArrayList<TLRPC.EncryptedChat> encryptedChats = new ArrayList<>();
+                if (!encryptedToLoad.isEmpty()) {
+                    getEncryptedChatsInternal(TextUtils.join(",", encryptedToLoad), encryptedChats, usersToLoad);
+                }
+                if (!chatsToLoad.isEmpty()) {
+                    getChatsInternal(TextUtils.join(",", chatsToLoad), dialogs.chats);
+                }
+                if (!usersToLoad.isEmpty()) {
+                    getUsersInternal(usersToLoad, dialogs.users);
+                }
+                getMessagesController().processDialogsUpdate(dialogs, encryptedChats, true);
+            } catch (Exception e) {
+                checkSQLException(e);
+            }
+        });
+    }
+
     public void setDialogPinned(long did, int pinned) {
         storageQueue.postRunnable(() -> {
             SQLitePreparedStatement state = null;
