@@ -1273,7 +1273,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
             avatarDrawable.setInfo(account, user);
             avatarView.getImageReceiver().setCurrentAccount(account);
-            avatarView.setForUserOrChat(user, avatarDrawable);
+            avatarView.setImage(null, null, ImageLocation.getForUserOrChat(currentAccount, user, ImageLocation.TYPE_BIG), "90_90", ImageLocation.getForUserOrChat(currentAccount, user, ImageLocation.TYPE_SMALL), "50_50", avatarDrawable, user);
             textView.setText(Emoji.replaceEmoji(UserObject.getUserName(user), textView.getPaint().getFontMetricsInt(), false));
 
             botDrawable.setCurrentAccount(account);
