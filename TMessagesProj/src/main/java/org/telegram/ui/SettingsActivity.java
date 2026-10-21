@@ -442,7 +442,6 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
         cameraButton = new FrameLayout(context);
         ThemeBind.fillBackground(cameraButton, Theme.createCircleDrawable(dp(32), getThemedColor(Theme.key_windowBackgroundGray)), ThemeBind.of(Theme.key_windowBackgroundGray), getResourceProvider());
-        cameraButton.setPadding(dp(2), dp(2), dp(2), dp(2));
         cameraBackground = new FrameLayout(context);
         ThemeBind.fillBackground(cameraBackground, Theme.createCircleDrawable(dp(30), getThemedColor(Theme.key_featuredStickers_addButton)), ThemeBind.of(Theme.key_featuredStickers_addButton), getResourceProvider());
         cameraImageView = new ImageView(context);
@@ -450,7 +449,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         cameraImageView.setImageResource(R.drawable.filled_premium_camera);
         cameraImageView.setColorFilter(getThemedColor(Theme.key_featuredStickers_buttonText), android.graphics.PorterDuff.Mode.SRC_IN);
         cameraBackground.addView(cameraImageView, LayoutHelper.createFrame(22, 22, Gravity.CENTER));
-        cameraButton.addView(cameraBackground, LayoutHelper.createFrame(30, 30));
+        cameraButton.addView(cameraBackground, LayoutHelper.createFrame(30, 30, Gravity.CENTER));
         // over the avatar, so it scales and hides with it; its touches go to the place of the avatar in the list
         // over the avatar layer, not in it: the goo is made of the avatar only. It follows the avatar
         // (at its bottom right, past its edge), its touches go to the place of the avatar in the list
