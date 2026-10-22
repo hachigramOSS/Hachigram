@@ -6460,7 +6460,7 @@ public class ChatActivityEnterView extends FrameLayout implements
     }
 
     public CharSequence getSlowModeTimer() {
-        return slowModeTimer > 0 ? slowModeButton.getText() : null;
+        return slowModeTimer > 0 && editingMessageObject == null ? slowModeButton.getText() : null;
     }
 
     private void updateSlowModeText() {
