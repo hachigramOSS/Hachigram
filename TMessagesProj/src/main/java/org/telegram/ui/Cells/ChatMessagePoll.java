@@ -218,7 +218,9 @@ class ChatMessagePoll {
                         Theme.chat_replyNamePaint, maxWidth - dp(30), Layout.Alignment.ALIGN_NORMAL, 1.0f, 0.0f, false);
                 cell.explanationLayout = new MessageObject.TextLayoutBlocks(messageObject, currentExplanation, Theme.chat_quoteTextPaint, explanationWidth - dp(11));
                 explanationHeight = cell.explanationLayout.textHeight() + dp(26 + 8 + 3) + (explanationContentHeight > 0 ? explanationContentHeight + dp(8 + 6) : 0);
-                cell.animatedEmojiPollExplanation = AnimatedEmojiSpan.update(AnimatedEmojiDrawable.CACHE_TYPE_MESSAGES, cell, false, cell.animatedEmojiPollExplanation, cell.explanationLayout.textLayoutBlocks);
+                if (cell.imageReceiversAttachState) {
+                    cell.animatedEmojiPollExplanation = AnimatedEmojiSpan.update(AnimatedEmojiDrawable.CACHE_TYPE_MESSAGES, cell, false, cell.animatedEmojiPollExplanation, cell.explanationLayout.textLayoutBlocks);
+                }
             }
         } else {
             TLRPC.TL_messageMediaToDo media = (TLRPC.TL_messageMediaToDo) m;
