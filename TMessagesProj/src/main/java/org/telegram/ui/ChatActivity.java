@@ -3484,6 +3484,9 @@ public class ChatActivity extends BaseFragment implements
             AndroidUtilities.cancelRunOnUIThread(chatInviteRunnable);
             chatInviteRunnable = null;
         }
+        AndroidUtilities.cancelRunOnUIThread(inu_checkSavedMessagesTagHintRunnable);
+        AndroidUtilities.cancelRunOnUIThread(inu_checkBotMessageHintRunnable);
+        AndroidUtilities.cancelRunOnUIThread(inu_checkConversionDateTimeToastRunnable);
         getNotificationCenter().removePostponeNotificationsCallback(postponeNotificationsWhileLoadingCallback);
         getMessagesController().setLastCreatedDialogId(dialog_id, chatMode == MODE_SCHEDULED, false);
 
@@ -7228,8 +7231,8 @@ public class ChatActivity extends BaseFragment implements
                         savedMessagesTagHint.hide();
                     } else if (!savedMessagesTagHintShown) {
                         lastScrollTime = System.currentTimeMillis();
-                        AndroidUtilities.cancelRunOnUIThread(ChatActivity.this::checkSavedMessagesTagHint);
-                        AndroidUtilities.runOnUIThread(ChatActivity.this::checkSavedMessagesTagHint, 2000);
+                        AndroidUtilities.cancelRunOnUIThread(inu_checkSavedMessagesTagHintRunnable);
+                        AndroidUtilities.runOnUIThread(inu_checkSavedMessagesTagHintRunnable, 2000);
                     }
                 }
                 if (videoConversionTimeHint != null && videoConversionTimeHint.shown()) {
@@ -7238,8 +7241,8 @@ public class ChatActivity extends BaseFragment implements
                 if (botMessageHint != null && botMessageHint.shown()) {
                     botMessageHint.hide();
                 } else {
-                    AndroidUtilities.cancelRunOnUIThread(ChatActivity.this::checkBotMessageHint);
-                    AndroidUtilities.runOnUIThread(ChatActivity.this::checkBotMessageHint, 2000);
+                    AndroidUtilities.cancelRunOnUIThread(inu_checkBotMessageHintRunnable);
+                    AndroidUtilities.runOnUIThread(inu_checkBotMessageHintRunnable, 2000);
                 }
                 if (factCheckHint != null) {
                     factCheckHint.hide();
@@ -28429,8 +28432,8 @@ public class ChatActivity extends BaseFragment implements
             videoConversionTimeHint.setJointPx(0, -dp(16) + loc[0] + foundCell.timeX + foundCell.timeWidth / 2f);
             videoConversionTimeHint.show();
         } else {
-            AndroidUtilities.cancelRunOnUIThread(ChatActivity.this::checkConversionDateTimeToast);
-            AndroidUtilities.runOnUIThread(ChatActivity.this::checkConversionDateTimeToast, 2000);
+            AndroidUtilities.cancelRunOnUIThread(inu_checkConversionDateTimeToastRunnable);
+            AndroidUtilities.runOnUIThread(inu_checkConversionDateTimeToastRunnable, 2000);
         }
     }
 
@@ -28460,6 +28463,9 @@ public class ChatActivity extends BaseFragment implements
 
     private long lastScrollTime;
     private boolean savedMessagesTagHintShown;
+    private final Runnable inu_checkSavedMessagesTagHintRunnable = this::checkSavedMessagesTagHint;
+    private final Runnable inu_checkBotMessageHintRunnable = this::checkBotMessageHint;
+    private final Runnable inu_checkConversionDateTimeToastRunnable = this::checkConversionDateTimeToast;
     private void checkSavedMessagesTagHint() {
         if (savedMessagesTagHint == null || savedMessagesTagHint.shown() || savedMessagesTagHintShown || !checkedSavedMessagesHint) {
             return;
@@ -28493,8 +28499,8 @@ public class ChatActivity extends BaseFragment implements
 
                 MessagesController.getGlobalMainSettings().edit().putInt("savedsearchtaghint", 1).apply();
             } else {
-                AndroidUtilities.cancelRunOnUIThread(ChatActivity.this::checkSavedMessagesTagHint);
-                AndroidUtilities.runOnUIThread(ChatActivity.this::checkSavedMessagesTagHint, 2000);
+                AndroidUtilities.cancelRunOnUIThread(inu_checkSavedMessagesTagHintRunnable);
+                AndroidUtilities.runOnUIThread(inu_checkSavedMessagesTagHintRunnable, 2000);
             }
         }
     }
