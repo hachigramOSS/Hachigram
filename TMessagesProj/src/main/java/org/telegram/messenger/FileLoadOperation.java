@@ -1191,6 +1191,7 @@ public class FileLoadOperation {
                 }
             }
 
+            boolean inu_partsRead = false;
             if (fileNameParts != null) {
                 cacheFileParts = new File(tempPath, fileNameParts);
                 if (!cacheFileTemp.exists()) {
@@ -1209,6 +1210,7 @@ public class FileLoadOperation {
                                 notLoadedBytesRanges.add(new Range(start, end));
                                 notRequestedBytesRanges.add(new Range(start, end));
                             }
+                            inu_partsRead = true;
                         }
                     }
                 } catch (Exception e) {
@@ -1233,8 +1235,9 @@ public class FileLoadOperation {
                         requestedBytesCount = downloadedBytes = floorDiv(cacheFileTemp.length(), currentDownloadChunkSize) * currentDownloadChunkSize;
                     }
                     if (notLoadedBytesRanges != null && notLoadedBytesRanges.isEmpty()) {
-                        notLoadedBytesRanges.add(new Range(downloadedBytes, totalBytesCount));
-                        notRequestedBytesRanges.add(new Range(downloadedBytes, totalBytesCount));
+                        long inu_loadedPrefix = inu_partsRead ? downloadedBytes : 0;
+                        notLoadedBytesRanges.add(new Range(inu_loadedPrefix, totalBytesCount));
+                        notRequestedBytesRanges.add(new Range(inu_loadedPrefix, totalBytesCount));
                     }
                 }
             } else if (notLoadedBytesRanges != null && notLoadedBytesRanges.isEmpty()) {
