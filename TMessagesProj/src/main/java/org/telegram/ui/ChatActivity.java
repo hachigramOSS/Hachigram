@@ -29278,9 +29278,6 @@ public class ChatActivity extends BaseFragment implements
             bottomChannelButtonsLayout.setVisibility(View.INVISIBLE);
             chatActivityEnterView.setFieldFocused(false);
             chatActivityEnterView.setVisibility(View.INVISIBLE);
-        } else if (bottomOverlayLinks || forceVisible) {
-            bottomChannelButtonsLayout.setVisibility(View.VISIBLE);
-            chatActivityEnterView.setVisibility(View.INVISIBLE);
         } else if (searchItem != null && searchItemVisible) {
             createSearchContainer();
             if (searchContainer == null) {
@@ -29372,7 +29369,10 @@ public class ChatActivity extends BaseFragment implements
                     muteItemGap.setVisibility(View.VISIBLE);
                 }
             }
-            if (isBottomOverlaysInvisible() || isInsideContainer || forceNoBottom) {
+            if (bottomOverlayLinks || forceVisible) {
+                bottomChannelButtonsLayout.setVisibility(View.VISIBLE);
+                chatActivityEnterView.setVisibility(View.INVISIBLE);
+            } else if (isBottomOverlaysInvisible() || isInsideContainer || forceNoBottom) {
                 bottomChannelButtonsLayout.setVisibility(View.GONE);
                 chatActivityEnterView.setVisibility(View.GONE);
             } else if (isReport()) {
