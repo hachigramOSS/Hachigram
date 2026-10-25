@@ -3128,7 +3128,7 @@ public class MediaController implements AudioManager.OnAudioFocusChangeListener,
     }
     
     // saved music lists are stored top to bottom, while chat playlists are stored oldest first
-    private boolean isPlaylistOrderReversed() {
+    public boolean isPlaylistOrderReversed() {
         return currentSavedMusicList != null ? !SharedConfig.playOrderReversed : SharedConfig.playOrderReversed;
     }
 

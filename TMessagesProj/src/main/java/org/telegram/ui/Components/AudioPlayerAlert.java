@@ -1657,7 +1657,7 @@ public class AudioPlayerAlert extends BottomSheet implements NotificationCenter.
                     idx++;
                 }
                 if (idx >= 0) {
-                    if (SharedConfig.playOrderReversed) {
+                    if (MediaController.getInstance().isPlaylistOrderReversed()) {
                         layoutManager.scrollToPosition(idx);
                     } else {
                         layoutManager.scrollToPosition(playlist.size() - idx);
