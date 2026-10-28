@@ -2588,7 +2588,7 @@ public class EmojiView extends FrameLayout implements
         pager = new ViewPager(context) {
             @Override
             public boolean onInterceptTouchEvent(MotionEvent ev) {
-                if (ignorePagerScroll) {
+                if (ignorePagerScroll || isFakeDragging()) {
                     return false;
                 }
                 if (getParent() != null) {
