@@ -2948,7 +2948,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         fragment.setInMenuMode(false);
 
         try {
-            AndroidUtilities.setLightStatusBar(parentActivity, Theme.getColor(Theme.key_actionBarDefault) == Color.WHITE || (fragment.hasForceLightStatusBar() && !Theme.getCurrentTheme().isDark()));
+            AndroidUtilities.setLightStatusBar(parentActivity, fragment.isLightStatusBar());
         } catch (Exception ignore) {}
     }
 
@@ -2992,7 +2992,7 @@ public class ActionBarLayout extends FrameLayout implements INavigationLayout, F
         }
 
         if (previousFragment != null) {
-            AndroidUtilities.setLightStatusBar(parentActivity, Theme.getColor(Theme.key_actionBarDefault) == Color.WHITE || (previousFragment.hasForceLightStatusBar() && !Theme.getCurrentTheme().isDark()));
+            AndroidUtilities.setLightStatusBar(parentActivity, previousFragment.isLightStatusBar());
             LayoutContainer temp = containerView;
             containerView = containerViewBack;
             containerViewBack = temp;
