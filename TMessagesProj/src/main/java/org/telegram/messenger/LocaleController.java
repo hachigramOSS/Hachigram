@@ -18,6 +18,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.icu.text.RelativeDateTimeFormatter;
 import android.os.Build;
 import android.os.SystemClock;
@@ -781,7 +782,7 @@ public class LocaleController {
         }
 
         systemDefaultLocale = Locale.getDefault();
-        is24HourFormat = DateFormat.is24HourFormat(ApplicationLoader.applicationContext);
+        is24HourFormat = DateFormat.is24HourFormat(ApplicationLoader.applicationContext.createConfigurationContext(Resources.getSystem().getConfiguration()));
         LocaleInfo currentInfo = null;
         boolean override = false;
 
@@ -2127,7 +2128,7 @@ public class LocaleController {
         if (changingConfiguration) {
             return;
         }
-        is24HourFormat = DateFormat.is24HourFormat(ApplicationLoader.applicationContext);
+        is24HourFormat = DateFormat.is24HourFormat(ApplicationLoader.applicationContext.createConfigurationContext(Resources.getSystem().getConfiguration()));
         systemDefaultLocale = newConfig.locale;
         if (languageOverride != null) {
             LocaleInfo toSet = currentLocaleInfo;
