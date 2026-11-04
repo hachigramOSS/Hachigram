@@ -1485,12 +1485,17 @@ public class FileRefController extends BaseController {
             if (result != null) {
                 if (onUpdateObjectReference(requester, result, locationReplacement != null ? locationReplacement[0] : null, fromCache)) {
                     found = true;
+                } else {
+                    requester.completed = false;
                 }
             } else {
                 sendErrorToObject(requester.args, 1);
             }
         }
-        locationRequester.remove(locationKey);
+        arrayList.removeIf(requester -> requester.completed);
+        if (arrayList.isEmpty()) {
+            locationRequester.remove(locationKey);
+        }
         if (found) {
             putReponseToCache(cacheKey, response);
         }
