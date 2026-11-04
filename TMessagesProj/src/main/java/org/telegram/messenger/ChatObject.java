@@ -82,6 +82,7 @@ public class ChatObject {
     public static final int ACTION_SEND_REACTIONS = 26;
     public static final int ACTION_MANAGE_LINKED_CHATS = 27;
     public static final int ACTION_MANAGE_WELCOME = 28;
+    public static final int inu_ACTION_SEND_INLINE = 29;
 
     public final static int VIDEO_FRAME_NO_FRAME = 0;
     public final static int VIDEO_FRAME_REQUESTING = 1;
@@ -1633,6 +1634,7 @@ public class ChatObject {
             case ACTION_SEND_REACTIONS:
             case ACTION_SEND_PLAIN:
             case ACTION_MANAGE_LINKED_CHATS:
+            case inu_ACTION_SEND_INLINE:
                 return true;
         }
         return false;
@@ -1698,6 +1700,8 @@ public class ChatObject {
                 return rights.send_plain;
             case ACTION_MANAGE_LINKED_CHATS:
                 return rights.manage_linked_peers;
+            case inu_ACTION_SEND_INLINE:
+                return rights.send_inline;
         }
         return false;
     }
@@ -2163,6 +2167,13 @@ public class ChatObject {
             return true;
         }
         return canUserDoAction(chat, ACTION_SEND_STICKERS);
+    }
+
+    public static boolean inu_canSendInline(TLRPC.Chat chat) {
+        if (isIgnoredChatRestrictionsForBoosters(chat)) {
+            return true;
+        }
+        return canUserDoAction(chat, inu_ACTION_SEND_INLINE);
     }
 
     public static boolean canSendEmbed(TLRPC.Chat chat) {
