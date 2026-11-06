@@ -114,7 +114,6 @@ public class FileStreamLoadOperation implements DataSource, FileLoadOperationStr
             bytesRemaining = Math.min(bytesRemaining, requestedLength - bytesTransferred);
         }
         opened = true;
-        transferStarted(dataSpec);
         if (loadOperation != null) {
             currentFile = loadOperation.getCurrentFile();
             if (currentFile != null) {
@@ -122,7 +121,6 @@ public class FileStreamLoadOperation implements DataSource, FileLoadOperationStr
                     file = new RandomAccessFile(currentFile, "r");
                     file.seek(currentOffset);
                     if (loadOperation.isFinished()) {
-                        isNetwork = false;
                         bytesRemaining = currentFile.length() - currentOffset;
                         if (requestedLength != C.LENGTH_UNSET) {
                             bytesRemaining = Math.min(bytesRemaining, requestedLength - bytesTransferred);
@@ -132,6 +130,8 @@ public class FileStreamLoadOperation implements DataSource, FileLoadOperationStr
                 }
             }
         }
+        isNetwork = loadOperation == null || loadOperation.getDownloadedLengthFromOffset(currentOffset, bytesRemaining)[0] < bytesRemaining;
+        transferStarted(dataSpec);
         FileLog.e("FileStreamLoadOperation " + document.id + " open operation=" + loadOperation + " currentFile=" + currentFile + " file=" + file + " bytesRemaining=" + bytesRemaining + " me=" + this);
         FileLog.e("FileStreamLoadOperation " + document.id + " " + MessageObject.getVideoWidth(document) + "x" + MessageObject.getVideoWidth(document) + " mime_type="+document.mime_type+" codec="+MessageObject.getVideoCodec(document)+" size="+ document.size);
         return bytesRemaining;
@@ -196,7 +196,6 @@ public class FileStreamLoadOperation implements DataSource, FileLoadOperationStr
                                 file = new RandomAccessFile(currentFile, "r");
                                 file.seek(currentOffset);
                                 if (loadOperation.isFinished()) {
-                                    isNetwork = false;
                                     bytesRemaining = currentFile.length() - currentOffset;
                                     if (requestedLength != C.LENGTH_UNSET) {
                                         bytesRemaining = Math.min(bytesRemaining, requestedLength - bytesTransferred);
