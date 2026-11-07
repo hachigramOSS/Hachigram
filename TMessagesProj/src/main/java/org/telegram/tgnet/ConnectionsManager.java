@@ -1223,19 +1223,16 @@ public class ConnectionsManager extends BaseController {
                         return new ResolvedDomain(addresses, SystemClock.elapsedRealtime());
                     }
                 }
-                done = true;
             } catch (Throwable e) {
                 FileLog.e(e, false);
             }
-            if (!done) {
-                try {
-                    InetAddress address = InetAddress.getByName(currentHostName);
-                    ArrayList<String> addresses = new ArrayList<>(1);
-                    addresses.add(address.getHostAddress());
-                    return new ResolvedDomain(addresses, SystemClock.elapsedRealtime());
-                } catch (Exception e) {
-                    FileLog.e(e, false);
-                }
+            try {
+                InetAddress address = InetAddress.getByName(currentHostName);
+                ArrayList<String> addresses = new ArrayList<>(1);
+                addresses.add(address.getHostAddress());
+                return new ResolvedDomain(addresses, SystemClock.elapsedRealtime());
+            } catch (Exception e) {
+                FileLog.e(e, false);
             }
             return null;
         }
