@@ -64,8 +64,9 @@ Pre-1.0 builds use `0.0.x` so that `1.0.0` remains free for the first stable rel
 
 You will require Android Studio 2025.1.4, Android NDK 27.2.12479018 and Android SDK 36.
 
-1. Clone the source code **with its submodules** — upstream Telegram now vendors ffmpeg,
-   libvpx, dav1d, opus, openh264, libyuv, tlottie and jlatexmath as git submodules:
+1. Clone the source code **with its submodules** — upstream Telegram now vendors its native dependencies (ffmpeg, libvpx, dav1d, opus,
+   openh264, libyuv, boringssl, tgcalls, td, tlottie, jlatexmath and more) and
+   the media3 player as git submodules:
    ```bash
    git clone --recursive --shallow-submodules <your-fork-url> Hachigram
    ```
