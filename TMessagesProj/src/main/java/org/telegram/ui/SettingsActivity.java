@@ -573,7 +573,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
         if (avatarUploadingRequest != -1) return;
 
         avatarDrawable.setInfo(user);
-        avatarView.setForUserOrChat(user, avatarDrawable, true);
+        avatarView.setImage(null, null, ImageLocation.getForUserOrChat(currentAccount, user, ImageLocation.TYPE_BIG), "90_90", ImageLocation.getForUserOrChat(currentAccount, user, ImageLocation.TYPE_SMALL), "50_50", avatarDrawable, user);
         titleView.setText(Emoji.replaceEmoji(UserObject.getUserName(user), titleView.getPaint().getFontMetricsInt(), false));
         final StringBuilder sb = new StringBuilder();
         if (hidePhoneNumber) {
@@ -1273,7 +1273,7 @@ public class SettingsActivity extends BaseFragment implements NotificationCenter
 
             avatarDrawable.setInfo(account, user);
             avatarView.getImageReceiver().setCurrentAccount(account);
-            avatarView.setImage(null, null, ImageLocation.getForUserOrChat(currentAccount, user, ImageLocation.TYPE_BIG), "90_90", ImageLocation.getForUserOrChat(currentAccount, user, ImageLocation.TYPE_SMALL), "50_50", avatarDrawable, user);
+            avatarView.setForUserOrChat(user, avatarDrawable);
             textView.setText(Emoji.replaceEmoji(UserObject.getUserName(user), textView.getPaint().getFontMetricsInt(), false));
 
             botDrawable.setCurrentAccount(account);

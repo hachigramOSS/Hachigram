@@ -1,5 +1,8 @@
 package com.the306bobby.hachigram.helpers
 
+import android.content.Context
+import androidx.collection.LongSparseArray
+import org.telegram.messenger.ApplicationLoader
 import org.telegram.messenger.MessageObject
 import java.util.concurrent.ConcurrentHashMap
 
@@ -10,6 +13,35 @@ import java.util.concurrent.ConcurrentHashMap
  */
 object NotificationsHelper {
     private val postedSignatures = ConcurrentHashMap<Int, HashMap<Int, String>>()
+    private val prefs by lazy {
+        ApplicationLoader.applicationContext.getSharedPreferences("hachigram_notifications", Context.MODE_PRIVATE)
+    }
+
+    private fun getWearIdsKey(account: Int) = "wear_ids_$account"
+
+    // wearNotificationsIds is in-memory only while posted notifications outlive the
+    // process; mirroring it to disk is what lets cancel paths survive a restart
+    @JvmStatic
+    fun loadWearNotificationIds(account: Int, into: LongSparseArray<Int>) {
+        into.clear()
+        val stored = prefs.getString(getWearIdsKey(account), null) ?: return
+        for (entry in stored.splitToSequence(',')) {
+            val separator = entry.indexOf(':')
+            if (separator <= 0) continue
+            val dialogId = entry.substring(0, separator).toLongOrNull() ?: continue
+            val notificationId = entry.substring(separator + 1).toIntOrNull() ?: continue
+            into.put(dialogId, notificationId)
+        }
+    }
+
+    @JvmStatic
+    fun saveWearNotificationIds(account: Int, ids: LongSparseArray<Int>) {
+        val key = getWearIdsKey(account)
+        val stored = (0 until ids.size()).joinToString(",") { "${ids.keyAt(it)}:${ids.valueAt(it)}" }
+        if (prefs.getString(key, "") == stored) return
+        // commit: this races a process death that may come right after posting the notifications
+        prefs.edit().apply { if (stored.isEmpty()) remove(key) else putString(key, stored) }.commit()
+    }
 
     @JvmStatic
     fun computeNotificationSignature(
