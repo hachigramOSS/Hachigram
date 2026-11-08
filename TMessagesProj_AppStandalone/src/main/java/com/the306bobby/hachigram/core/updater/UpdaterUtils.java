@@ -26,7 +26,7 @@ import android.text.SpannableStringBuilder;
 import android.text.Spanned;
 import android.widget.TextView;
 
-import com.google.android.exoplayer2.util.Util;
+import androidx.media3.common.util.Util;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -277,7 +277,7 @@ public class UpdaterUtils {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.UPSIDE_DOWN_CAKE) {
                 ContextCompat.registerReceiver(context, downloadBroadcastReceiver, intentFilter, ContextCompat.RECEIVER_EXPORTED);
             } else  {
-                Util.registerReceiverNotExported(context, downloadBroadcastReceiver, intentFilter, Util.createHandlerForCurrentOrMainLooper());
+                Util.registerReceiverNotExported(context, downloadBroadcastReceiver, intentFilter);
             }
             HachigramCoreConfig.INSTANCE.setUpdateIsDownloading(true);
             trackDownloadProgress(context, progressTextView, null, null);

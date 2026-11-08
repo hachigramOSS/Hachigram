@@ -49,6 +49,7 @@ import me.vkryl.android.AnimatorUtils;
 import me.vkryl.android.animator.BoolAnimator;
 import me.vkryl.android.animator.FactorAnimator;
 import com.the306bobby.hachigram.chats.helpers.ChatsHelper2;
+import java.util.HashSet;
 
 @SuppressLint("ViewConstructor")
 public class FragmentSearchField extends FrameLayout implements FactorAnimator.Target, Theme.Colorable {
@@ -195,6 +196,10 @@ public class FragmentSearchField extends FrameLayout implements FactorAnimator.T
         updateColors();
     }
 
+    public void setHintText(CharSequence text, boolean animated) {
+        editText.setHintText(text, animated);
+    }
+
     public void addAdditionalIcon(View icon) {
         additionalIconsLayout.addView(icon);
     }
@@ -324,6 +329,13 @@ public class FragmentSearchField extends FrameLayout implements FactorAnimator.T
         }
 
         invalidate();
+    }
+    @Override
+    public void addColorKeys(HashSet<Integer> colors) {
+        colors.add(Theme.key_windowBackgroundWhite);
+        colors.add(Theme.key_windowBackgroundWhiteBlackText);
+        colors.add(Theme.key_listSelector);
+        colors.add(Theme.key_groupcreate_cursor);
     }
 
     private int getThemedColor(int key) {
