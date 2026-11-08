@@ -21,7 +21,7 @@ named after Hachiko, who kept showing up.
 ## install
 
 Grab an APK from
-[releases](https://git.306bobbyandroid.download/306bobby/Hachigram/releases).
+[releases](https://github.com/hachigramOSS/Hachigram/releases).
 `arm64-v8a` for anything modern, `armeabi-v7a` for older 32-bit devices, or the
 universal build if you are unsure.
 
@@ -52,7 +52,7 @@ the commits keep their original authors.
 unrelated to Telegram's, which is tracked separately in `APP_VERSION_NAME` and shown
 in the APK filename as the `-TG-` component.
 
-Release-candidate status lives in the Forgejo release, not the version string: mark
+Release-candidate status lives in the GitHub release, not the version string: mark
 the release as a pre-release. `/releases/latest`, which the in-app updater reads,
 skips pre-releases, so stable users are not offered them.
 

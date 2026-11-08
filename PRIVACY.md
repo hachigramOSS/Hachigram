@@ -23,9 +23,9 @@ account details are handled by Telegram's own servers under
 [Telegram's Privacy Policy](https://telegram.org/privacy). Nothing in this app
 changes that, and none of it passes through us.
 
-**Update checks.** The app asks `git.306bobbyandroid.download` for the latest
-release. That server sees your IP address and the request, as any web server
-would. By default this happens automatically, at most once an hour while you are
+**Update checks.** The app asks GitHub (`api.github.com`) for the latest
+release and downloads it from `github.com`. GitHub sees your IP address and the
+request, as any web server would. By default this happens automatically, at most once an hour while you are
 using the app, and you can turn it off in Hachigram settings. Nothing about your
 account or your messages is sent; it is a plain request for the release list.
 
@@ -69,4 +69,4 @@ Material changes will appear in the commit log.
 
 ## Contact
 
-Source and issues: <https://git.306bobbyandroid.download/306bobby/Hachigram>
+Source and issues: <https://github.com/hachigramOSS/Hachigram>
