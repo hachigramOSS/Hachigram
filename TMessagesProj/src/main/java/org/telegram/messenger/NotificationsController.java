@@ -8,6 +8,7 @@
 
 package org.telegram.messenger;
 
+import com.the306bobby.hachigram.helpers.NotificationsHelper;
 import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.Activity;

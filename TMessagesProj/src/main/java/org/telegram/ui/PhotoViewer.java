@@ -11575,9 +11575,6 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
 
             photoPaintView.onCleanupEntities();
         } else if (currentEditMode == EDIT_MODE_STICKER_MASK) {
-            if (!maskPaintView.inu_hasChanges()) {
-                return true;
-            }
             hasChanged = true;
             bitmap = maskPaintView.getBitmap();
             centerImage.setImageBitmap(bitmap);
