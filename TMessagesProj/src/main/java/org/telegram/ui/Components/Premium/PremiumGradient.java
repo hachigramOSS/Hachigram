@@ -61,9 +61,7 @@ public class PremiumGradient {
         premiumStarDrawableMini = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_liststar).mutate();
         premiumStarMenuDrawable = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_settings_premium));
         goldenStarMenuDrawable = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_settings_premium), goldGradient);
-        cgSettingsMenuDrawable = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext,
-                CGResourcesHelper.INSTANCE.isAnyOfBraIconsEnabled() ? R.drawable.cg_notification_bra : R.drawable.cg_notification), cherryGradient
-        );
+        cgSettingsMenuDrawable = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.hachigram_notification), cherryGradient);
         premiumStarMenuDrawable2 = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_normal));
 //        premiumStarMenuDrawableGray = createGradientDrawable(ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_settings_premium), grayGradient);
         premiumStarColoredDrawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.drawable.msg_premium_liststar).mutate();

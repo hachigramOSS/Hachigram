@@ -85,7 +85,7 @@
     <!--Misc-->
     <string name="CG_SortByDate">Ordenar por fecha de mensaje</string>
     <string name="CG_SortByUnread">Ordenar por primero no leídos</string>
-    <string name="CG_UnknownCherrySettingsOption">No existe tal opción de configuración de Hachigram.</string>
+    <string name="CG_UnknownSettingsOption">No existe tal opción de configuración de Hachigram.</string>
     <string name="CG_Restart">Reiniciar app</string>
     <string name="CG_RestartToApply">Reinicie la aplicación para aplicar los cambios</string>
     <string name="CG_PushService">Servicio Push de Hachigram.</string>
@@ -140,14 +140,6 @@
     <string name="AP_IconReplacements">Reemplazo de icono</string>
     <string name="AP_Old_Notification_Icon">Icono de notificación por defecto (Telegram)</string>
     <string name="AP_Tablet_Mode">Modo tablet</string>
-    <string name="AP_ChangeIcon_Cherry_NY">Año Nuevo</string>
-    <string name="AP_ChangeIcon_Dark">Oscuro</string>
-    <string name="AP_ChangeIcon_White">Blanco</string>
-    <string name="AP_ChangeIcon_Laguna">Laguna</string>
-    <string name="AP_ChangeIcon_Green">Verde</string>
-    <string name="AP_ChangeIcon_Lavanda">Lavanda</string>
-    <string name="AP_ChangeIcon_Sunset">Atardecer</string>
-    <string name="AP_ChangeIcon_Sunrise">Amanecer</string>
     <string name="AP_IconReplacement_Solar">Iconos solares por @Design480</string>
     <string name="AP_OneUI_Switch_Style">Estilo de interruptor OneUI</string>
     <string name="AP_SystemEmoji">Usar emojis del sistema</string>

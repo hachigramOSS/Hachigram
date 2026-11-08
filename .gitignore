@@ -32,3 +32,6 @@ google-services.b64
 *firebase-adminsdk*.json
 .kotlin/
 push-token.env
+
+# original artwork deliverables, not shipped
+hachigram-assets/

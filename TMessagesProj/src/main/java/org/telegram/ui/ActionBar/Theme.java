@@ -7890,7 +7890,7 @@ public class Theme {
             avatarDrawables[22] = resources.getDrawable(R.drawable.filled_giveaway_premium);
             avatarDrawables[23] = resources.getDrawable(R.drawable.filled_giveaway_stars);
             avatarDrawables[24] = resources.getDrawable(R.drawable.filled_suggest_chat_avatar);
-            avatarDrawables[25] = resources.getDrawable(R.drawable.avatar_cherry_bra);
+            avatarDrawables[25] = resources.getDrawable(R.mipmap.icon_foreground_hachigram);
 
             if (dialogs_archiveAvatarDrawable != null) {
                 dialogs_archiveAvatarDrawable.setCallback(null);

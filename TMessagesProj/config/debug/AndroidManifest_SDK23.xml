@@ -26,8 +26,8 @@
 
 
     <application
-        android:icon="@mipmap/icon_launcher_cherry"
-        android:roundIcon="@mipmap/icon_launcher_cherry"
+        android:icon="@mipmap/icon_launcher_hachigram"
+        android:roundIcon="@mipmap/icon_launcher_hachigram"
         android:label="@string/CG_AppName"
         android:theme="@style/Theme.TMessages.Start"
         android:hardwareAccelerated="true"

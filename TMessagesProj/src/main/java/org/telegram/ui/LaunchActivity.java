@@ -2735,7 +2735,7 @@ public class LaunchActivity extends BasePermissionsActivity implements INavigati
                                             } catch (Exception e) {
                                                 FileLog.e(e);
                                             }
-                                            return factory.createErrorBulletin(getString(R.string.CG_UnknownCherrySettingsOption));
+                                            return factory.createErrorBulletin(getString(R.string.CG_UnknownSettingsOption));
                                         }), progress);
                                     } else if ((url.startsWith("tg:search") || url.startsWith("tg://search"))) {
                                         url = url.replace("tg:search", "tg://telegram.org").replace("tg://search", "tg://telegram.org");

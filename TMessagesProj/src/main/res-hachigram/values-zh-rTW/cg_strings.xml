@@ -86,7 +86,7 @@
     <!--Misc-->
     <string name="CG_SortByDate">Sort by message date</string>
     <string name="CG_SortByUnread">Sort by unread first</string>
-    <string name="CG_UnknownCherrySettingsOption">沒有這樣的 Cherry 設定選項</string>
+    <string name="CG_UnknownSettingsOption">沒有這樣的 Hachigram 設定選項</string>
     <string name="CG_Restart">重新啟動應用程式</string>
     <string name="CG_RestartToApply">重啟應用程式以套用變更</string>
     <string name="CG_PushService">Hachigram 推播服務</string>
@@ -141,14 +141,6 @@
     <string name="AP_IconReplacements">替換圖示</string>
     <string name="AP_Old_Notification_Icon">預設通知圖示 (Telegram)</string>
     <string name="AP_Tablet_Mode">平板模式</string>
-    <string name="AP_ChangeIcon_Cherry_NY">新年</string>
-    <string name="AP_ChangeIcon_Dark">深色</string>
-    <string name="AP_ChangeIcon_White">白色</string>
-    <string name="AP_ChangeIcon_Laguna">Laguna</string>
-    <string name="AP_ChangeIcon_Green">綠色</string>
-    <string name="AP_ChangeIcon_Lavanda">薰衣草</string>
-    <string name="AP_ChangeIcon_Sunset">日落</string>
-    <string name="AP_ChangeIcon_Sunrise">日出</string>
     <string name="AP_IconReplacement_Solar">由 @Design480 設計的 Solar 圖示</string>
     <string name="AP_OneUI_Switch_Style">OneUI 開關風格</string>
     <string name="AP_SystemEmoji">使用系統 Emoji</string>

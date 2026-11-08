@@ -15,13 +15,13 @@ public class LauncherIconController {
             }
         }
 
-        setIcon(LauncherIcon.CHERRY);
+        setIcon(LauncherIcon.HACHIGRAM);
     }
 
     public static boolean isEnabled(LauncherIcon icon) {
         Context ctx = ApplicationLoader.applicationContext;
         int i = ctx.getPackageManager().getComponentEnabledSetting(icon.getComponentName(ctx));
-        return i == PackageManager.COMPONENT_ENABLED_STATE_ENABLED || i == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT && icon == LauncherIcon.CHERRY;
+        return i == PackageManager.COMPONENT_ENABLED_STATE_ENABLED || i == PackageManager.COMPONENT_ENABLED_STATE_DEFAULT && icon == LauncherIcon.HACHIGRAM;
     }
 
     public static void setIcon(LauncherIcon icon) {
@@ -34,23 +34,14 @@ public class LauncherIconController {
     }
 
     public enum LauncherIcon {
-        CHERRY("CG_Icon_Cherry", R.drawable.icon_background_default, R.drawable.icon_foreground_cherry, R.string.Default),
-        DARK_CHERRY("CG_Icon_Dark", R.drawable.icon_background_dark, R.drawable.icon_foreground_cherry, R.string.AP_ChangeIcon_Dark),
-        DARK_CHERRY_BRA("CG_Icon_Dark_Bra", R.drawable.icon_background_dark, R.drawable.icon_foreground_cherry_bra, R.string.AP_ChangeIcon_Bra),
-        WHITE_CHERRY("CG_Icon_White_Cherry", R.drawable.icon_background_white, R.drawable.icon_foreground_cherry_white, R.string.AP_ChangeIcon_White),
-        WHITE_CHERRY_BRA("CG_Icon_White_Cherry_Bra", R.drawable.icon_background_white, R.drawable.icon_foreground_cherry_white_bra, R.string.AP_ChangeIcon_Bra),
-        LAGUNA_CHERRY("CG_Icon_Laguna", R.drawable.icon_background_laguna, R.drawable.icon_foreground_cherry, R.string.AP_ChangeIcon_Laguna),
-        AQUA_CHERRY("CG_Icon_Aqua", R.drawable.icon_background_aqua, R.drawable.icon_foreground_cherry, R.string.AppIconAqua),
-        GREEN_CHERRY("CG_Icon_Green", R.drawable.icon_background_green, R.drawable.icon_foreground_cherry, R.string.AP_ChangeIcon_Green),
-        LAVANDA_CHERRY("CG_Icon_Lavanda", R.drawable.icon_background_lavanda, R.drawable.icon_foreground_cherry, R.string.AP_ChangeIcon_Lavanda),
-        VIOLET_SUNSET_CHERRY("CG_Icon_Violet_Sunset", R.drawable.icon_background_violet_sunset, R.drawable.icon_foreground_cherry, R.string.AP_ChangeIcon_Violet_Sunset),
-        VIOLET_SUNSET_CHERRY_BRA("CG_Icon_Violet_Sunset_Bra", R.drawable.icon_background_violet_sunset, R.drawable.icon_foreground_cherry_bra, R.string.AP_ChangeIcon_Bra),
-        SUNSET_CHERRY("CG_Icon_Sunset", R.drawable.icon_background_sunset, R.drawable.icon_foreground_cherry, R.string.AP_ChangeIcon_Sunset),
-        SUNRISE_CHERRY("CG_Icon_Sunrise", R.drawable.icon_background_sunrise, R.drawable.icon_foreground_cherry, R.string.AP_ChangeIcon_Sunrise),
-        TURBO_CHERRY("CG_Icon_Turbo", R.drawable.icon_5_background_sa, R.drawable.icon_foreground_cherry, R.string.AppIconTurbo),
-        NOX_CHERRY("CG_Icon_Night", R.mipmap.icon_2_background_sa, R.drawable.icon_foreground_cherry, R.string.AppIconNox),
-        DARK_NY("CG_Icon_Dark_NY", R.drawable.icon_background_dark_ny, R.drawable.icon_foreground_cherry_bra, R.string.AP_ChangeIcon_Cherry_NY),
-
+        HACHIGRAM("CG_Icon_Hachigram", R.drawable.icon_background_hachigram, R.mipmap.icon_foreground_hachigram, R.string.Default),
+        HACHIGRAM_CAP("CG_Icon_Hachigram_Cap", R.drawable.icon_background_hachigram_cap, R.mipmap.icon_foreground_hachigram_cap, R.string.AP_ChangeIcon_Hachigram_Cap),
+        HACHIGRAM_CAP_DARK("CG_Icon_Hachigram_Cap_Dark", R.drawable.icon_background_hachigram_cap_dark, R.mipmap.icon_foreground_hachigram_cap_dark, R.string.AP_ChangeIcon_Hachigram_Cap_Dark),
+        HACHIGRAM_CAP_OUTLINE("CG_Icon_Hachigram_Cap_Outline", R.drawable.icon_background_hachigram_cap_outline, R.mipmap.icon_foreground_hachigram_cap_outline, R.string.AP_ChangeIcon_Hachigram_Cap_Outline),
+        HACHIGRAM_LINEART("CG_Icon_Hachigram_Lineart", R.drawable.icon_background_hachigram_lineart, R.mipmap.icon_foreground_hachigram_lineart, R.string.AP_ChangeIcon_Hachigram_Lineart),
+        HACHIGRAM_LINEART_DARK("CG_Icon_Hachigram_Lineart_Dark", R.drawable.icon_background_hachigram_lineart_dark, R.mipmap.icon_foreground_hachigram_lineart_dark, R.string.AP_ChangeIcon_Hachigram_Lineart_Dark),
+        HACHIGRAM_SKETCH("CG_Icon_Hachigram_Sketch", R.drawable.icon_background_hachigram_sketch, R.mipmap.icon_foreground_hachigram_sketch, R.string.AP_ChangeIcon_Hachigram_Sketch),
+        HACHIGRAM_TILE("CG_Icon_Hachigram_Tile", R.drawable.icon_background_hachigram_tile, R.mipmap.icon_foreground_hachigram_tile, R.string.AP_ChangeIcon_Hachigram_Tile),
         PREMIUM("PremiumIcon", R.drawable.icon_3_background_sa, R.mipmap.icon_3_foreground, R.string.AppIconPremium, true),
         TURBO("TurboIcon", R.drawable.icon_5_background_sa, R.mipmap.icon_5_foreground, R.string.AppIconTurbo, true),
         NOX("NoxIcon", R.mipmap.icon_2_background_sa, R.drawable.icon_foreground, R.string.AppIconNox, true);

@@ -408,7 +408,7 @@ public class SessionCell extends FrameLayout {
         if (session.app_name.contains("Hachigram")) {
             colorKey = 0x00000000;
             colorKey2 = 0x00000000;
-            iconDrawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, !Theme.isCurrentThemeDay() ? R.drawable.cg_logo_notch_white : R.drawable.cg_logo_notch);
+            iconDrawable = ContextCompat.getDrawable(ApplicationLoader.applicationContext, R.mipmap.icon_launcher_hachigram);
         } else {
             iconDrawable.setColorFilter(new PorterDuffColorFilter(Theme.getColor(Theme.key_avatar_text), PorterDuff.Mode.SRC_IN));
         }

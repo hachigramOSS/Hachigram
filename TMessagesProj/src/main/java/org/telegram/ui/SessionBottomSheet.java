@@ -369,7 +369,7 @@ public class SessionBottomSheet extends BottomSheet {
         } else if (platform.contains("android")) {
             if (session.app_name.contains("Hachigram")) {
                 animation = false;
-                iconId = R.drawable.cg_logo_notch;
+                iconId = R.mipmap.icon_launcher_hachigram;
                 colorKey = 0x00000000;
                 colorKey2 = 0x00000000;
             } else {
@@ -398,7 +398,7 @@ public class SessionBottomSheet extends BottomSheet {
             imageView.setAnimation(iconId, 50, 50, colors);
         } else {
             if (session.app_name.contains("Hachigram")) {
-                Drawable iconDrawable = ContextCompat.getDrawable(getContext(), !Theme.isCurrentThemeDay() ? R.drawable.cg_logo_notch_white : R.drawable.cg_logo_notch);
+                Drawable iconDrawable = ContextCompat.getDrawable(getContext(), R.mipmap.icon_launcher_hachigram);
                 LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(dp(70), dp(70));
                 params.topMargin = dp(15);
                 params.gravity = Gravity.CENTER;

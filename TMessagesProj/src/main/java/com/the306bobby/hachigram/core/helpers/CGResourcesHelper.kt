@@ -21,7 +21,6 @@ import org.telegram.messenger.LocaleController
 import org.telegram.messenger.LocaleController.getString
 import org.telegram.messenger.R
 import org.telegram.ui.Components.URLSpanNoUnderline
-import org.telegram.ui.LauncherIconController
 import com.the306bobby.hachigram.core.configs.HachigramCoreConfig
 import com.the306bobby.hachigram.core.configs.HachigramMessagesConfig
 import com.the306bobby.hachigram.misc.Constants
@@ -153,22 +152,11 @@ object CGResourcesHelper {
 
     /** Misc start */
     fun getProperNotificationIcon(): Int { // App notification icon
-        return if (HachigramCoreConfig.oldNotificationIcon) {
-            R.drawable.notification
-        } else {
-            return if (isAnyOfBraIconsEnabled()) R.drawable.cg_notification_bra else R.drawable.cg_notification
-        }
+        return if (HachigramCoreConfig.oldNotificationIcon) R.drawable.notification else R.drawable.hachigram_notification
     }
 
     fun getResidentNotificationIcon(): Int {
-        return if (HachigramCoreConfig.oldNotificationIcon) R.drawable.cg_notification else R.drawable.notification
-    }
-
-    fun isAnyOfBraIconsEnabled(): Boolean {
-        return (LauncherIconController.isEnabled(LauncherIconController.LauncherIcon.DARK_CHERRY_BRA)
-                || LauncherIconController.isEnabled(LauncherIconController.LauncherIcon.WHITE_CHERRY_BRA)
-                || LauncherIconController.isEnabled(LauncherIconController.LauncherIcon.VIOLET_SUNSET_CHERRY_BRA)
-        )
+        return if (HachigramCoreConfig.oldNotificationIcon) R.drawable.hachigram_notification else R.drawable.notification
     }
 
     fun createDateAndTime(date: Long): String {

@@ -29,7 +29,7 @@
         <item name="android:textViewStyle">@style/MyTextViewStyle</item>
         <item name="android:forceDarkAllowed">false</item>
         <item name="android:isLightTheme">false</item>
-        <item name="android:windowSplashScreenAnimatedIcon">@drawable/cherry_icon_anim</item>
+        <item name="android:windowSplashScreenAnimatedIcon">@mipmap/icon_launcher_hachigram</item>
         <item name="android:windowSplashScreenAnimationDuration">@integer/splash_screen_duration</item>
         <item name="android:windowSplashScreenBackground">?android:windowBackground</item>
     </style>

@@ -85,7 +85,7 @@
     <!--Misc-->
     <string name="CG_SortByDate">メッセージの日付順で並べ替え</string>
     <string name="CG_SortByUnread">未読順に並べ替え</string>
-    <string name="CG_UnknownCherrySettingsOption">Hachigram の設定オプションにはありません。</string>
+    <string name="CG_UnknownSettingsOption">Hachigram の設定オプションにはありません。</string>
     <string name="CG_Restart">アプリを再起動</string>
     <string name="CG_RestartToApply">アプリを再起動後に適用されます</string>
     <string name="CG_PushService">Hachigramプッシュサービス</string>
@@ -140,14 +140,6 @@
     <string name="AP_IconReplacements">アイコンの置換</string>
     <string name="AP_Old_Notification_Icon">デフォルトの通知アイコン (Telegram)</string>
     <string name="AP_Tablet_Mode">タブレットモード</string>
-    <string name="AP_ChangeIcon_Cherry_NY">新年</string>
-    <string name="AP_ChangeIcon_Dark">ダーク</string>
-    <string name="AP_ChangeIcon_White">ホワイト</string>
-    <string name="AP_ChangeIcon_Laguna">ラグナ</string>
-    <string name="AP_ChangeIcon_Green">グリーン</string>
-    <string name="AP_ChangeIcon_Lavanda">ラベンダー</string>
-    <string name="AP_ChangeIcon_Sunset">サンセット</string>
-    <string name="AP_ChangeIcon_Sunrise">サンライズ</string>
     <string name="AP_IconReplacement_Solar">Solar - @Design480</string>
     <string name="AP_OneUI_Switch_Style">OneUIの切り替えスタイル</string>
     <string name="AP_SystemEmoji">システムの絵文字を使用する</string>

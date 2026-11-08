@@ -110,14 +110,6 @@
     <string name="AP_Header_Appearance">Erscheinungsbild</string>
     <string name="AP_IconReplacements">Icon-Ersetzungen</string>
     <string name="AP_Old_Notification_Icon">Standard-Benachrichtigungssymbol (Telegram)</string>
-    <string name="AP_ChangeIcon_Cherry_NY">Neujahr</string>
-    <string name="AP_ChangeIcon_Dark">Dunkel</string>
-    <string name="AP_ChangeIcon_White">Weiß</string>
-    <string name="AP_ChangeIcon_Laguna">Laguna</string>
-    <string name="AP_ChangeIcon_Green">Grün</string>
-    <string name="AP_ChangeIcon_Lavanda">Lavanda</string>
-    <string name="AP_ChangeIcon_Sunset">Sonnenuntergang</string>
-    <string name="AP_ChangeIcon_Sunrise">Sonnenaufgang</string>
     <string name="AP_IconReplacement_Solar">Solar-Icons von @Design480</string>
     <string name="AP_OneUI_Switch_Style">OneUI Switch Style</string>
     <string name="AP_SystemEmoji">System-Emojis verwenden</string>

@@ -112,7 +112,7 @@
     <string name="CG_SortByDate">Сортировка по дате сообщения</string>
     <string name="CG_SortByUnread">Сортировка по непрочитанным</string>
 
-    <string name="CG_UnknownCherrySettingsOption">Такого параметра Cherry нет.</string>
+    <string name="CG_UnknownSettingsOption">Такого параметра Hachigram нет.</string>
     <string name="CG_Restart">Перезапустить приложение</string>
     <string name="CG_RestartToApply">Перезапустите приложение</string>
     <string name="CG_PushService">Сервис уведомлений Hachigram.</string>
@@ -174,14 +174,6 @@
     <string name="AP_IconReplacements">Пакет иконок</string>
     <string name="AP_Old_Notification_Icon">Стандартная иконка уведомлений (Telegram)</string>
     <string name="AP_Tablet_Mode">Режим планшета</string>
-    <string name="AP_ChangeIcon_Cherry_NY">Новогодняя</string>
-    <string name="AP_ChangeIcon_Dark">Тёмная</string>
-    <string name="AP_ChangeIcon_White">Белая</string>
-    <string name="AP_ChangeIcon_Laguna">Лагуна</string>
-    <string name="AP_ChangeIcon_Green">Зеленая</string>
-    <string name="AP_ChangeIcon_Lavanda">Лаванда</string>
-    <string name="AP_ChangeIcon_Sunset">Закат</string>
-    <string name="AP_ChangeIcon_Sunrise">Восход</string>
     <string name="AP_IconReplacement_Solar">Иконки Solar от @Design480</string>
     <string name="AP_OneUI_Switch_Style">Переключатели в стиле OneUI</string>
     <string name="AP_SystemEmoji">Системные эмодзи</string>

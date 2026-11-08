@@ -127,9 +127,10 @@
 
         <activity-alias
             android:enabled="true"
-            android:name="com.the306bobby.hachigram.CG_Icon_Cherry"
+            android:name="com.the306bobby.hachigram.CG_Icon_Hachigram"
             android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry"
+            android:icon="@mipmap/icon_launcher_hachigram"
+            android:roundIcon="@mipmap/icon_launcher_hachigram"
             android:exported="true">
 
             <intent-filter>
@@ -142,9 +143,10 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_Dark"
+            android:name="com.the306bobby.hachigram.CG_Icon_Hachigram_Cap"
             android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_dark"
+            android:icon="@mipmap/icon_launcher_hachigram_cap"
+            android:roundIcon="@mipmap/icon_launcher_hachigram_cap"
             android:exported="true">
 
             <intent-filter>
@@ -157,9 +159,10 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_Dark_Bra"
+            android:name="com.the306bobby.hachigram.CG_Icon_Hachigram_Cap_Dark"
             android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_dark_bra"
+            android:icon="@mipmap/icon_launcher_hachigram_cap_dark"
+            android:roundIcon="@mipmap/icon_launcher_hachigram_cap_dark"
             android:exported="true">
 
             <intent-filter>
@@ -172,9 +175,10 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_White_Cherry"
+            android:name="com.the306bobby.hachigram.CG_Icon_Hachigram_Cap_Outline"
             android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_white"
+            android:icon="@mipmap/icon_launcher_hachigram_cap_outline"
+            android:roundIcon="@mipmap/icon_launcher_hachigram_cap_outline"
             android:exported="true">
 
             <intent-filter>
@@ -187,9 +191,10 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_White_Cherry_Bra"
+            android:name="com.the306bobby.hachigram.CG_Icon_Hachigram_Lineart"
             android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_white_bra"
+            android:icon="@mipmap/icon_launcher_hachigram_lineart"
+            android:roundIcon="@mipmap/icon_launcher_hachigram_lineart"
             android:exported="true">
 
             <intent-filter>
@@ -202,9 +207,10 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_Laguna"
+            android:name="com.the306bobby.hachigram.CG_Icon_Hachigram_Lineart_Dark"
             android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_laguna"
+            android:icon="@mipmap/icon_launcher_hachigram_lineart_dark"
+            android:roundIcon="@mipmap/icon_launcher_hachigram_lineart_dark"
             android:exported="true">
 
             <intent-filter>
@@ -217,9 +223,10 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_Aqua"
+            android:name="com.the306bobby.hachigram.CG_Icon_Hachigram_Sketch"
             android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_aqua"
+            android:icon="@mipmap/icon_launcher_hachigram_sketch"
+            android:roundIcon="@mipmap/icon_launcher_hachigram_sketch"
             android:exported="true">
 
             <intent-filter>
@@ -232,129 +239,10 @@
 
         <activity-alias
             android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_Green"
+            android:name="com.the306bobby.hachigram.CG_Icon_Hachigram_Tile"
             android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_green"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_Lavanda"
-            android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_lavanda"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_Violet_Sunset"
-            android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_violet_sunset"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_Violet_Sunset_Bra"
-            android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_violet_sunset_bra"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_Sunset"
-            android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_sunset"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_Sunrise"
-            android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_sunrise"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_Turbo"
-            android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_turbo"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_Night"
-            android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_nox"
-            android:exported="true">
-
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-            <meta-data android:name="android.app.shortcuts" android:resource="@xml/shortcuts" />
-        </activity-alias>
-
-        <activity-alias
-            android:enabled="false"
-            android:name="com.the306bobby.hachigram.CG_Icon_Dark_NY"
-            android:targetActivity="org.telegram.ui.LaunchActivity"
-            android:icon="@mipmap/icon_launcher_cherry_dark_ny"
+            android:icon="@mipmap/icon_launcher_hachigram_tile"
+            android:roundIcon="@mipmap/icon_launcher_hachigram_tile"
             android:exported="true">
 
             <intent-filter>
@@ -473,25 +361,25 @@
                 <data android:host="www.keepassdx.com" android:scheme="http" />
                 <data android:host="www.keepassdx.com" android:scheme="https" />
             </intent-filter>
-            <intent-filter android:icon="@mipmap/icon_launcher_cherry" android:roundIcon="@mipmap/icon_launcher_cherry" android:priority="1">
+            <intent-filter android:icon="@mipmap/icon_launcher_hachigram" android:roundIcon="@mipmap/icon_launcher_hachigram" android:priority="1">
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="tonsite" />
             </intent-filter>
-            <intent-filter android:icon="@mipmap/icon_launcher_cherry" android:roundIcon="@mipmap/icon_launcher_cherry" android:priority="1">
+            <intent-filter android:icon="@mipmap/icon_launcher_hachigram" android:roundIcon="@mipmap/icon_launcher_hachigram" android:priority="1">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <data android:scheme="tg" />
             </intent-filter>
-            <intent-filter android:icon="@mipmap/icon_launcher_cherry" android:roundIcon="@mipmap/icon_launcher_cherry" android:priority="1">
+            <intent-filter android:icon="@mipmap/icon_launcher_hachigram" android:roundIcon="@mipmap/icon_launcher_hachigram" android:priority="1">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="ton" android:host="transfer" android:pathPrefix="/" />
             </intent-filter>
-            <intent-filter android:icon="@mipmap/icon_launcher_cherry" android:roundIcon="@mipmap/icon_launcher_cherry" android:priority="1">
+            <intent-filter android:icon="@mipmap/icon_launcher_hachigram" android:roundIcon="@mipmap/icon_launcher_hachigram" android:priority="1">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
@@ -539,7 +427,7 @@
             android:stateNotNeeded="true"
             android:theme="@style/Theme.TMessages.Transparent"
             android:exported="true">
-            <intent-filter android:icon="@mipmap/icon_launcher_cherry" android:roundIcon="@mipmap/icon_launcher_cherry" android:priority="1">
+            <intent-filter android:icon="@mipmap/icon_launcher_hachigram" android:roundIcon="@mipmap/icon_launcher_hachigram" android:priority="1">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -552,7 +440,7 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
-            <intent-filter android:icon="@mipmap/icon_launcher_cherry" android:roundIcon="@mipmap/icon_launcher_cherry">
+            <intent-filter android:icon="@mipmap/icon_launcher_hachigram" android:roundIcon="@mipmap/icon_launcher_hachigram">
                 <action android:name="org.telegram.passport.AUTHORIZE"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
@@ -571,7 +459,7 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
-            <intent-filter android:icon="@mipmap/icon_launcher_cherry" android:roundIcon="@mipmap/icon_launcher_cherry">
+            <intent-filter android:icon="@mipmap/icon_launcher_hachigram" android:roundIcon="@mipmap/icon_launcher_hachigram">
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
@@ -581,7 +469,7 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustPan"
             android:exported="true">
-            <intent-filter android:icon="@mipmap/icon_launcher_cherry" android:roundIcon="@mipmap/icon_launcher_cherry">
+            <intent-filter android:icon="@mipmap/icon_launcher_hachigram" android:roundIcon="@mipmap/icon_launcher_hachigram">
                 <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>
             </intent-filter>
         </activity>
@@ -590,7 +478,7 @@
 <!--            android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"-->
 <!--            android:hardwareAccelerated="true"-->
 <!--            android:windowSoftInputMode="adjustPan">-->
-<!--            <intent-filter android:icon="@mipmap/icon_launcher_cherry" android:roundIcon="@mipmap/icon_launcher_round">-->
+<!--            <intent-filter android:icon="@mipmap/icon_launcher_hachigram" android:roundIcon="@mipmap/icon_launcher_round">-->
 <!--                <action android:name="android.appwidget.action.APPWIDGET_CONFIGURE"/>-->
 <!--            </intent-filter>-->
 <!--        </activity>-->

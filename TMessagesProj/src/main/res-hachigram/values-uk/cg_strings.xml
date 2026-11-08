@@ -86,7 +86,7 @@
     <!--Misc-->
     <string name="CG_SortByDate">Сортувати повідомлення за датою</string>
     <string name="CG_SortByUnread">Сортувати перше непрочитані</string>
-    <string name="CG_UnknownCherrySettingsOption">Немає такого параметра Cherry.</string>
+    <string name="CG_UnknownSettingsOption">Немає такого параметра Hachigram.</string>
     <string name="CG_Restart">Перезапустити додаток</string>
     <string name="CG_RestartToApply">Перезавантажте додаток для застосування змін</string>
     <string name="CG_PushService">Сервіс повідомлень Hachigram.</string>
@@ -141,14 +141,6 @@
     <string name="AP_IconReplacements">Заміна іконок</string>
     <string name="AP_Old_Notification_Icon">Стандартна іконка повідомлень (Telegram)</string>
     <string name="AP_Tablet_Mode">Режим планшета</string>
-    <string name="AP_ChangeIcon_Cherry_NY">Новий Рік</string>
-    <string name="AP_ChangeIcon_Dark">Темнота</string>
-    <string name="AP_ChangeIcon_White">Біла іконка</string>
-    <string name="AP_ChangeIcon_Laguna">Лагуна</string>
-    <string name="AP_ChangeIcon_Green">Зелена іконка</string>
-    <string name="AP_ChangeIcon_Lavanda">Лаванда</string>
-    <string name="AP_ChangeIcon_Sunset">Вечiрня</string>
-    <string name="AP_ChangeIcon_Sunrise">Світанок</string>
     <string name="AP_IconReplacement_Solar">Solar Icons від @Design480</string>
     <string name="AP_OneUI_Switch_Style">Вигляд інтерфейсу OneUI</string>
     <string name="AP_SystemEmoji">Використовувати системні емодзі</string>

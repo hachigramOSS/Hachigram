@@ -114,14 +114,6 @@
     <string name="AP_Header_Appearance">Знешні выгляд</string>
     <string name="AP_IconReplacements">Змена іконак</string>
     <string name="AP_Old_Notification_Icon">Стандартна іконка паведамленняў (Telegram)</string>
-    <string name="AP_ChangeIcon_Cherry_NY">Навагодняя</string>
-    <string name="AP_ChangeIcon_Dark">Цёмны</string>
-    <string name="AP_ChangeIcon_White">Белая</string>
-    <string name="AP_ChangeIcon_Laguna">Лагуна</string>
-    <string name="AP_ChangeIcon_Green">Зялёная</string>
-    <string name="AP_ChangeIcon_Lavanda">Лаванда</string>
-    <string name="AP_ChangeIcon_Sunset">Заход</string>
-    <string name="AP_ChangeIcon_Sunrise">Узыход</string>
     <string name="AP_IconReplacement_Solar">Іконкі Solar ад @Design480</string>
     <string name="AP_OneUI_Switch_Style">Перамыкачы ў стылі OneUI</string>
     <string name="AP_SystemEmoji">Выкарыстоўваць сістэмныя эмодзі</string>

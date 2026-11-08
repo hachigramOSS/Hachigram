@@ -48,7 +48,7 @@ public class LogoOverlayView extends FrameLayout {
         setWillNotDraw(false);
 
         logoView = new ImageView(getContext());
-        logoView.setImageResource(!Theme.isCurrentThemeDay() ? R.drawable.cg_logo_notch_white : R.drawable.cg_logo_notch);
+        logoView.setImageResource(R.mipmap.icon_launcher_hachigram);
         logoView.setVisibility(View.INVISIBLE);
         addView(logoView);
     }

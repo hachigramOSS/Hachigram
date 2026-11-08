@@ -113,7 +113,7 @@
     <string name="CG_SortByDate">sort by message date</string>
     <string name="CG_SortByUnread">sort by unread first</string>
 
-    <string name="CG_UnknownCherrySettingsOption">there is no such cherry settings option.</string>
+    <string name="CG_UnknownSettingsOption">there is no such settings option.</string>
     <string name="CG_Restart">restart app</string>
     <string name="CG_RestartToApply">restart app to apply changes</string>
     <string name="CG_PushService">Hachigram push service.</string>
@@ -175,16 +175,8 @@
     <string name="AP_IconReplacements">icon pack</string>
     <string name="AP_Old_Notification_Icon">default notification icon (Telegram)</string>
     <string name="AP_Tablet_Mode">tablet mode</string>
-    <string name="AP_ChangeIcon_Cherry_NY">new year</string>
-    <string name="AP_ChangeIcon_Dark">dark</string>
-    <string name="AP_ChangeIcon_White">white</string>
     <string name="AP_ChangeIcon_Bra" translatable="false">Bra</string>
-    <string name="AP_ChangeIcon_Laguna">laguna</string>
-    <string name="AP_ChangeIcon_Green">green</string>
-    <string name="AP_ChangeIcon_Lavanda">lavanda</string>
     <string name="AP_ChangeIcon_Violet_Sunset" translatable="false">Violet Sunset</string>
-    <string name="AP_ChangeIcon_Sunset">sunset</string>
-    <string name="AP_ChangeIcon_Sunrise">sunrise</string>
     <string name="AP_IconReplacement_Solar">Solar icons by @design480</string>
     <string name="AP_OneUI_Switch_Style">OneUI switch style</string>
     <string name="AP_SystemEmoji">system emoji</string>
@@ -496,4 +488,11 @@
     <!--Donations-->
     <!--Hachigram screens-->
 
+    <string name="AP_ChangeIcon_Hachigram_Cap">hachi</string>
+    <string name="AP_ChangeIcon_Hachigram_Cap_Dark">hachi dark</string>
+    <string name="AP_ChangeIcon_Hachigram_Cap_Outline">hachi outline</string>
+    <string name="AP_ChangeIcon_Hachigram_Lineart">shiba</string>
+    <string name="AP_ChangeIcon_Hachigram_Lineart_Dark">shiba dark</string>
+    <string name="AP_ChangeIcon_Hachigram_Sketch">sketch</string>
+    <string name="AP_ChangeIcon_Hachigram_Tile">tile</string>
 </resources>

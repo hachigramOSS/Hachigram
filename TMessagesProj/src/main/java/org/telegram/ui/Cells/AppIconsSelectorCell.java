@@ -82,25 +82,6 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
                 IconHolderView holderView = (IconHolderView) holder.itemView;
                 LauncherIconController.LauncherIcon icon = availableIcons.get(position);
 
-                if ((
-                        icon == LauncherIconController.LauncherIcon.DARK_CHERRY ||
-                        icon == LauncherIconController.LauncherIcon.DARK_CHERRY_BRA ||
-                        icon == LauncherIconController.LauncherIcon.WHITE_CHERRY ||
-                        icon == LauncherIconController.LauncherIcon.WHITE_CHERRY_BRA ||
-                        icon == LauncherIconController.LauncherIcon.LAGUNA_CHERRY ||
-                        icon == LauncherIconController.LauncherIcon.AQUA_CHERRY ||
-                        icon == LauncherIconController.LauncherIcon.GREEN_CHERRY ||
-                        icon == LauncherIconController.LauncherIcon.LAVANDA_CHERRY ||
-                        icon == LauncherIconController.LauncherIcon.VIOLET_SUNSET_CHERRY ||
-                        icon == LauncherIconController.LauncherIcon.VIOLET_SUNSET_CHERRY_BRA ||
-                        icon == LauncherIconController.LauncherIcon.SUNSET_CHERRY ||
-                        icon == LauncherIconController.LauncherIcon.SUNRISE_CHERRY ||
-                        icon == LauncherIconController.LauncherIcon.TURBO_CHERRY ||
-                        icon == LauncherIconController.LauncherIcon.NOX_CHERRY ||
-                        icon == LauncherIconController.LauncherIcon.DARK_NY) && !(Build.VERSION.SDK_INT >= 26)
-                ) {
-                    return;
-                }
                 holderView.bind(icon);
                 ThemeBind.selectorBackground(holderView.iconView, Theme.createSimpleSelectorRoundRectDrawable(AndroidUtilities.dp(ICONS_ROUND_RADIUS), Color.TRANSPARENT, Theme.getColor(Theme.key_listSelector), Color.BLACK), null, ThemeBind.of(Theme.key_listSelector));
                 holderView.iconView.setForeground(icon.foreground);
@@ -176,24 +157,6 @@ public class AppIconsSelectorCell extends RecyclerListView implements Notificati
     private void updateIconsVisibility() {
         availableIcons.clear();
         availableIcons.addAll(Arrays.asList(LauncherIconController.LauncherIcon.values()));
-
-        if (Build.VERSION.SDK_INT < 27) {
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.DARK_CHERRY));
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.DARK_CHERRY_BRA));
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.WHITE_CHERRY));
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.WHITE_CHERRY_BRA));
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.LAGUNA_CHERRY));
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.AQUA_CHERRY));
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.GREEN_CHERRY));
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.LAVANDA_CHERRY));
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.VIOLET_SUNSET_CHERRY));
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.VIOLET_SUNSET_CHERRY_BRA));
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.SUNSET_CHERRY));
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.SUNRISE_CHERRY));
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.TURBO_CHERRY));
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.NOX_CHERRY));
-            availableIcons.removeIf(p -> p.equals(LauncherIconController.LauncherIcon.DARK_NY));
-        }
 
         if (MessagesController.getInstance(currentAccount).premiumFeaturesBlocked()) {
             for (int i = 0; i < availableIcons.size(); i++) {

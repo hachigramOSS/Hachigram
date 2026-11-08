@@ -381,9 +381,9 @@ class TelegramSettingsHelper(
         items.add(
             SettingsActivity.SettingCell.Factory.of(
                 1390,
-                0xFFE54C7F.toInt(),
-                0xFFA33156.toInt(),
-                if (CGResourcesHelper.isAnyOfBraIconsEnabled()) R.drawable.cg_settings_bra else R.drawable.cg_settings,
+                0xFFFE9417.toInt(),
+                0xFFEF5A04.toInt(),
+                R.drawable.hachigram_notification,
                 getString(R.string.CGP_AdvancedSettings)
             )
         )
