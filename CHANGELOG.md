@@ -3,6 +3,37 @@
 headings match the tag: `v0.<major>.<minor>[.<rc>]` for release candidates,
 `v<major>.<minor>[.<patch>]` for the real thing. the display name lives in `VERSION`.
 
+## v1.1.0
+
+the first release with hachigram's own face: telegram 13.2.1 underneath, a
+hundred more inugram bugfixes, and no cherries anywhere.
+
+### telegram
+
+- telegram 13.2.1, up from 12.10.1. upstream rebuilt theming, the action bar,
+  and the media player (now media3, built from source) in this stretch
+
+### changed
+
+- the app icon is hachigram's shiba, drawn by
+  [karuzone](https://www.fiverr.com/karuzone), in eight variants: default,
+  hachi, hachi dark, hachi outline, shiba, shiba dark, sketch and tile. the
+  cherrygram launcher icons, splash, session logo and settings entry icon are
+  gone with it
+- the status bar notification icon is a silhouette of that face instead of a
+  cherry. the switch to fall back to telegram's paper plane is still there
+- the hachigram channel and support group no longer get cherrygram's cherry
+  emoji as a title badge and profile background
+
+### fixed
+
+- 101 more bugfixes from [inugram](https://github.com/teidesu/inugram):
+  notification dedup on android 16, stale
+  notifications after reading elsewhere, ipv6 proxies, forum cache races,
+  memory leaks in the image loader and notification center, share sheet
+  dead zones, video quality selection, and a long tail of visual fixes.
+
+
 ## v0.1.0.1
 
 the interface reads in lowercase, 129 upstream bugfixes land, and two pieces of
