@@ -4961,7 +4961,18 @@ public class LocaleController {
             return value;
         }
 
-        return localizationInternal.getByResName(fallback);
+        value = localizationInternal.getByResName(fallback);
+        if (value != null) {
+            return value;
+        }
+
+        // not in the generated table (a string the build plugin did not see): the plain resource beats LOC_ERR
+        if (context != null && stringRes != 0) {
+            try {
+                return context.getResources().getString(stringRes);
+            } catch (Resources.NotFoundException ignore) {}
+        }
+        return null;
     }
 
 

@@ -24,9 +24,14 @@ class TelegramBuildAppPlugin : Plugin<Project> {
             val task = project.tasks.register<TelegramStringsTask>(
                 "generate${suffix}TelegramStrings"
             ) {
+                // Hachigram keeps its strings outside src/main/res; without them in the
+                // generated table every fork string resolves to LOC_ERR at runtime.
                 stringsXml.from(
                     telegramModule.fileTree("src/main/res/values") {
                         include("strings.xml")
+                    },
+                    telegramModule.fileTree("src/main/res-hachigram/values") {
+                        include("cg_strings.xml")
                     },
                     project.fileTree("src/main/res/values") {
                         include("strings.xml")
@@ -36,6 +41,9 @@ class TelegramBuildAppPlugin : Plugin<Project> {
                 localizationFiles.from(
                     telegramModule.fileTree("src/main/res") {
                         include("values-*/strings.xml")
+                    },
+                    telegramModule.fileTree("src/main/res-hachigram") {
+                        include("values-*/cg_strings.xml")
                     },
                     project.fileTree("src/main/res") {
                         include("values-*/strings.xml")
