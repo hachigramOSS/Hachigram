@@ -169,7 +169,7 @@ public class MessagesAndProfilesPreferencesEntry extends BaseFragment {
                 if (user.premium && UserObject.getProfileEmojiId(user) != 0) {
                     selectedEmoji = HachigramAppearanceConfig.INSTANCE.getProfileBackgroundEmoji() ? UserObject.getProfileEmojiId(user) : 0;
                 } else {
-                    selectedEmoji = HachigramAppearanceConfig.INSTANCE.getProfileBackgroundEmoji() ? Constants.CHERRY_EMOJI_ID : 0;
+                    selectedEmoji = 0;
                 }
             } else {
                 if (user.premium && UserObject.getColorId(user) != -1) {
@@ -181,7 +181,7 @@ public class MessagesAndProfilesPreferencesEntry extends BaseFragment {
                 if (user.premium && UserObject.getEmojiId(user) != 0) {
                     selectedEmoji = HachigramAppearanceConfig.INSTANCE.getReplyBackgroundEmoji() ? UserObject.getEmojiId(user) : 0;
                 } else {
-                    selectedEmoji = HachigramAppearanceConfig.INSTANCE.getReplyBackgroundEmoji() ? Constants.CHERRY_EMOJI_ID : 0;
+                    selectedEmoji = 0;
                 }
             }
 
@@ -446,7 +446,7 @@ public class MessagesAndProfilesPreferencesEntry extends BaseFragment {
                     if (me.premium && UserObject.getEmojiId(me) != 0) {
                         selectedEmoji = HachigramAppearanceConfig.INSTANCE.getReplyBackgroundEmoji() ? UserObject.getEmojiId(me) : 0;
                     } else {
-                        selectedEmoji = HachigramAppearanceConfig.INSTANCE.getReplyBackgroundEmoji() ? Constants.CHERRY_EMOJI_ID : 0;
+                        selectedEmoji = 0;
                     }
 
                     updateMessages();
@@ -546,7 +546,7 @@ public class MessagesAndProfilesPreferencesEntry extends BaseFragment {
                     if (me.premium && UserObject.getProfileEmojiId(me) != 0) {
                         selectedEmoji = HachigramAppearanceConfig.INSTANCE.getProfileBackgroundEmoji() ? UserObject.getProfileEmojiId(me) : 0;
                     } else {
-                        selectedEmoji = HachigramAppearanceConfig.INSTANCE.getProfileBackgroundEmoji() ? Constants.CHERRY_EMOJI_ID : 0;
+                        selectedEmoji = 0;
                     }
 
                     updateMessages();

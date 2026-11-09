@@ -209,9 +209,6 @@ public class ThemePreviewMessagesCell extends LinearLayout {
             if (!UserConfig.getInstance(UserConfig.selectedAccount).isPremium()) {
                 message1.overrideLinkColor = Constants.REPLY_BACKGROUND_COLOR_ID;
             }
-            if (UserObject.getEmojiId(UserConfig.getInstance(UserConfig.selectedAccount).getCurrentUser()) == 0) {
-                message1.overrideLinkEmoji = Constants.CHERRY_EMOJI_ID;
-            }
         } else if (type == TYPE_REACTIONS_DOUBLE_TAP)  {
             TLRPC.Message message = new TLRPC.TL_message();
             message.message = LocaleController.getString(R.string.DoubleTapPreviewMessage);

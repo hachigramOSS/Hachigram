@@ -983,15 +983,11 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
     }
 
     public AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable getBotVerificationDrawable(long icon, boolean animated) {
-        return getBotVerificationDrawable(icon, animated, false);
-    }
-
-    public AnimatedEmojiDrawable.SwapAnimatedEmojiDrawable getBotVerificationDrawable(long icon, boolean animated, boolean hachigram) {
         if (icon == 0) {
             return null;
         }
         botVerificationDrawable.set(icon, animated);
-        botVerificationDrawable.setColor(getThemedColor(hachigram ? Theme.key_cgGradient2 : Theme.key_profile_verifiedBackground));
+        botVerificationDrawable.setColor(getThemedColor(Theme.key_profile_verifiedBackground));
         botVerificationDrawable.offset(0, dp(1));
         return botVerificationDrawable;
     }

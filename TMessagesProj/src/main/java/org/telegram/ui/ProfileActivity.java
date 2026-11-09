@@ -12053,13 +12053,7 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 updatedPeerColor();
             }
             if (topView != null) {
-                if (chat.id == Constants.Hachigram_Channel) {
-                    topView.setBackgroundEmojiId(Constants.CHERRY_EMOJI_ID, true, true);
-                } else if (chat.id == Constants.Hachigram_Support) {
-                    topView.setBackgroundEmojiId(Constants.CHERRY_EMOJI_ID_BRA, true, true);
-                }else {
-                    topView.setBackgroundEmojiId(ChatObject.getProfileEmojiId(chat), chat != null && chat.emoji_status instanceof TLRPC.TL_emojiStatusCollectible, true);
-                }
+                topView.setBackgroundEmojiId(ChatObject.getProfileEmojiId(chat), chat != null && chat.emoji_status instanceof TLRPC.TL_emojiStatusCollectible, true);
             }
             setCollectibleGiftStatus(chat.emoji_status instanceof TLRPC.TL_emojiStatusCollectible ? (TLRPC.TL_emojiStatusCollectible) chat.emoji_status : null);
 
@@ -12213,14 +12207,6 @@ public class ProfileActivity extends BaseFragment implements NotificationCenter.
                 } else {
                     nameTextView.setRightDrawable(null);
                 }
-                if (chat.id == Constants.Hachigram_Channel) {
-                    nameTextView.setRightDrawable(getEmojiStatusDrawable(Constants.CHERRY_EMOJI_ID, false, true, 18));
-                    nameTextView.setRightDrawableOutside(true);
-                } else if (chat.id == Constants.Hachigram_Support) {
-                    nameTextView.setRightDrawable(getEmojiStatusDrawable(Constants.CHERRY_EMOJI_ID_BRA, false, true, 18));
-                    nameTextView.setRightDrawableOutside(true);
-                }
-
                 if (chat.bot_verification_icon != 0) {
                     nameTextView.setLeftDrawableOutside(true);
                     nameTextView.setLeftDrawable(getBotVerificationDrawable(chat.bot_verification_icon, false));
