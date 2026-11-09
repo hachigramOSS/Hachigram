@@ -3,6 +3,13 @@
 headings match the tag: `v0.<major>.<minor>[.<rc>]` for release candidates,
 `v<major>.<minor>[.<patch>]` for the real thing. the display name lives in `VERSION`.
 
+## v1.1.1
+
+### fixed
+
+- the app showed its package name instead of "hachigram" on the home screen
+  and in system settings
+
 ## v1.1.0
 
 the first release with hachigram's own face: telegram 13.2.1 underneath, a
