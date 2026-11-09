@@ -25,14 +25,18 @@ import java.nio.charset.StandardCharsets
 abstract class TelegramStringsTask : DefaultTask() {
 
     companion object {
+        // Strings the manifests reference as resources must stay real resources:
+        // listing them in tools:discard lets the release shrinker strip the app label.
         private val GENERATED_EXCLUSIONS = setOf(
             "AppName",
-            "AppNameBeta"
+            "AppNameBeta",
+            "CG_AppName"
         )
 
         private val STABLE_IDS_EXCLUSIONS = setOf(
             "AppName",
-            "AppNameBeta"
+            "AppNameBeta",
+            "CG_AppName"
         )
 
         private const val STRING_RESOURCE_ID_BASE = 0x7F0FFFFE
