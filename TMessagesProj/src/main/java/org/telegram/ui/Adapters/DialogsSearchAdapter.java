@@ -310,6 +310,9 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
         this.itemAnimator = itemAnimator;
         this.dialogsActivity = dialogsActivity;
         this.resourcesProvider = resourcesProvider;
+        if (dialogsActivity != null) {
+            currentAccount = dialogsActivity.getCurrentAccount();
+        }
         searchAdapterHelper = new SearchAdapterHelper(false) {
             @Override
             protected boolean filter(TLObject obj) {
@@ -354,6 +357,7 @@ public class DialogsSearchAdapter extends RecyclerListView.SelectionAdapter {
             }
         });
         searchAdapterHelper.setAllowGlobalResults(allowGlobalSearch);
+        searchAdapterHelper.currentAccount = currentAccount;
         mContext = context;
         needMessagesSearch = messagesSearch;
         dialogsType = type;

@@ -386,6 +386,11 @@ public class SharedDocumentCell extends FrameLayout implements Theme.Colorable, 
     }
 
     public void setDocument(MessageObject messageObject, boolean divider) {
+        if (messageObject != null && currentAccount != messageObject.currentAccount) {
+            DownloadController.getInstance(currentAccount).removeLoadingFileObserver(this);
+            currentAccount = messageObject.currentAccount;
+            TAG = DownloadController.getInstance(currentAccount).generateObserverTag();
+        }
         boolean animated = message != null && messageObject != null && message.getId() != messageObject.getId();
         needDivider = divider;
         message = messageObject;

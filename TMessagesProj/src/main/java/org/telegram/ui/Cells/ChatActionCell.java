@@ -642,6 +642,12 @@ public class ChatActionCell extends BaseCell implements DownloadController.FileD
 
     public void setMessageObject(MessageObject messageObject, boolean force) {
         if (messageObject == null) return;
+        if (messageObject != null && currentAccount != messageObject.currentAccount) {
+            DownloadController.getInstance(currentAccount).removeLoadingFileObserver(this);
+            currentAccount = messageObject.currentAccount;
+            TAG = DownloadController.getInstance(currentAccount).generateObserverTag();
+        }
+        imageReceiver.setCurrentAccount(currentAccount);
         if (currentMessageObject != messageObject && walletSlidingOffset != 0) setWalletSlidingOffset(0);
         final boolean walletStateChanged = messageObject.messageOwner != null
                 && messageObject.messageOwner.action instanceof TLRPC.TL_messageActionGramTransfer

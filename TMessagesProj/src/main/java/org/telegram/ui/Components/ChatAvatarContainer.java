@@ -184,6 +184,9 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
     public ChatAvatarContainer(Context context, BaseFragment baseFragment, boolean needTime, Theme.ResourcesProvider resourcesProvider) {
         super(context);
         this.resourcesProvider = resourcesProvider;
+        if (baseFragment != null) {
+            currentAccount = baseFragment.getCurrentAccount();
+        }
         if (baseFragment instanceof ChatActivity) {
             parentFragment = (ChatActivity) baseFragment;
         }
@@ -270,6 +273,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
         }
         avatarImageView.setContentDescription(getString(R.string.AccDescrProfilePicture));
         avatarImageView.setRoundRadius(dp(21));
+        avatarImageView.getImageReceiver().setCurrentAccount(currentAccount);
         addView(avatarImageView);
         if (avatarClickable && !centerChatTitle) {
             final TLRPC.Chat chat = parentFragment != null ? parentFragment.getCurrentChat() : null;

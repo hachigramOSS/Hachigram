@@ -1898,6 +1898,11 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         blurredPhotoImage = new ImageReceiver(this);
         blurredPhotoImage.setAllowLoadingOnAttachedOnly(true);
         blurredPhotoImage.setUseRoundForThumbDrawable(true);
+        avatarImage.setCurrentAccount(currentAccount);
+        replyImageReceiver.setCurrentAccount(currentAccount);
+        locationImageReceiver.setCurrentAccount(currentAccount);
+        photoImage.setCurrentAccount(currentAccount);
+        blurredPhotoImage.setCurrentAccount(currentAccount);
         radialProgress = new RadialProgress2(this, resourcesProvider);
         videoRadialProgress = new RadialProgress2(this, resourcesProvider);
         videoRadialProgress.setDrawBackground(false);
@@ -1988,6 +1993,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         commentAvatarImagesVisible = new boolean[3];
         for (int a = 0; a < commentAvatarImages.length; a++) {
             commentAvatarImages[a] = new ImageReceiver(this);
+            commentAvatarImages[a].setCurrentAccount(currentAccount);
             commentAvatarImages[a].setRoundRadius(dp(12));
             commentAvatarDrawables[a] = new AvatarDrawable();
             commentAvatarDrawables[a].setTextSize(dp(18));

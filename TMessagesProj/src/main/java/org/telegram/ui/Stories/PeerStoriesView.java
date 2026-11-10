@@ -6283,6 +6283,9 @@ public class PeerStoriesView extends SizeNotifierFrameLayout implements Notifica
 
     public void setAccount(int currentAccount) {
         this.currentAccount = currentAccount;
+        imageReceiver.setCurrentAccount(currentAccount);
+        leftPreloadImageReceiver.setCurrentAccount(currentAccount);
+        rightPreloadImageReceiver.setCurrentAccount(currentAccount);
         storiesController = MessagesController.getInstance(currentAccount).storiesController;
         emojiAnimationsOverlay.setAccount(currentAccount);
         if (reactionsContainerLayout != null) {

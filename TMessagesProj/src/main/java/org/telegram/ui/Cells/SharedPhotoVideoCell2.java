@@ -158,6 +158,8 @@ public class SharedPhotoVideoCell2 extends FrameLayout {
         super(context);
         this.sharedResources = sharedResources;
         this.currentAccount = currentAccount;
+        imageReceiver.setCurrentAccount(currentAccount);
+        imageReceiverFullSize.setCurrentAccount(currentAccount);
 
         setChecked(false, false);
         imageReceiver.setParentView(this);

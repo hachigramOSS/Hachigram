@@ -4751,7 +4751,7 @@ public class PhotoViewer implements NotificationCenter.NotificationCenterDelegat
         Theme.createChatResources(activity, false);
         this.resourcesProvider = resourcesProvider;
         this.parentFragment = fragment;
-        currentAccount = UserConfig.selectedAccount;
+        currentAccount = fragment != null ? fragment.getCurrentAccount() : UserConfig.selectedAccount;
         centerImage.setCurrentAccount(currentAccount);
         leftImage.setCurrentAccount(currentAccount);
         rightImage.setCurrentAccount(currentAccount);

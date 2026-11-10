@@ -308,8 +308,12 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
         }
     }
 
+    private int inu_getFragmentAccount() {
+        return fragment != null ? fragment.getCurrentAccount() : UserConfig.selectedAccount;
+    }
+
     public void open(Context context, TL_stories.StoryItem storyItem, PlaceProvider placeProvider) {
-        open(UserConfig.selectedAccount, context, storyItem, placeProvider);
+        open(inu_getFragmentAccount(), context, storyItem, placeProvider);
     }
     public void open(int account, Context context, TL_stories.StoryItem storyItem, PlaceProvider placeProvider) {
         if (storyItem == null) {
@@ -328,7 +332,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     public void open(Context context, long dialogId, PlaceProvider placeProvider) {
-        currentAccount = UserConfig.selectedAccount;
+        currentAccount = inu_getFragmentAccount();
         int position = 0;
         ArrayList<Long> peerIds = new ArrayList<>();
         peerIds.add(dialogId);
@@ -337,7 +341,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
     }
 
     public void open(Context context, int startStoryId, StoriesController.StoriesList storiesList, PlaceProvider placeProvider) {
-        currentAccount = UserConfig.selectedAccount;
+        currentAccount = inu_getFragmentAccount();
         ArrayList<Long> peerIds = new ArrayList<>();
         peerIds.add(storiesList.dialogId);
         dayStoryId = startStoryId;
@@ -349,14 +353,14 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
             doOnAnimationReadyRunnables.clear();
             return;
         }
-        currentAccount = UserConfig.selectedAccount;
+        currentAccount = inu_getFragmentAccount();
         ArrayList<Long> peerIds = new ArrayList<>();
         peerIds.add(DialogObject.getPeerDialogId(userStories.peer));
         open(context, userStories.stories.get(0), peerIds, 0, null, userStories, placeProvider, false);
     }
 
     public void open(Context context, TL_stories.StoryItem storyItem, int startStoryId, StoriesController.StoriesList storiesList, boolean reversed, PlaceProvider placeProvider) {
-        currentAccount = UserConfig.selectedAccount;
+        currentAccount = inu_getFragmentAccount();
         ArrayList<Long> peerIds = new ArrayList<>();
         peerIds.add(storiesList.dialogId);
         dayStoryId = startStoryId;
@@ -365,7 +369,7 @@ public class StoryViewer implements NotificationCenter.NotificationCenterDelegat
 
     @SuppressLint("WrongConstant")
     public void open(Context context, TL_stories.StoryItem storyItem, ArrayList<Long> peerIds, int position, StoriesController.StoriesList storiesList, TL_stories.PeerStories userStories, PlaceProvider placeProvider, boolean reversed) {
-        open(UserConfig.selectedAccount, context, storyItem, peerIds, position, storiesList, userStories, placeProvider, reversed);
+        open(inu_getFragmentAccount(), context, storyItem, peerIds, position, storiesList, userStories, placeProvider, reversed);
     }
     public void open(int account, Context context, TL_stories.StoryItem storyItem, ArrayList<Long> peerIds, int position, StoriesController.StoriesList storiesList, TL_stories.PeerStories userStories, PlaceProvider placeProvider, boolean reversed) {
         if (!isContextSafe(context)) {

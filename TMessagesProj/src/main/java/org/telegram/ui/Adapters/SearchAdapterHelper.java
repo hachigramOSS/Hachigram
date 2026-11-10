@@ -78,7 +78,7 @@ public class SearchAdapterHelper {
     private ArrayList<Object> localSearchResults;
     private ArrayList<DialogsSearchAdapter.RecentSearchObject> localRecentResults;
 
-    private int currentAccount = UserConfig.selectedAccount;
+    public int currentAccount = UserConfig.selectedAccount;
 
     private String lastFoundChannel;
 

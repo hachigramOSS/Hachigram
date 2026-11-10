@@ -172,6 +172,7 @@ public class ReactionsLayoutInBubble {
         hasPaidReaction = false;
         reactionButtons.clear();
         if (messageObject != null) {
+            currentAccount = messageObject.currentAccount;
             boolean forceLikeDislikeReactions = false; /*!messageObject.isOutOwner()
                     && !messageObject.isBotPendingDraft
                     && BotForumHelper.isBotForum(currentAccount, messageObject.getDialogId())

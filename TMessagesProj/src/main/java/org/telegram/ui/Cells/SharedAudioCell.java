@@ -271,6 +271,11 @@ public class SharedAudioCell extends FrameLayout implements DownloadController.F
     }
 
     public void setMessageObject(MessageObject messageObject, boolean divider) {
+        if (messageObject != null && currentAccount != messageObject.currentAccount) {
+            DownloadController.getInstance(currentAccount).removeLoadingFileObserver(this);
+            currentAccount = messageObject.currentAccount;
+            TAG = DownloadController.getInstance(currentAccount).generateObserverTag();
+        }
         needDivider = divider;
         currentMessageObject = messageObject;
         final TLRPC.Document document = messageObject.getDocument();

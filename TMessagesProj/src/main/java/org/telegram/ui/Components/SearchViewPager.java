@@ -166,6 +166,7 @@ public class SearchViewPager extends ViewPagerFixed implements FilteredSearchVie
         this.folderId = folderId;
         this.communityId = communityId;
         parent = fragment;
+        currentAccount = fragment.getCurrentAccount();
         this.chatPreviewDelegate = chatPreviewDelegate;
 
         itemAnimator = new DefaultItemAnimator();
