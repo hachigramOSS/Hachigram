@@ -11,7 +11,7 @@ import java.util.HashMap;
 
 public class ThemeColors {
 
-    public static final int HACHIGRAM_COLOR = 0xFFA33156;
+    public static final int HACHIGRAM_COLOR = 0xFFF8921B;
 
     public static final int TELEGRAM_COLOR = 0xFF229AF0;        // -14509328
     public static final int TELEGRAM_COLOR_TEXT = 0xFF298ACF;   // -14054705
