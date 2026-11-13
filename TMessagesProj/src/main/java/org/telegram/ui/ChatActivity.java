@@ -9405,8 +9405,8 @@ public class ChatActivity extends BaseFragment implements
 
     @Nullable
     private WindowInsetsCompat getChatWindowInsets(@Nullable WindowInsetsCompat insets) {
-        if (insets != null && chatAttachAlert != null
-                && (chatAttachAlert.isShowing() && !chatAttachAlert.isDismissed() || chatAttachAlert.isGramSendDismissalInProgress())) {
+        if (insets != null && (chatAttachAlert != null
+                && (chatAttachAlert.isShowing() && !chatAttachAlert.isDismissed() || chatAttachAlert.isGramSendDismissalInProgress()) || inu_isImeOwnedByVisibleDialog())) {
             // The attachment sheet owns this IME; it must not move the chat behind it.
             return new WindowInsetsCompat.Builder(insets)
                 .setInsets(WindowInsetsCompat.Type.ime(), Insets.NONE)
@@ -9414,6 +9414,12 @@ public class ChatActivity extends BaseFragment implements
                 .build();
         }
         return insets;
+    }
+
+    private boolean inu_isImeOwnedByVisibleDialog() {
+        if (visibleDialog == null || !visibleDialog.isShowing() || visibleDialog.getWindow() == null) return false;
+        final int flags = visibleDialog.getWindow().getAttributes().flags;
+        return (flags & (WindowManager.LayoutParams.FLAG_NOT_FOCUSABLE | WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM)) == 0;
     }
 
     @NonNull

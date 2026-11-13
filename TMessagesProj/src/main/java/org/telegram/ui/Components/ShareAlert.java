@@ -538,7 +538,15 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
 
 
             {
-                adjustPanLayoutHelper = new AdjustPanLayoutHelper(this) {
+                adjustPanLayoutHelper = new AdjustPanLayoutHelper(this, true) {
+
+                    @Override
+                    protected int startOffset() {
+                        if (keyboardVisible || measureKeyboardHeight() > dp(20) || AndroidUtilities.isInMultiwindow) {
+                            return 0;
+                        }
+                        return Math.max(systemInsets.bottom, commentTextView.getEmojiPadding());
+                    }
 
                     @Override
                     protected void onTransitionStart(boolean keyboardVisible, int contentHeight) {
@@ -755,7 +763,7 @@ public class ShareAlert extends BottomSheet implements NotificationCenter.Notifi
                         pickerBottomLayout.setVisibility(visibility);
                     }
                 } else {
-                    if (!commentTextView.isPopupVisible()) {
+                    if (!commentTextView.isPopupShowing()) {
                         commentTextView.hideEmojiView();
                     }
                     if (pickerBottomLayout != null) {
