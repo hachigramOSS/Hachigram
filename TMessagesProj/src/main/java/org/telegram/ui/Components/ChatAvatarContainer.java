@@ -706,7 +706,7 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
 
         final int width = MeasureSpec.getSize(widthMeasureSpec + padding);
         final int availableWidth = width - dp(((avatarImageView.getVisibility() == VISIBLE || centerChatTitle) ? 54 : 0) + 16);
-        final int avatarSize = dp(centerChatTitle ? 36 : avatarSizeInDp) - 2;
+        final int avatarSize = dp(avatarSizeInDp) - 2;
         avatarImageView.measure(MeasureSpec.makeMeasureSpec(avatarSize, MeasureSpec.EXACTLY), MeasureSpec.makeMeasureSpec(avatarSize, MeasureSpec.EXACTLY));
         titleTextView.measure(MeasureSpec.makeMeasureSpec(availableWidth - (centerChatTitle ? dp(60) : 0), MeasureSpec.AT_MOST), MeasureSpec.makeMeasureSpec(dp(24 + 8), MeasureSpec.AT_MOST));
         if (subtitleTextView != null) {
@@ -801,6 +801,33 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
     }
 
     private boolean glassMode;
+    private int glassPillWidth = -1;
+
+    // With the title centered the avatar sits at the right end of the action
+    // bar's glass pill. The pill is sized from the title, not from this view,
+    // so the avatar has to follow the pill width rather than getWidth().
+    public void setGlassPillWidth(int width) {
+        if (glassPillWidth == width) {
+            return;
+        }
+        glassPillWidth = width;
+        if (!centerChatTitle || avatarImageView == null) {
+            return;
+        }
+        final float dx = centeredAvatarLeft() - avatarImageView.getLeft();
+        avatarImageView.setTranslationX(dx);
+        if (timeItem != null) {
+            timeItem.setTranslationX(dx);
+        }
+    }
+
+    private int centeredAvatarLeft() {
+        final int pillWidth = glassPillWidth > 0 ? glassPillWidth : getVisualWidth() + dp(12);
+        // ActionBar.draw() puts the pill's left edge 9dp left of this view's padded edge,
+        // and the left-side avatar keeps a 9dp inset, mirrored here on the right.
+        return leftPadding + pillWidth - dp(18) - 2 - avatarImageView.getMeasuredWidth();
+    }
+
     public void setGlassMode() {
         if (titleTextView != null) {
             titleTextView.setTextSizePx(dp(17.5f));
@@ -822,8 +849,10 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
         final int viewTop = (actionBarHeight - avatarImageView.getMeasuredHeight() - 2) / 2 + (occupyStatusBar ? AndroidUtilities.statusBarHeight : 0);
         final int subtitleTop = viewTop + dp(glassMode ? 23.66f : 24);
 
+        avatarImageView.setTranslationX(0);
         if (centerChatTitle) {
-            avatarImageView.layout((getWidth() - leftPadding) - dp(86), viewTop + 1, (getWidth() - leftPadding) - dp(86) + avatarImageView.getMeasuredWidth(), viewTop + 1 + avatarImageView.getMeasuredHeight());
+            final int avatarLeft = centeredAvatarLeft();
+            avatarImageView.layout(avatarLeft, viewTop + 1, avatarLeft + avatarImageView.getMeasuredWidth(), viewTop + 1 + avatarImageView.getMeasuredHeight());
         } else {
             avatarImageView.layout(1 + leftPadding, 1 + viewTop, 1 + leftPadding + avatarImageView.getMeasuredWidth(), 1 + viewTop + avatarImageView.getMeasuredHeight());
         }
@@ -848,8 +877,10 @@ public class ChatAvatarContainer extends FrameLayout implements FactorAnimator.T
                 viewTop + dp(27.33f) + communityItem.getMeasuredHeight());
         }
         if (timeItem != null) {
+            timeItem.setTranslationX(0);
             if (centerChatTitle) {
-                timeItem.layout((getWidth() - leftPadding) - dp(60), dp(5) + viewTop, (getWidth() - leftPadding) - dp(26), viewTop + dp(15 + 34));
+                final int timeLeft = avatarImageView.getLeft() + dp(18.333f);
+                timeItem.layout(timeLeft, viewTop - dp(8), timeLeft + timeItem.getMeasuredWidth(), viewTop - dp(8) + timeItem.getMeasuredHeight());
             } else {
                 timeItem.layout(
                     leftPadding + dp(19.333f),

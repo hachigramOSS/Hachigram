@@ -2582,6 +2582,7 @@ public class ActionBar extends FrameLayout implements FactorAnimator.Target, The
                     final int width = lerp(Math.min(widthDefault, (int) animatorAvatarContainerWidth.getFactor() + p * 2), widthDefault, Math.max(searchFactor, actionModeFactor));
                     left = (rightDefault + leftDefault - width) / 2;
                     right = left + width;
+                    chatAvatarContainer.setGlassPillWidth(width);
 
                     final float translationX = left
                             - ((MarginLayoutParams)(chatAvatarContainer.getLayoutParams())).leftMargin
