@@ -30,7 +30,11 @@ abstract class TelegramStringsTask : DefaultTask() {
         private val GENERATED_EXCLUSIONS = setOf(
             "AppName",
             "AppNameBeta",
-            "CG_AppName"
+            "CG_AppName",
+            "EditWidgetChatsInfo",
+            "EditWidgetContactsInfo",
+            "Settings",
+            "AccountSettings"
         )
 
         private val STABLE_IDS_EXCLUSIONS = setOf(
