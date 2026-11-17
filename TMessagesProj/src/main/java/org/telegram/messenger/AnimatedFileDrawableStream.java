@@ -10,7 +10,7 @@ import java.util.concurrent.CountDownLatch;
 public class AnimatedFileDrawableStream implements FileLoadOperationStream {
 
     private FileLoadOperation loadOperation;
-    private CountDownLatch countDownLatch;
+    private volatile CountDownLatch countDownLatch;
     private TLRPC.Document document;
     private ImageLocation location;
     private Object parentObject;
@@ -62,6 +62,8 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
             long availableLength = 0;
             try {
                 while (availableLength == 0) {
+                    CountDownLatch latch = new CountDownLatch(1);
+                    countDownLatch = latch;
                     long[] result = loadOperation.getDownloadedLengthFromOffset(offset, readLength);
                     availableLength = result[0];
                     if (!finishedLoadingFile && result[1] != 0) {
@@ -75,7 +77,6 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
                                 return 0;
                             }
                         }
-                        countDownLatch = new CountDownLatch(1);
                         if (loadOperation.isPaused() || lastOffset != offset || preview) {
                             FileLoadOperation loadOperation = FileLoader.getInstance(currentAccount).loadStreamFile(this, document, location, parentObject, offset, preview, loadingPriority);
                             if (this.loadOperation != loadOperation) {
@@ -94,16 +95,16 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
                         if (!preview) {
                             FileLoader.getInstance(currentAccount).setLoadingVideo(document, false, true);
                         }
-                        if (countDownLatch != null) {
-                            waitingForLoad = true;
-                            countDownLatch.await();
-                            waitingForLoad = false;
-                        }
+                        waitingForLoad = true;
+                        latch.await();
+                        waitingForLoad = false;
                     }
                 }
                 lastOffset = offset + availableLength;
             } catch (Exception e) {
                 FileLog.e(e, false);
+            } finally {
+                countDownLatch = null;
             }
             return (int) availableLength;
         }
@@ -177,9 +178,9 @@ public class AnimatedFileDrawableStream implements FileLoadOperationStream {
 
     @Override
     public void newDataAvailable() {
-        if (countDownLatch != null) {
-            countDownLatch.countDown();
-            countDownLatch = null;
+        CountDownLatch latch = countDownLatch;
+        if (latch != null) {
+            latch.countDown();
         }
     }
 
