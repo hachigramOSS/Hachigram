@@ -4465,6 +4465,11 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                         finishPreviewFragment();
                     }
                 }
+
+                @Override
+                public boolean inu_consumeScroll() {
+                    return parentLayout != null && parentLayout.isInPreviewMode();
+                }
             });
             viewPage.swipeController = new SwipeController(viewPage);
             viewPage.recyclerItemsEnterAnimator = new RecyclerItemsEnterAnimator(viewPage.listView, false);

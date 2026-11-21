@@ -280,6 +280,10 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
 
         default void onLongClickRelease() {
         }
+
+        default boolean inu_consumeScroll() {
+            return true;
+        }
     }
 
     public interface OnInterceptTouchListener {
@@ -2607,7 +2611,7 @@ public class RecyclerListView extends RecyclerView implements IBlur3Capture {
 
     @Override
     public boolean dispatchNestedPreScroll(int dx, int dy, int[] consumed, int[] offsetInWindow, int type) {
-        if (longPressCalled) {
+        if (longPressCalled && (onItemLongClickListenerExtended == null || onItemLongClickListenerExtended.inu_consumeScroll())) {
             if (onItemLongClickListenerExtended != null) {
                 onItemLongClickListenerExtended.onMove(dx, dy);
             }
