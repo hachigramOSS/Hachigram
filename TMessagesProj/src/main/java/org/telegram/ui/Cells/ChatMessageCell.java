@@ -2577,7 +2577,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_UP) {
             int x = (int) getEventX(event);
             int y = (int) getEventY(event);
-            if (pressedLink == null && x >= textX && y >= textY && x <= textX + currentMessageObject.textWidth && y <= textY + currentMessageObject.textHeight(transitionParams)) {
+            if (pressedLink == null && x >= textX && y >= textY && x <= (isCompactIn() ? getCompactRight() : textX + currentMessageObject.textWidth) && y <= textY + currentMessageObject.textHeight(transitionParams)) {
                 y -= textY;
                 for (int a = 0; a < currentMessageObject.textLayoutBlocks.size(); a++) {
                     MessageObject.TextLayoutBlock block = currentMessageObject.textLayoutBlocks.get(a);
@@ -2657,7 +2657,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
                     y -= block.textYOffset(captionLayout.textLayoutBlocks, transitionParams);
 
                     if (block.compactCode) {
-                        final boolean hit = block.isCompactCopyHit(x - (block.isRtl() ? captionLayout.textXOffset : 0), y - block.padTop, getCompactRight() - captionX);
+                        final boolean hit = block.isCompactCopyHit(x - (block.isRtl() ? captionLayout.textXOffset : 0), y - block.padTop, getCompactCaptionWidth());
                         if (hit || pressedCopyCode == block) {
                             if (event.getAction() == MotionEvent.ACTION_UP) {
                                 if (hit && block == pressedCopyCode && delegate != null) {
@@ -2816,14 +2816,18 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         if (event.getAction() == MotionEvent.ACTION_DOWN || event.getAction() == MotionEvent.ACTION_UP) {
             int x = (int) getEventX(event);
             int y = (int) getEventY(event);
-            if (pressedLink == null && x >= captionX && y >= captionY && x <= captionX + captionLayout.textWidth && y <= captionY + captionLayout.textHeight(transitionParams)) {
+            if (pressedLink == null && x >= captionX && y >= captionY && x <= captionX + (isCompactIn() ? getCompactCaptionWidth() : captionLayout.textWidth) && y <= captionY + captionLayout.textHeight(transitionParams)) {
                 y -= captionY;
                 for (int a = 0; a < captionLayout.textLayoutBlocks.size(); a++) {
                     MessageObject.TextLayoutBlock block = captionLayout.textLayoutBlocks.get(a);
                     if (block.quoteCollapse && block.collapsedHeight < block.height && y >= block.textYOffset(captionLayout.textLayoutBlocks, transitionParams) && y < block.textYOffset(captionLayout.textLayoutBlocks, transitionParams) + block.padTop + block.height(transitionParams) + block.padBottom) {
                         pressedBlock = a;
-                        if (block.collapsedBounce == null || block.collapsedBounce.getView() != this) {
-                            block.collapsedBounce = new ButtonBounce(this);
+                        final ChatMessageCell drawingCell = findCaptionDrawingCell();
+                        if (block.collapsedBounce == null || block.collapsedBounce.getView() != drawingCell) {
+                            block.collapsedBounce = new ButtonBounce(drawingCell);
+                        }
+                        if (drawingCell != this && a < drawingCell.captionLayout.textLayoutBlocks.size()) {
+                            drawingCell.captionLayout.textLayoutBlocks.get(a).collapsedBounce = block.collapsedBounce;
                         }
                         block.collapsedBounce.setPressed(event.getAction() == MotionEvent.ACTION_DOWN);
                         break;
@@ -2871,6 +2875,22 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
     boolean touchedByExpanation;
     boolean touchedByCaption;
+
+    private ChatMessageCell findCaptionDrawingCell() {
+        if (currentMessagesGroup == null || currentPosition == null || (currentPosition.flags & MessageObject.POSITION_FLAG_LEFT) != 0 || !(getParent() instanceof ViewGroup)) {
+            return this;
+        }
+        final ViewGroup parent = (ViewGroup) getParent();
+        for (int i = 0; i < parent.getChildCount(); i++) {
+            final View child = parent.getChildAt(i);
+            if (!(child instanceof ChatMessageCell)) continue;
+            final ChatMessageCell cell = (ChatMessageCell) child;
+            if (cell.currentMessagesGroup == currentMessagesGroup && cell.currentPosition != null && cell.captionLayout != null && (cell.currentPosition.flags & MessageObject.POSITION_FLAG_LEFT) != 0) {
+                return cell;
+            }
+        }
+        return this;
+    }
 
     private boolean checkGameMotionEvent(MotionEvent event) {
         if (!hasGamePreview) {
@@ -14126,7 +14146,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             right -= dp(10 + (currentMessageObject.isOutOwner() && !mediaBackground && !drawPinnedBottom ? 6 : 0)) + getExtraTextX();
             if (isCompactIn()) {
                 // no bubble: quotes and code reach the page's 16dp edge, not the edge of the media above a caption
-                right = getCompactRight();
+                right = caption ? textX + getCompactCaptionWidth() : getCompactRight();
             }
             final float maxWidth = right - textX;
             int restore = Integer.MIN_VALUE;
@@ -21197,7 +21217,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
 
         int restore = Integer.MIN_VALUE;
         if (renderingAlpha != 1.0f) {
-            rect.set(captionX, captionY, captionX + captionLayout.textWidth, captionY + captionLayout.textHeight(transitionParams));
+            rect.set(captionX, captionY, isCompactIn() ? captionX + getCompactCaptionWidth() : captionX + captionLayout.textWidth, captionY + captionLayout.textHeight(transitionParams));
             restore = canvas.saveLayerAlpha(rect, (int) (255 * renderingAlpha), Canvas.ALL_SAVE_FLAG);
         }
         if (isRoundVideo && transitionParams.animateDrawBackground) {
@@ -21211,7 +21231,9 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
             }
         } else if (transitionParams.animateBackgroundBoundsInner && currentBackgroundDrawable != null && currentMessagesGroup == null || transitionParams.animateMediaAbove && currentMessagesGroup == null) {
             int bottomoffset = (drawCommentButton && commentButtonRect != null ? commentButtonRect.height() : 0) + (reactionsLayoutInBubble != null && !reactionsLayoutInBubble.isSmall ? (int) Math.max(0, reactionsLayoutInBubble.height - reactionsLayoutInBubble.totalHeight + reactionsLayoutInBubble.getCurrentTotalHeight(transitionParams.animateChangeProgress)) : 0);
-            if (currentMessageObject.isOutOwner() && !mediaBackground && !pinnedBottom) {
+            if (isCompactLayout()) {
+                canvas.clipRect(0, 0, getMeasuredWidth(), getBackgroundDrawableBottom() + transitionParams.deltaBottom - dp(4) - bottomoffset);
+            } else if (currentMessageObject.isOutOwner() && !mediaBackground && !pinnedBottom) {
                 canvas.clipRect(
                         getBackgroundDrawableLeft() + transitionParams.deltaLeft + dp(4), getBackgroundDrawableTop() + transitionParams.deltaTop + dp(4),
                         getBackgroundDrawableRight() + transitionParams.deltaRight - dp(10), getBackgroundDrawableBottom() + transitionParams.deltaBottom - dp(4) - bottomoffset
@@ -24060,7 +24082,7 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
         canvas.drawRoundRect(AndroidUtilities.rectTmp, radius, radius, compactScrimPaint);
     }
 
-    boolean isCompactLayout() {
+    public boolean isCompactLayout() {
         return isCompactIn();
     }
 
@@ -24076,6 +24098,10 @@ public class ChatMessageCell extends BaseCell implements SeekBar.SeekBarDelegate
     // the topics side menu takes the chat's left side, compact content starts 16dp after it
     private int getCompactSideMenuWidth() {
         return isSideMenuEnabled ? dp(ChatActivity.SIDE_MENU_WIDTH) : 0;
+    }
+
+    private int getCompactCaptionWidth() {
+        return getExtraTextX() + getCompactContentWidth();
     }
 
     int getCompactLeft() {

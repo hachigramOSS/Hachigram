@@ -5916,7 +5916,7 @@ public class ChatActivity extends BaseFragment implements
                         float canvasOffsetY = cell.getY() + cell.getPaddingTop();
                         canvas.save();
                         MessageObject.GroupedMessages groupedMessages = cell.getCurrentMessagesGroup();
-                        if (groupedMessages != null && groupedMessages.transitionParams.backgroundChangeBounds) {
+                        if (groupedMessages != null && groupedMessages.transitionParams.backgroundChangeBounds && !cell.isCompactLayout()) {
                             float x = cell.getNonAnimationTranslationX(true);
                             float l = (groupedMessages.transitionParams.left + x + groupedMessages.transitionParams.offsetLeft);
                             float t = (groupedMessages.transitionParams.top + groupedMessages.transitionParams.offsetTop);
@@ -5958,7 +5958,7 @@ public class ChatActivity extends BaseFragment implements
                         float canvasOffsetY = cell.getY() + cell.getPaddingTop();
                         canvas.save();
                         MessageObject.GroupedMessages groupedMessages = cell.getCurrentMessagesGroup();
-                        if (groupedMessages != null && groupedMessages.transitionParams.backgroundChangeBounds) {
+                        if (groupedMessages != null && groupedMessages.transitionParams.backgroundChangeBounds && !cell.isCompactLayout()) {
                             float x = cell.getNonAnimationTranslationX(true);
                             float l = (groupedMessages.transitionParams.left + x + groupedMessages.transitionParams.offsetLeft);
                             float t = (groupedMessages.transitionParams.top + groupedMessages.transitionParams.offsetTop);
@@ -6343,7 +6343,7 @@ public class ChatActivity extends BaseFragment implements
 
                 boolean result;
                 if (!skipDraw) {
-                    boolean clipToGroupBounds = (cell != null && !cell.transitionParams.needsStopClipping) && (group != null && group.transitionParams.backgroundChangeBounds);
+                    boolean clipToGroupBounds = (cell != null && !cell.transitionParams.needsStopClipping) && (group != null && group.transitionParams.backgroundChangeBounds) && !cell.isCompactLayout();
                     if (clipToGroupBounds) {
                         canvas.save();
                         float x = cell.getNonAnimationTranslationX(true);
