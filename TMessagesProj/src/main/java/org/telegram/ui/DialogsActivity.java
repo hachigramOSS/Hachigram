@@ -3349,6 +3349,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
 
                 searching = false;
                 searchWas = false;
+                if (switchItem != null) {
+                    switchItem.setVisibility(View.VISIBLE);
+                }
                 if (viewPages[0] != null) {
                     viewPages[0].listView.setEmptyView(folderId == 0 ? viewPages[0].progressView : null);
                     showSearch(false, false, true);
