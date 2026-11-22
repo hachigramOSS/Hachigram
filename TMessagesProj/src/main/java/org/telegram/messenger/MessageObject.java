@@ -6354,11 +6354,7 @@ public class MessageObject {
             } else {
                 if (messageOwner.message != null) {
                     try {
-                        if (messageOwner.message.length() > 200) {
-                            messageText = AndroidUtilities.BAD_CHARS_MESSAGE_LONG_PATTERN.matcher(messageOwner.message).replaceAll("\u200C");
-                        } else {
-                            messageText = AndroidUtilities.BAD_CHARS_MESSAGE_PATTERN.matcher(messageOwner.message).replaceAll("\u200C");
-                        }
+                        messageText = com.the306bobby.hachigram.helpers.MessageTextSanitizer.sanitizeMessageText(messageOwner.message);
                     } catch (Throwable e) {
                         messageText = messageOwner.message;
                     }
@@ -7946,7 +7942,7 @@ public class MessageObject {
             captionTranslated = false;
         }
         if (!isMediaEmpty() && !(getMedia(messageOwner) instanceof TLRPC.TL_messageMediaGame) && !TextUtils.isEmpty(text)) {
-            caption = Emoji.replaceEmoji(text, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
+            caption = Emoji.replaceEmoji(com.the306bobby.hachigram.helpers.MessageTextSanitizer.sanitizeMessageText(text), Theme.chat_msgTextPaint.getFontMetricsInt(), false);
             caption = replaceAnimatedEmoji(caption, entities, Theme.chat_msgTextPaint.getFontMetricsInt(), false);
 
             boolean hasEntities;
