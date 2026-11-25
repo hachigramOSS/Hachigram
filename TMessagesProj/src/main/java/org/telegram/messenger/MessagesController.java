@@ -22494,8 +22494,8 @@ public class MessagesController extends BaseController implements NotificationCe
             }
         }
 
-        if (mode == ChatActivity.MODE_DEFAULT && hasNotOutMessage) {
-            MessageRequestsController.getInstance(currentAccount).onIncomingMessages(dialogId, messages);
+        if (mode == ChatActivity.MODE_DEFAULT) {
+            MessageRequestsController.getInstance(currentAccount).onMessages(dialogId, messages);
         }
 
         if (changed) {

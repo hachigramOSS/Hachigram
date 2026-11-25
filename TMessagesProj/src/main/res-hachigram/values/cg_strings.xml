@@ -501,7 +501,7 @@
     <string name="SP_MessageRequests_Silence">silence requests</string>
     <string name="SP_MessageRequests_Silence_Desc">no notifications for chats in the requests folder, like a muted chat</string>
     <string name="SP_MessageRequests_AutoReply">auto-reply to requests</string>
-    <string name="SP_MessageRequests_AutoReply_Desc">send them this message once, when their chat lands in requests</string>
+    <string name="SP_MessageRequests_AutoReply_Desc">send them this message once, when their chat lands in requests. it ends with \"- sent by hachigram\" so your other devices know not to send it again</string>
     <string name="SP_MessageRequests_AutoReply_Text">auto-reply text</string>
     <string name="SP_MessageRequests_Folder">message requests</string>
     <string name="SP_MessageRequests_Info">replying to someone moves their chat back to the main list</string>

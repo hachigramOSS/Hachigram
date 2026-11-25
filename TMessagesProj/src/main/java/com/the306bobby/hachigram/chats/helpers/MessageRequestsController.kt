@@ -22,6 +22,7 @@ import org.telegram.messenger.SendMessagesHelper
 import org.telegram.messenger.UserConfig
 import org.telegram.messenger.UserObject
 import org.telegram.tgnet.TLRPC
+import kotlin.random.Random
 
 /**
  * Keeps first messages from people we never wrote to in a local "message requests" folder.
@@ -38,6 +39,18 @@ class MessageRequestsController private constructor(num: Int) : BaseController(n
         private const val PREF_KEY = "hachi_message_requests"
         private const val STATE_REQUEST = 1
         private const val STATE_ACCEPTED = 2
+        /** A request this account already auto-replied to, from any device. */
+        private const val STATE_REQUEST_ANSWERED = 3
+
+        /** Appended to every auto-reply so any device, with any custom text, can recognise one. */
+        const val AUTO_REPLY_SIGNATURE = "- sent by hachigram"
+        private const val HISTORY_LIMIT = 20
+
+        @JvmStatic
+        fun isAutoReply(message: TLRPC.Message?): Boolean {
+            val text = message?.message ?: return false
+            return message.out && text.trimEnd().endsWith(AUTO_REPLY_SIGNATURE)
+        }
 
         private val instances = arrayOfNulls<MessageRequestsController>(UserConfig.MAX_ACCOUNT_COUNT)
 
@@ -75,11 +88,14 @@ class MessageRequestsController private constructor(num: Int) : BaseController(n
         messagesController.mainSettings.edit { putString(PREF_KEY, raw) }
     }
 
-    fun isRequest(dialogId: Long): Boolean = states[dialogId] == STATE_REQUEST
+    fun isRequest(dialogId: Long): Boolean {
+        val state = states[dialogId]
+        return state == STATE_REQUEST || state == STATE_REQUEST_ANSWERED
+    }
 
     /** MessagesController.isDialogMuted: a silenced request behaves like a muted chat. */
     fun isSilenced(dialogId: Long): Boolean =
-        dialogId > 0 && HachigramPrivacyConfig.messageRequestsSilence && isEnabled() && states[dialogId] == STATE_REQUEST
+        dialogId > 0 && HachigramPrivacyConfig.messageRequestsSilence && isEnabled() && isRequest(dialogId)
 
     fun requestsUnreadCount(): Int {
         var count = 0
@@ -90,10 +106,21 @@ class MessageRequestsController private constructor(num: Int) : BaseController(n
     }
 
     /** UI thread, from MessagesController.updateInterfaceWithMessages. */
-    fun onIncomingMessages(dialogId: Long, messages: List<MessageObject>) {
+    fun onMessages(dialogId: Long, messages: List<MessageObject>) {
         if (!isEnabled() || dialogId <= 0 || DialogObject.isEncryptedDialog(dialogId)) return
+        // Outgoing messages reach every device of the account, so another phone's auto-reply or
+        // real reply is the shared state; the text signature tells the two apart.
+        var sawIncoming = false
+        for (message in messages) {
+            if (message.messageOwner is TLRPC.TL_messageService) continue
+            if (!message.isOut) {
+                sawIncoming = true
+            } else {
+                onOutgoingObserved(dialogId, message.messageOwner)
+            }
+        }
+        if (!sawIncoming) return
         if (states.containsKey(dialogId) || pending.contains(dialogId)) return
-        if (messages.none { !it.isOut && it.messageOwner !is TLRPC.TL_messageService }) return
         val user = messagesController.getUser(dialogId) ?: return
         if (!isUnsolicitedSender(user)) return
         if (hasReadSomethingOfOurs(dialogId)) {
@@ -139,38 +166,103 @@ class MessageRequestsController private constructor(num: Int) : BaseController(n
         }
     }
 
-    private fun checkServer(dialogId: Long) {
-        val req = TLRPC.TL_messages_getPeerDialogs()
-        val peer = TLRPC.TL_inputDialogPeer()
-        peer.peer = messagesController.getInputPeer(dialogId)
-        req.peers.add(peer)
+    private fun onOutgoingObserved(dialogId: Long, message: TLRPC.Message) {
+        val previous = states[dialogId]
+        if (isAutoReply(message)) {
+            if (previous == STATE_ACCEPTED || previous == STATE_REQUEST_ANSWERED) return
+            remember(dialogId, STATE_REQUEST_ANSWERED)
+            if (previous == null) refresh()
+        } else {
+            if (previous == STATE_ACCEPTED) return
+            remember(dialogId, STATE_ACCEPTED)
+            if (previous != null) refresh()
+        }
+    }
+
+    private enum class HistoryVerdict { NO_OUTGOING, AUTO_REPLIED, ACCEPTED }
+
+    // The chat history is the only state all devices share, so it has the last word on whether
+    // we have written to them and whether another device already sent the auto-reply.
+    private fun fetchHistoryVerdict(dialogId: Long, callback: (HistoryVerdict?) -> Unit) {
+        val req = TLRPC.TL_messages_getHistory()
+        req.peer = messagesController.getInputPeer(dialogId)
+        req.limit = HISTORY_LIMIT
         connectionsManager.sendRequest(req) { response, _ ->
             AndroidUtilities.runOnUIThread {
-                pending.remove(dialogId)
-                val res = response as? TLRPC.TL_messages_peerDialogs ?: return@runOnUIThread
-                val dialog = res.dialogs.firstOrNull() ?: return@runOnUIThread
-                if (dialog.read_outbox_max_id > 0) {
-                    remember(dialogId, STATE_ACCEPTED)
+                val res = response as? TLRPC.messages_Messages
+                if (res == null) {
+                    callback(null)
                     return@runOnUIThread
                 }
-                if (states.containsKey(dialogId)) return@runOnUIThread
-                remember(dialogId, STATE_REQUEST)
-                refresh()
-                if (HachigramPrivacyConfig.messageRequestsSilence) {
-                    // the message that created the request was already shown; take it back
-                    notificationsController.removeNotificationsForDialog(dialogId)
+                var verdict = HistoryVerdict.NO_OUTGOING
+                for (message in res.messages) {
+                    if (!message.out || message is TLRPC.TL_messageService) continue
+                    if (isAutoReply(message)) {
+                        verdict = HistoryVerdict.AUTO_REPLIED
+                    } else {
+                        verdict = HistoryVerdict.ACCEPTED
+                        break
+                    }
                 }
-                sendAutoReply(dialogId)
+                callback(verdict)
             }
         }
     }
 
-    private fun sendAutoReply(dialogId: Long) {
+    private fun checkServer(dialogId: Long) {
+        fetchHistoryVerdict(dialogId) { verdict ->
+            pending.remove(dialogId)
+            if (verdict == null || states.containsKey(dialogId)) return@fetchHistoryVerdict
+            when (verdict) {
+                HistoryVerdict.ACCEPTED -> remember(dialogId, STATE_ACCEPTED)
+                HistoryVerdict.AUTO_REPLIED -> {
+                    remember(dialogId, STATE_REQUEST_ANSWERED)
+                    onBecameRequest(dialogId)
+                }
+                HistoryVerdict.NO_OUTGOING -> {
+                    remember(dialogId, STATE_REQUEST)
+                    onBecameRequest(dialogId)
+                    scheduleAutoReply(dialogId)
+                }
+            }
+        }
+    }
+
+    private fun onBecameRequest(dialogId: Long) {
+        refresh()
+        if (HachigramPrivacyConfig.messageRequestsSilence) {
+            // the message that created the request was already shown; take it back
+            notificationsController.removeNotificationsForDialog(dialogId)
+        }
+    }
+
+    // Two online devices see the same message within the same second. A random wait plus a fresh
+    // look at the history before sending narrows the duplicate window to one round trip.
+    private fun scheduleAutoReply(dialogId: Long) {
         if (!HachigramPrivacyConfig.messageRequestsAutoReply) return
         val text = HachigramPrivacyConfig.messageRequestsAutoReplyText.trim()
         if (text.isEmpty()) return
-        val params = SendMessagesHelper.SendMessageParams.of(text, dialogId, null, null, null, false, null, null, null, true, 0, 0, null, false)
+        AndroidUtilities.runOnUIThread({
+            if (states[dialogId] != STATE_REQUEST) return@runOnUIThread
+            fetchHistoryVerdict(dialogId) { verdict ->
+                if (states[dialogId] != STATE_REQUEST) return@fetchHistoryVerdict
+                when (verdict) {
+                    HistoryVerdict.ACCEPTED -> {
+                        remember(dialogId, STATE_ACCEPTED)
+                        refresh()
+                    }
+                    HistoryVerdict.AUTO_REPLIED -> remember(dialogId, STATE_REQUEST_ANSWERED)
+                    HistoryVerdict.NO_OUTGOING -> sendAutoReply(dialogId, text)
+                    null -> {}
+                }
+            }
+        }, 1000L + Random.nextLong(3000L))
+    }
+
+    private fun sendAutoReply(dialogId: Long, text: String) {
+        val params = SendMessagesHelper.SendMessageParams.of(text + "\n\n" + AUTO_REPLY_SIGNATURE, dialogId, null, null, null, false, null, null, null, true, 0, 0, null, false)
         params.hachiAutoReply = true
+        remember(dialogId, STATE_REQUEST_ANSWERED)
         sendMessagesHelper.sendMessage(params)
     }
 
@@ -180,7 +272,7 @@ class MessageRequestsController private constructor(num: Int) : BaseController(n
         val previous = states[dialogId]
         if (previous == STATE_ACCEPTED) return
         remember(dialogId, STATE_ACCEPTED)
-        if (previous == STATE_REQUEST) refresh()
+        if (previous != null) refresh()
     }
 
     fun onDialogDeleted(dialogId: Long) {
@@ -204,7 +296,7 @@ class MessageRequestsController private constructor(num: Int) : BaseController(n
         var any = false
         for (dialog in mc.allDialogs) {
             if (dialog is TLRPC.TL_dialogFolder) continue
-            if (enabled && states[dialog.id] == STATE_REQUEST) {
+            if (enabled && isRequest(dialog.id)) {
                 dialog.folder_id = FOLDER_ID
                 any = true
             } else if (dialog.folder_id == FOLDER_ID) {
