@@ -495,4 +495,12 @@
     <string name="AP_ChangeIcon_Hachigram_Lineart_Dark">shiba dark</string>
     <string name="AP_ChangeIcon_Hachigram_Sketch">sketch</string>
     <string name="AP_ChangeIcon_Hachigram_Tile">tile</string>
+    <string name="SP_MessageRequests_Header">message requests</string>
+    <string name="SP_MessageRequests">message requests folder</string>
+    <string name="SP_MessageRequests_Desc">the first message from someone you have never written to lands in a message requests folder instead of your chat list. contacts and bots are not affected</string>
+    <string name="SP_MessageRequests_AutoReply">auto-reply to requests</string>
+    <string name="SP_MessageRequests_AutoReply_Desc">send them this message once, when their chat lands in requests</string>
+    <string name="SP_MessageRequests_AutoReply_Text">auto-reply text</string>
+    <string name="SP_MessageRequests_Folder">message requests</string>
+    <string name="SP_MessageRequests_Info">replying to someone moves their chat back to the main list</string>
 </resources>

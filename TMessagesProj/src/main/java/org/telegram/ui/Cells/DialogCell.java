@@ -150,6 +150,7 @@ import java.util.Objects;
 import java.util.Stack;
 
 import me.vkryl.android.animator.BoolAnimator;
+import com.the306bobby.hachigram.chats.helpers.MessageRequestsController;
 import com.the306bobby.hachigram.chats.filters.MessagesFilterHelper;
 import com.the306bobby.hachigram.core.configs.HachigramAppearanceConfig;
 import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
@@ -2269,7 +2270,9 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             if (titleOverride != null) {
                 nameString = titleOverride;
             } else if (currentDialogFolderId != 0) {
-                if (HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
+                if (currentDialogFolderId == MessageRequestsController.FOLDER_ID) {
+                    nameString = getString(R.string.SP_MessageRequests_Folder);
+                } else if (HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
                     nameString = getString(R.string.CG_AppName) + " \uD83C\uDF52";
                 } else {
                     nameString = getString(R.string.ArchivedChats);
@@ -3372,7 +3375,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                             hasUnmutedTopics = counts[3] != 0;
                             pollVotesMentionCount = counts[4];
                         } else if (dialog instanceof TLRPC.TL_dialogFolder) {
-                            unreadCount = MessagesStorage.getInstance(currentAccount).getArchiveUnreadCount();
+                            unreadCount = currentDialogFolderId == MessageRequestsController.FOLDER_ID ? MessageRequestsController.getInstance(currentAccount).requestsUnreadCount() : MessagesStorage.getInstance(currentAccount).getArchiveUnreadCount();
                             mentionCount = 0;
                             reactionMentionCount = 0;
                             pollVotesMentionCount = 0;
@@ -3552,7 +3555,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
                             hasUnmutedTopics = counts[3] != 0;
                             newPollVotesCount = counts[4];
                         } else if (dialog instanceof TLRPC.TL_dialogFolder) {
-                            newCount = MessagesStorage.getInstance(currentAccount).getArchiveUnreadCount();
+                            newCount = currentDialogFolderId == MessageRequestsController.FOLDER_ID ? MessageRequestsController.getInstance(currentAccount).requestsUnreadCount() : MessagesStorage.getInstance(currentAccount).getArchiveUnreadCount();
                             newMentionCount = 0;
                         } else if (dialog instanceof TLRPC.TL_dialogCommunity) {
                             MessagesController.UnreadCounts unreadCounts = MessagesController.getInstance(currentAccount).getCommunityUnreadCount(-dialog.id);
@@ -3667,7 +3670,10 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             drawCommunityAvatar = !insideCommunityList && ChatObject.isCommunity(chat) && isDialogCell;
 
             if (currentDialogFolderId != 0) {
-                if (HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
+                if (currentDialogFolderId == MessageRequestsController.FOLDER_ID) {
+                    avatarDrawable.setAvatarType(AvatarDrawable.AVATAR_TYPE_FILTER_NON_CONTACTS);
+                    avatarImage.setImage(null, null, avatarDrawable, null, user, 0);
+                } else if (HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
                     Theme.dialogs_archiveAvatarDrawable.setCallback(this);
                     avatarDrawable.setAvatarType(AvatarDrawable.AVATAR_TYPE_EBLAN);
                     avatarImage.setImage(null, null, avatarDrawable, null, user, 0);
@@ -5645,7 +5651,7 @@ public class DialogCell extends BaseCell implements StoriesListPlaceProvider.Ava
             sb.append(titleOverride);
             sb.append(". ");
         } else if (currentDialogFolderId == 1) {
-            sb.append(getString(R.string.ArchivedChats));
+            sb.append(getString(currentDialogFolderId == MessageRequestsController.FOLDER_ID ? R.string.SP_MessageRequests_Folder : R.string.ArchivedChats));
             sb.append(". ");
         } else {
             if (encryptedChat != null) {

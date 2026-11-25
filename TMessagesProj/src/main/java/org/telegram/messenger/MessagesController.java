@@ -142,6 +142,7 @@ import java.util.stream.Collectors;
 
 import me.vkryl.core.BitwiseUtils;
 
+import com.the306bobby.hachigram.chats.helpers.MessageRequestsController;
 import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
 import com.the306bobby.hachigram.core.configs.HachigramCameraConfig;
@@ -10066,6 +10067,9 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public void deleteDialog(final long did, int onlyHistory, boolean revoke) {
+        if (onlyHistory == 0) {
+            MessageRequestsController.getInstance(currentAccount).onDialogDeleted(did);
+        }
         deleteDialog(did, 1, onlyHistory, 0, revoke, null, 0);
     }
 
@@ -12444,6 +12448,11 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     protected void onFolderEmpty(int folderId) {
+        if (folderId == MessageRequestsController.FOLDER_ID) {
+            // local folder, nothing to load from the server
+            removeFolder(folderId);
+            return;
+        }
         long[] dialogsLoadOffset = getUserConfig().getDialogLoadOffsets(folderId);
         if (dialogsLoadOffset[UserConfig.i_dialogsLoadOffsetId] == Integer.MAX_VALUE) {
             if (folderId == 1) {
@@ -22482,6 +22491,10 @@ public class MessagesController extends BaseController implements NotificationCe
             }
         }
 
+        if (mode == ChatActivity.MODE_DEFAULT && hasNotOutMessage) {
+            MessageRequestsController.getInstance(currentAccount).onIncomingMessages(dialogId, messages);
+        }
+
         if (changed) {
             sortDialogs(null);
         }
@@ -22721,6 +22734,7 @@ public class MessagesController extends BaseController implements NotificationCe
         if (chatsDict == null && ApplicationLoader.mainInterfacePaused) {
             return;
         }
+        MessageRequestsController.getInstance(currentAccount).applyToDialogs();
         dialogsServerOnly.clear();
         dialogsCanAddUsers.clear();
         dialogsMyGroups.clear();

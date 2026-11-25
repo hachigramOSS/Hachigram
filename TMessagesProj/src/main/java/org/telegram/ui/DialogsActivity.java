@@ -8,6 +8,7 @@
 
 package org.telegram.ui;
 
+import com.the306bobby.hachigram.chats.helpers.MessageRequestsController;
 import com.the306bobby.hachigram.misc.UiCase;
 
 import static org.telegram.messenger.AndroidUtilities.dp;
@@ -2480,7 +2481,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                     }
                     swipeFolderBack = false;
                     swipingFolder = (canSwipeBack && !DialogObject.isFolderDialogId(dialogCell.getDialogId())) || (SharedConfig.archiveHidden && DialogObject.isFolderDialogId(dialogCell.getDialogId()));
-                    if (folderId == 1 && !HachigramChatsConfig.INSTANCE.getUnarchiveOnSwipe()) {
+                    if (folderId == 1 && !HachigramChatsConfig.INSTANCE.getUnarchiveOnSwipe() || folderId == MessageRequestsController.FOLDER_ID) {
                         dialogCell.setSliding(false);
                     } else {
                         dialogCell.setSliding(true);
@@ -3472,7 +3473,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 actionBar.setBackButtonDrawable(backDrawable = new BackDrawable(false));
             }
             if (folderId != 0) {
-                actionBar.setTitle(actionBarDefaultTitle = getString(R.string.ArchivedChats), null, true);
+                actionBar.setTitle(actionBarDefaultTitle = getString(folderId == MessageRequestsController.FOLDER_ID ? R.string.SP_MessageRequests_Folder : R.string.ArchivedChats), null, true);
             } else if (communityId != 0) {
                 actionBar.setTitle(actionBarDefaultTitle = DialogObject.getName(community));
                 actionBar.setAdditionalTextLeft(dp(28));
@@ -7949,7 +7950,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
             boolean loadArchivedFinal = loadArchived;
             boolean loadArchivedFromCacheFinal = loadArchivedFromCache;
             AndroidUtilities.runOnUIThread(() -> {
-                if (loadFinal) {
+                if (loadFinal && folderId != MessageRequestsController.FOLDER_ID) {
                     getMessagesController().loadDialogs(folderId, -1, 100, loadFromCacheFinal);
                 }
                 if (loadArchivedFinal) {
@@ -7990,7 +7991,7 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
                 TLRPC.Dialog dialog = (TLRPC.Dialog) object;
                 folderId = dialog.folder_id;
                 if (dialog instanceof TLRPC.TL_dialogFolder) {
-                    if (HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList()) {
+                    if (HachigramPrivacyConfig.INSTANCE.getHideArchiveFromChatsList() && ((TLRPC.TL_dialogFolder) dialog).folder.id == 1) {
                         getMessagesController().openByUserName(Constants.CG_CHANNEL_USERNAME, this, 1);
                     } else {
                         if (actionBar.isActionModeShowed(null)) {
@@ -12739,9 +12740,9 @@ public class DialogsActivity extends BaseFragment implements NotificationCenter.
         if (StoryRecorder.isVisible() || (getLastStoryViewer() != null && getLastStoryViewer().isFullyVisible())) {
             animated = false;
         }
-        boolean onlySelfStories = !isArchive() && getStoriesController().hasOnlySelfStories();
+        boolean onlySelfStories = !isArchive() && folderId == 0 && getStoriesController().hasOnlySelfStories();
         boolean newVisibility;
-        if (communityId != 0) {
+        if (communityId != 0 || folderId == MessageRequestsController.FOLDER_ID) {
             newVisibility = false;
         } else if (isArchive()) {
             newVisibility = !getStoriesController().getHiddenList().isEmpty();

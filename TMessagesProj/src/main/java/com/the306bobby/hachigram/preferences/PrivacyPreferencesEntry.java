@@ -41,6 +41,12 @@ import java.util.function.Supplier;
 import com.the306bobby.hachigram.core.CGBiometricPrompt;
 import com.the306bobby.hachigram.core.configs.HachigramCoreConfig;
 import com.the306bobby.hachigram.core.configs.HachigramPrivacyConfig;
+import static org.telegram.messenger.AndroidUtilities.dp;
+import android.text.Editable;
+import android.text.InputType;
+import android.text.TextWatcher;
+import org.telegram.ui.Components.OutlineEditText;
+import com.the306bobby.hachigram.chats.helpers.MessageRequestsController;
 import com.the306bobby.hachigram.core.helpers.AppRestartHelper;
 import com.the306bobby.hachigram.core.ui.CGBulletinCreator;
 import com.the306bobby.hachigram.helpers.ui.PopupHelper;
@@ -60,6 +66,10 @@ public class PrivacyPreferencesEntry extends UniversalFragment {
     private final int testFingerprintRow = 9;
 
     private final int hideArchivedStoriesRow = 1390;
+
+    private final int messageRequestsRow = 1400;
+    private final int messageRequestsAutoReplyRow = 1401;
+    private OutlineEditText messageRequestsReplyField;
 
     @Override
     protected CharSequence getTitle() {
@@ -86,6 +96,20 @@ public class PrivacyPreferencesEntry extends UniversalFragment {
         deleteAccountButton.red = true;
         items.add(deleteAccountButton);
         items.add(UItem.asShadow(null));
+
+        items.add(UItem.asHeader(getString(R.string.SP_MessageRequests_Header)));
+        items.add(SettingsHelper.asSwitchCG(messageRequestsRow, getString(R.string.SP_MessageRequests), getString(R.string.SP_MessageRequests_Desc))
+                .setChecked(HachigramPrivacyConfig.INSTANCE.getMessageRequestsFolder())
+        );
+        if (HachigramPrivacyConfig.INSTANCE.getMessageRequestsFolder()) {
+            items.add(SettingsHelper.asSwitchCG(messageRequestsAutoReplyRow, getString(R.string.SP_MessageRequests_AutoReply), getString(R.string.SP_MessageRequests_AutoReply_Desc))
+                    .setChecked(HachigramPrivacyConfig.INSTANCE.getMessageRequestsAutoReply())
+            );
+            if (HachigramPrivacyConfig.INSTANCE.getMessageRequestsAutoReply()) {
+                items.add(SettingsHelper.asCustomWithBackground(getMessageRequestsReplyField()));
+            }
+        }
+        items.add(UItem.asShadow(getString(R.string.SP_MessageRequests_Info)));
 
         items.add(UItem.asHeader(getString(R.string.FilterChats)));
         items.add(SettingsHelper.asSwitchCG(hideArchivedStoriesRow, "hide archived stories", "hides the archived stories section in your profile")
@@ -121,6 +145,15 @@ public class PrivacyPreferencesEntry extends UniversalFragment {
             } else {
                 DeleteAccountDialog.showDeleteAccountDialog(this);
             }
+        } else if (item.id == messageRequestsRow) {
+            HachigramPrivacyConfig.INSTANCE.setMessageRequestsFolder(!HachigramPrivacyConfig.INSTANCE.getMessageRequestsFolder());
+            SettingsHelper.updateCheckState(view, HachigramPrivacyConfig.INSTANCE.getMessageRequestsFolder());
+            MessageRequestsController.getInstance(currentAccount).refresh();
+            listView.adapter.update(true);
+        } else if (item.id == messageRequestsAutoReplyRow) {
+            HachigramPrivacyConfig.INSTANCE.setMessageRequestsAutoReply(!HachigramPrivacyConfig.INSTANCE.getMessageRequestsAutoReply());
+            SettingsHelper.updateCheckState(view, HachigramPrivacyConfig.INSTANCE.getMessageRequestsAutoReply());
+            listView.adapter.update(true);
         } else if (item.id == hideArchivedStoriesRow) {
             HachigramPrivacyConfig.INSTANCE.setHideArchivedStories(!HachigramPrivacyConfig.INSTANCE.getHideArchivedStories());
             SettingsHelper.updateCheckState(view, HachigramPrivacyConfig.INSTANCE.getHideArchivedStories());
@@ -147,6 +180,34 @@ public class PrivacyPreferencesEntry extends UniversalFragment {
     @Override
     protected boolean onLongClick(UItem item, View view, int position, float x, float y) {
         return false;
+    }
+
+    private OutlineEditText getMessageRequestsReplyField() {
+        if (messageRequestsReplyField != null) {
+            return messageRequestsReplyField;
+        }
+        messageRequestsReplyField = new OutlineEditText(getContext(), getResourceProvider());
+        messageRequestsReplyField.getEditText().setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        messageRequestsReplyField.getEditText().setSingleLine(false);
+        messageRequestsReplyField.setHint(getString(R.string.SP_MessageRequests_AutoReply_Text));
+        messageRequestsReplyField.getEditText().setText(HachigramPrivacyConfig.INSTANCE.getMessageRequestsAutoReplyText());
+        messageRequestsReplyField.setPadding(dp(16), dp(12), dp(16), dp(12));
+        messageRequestsReplyField.getEditText().setPadding(dp(16), dp(12), dp(16), dp(12));
+        messageRequestsReplyField.getEditText().addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                HachigramPrivacyConfig.INSTANCE.setMessageRequestsAutoReplyText(s.toString());
+            }
+        });
+        return messageRequestsReplyField;
     }
 
     private void createUsersSelectActivity(View view) {

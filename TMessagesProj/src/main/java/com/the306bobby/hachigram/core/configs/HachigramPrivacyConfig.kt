@@ -14,6 +14,7 @@ import android.app.Activity
 import android.content.SharedPreferences
 import org.telegram.messenger.ApplicationLoader
 import com.the306bobby.hachigram.preferences.boolean
+import com.the306bobby.hachigram.preferences.string
 
 object HachigramPrivacyConfig {
 
@@ -31,6 +32,12 @@ object HachigramPrivacyConfig {
     var askPasscodeBeforeDelete by sharedPreferences.boolean("SP_AskPinBeforeDelete", false)
     var allowSystemPasscode by sharedPreferences.boolean("SP_AllowSystemPasscode", false)
     /** Passcode lock finish */
+
+    /** Message requests start */
+    var messageRequestsFolder by sharedPreferences.boolean("SP_MessageRequestsFolder", false)
+    var messageRequestsAutoReply by sharedPreferences.boolean("SP_MessageRequestsAutoReply", false)
+    var messageRequestsAutoReplyText by sharedPreferences.string("SP_MessageRequestsAutoReplyText", "Hey! I do not take unsolicited PMs, and will likely not see this unless I am expecting it. Please ask to PM in the group you found me in if not already done so :)")
+    /** Message requests finish */
 
     /** Misc **/
     var hideArchivedStories by sharedPreferences.boolean("CP_HideArchivedStories", false)

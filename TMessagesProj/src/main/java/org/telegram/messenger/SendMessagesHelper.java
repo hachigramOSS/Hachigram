@@ -130,6 +130,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import com.the306bobby.hachigram.chats.helpers.MessageRequestsController;
 import com.the306bobby.hachigram.chats.helpers.ChatsHelper;
 import com.the306bobby.hachigram.core.configs.HachigramChatsConfig;
 import com.the306bobby.hachigram.core.configs.HachigramDebugConfig;
@@ -2254,6 +2255,7 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
         if (messages == null || messages.isEmpty()) {
             return 0;
         }
+        MessageRequestsController.getInstance(currentAccount).onOutgoing(peer);
         int sendResult = 0;
         long myId = getUserConfig().getClientUserId();
         boolean isChannel = false;
@@ -4461,6 +4463,9 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     }
 
     public void sendMessage(SendMessageParams sendMessageParams) {
+        if (!sendMessageParams.hachiAutoReply) {
+            MessageRequestsController.getInstance(currentAccount).onOutgoing(sendMessageParams.peer);
+        }
         final SendMessageChatArguments sendMessageChatArguments = sendMessageParams.sendMessageChatArguments != null ?
                 sendMessageParams.sendMessageChatArguments : SendMessageChatArguments.EMPTY;
         String message = sendMessageParams.message;
@@ -12445,6 +12450,8 @@ public class SendMessagesHelper extends BaseController implements NotificationCe
     public static class SendMessageParams {
         public String message;
         public String caption;
+        // sent by MessageRequestsController; must not count as us accepting the request
+        public boolean hachiAutoReply;
         public TLRPC.MessageMedia location;
         public TLRPC.TL_photo photo;
         public VideoEditedInfo videoEditedInfo;
