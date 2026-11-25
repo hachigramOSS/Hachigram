@@ -77,6 +77,10 @@ class MessageRequestsController private constructor(num: Int) : BaseController(n
 
     fun isRequest(dialogId: Long): Boolean = states[dialogId] == STATE_REQUEST
 
+    /** MessagesController.isDialogMuted: a silenced request behaves like a muted chat. */
+    fun isSilenced(dialogId: Long): Boolean =
+        dialogId > 0 && HachigramPrivacyConfig.messageRequestsSilence && isEnabled() && states[dialogId] == STATE_REQUEST
+
     fun requestsUnreadCount(): Int {
         var count = 0
         for (dialog in messagesController.getDialogs(FOLDER_ID)) {
@@ -152,6 +156,10 @@ class MessageRequestsController private constructor(num: Int) : BaseController(n
                 if (states.containsKey(dialogId)) return@runOnUIThread
                 remember(dialogId, STATE_REQUEST)
                 refresh()
+                if (HachigramPrivacyConfig.messageRequestsSilence) {
+                    // the message that created the request was already shown; take it back
+                    notificationsController.removeNotificationsForDialog(dialogId)
+                }
                 sendAutoReply(dialogId)
             }
         }

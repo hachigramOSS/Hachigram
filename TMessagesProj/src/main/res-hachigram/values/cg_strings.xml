@@ -498,6 +498,8 @@
     <string name="SP_MessageRequests_Header">message requests</string>
     <string name="SP_MessageRequests">message requests folder</string>
     <string name="SP_MessageRequests_Desc">the first message from someone you have never written to lands in a message requests folder instead of your chat list. contacts and bots are not affected</string>
+    <string name="SP_MessageRequests_Silence">silence requests</string>
+    <string name="SP_MessageRequests_Silence_Desc">no notifications for chats in the requests folder, like a muted chat</string>
     <string name="SP_MessageRequests_AutoReply">auto-reply to requests</string>
     <string name="SP_MessageRequests_AutoReply_Desc">send them this message once, when their chat lands in requests</string>
     <string name="SP_MessageRequests_AutoReply_Text">auto-reply text</string>

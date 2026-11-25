@@ -69,6 +69,7 @@ public class PrivacyPreferencesEntry extends UniversalFragment {
 
     private final int messageRequestsRow = 1400;
     private final int messageRequestsAutoReplyRow = 1401;
+    private final int messageRequestsSilenceRow = 1402;
     private OutlineEditText messageRequestsReplyField;
 
     @Override
@@ -102,6 +103,9 @@ public class PrivacyPreferencesEntry extends UniversalFragment {
                 .setChecked(HachigramPrivacyConfig.INSTANCE.getMessageRequestsFolder())
         );
         if (HachigramPrivacyConfig.INSTANCE.getMessageRequestsFolder()) {
+            items.add(SettingsHelper.asSwitchCG(messageRequestsSilenceRow, getString(R.string.SP_MessageRequests_Silence), getString(R.string.SP_MessageRequests_Silence_Desc))
+                    .setChecked(HachigramPrivacyConfig.INSTANCE.getMessageRequestsSilence())
+            );
             items.add(SettingsHelper.asSwitchCG(messageRequestsAutoReplyRow, getString(R.string.SP_MessageRequests_AutoReply), getString(R.string.SP_MessageRequests_AutoReply_Desc))
                     .setChecked(HachigramPrivacyConfig.INSTANCE.getMessageRequestsAutoReply())
             );
@@ -150,6 +154,10 @@ public class PrivacyPreferencesEntry extends UniversalFragment {
             SettingsHelper.updateCheckState(view, HachigramPrivacyConfig.INSTANCE.getMessageRequestsFolder());
             MessageRequestsController.getInstance(currentAccount).refresh();
             listView.adapter.update(true);
+        } else if (item.id == messageRequestsSilenceRow) {
+            HachigramPrivacyConfig.INSTANCE.setMessageRequestsSilence(!HachigramPrivacyConfig.INSTANCE.getMessageRequestsSilence());
+            SettingsHelper.updateCheckState(view, HachigramPrivacyConfig.INSTANCE.getMessageRequestsSilence());
+            MessageRequestsController.getInstance(currentAccount).refresh();
         } else if (item.id == messageRequestsAutoReplyRow) {
             HachigramPrivacyConfig.INSTANCE.setMessageRequestsAutoReply(!HachigramPrivacyConfig.INSTANCE.getMessageRequestsAutoReply());
             SettingsHelper.updateCheckState(view, HachigramPrivacyConfig.INSTANCE.getMessageRequestsAutoReply());

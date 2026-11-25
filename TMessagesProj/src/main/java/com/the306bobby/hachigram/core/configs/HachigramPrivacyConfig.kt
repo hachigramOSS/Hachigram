@@ -36,6 +36,7 @@ object HachigramPrivacyConfig {
     /** Message requests start */
     var messageRequestsFolder by sharedPreferences.boolean("SP_MessageRequestsFolder", false)
     var messageRequestsAutoReply by sharedPreferences.boolean("SP_MessageRequestsAutoReply", false)
+    var messageRequestsSilence by sharedPreferences.boolean("SP_MessageRequestsSilence", false)
     var messageRequestsAutoReplyText by sharedPreferences.string("SP_MessageRequestsAutoReplyText", "Hey! I do not take unsolicited PMs, and will likely not see this unless I am expecting it. Please ask to PM in the group you found me in if not already done so :)")
     /** Message requests finish */
 

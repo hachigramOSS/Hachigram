@@ -21936,6 +21936,9 @@ public class MessagesController extends BaseController implements NotificationCe
     }
 
     public boolean isDialogMuted(long dialogId, long topicId, TLRPC.Chat chat) {
+        if (MessageRequestsController.getInstance(currentAccount).isSilenced(dialogId)) {
+            return true;
+        }
         int mute_type = notificationsPreferences.getInt("notify2_" + NotificationsController.getSharedPrefKey(dialogId, topicId), -1);
         if (mute_type == -1) {
             Boolean forceChannel;
