@@ -4469,14 +4469,9 @@ public class ChatActivity extends BaseFragment implements
         */
 
 
-        boolean doNotDrawDots = HachigramChatsConfig.INSTANCE.getCenterChatTitle() && getChatMode() != ChatActivity.MODE_SAVED && !isComments
-                && getDialogId() != 0 && getDialogId() != UserConfig.getInstance(UserConfig.selectedAccount).getClientUserId();
-        int dotsDrawable = doNotDrawDots ? android.R.color.transparent : R.drawable.ic_ab_other;
-        int attachDrawable = doNotDrawDots ? android.R.color.transparent : R.drawable.mini_attach;
-
         otherIcon = new ComposeDrawable(
-                context.getResources().getDrawable(dotsDrawable).mutate(),
-                context.getResources().getDrawable(attachDrawable).mutate()
+                context.getResources().getDrawable(R.drawable.ic_ab_other).mutate(),
+                context.getResources().getDrawable(R.drawable.mini_attach).mutate()
         );
         otherIcon.setIconTranslate(-dp(6), dp(6.66f));
 
@@ -4504,11 +4499,6 @@ public class ChatActivity extends BaseFragment implements
             });
             otherIcon.addView(headerItem.getIconView());
             headerItem.setContentDescription(LocaleController.getString(R.string.AccDescrMoreOptions));
-
-            if (HachigramChatsConfig.INSTANCE.getCenterChatTitle() && headerItem != null && getContext() != null && doNotDrawDots) {
-                CGChatMenuInjector.INSTANCE.injectAttachItem(headerItem, attachItem, chatActivityEnterView, chatAttachAlert, getContext(), getResourceProvider());
-                avatarContainer.avatarImageView.setOnClickListener(v -> getHeaderItem().performClick());
-            }
 
             if (currentUser != null && currentUser.self && chatMode != MODE_SAVED) {
                 savedChatsItem = headerItem.lazilyAddSubItem(view_as_topics, R.drawable.msg_topics, LocaleController.getString(R.string.SavedViewAsChats));
@@ -19389,11 +19379,7 @@ public class ChatActivity extends BaseFragment implements
                     }
                 } else {
                     if (avatarContainer != null && avatarContainer.getLayoutParams() != null) {
-                        if (HachigramChatsConfig.INSTANCE.getCenterChatTitle()) {
-                            ((ViewGroup.MarginLayoutParams) avatarContainer.getLayoutParams()).rightMargin = (UserObject.isReplyUser(currentUser) || isComments) ? AndroidUtilities.dp(52) : AndroidUtilities.dp(0);
-                        } else {
-                            ((ViewGroup.MarginLayoutParams) avatarContainer.getLayoutParams()).rightMargin = AndroidUtilities.dp(52);
-                        }
+                        ((ViewGroup.MarginLayoutParams) avatarContainer.getLayoutParams()).rightMargin = AndroidUtilities.dp(52);
                     }
                 }
                 if (showSearchAsIcon) {
