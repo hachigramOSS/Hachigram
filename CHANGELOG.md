@@ -3,6 +3,30 @@
 headings match the tag: `v0.<major>.<minor>[.<rc>]` for release candidates,
 `v<major>.<minor>[.<patch>]` for the real thing. the display name lives in `VERSION`.
 
+## v1.2.0
+
+### telegram
+
+- telegram 13.2.2
+
+### added
+
+- message requests: an optional folder that catches first messages from people
+  you have never written to. you can keep the folder silent and have hachigram
+  answer with your own text. off by default, in settings > privacy
+
+### fixed
+
+- the login screen still said cherrygram
+- with the centered chat title, the chat avatar sat on the menu button instead
+  of inside the title bubble. it is full size inside the bubble now and the
+  menu dots are back
+- 12 more bugfixes from [inugram](https://github.com/teidesu/inugram): stale
+  wallpapers after switching themes, media on accounts you are not viewing,
+  the share sheet keyboard, album captions, the account switcher after a
+  search, animated stickers hanging mid-download, and widget hardening
+- zalgo text is trimmed like desktop does
+
 ## v1.1.1
 
 ### fixed
